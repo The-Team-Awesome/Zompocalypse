@@ -1,2 +1,3 @@
-# Zompocolipse
+# Zompocalypse
+
 SWEN 222 Group Project Adventure Game
