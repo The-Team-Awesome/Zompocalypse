@@ -8,7 +8,7 @@ While you defend the town and traverse the maze you will find treasures and item
 
 To play, download the .jar file, navigate to the directory where you put the file and type into the command line:
 
-java -jar zompocalypse.jar <commands>
+`java -jar zompocalypse.jar <commands>`
 
 Commands:
 * -help/-h			Prints out a list of commands and their function
@@ -17,11 +17,11 @@ Commands:
 
 For example, to start up a locally running client/server connection, in one window you would type:
 
-java -jar zompocalypse.jar -server 1
+`java -jar zompocalypse.jar -server 1`
 
 You would then type in another window:
 
-java -jar zompocalypse.jar -client 127.0.0.1
+`java -jar zompocalypse.jar -client 127.0.0.1`
 
 ## Credits
 
