@@ -39,21 +39,43 @@ public class Server extends Thread {
 						int code = input.readInt();
 						switch(code) {
 							case 1:
+								// In this case, the key pressed
+								// corresponds to left
 								System.out.println("left");
 								break;
 							case 2:
+								// In this case, the key pressed
+								// corresponds to up
 								System.out.println("up");
 								break;
 							case 3:
+								// In this case, the key pressed
+								// corresponds to right
 								System.out.println("right");
 								break;
 							case 4:
+								// In this case, the key pressed
+								// corresponds to down
 								System.out.println("down");
 								break;
 							case 5:
+								// In this case, the event passed was a
+								// mouse click somewhere on the screen
 								int x = input.readInt();
 								int y = input.readInt();
 								System.out.println(x + ": " + y);
+								break;
+							case 6:
+								// In this case, a Swing component was
+								// triggered, such as a button press.
+								// The command is given and will be passed on
+								int length = input.readInt();
+								char[] string = new char[length];
+								for(int i = 0; i < length; i++) {
+									string[i] = input.readChar();
+								}
+								String command = String.copyValueOf(string);
+								System.out.println(command);
 								break;
 						}
 					}

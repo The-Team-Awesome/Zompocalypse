@@ -1,5 +1,7 @@
 package zompocalypse.control;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -19,7 +21,7 @@ import zompocalypse.Frame;
  * @author Sam Costigan
  * 
  */
-public class Client extends Thread implements KeyListener, MouseListener {
+public class Client extends Thread implements KeyListener, MouseListener, ActionListener {
 
 	private final Socket socket;
 	private int id;
@@ -70,10 +72,11 @@ public class Client extends Thread implements KeyListener, MouseListener {
 			} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 				output.writeInt(4);
 			}
-		} catch (IOException e1) {
+			
+			output.flush();
+		} catch (IOException exception) {
 			// Problem sending information to the Server, just ignore this
 		}
-		
 	}
 	
 	@Override
@@ -85,7 +88,27 @@ public class Client extends Thread implements KeyListener, MouseListener {
 			output.writeInt(5);
 			output.writeInt(x);
 			output.writeInt(y);
-		} catch (IOException e1) {
+			
+			output.flush();
+		} catch (IOException exception) {
+			// Problem sending information to the Server, just ignore this
+		}
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			String command = e.getActionCommand();
+			
+			output.writeInt(6);
+			output.writeInt(command.length());
+			output.writeChars(command);
+			
+			output.flush();
+			
+			// After processing an action, give control back to the frame
+			frame.requestFocus();
+		} catch(IOException exception) {
 			// Problem sending information to the Server, just ignore this
 		}
 	}
