@@ -1,5 +1,5 @@
 package gameWorld;
 
-public class World {
+public class Tile {
 
 }
