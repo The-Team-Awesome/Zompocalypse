@@ -1,6 +1,5 @@
 package gameWorld;
 
-import userInterface.appWindow.World;
 
 /**
  * The moving character class represents characters in the game world which

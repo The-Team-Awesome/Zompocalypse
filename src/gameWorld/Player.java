@@ -4,7 +4,6 @@ import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import userInterface.appWindow.World;
 
 public final class Player extends MovingCharacter {
 	private final int uid;

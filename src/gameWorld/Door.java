@@ -11,7 +11,7 @@ public class Door extends Tile implements Item{
 		open = !open;
 	}
 
-	private boolean unlock(boolean hasKey){
+	public boolean unlock(boolean hasKey){
 		if (hasKey){
 			locked = false;
 			return true;

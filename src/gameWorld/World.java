@@ -1,4 +1,4 @@
-package userInterface.appWindow;
+package gameWorld;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,12 @@ import java.util.ArrayList;
 public class World {
 	private final int width;
 	private final int height;
+
+	/**
+	 * The following is a list of the characters in the game. This includes
+	 * players, zombies and other misc things.
+	 */
+	private final ArrayList<Character> characters = new ArrayList<Character>();
 
 	public World(int width, int height) {
 		this.width = width;
@@ -19,7 +25,13 @@ public class World {
 	 *
 	 * @return
 	 */
-	public synchronized void clockTick() {}
+	public synchronized void clockTick() {
+
+		for (int i = 0; i < characters.size(); i++){
+			Character c = characters.get(i);
+			c.tick(this);
+		}
+	}
 
 	/**
 	 * Get the board width.
