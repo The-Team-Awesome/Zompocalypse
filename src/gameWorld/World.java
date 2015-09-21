@@ -22,11 +22,17 @@ public class World {
 	 */
 	private Tile[][] map;
 
+	public World(int width, int height, Tile[][] map) {
+		this.width = width;
+		this.height = height;
+		this.map = map;
+	}
+
+	//TODO Remove once data storage correctly constructs world
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
-
-		map = new Tile[width][height];
+		this.map = new Tile[width][height];
 	}
 
 	/**
