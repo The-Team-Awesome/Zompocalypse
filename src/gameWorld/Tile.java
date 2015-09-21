@@ -22,6 +22,12 @@ public interface Tile {
 	public String getFileName();
 
 	/**
+	 * Set the occupiable status of the Tile
+	 * @return
+	 */
+	public void setOccupiable(boolean bool);
+
+	/**
 	 * If this tile is able to be occupied.
 	 */
 	public boolean occupiable();
@@ -29,5 +35,5 @@ public interface Tile {
 	/**
 	 * Return the code to represent this tile in CSV.
 	 */
-	public char getCode();
+	public String getCSVCode();
 }

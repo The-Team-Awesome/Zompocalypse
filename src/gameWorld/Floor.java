@@ -6,12 +6,14 @@ public class Floor implements Tile{
 	private int y;
 	private String filename;
 	private Item myItem;
+	private boolean occupiable;
 
 	public Floor(int x, int y, String filename, Item myItem) {
 		this.x = x;
 		this.y = y;
 		this.filename = filename;
 		this.myItem = myItem;
+		occupiable = true;
 	}
 
 	@Override
@@ -31,12 +33,21 @@ public class Floor implements Tile{
 
 	@Override
 	public boolean occupiable() {
-		return true;
+		return occupiable;
 	}
 
 	@Override
-	public char getCode() {
-		return '0';
+	public String getCSVCode() {
+		String result = "0";
+		if (myItem != null) {
+			result = result + myItem.getCSVCode();
+		}
+		return result;
+	}
+
+	@Override
+	public void setOccupiable(boolean bool) {
+		occupiable = bool;
 	}
 
 }

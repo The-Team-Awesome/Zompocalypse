@@ -34,8 +34,11 @@ public class Wall implements Tile, Drawable{
 	}
 
 	@Override
-	public char getCode() {
-		return '1';
+	public String getCSVCode() {
+		return "1";
 	}
 
+	@Override
+	public void setOccupiable(boolean bool) {
+	}
 }

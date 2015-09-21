@@ -12,6 +12,8 @@ import javax.swing.JFileChooser;
 
 import gameWorld.Door;
 import gameWorld.Floor;
+import gameWorld.Item;
+import gameWorld.Key;
 import gameWorld.Tile;
 import gameWorld.Wall;
 import gameWorld.World;
@@ -74,15 +76,26 @@ public class Parser {
 		String[] line = string.split("-");
 		switch (line[0]) {
 		case "0":
-			map[i][j] = new Floor(i, j, "Kieran is great", null);
-			return;
+			Item thing = null;
+			if (line.length > 1) {
+				thing = parseItem(line[1]);
+			}
+			map[i][j] = new Floor(i, j, "Kieran is great", thing);
+			break;
 		case "1":
 			map[i][j] = new Wall();
-			return;
+			break;
 		case "2":
 			map[i][j] = new Door(i, j, "I love Kieran", false);
-			return;
+			break;
 		}
+	}
+
+	private static Item parseItem(String str) {
+		if (str.equalsIgnoreCase("K")) {
+			return new Key("Kieran is so berady");
+		} else
+		return null;
 	}
 
 	/**
@@ -103,9 +116,9 @@ public class Parser {
 		String mapOutput = x + "," + y + "\n";
 
 		for (int i = 0; i < y; i++) {
-			mapOutput = mapOutput + map[i][0].getCode();
+			mapOutput = mapOutput + map[i][0].getCSVCode();
 			for (int j = 1; j < x; j++) {
-				mapOutput = mapOutput + "," + map[i][j].getCode();
+				mapOutput = mapOutput + "," + map[i][j].getCSVCode();
 			}
 			mapOutput = mapOutput + "\n";
 		}
@@ -127,6 +140,9 @@ public class Parser {
 	 */
 	public static void SaveMap(World world) throws IOException {
 		JFileChooser c = new JFileChooser();
+		// TODO maybe should pass showSaveDialog a different parameter than
+		// itself? IDK does it make a difference? Should it be main window or
+		// something?
 		int fc = c.showSaveDialog(c);
 		if (fc == JFileChooser.APPROVE_OPTION) {
 			BufferedWriter out = new BufferedWriter(new FileWriter(c

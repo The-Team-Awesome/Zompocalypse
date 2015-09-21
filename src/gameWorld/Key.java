@@ -28,4 +28,9 @@ public class Key implements Item, Drawable{
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public String getCSVCode() {
+		return "-K";
+	}
 }

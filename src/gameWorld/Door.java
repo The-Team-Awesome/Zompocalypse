@@ -11,13 +11,16 @@ public class Door implements Item, Tile, Drawable{
 
 	private boolean open;
 	private boolean locked;
+	private boolean occupiable;
 
 	public Door(int x, int y, String fileName, boolean locked) {
 		this.x = x;
 		this.y = y;
 		this.fileName = fileName;
 		this.open = false;
+		this.occupiable = false;
 		this.locked = locked;
+
 	}
 
 	public void use(Player player) {
@@ -67,8 +70,13 @@ public class Door implements Item, Tile, Drawable{
 	}
 
 	@Override
-	public char getCode() {
-		return '2';
+	public String getCSVCode() {
+		return "2";
 
+	}
+
+	@Override
+	public void setOccupiable(boolean bool) {
+		occupiable = bool;
 	}
 }
