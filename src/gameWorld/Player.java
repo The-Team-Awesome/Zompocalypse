@@ -5,17 +5,21 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public final class Player extends MovingCharacter {
+public final class Player extends MovingCharacter implements Drawable {
 	private final int uid;
 	private int score;
 	private int health;
 	private int speed;
 	private int strength;
 
-	public Player(int realX, int realY, int dir, int uid, int score) {
+	private String filename;
+
+
+	public Player(int realX, int realY, int dir, int uid, int score, String filename) {
 		super(realX,realY,dir);
 		this.score = score;
 		this.uid = uid;
+		this.filename = filename;
 
 		this.health = 100;
 		this.speed = 5;
@@ -77,25 +81,6 @@ public final class Player extends MovingCharacter {
 		}
 	}
 
-	public void toOutputStream(DataOutputStream dout) throws IOException {
-		dout.writeShort(realX);
-		dout.writeShort(realY);
-		dout.writeByte(uid);
-		dout.writeByte(direction);
-		dout.writeShort(score);
-
-	}
-
-	/**
-	 * Construct a player from an input stream.
-	 */
-	public static Player fromInputStream(int rx, int ry, DataInputStream din) throws IOException {
-		int uid = din.readByte();
-		int dir = din.readByte();
-		int score = din.readShort();
-		return new Player(rx, ry, dir, uid, score);
-	}
-
 	/**
 	 * Draw the player to the screen
 	 */
@@ -108,5 +93,10 @@ public final class Player extends MovingCharacter {
 	 */
 	public void drawOwn(Graphics g) {
 
+	}
+
+	@Override
+	public String getFileName() {
+		return filename;
 	}
 }

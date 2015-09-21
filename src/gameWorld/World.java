@@ -1,5 +1,6 @@
 package gameWorld;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,17 @@ public class World {
 	 */
 	private Tile[][] map;
 
+	public World(int width, int height, Tile[][] map) {
+		this.width = width;
+		this.height = height;
+		this.map = map;
+	}
+
+	//TODO Remove once data storage correctly constructs world
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
-
-		map = new Tile[width][height];
+		this.map = new Tile[width][height];
 	}
 
 	/**
@@ -36,7 +43,6 @@ public class World {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-
 		for (int i = 0; i < characters.size(); i++){
 			Character c = characters.get(i);
 			c.tick(this);
@@ -63,6 +69,13 @@ public class World {
 		return false;
 	}
 
+	// ***********************************************
+	// Networking Methods
+	// ******************
+	// These methods are all used to convert World
+	// data into a smaller format for sending
+	// between the Client and Server.
+	// ***********************************************
 
 	/**
 	 * Gets a Tile[][] which represents the area which a Character can currently
@@ -98,6 +111,32 @@ public class World {
 		}
 
 		return perspective;
+	}
+
+	/**
+	 * This method populates the Tile map of the World from the given byte array.
+	 *
+	 * @param bytes
+	 * @throws IOException
+	 */
+	public synchronized void fromByteArray(byte[] bytes) throws IOException {
+
+	}
+
+	/**
+	 * This method converts the Tile map of this World into a byte array
+	 * and returns it.
+	 *
+	 * @return
+	 * @throws IOException
+	 */
+	public synchronized byte[] toByteArray() throws IOException {
+
+		return null;
+	}
+
+	public Tile[][] getMap() {
+		return map;
 	}
 
 
