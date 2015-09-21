@@ -1,6 +1,7 @@
 package gameWorld;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Equivilant of Board in djp's pacman
 public class World {
@@ -13,9 +14,13 @@ public class World {
 	 */
 	private final ArrayList<Character> characters = new ArrayList<Character>();
 
+	private Tile[][] map;
+
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
+
+		map = new Tile[width][height];
 	}
 
 	/**
@@ -51,6 +56,43 @@ public class World {
 
 	public boolean isWall(int x, int y) {
 		return false;
+	}
+
+
+	/**
+	 * Gets a Tile[][] which represents the area which a Character can currently
+	 * see in their view.
+	 *
+	 * @param character - The Character object whose perspective is being requested
+	 * @param size - The size of the perspective to return
+	 * @return A 2D array of Tiles - edge cases are null objects
+	 */
+	public Tile[][] getCharacterPerspective(Character character, int size) {
+		Tile[][] perspective = new Tile[size][size];
+
+		int offset = (size - 1) / 2;
+
+		int charX = character.realX;
+		int charY = character.realY;
+
+		int perspX = 0;
+		for(int x = charX - offset; x <= charX + offset; x++) {
+			int perspY = 0;
+
+			for(int y = charY - offset; y <= charY + offset; y++) {
+				if(x >=0 || x < height || y >= 0 || y < height) {
+					perspective[perspX][perspY] = map[x][y];
+				} else {
+					// Careful!
+					perspective[perspX][perspY] = null;
+				}
+				perspY++;
+			}
+
+			perspX++;
+		}
+
+		return perspective;
 	}
 
 
