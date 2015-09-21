@@ -3,8 +3,12 @@ package userInterface.renderWindow;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import javax.swing.JPanel;
 
 /**
  * Provides a 3D view of the world, with locations
@@ -40,8 +44,8 @@ public class Renderer {
 	private Direction currentDir = Direction.STATIONARY;
 
 	//For scaling, knowing how big the window is
-	private int CANVAS_WIDTH;
-	private int CANVAS_HEIGHT;
+	private final int CANVAS_WIDTH;
+	private final int CANVAS_HEIGHT;
 
 	//For rendering everything
 	private Vector3D lightSource;
@@ -51,14 +55,20 @@ public class Renderer {
 	private float shiftX = 1.0f;
 	private float shiftY = 1.0f;
 
+	//The panel to be rendered on
+	private JPanel panel;
+
 	/** Constructor. Takes the height and width of the canvas into account.
 	 *
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-	public Renderer(int wd, int ht){
-		CANVAS_WIDTH = wd;
-		CANVAS_HEIGHT = ht;
+	public Renderer(JPanel panel){
+		CANVAS_WIDTH = panel.getWidth();
+		CANVAS_HEIGHT = panel.getHeight();
+		this.panel = panel;
+		//onLoad(new File("level1.txt"));
+		render();
 	}
 
 	/**
@@ -118,17 +128,8 @@ public class Renderer {
 	 * @return
 	 */
 	private BufferedImage render(){
-		ZBuffer zBuffer = initialiseZBuffer();
-		zBuffer.setColor(new Color [CANVAS_WIDTH][CANVAS_HEIGHT]);
-		zBuffer.setDepth(new float [CANVAS_WIDTH][CANVAS_HEIGHT]);  //set this to infinity
+		return null;
 
-		for(int x = 0; x < CANVAS_WIDTH; x++){
-			for(int y = 0; y < CANVAS_HEIGHT; y++){
-				zBuffer.depth[x][y] = Float.POSITIVE_INFINITY;
-			}
-		}
-
-		return convertBitmapToImage(zBuffer.color);
 	}
 
 	/**
@@ -174,7 +175,44 @@ public class Renderer {
 	 * @param file
 	 */
 	private void onLoad(File file){
-		//reads in the Location data from the file.
+
+		Tile [][] tiles = new Tile[6][6];
+
+		try {
+			Scanner sc = new Scanner(file);
+
+			while(sc.hasNextLine()){  //get the next item in the folder
+				String line = sc.nextLine();
+				Scanner scanLine = new Scanner(line);
+
+				while(scanLine.hasNext()){
+					String character = scanLine.next();
+					System.out.print(character);
+					Tile tile = null;
+
+					switch(character){
+					case "0":
+						tile = new WallTile();
+						break;
+					case "1":
+						tile = new GroundTile();
+						break;
+					default:
+						throw new IllegalStateException("Illegal character parsed.");
+					}
+					
+					
+				}
+
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void update() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
