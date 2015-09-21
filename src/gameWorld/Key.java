@@ -4,7 +4,7 @@ public class Key implements Item{
 
 	@Override
 	public void use(){
-
+		
 	}
 
 	@Override
