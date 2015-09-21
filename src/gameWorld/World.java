@@ -135,5 +135,9 @@ public class World {
 		return null;
 	}
 
+	public Tile[][] getMap() {
+		return map;
+	}
+
 
 }
