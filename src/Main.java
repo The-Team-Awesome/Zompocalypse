@@ -96,6 +96,15 @@ public class Main {
 		System.exit(0);
 	}
 
+	/**
+	 * This starts up a server for players to connect to, then waits for all connections.
+	 *
+	 * @param port - The port number for the application
+	 * @param numClients - The number of clients that the server is expecting
+	 * @param gameClock - The rate at which the game should be refreshed
+	 * @param networkClock - The rate at which data should be transferred
+	 * @param game - The game!
+	 */
 	private static void runServer(int port, int numClients, int gameClock, int networkClock, World game) {
 		Clock clock = new Clock(game, gameClock);
 
@@ -115,7 +124,7 @@ public class Main {
 
 				if(numClients == 0) {
 					System.out.println("Accepted all client connections, no longer accepting.");
-					startGame(clock, connections);
+					multiplePlayerGame(clock, connections);
 					System.out.println("All clients disconnected, closing server");
 					socketServer.close();
 					return;
@@ -128,12 +137,26 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Creates a Client and connects it to the server at the given url.
+	 *
+	 * @param url - The url for the client to connect to
+	 * @param port - The port number for the application
+	 * @throws IOException
+	 */
 	private static void runClient(String url, int port) throws IOException {
 		Socket socket = new Socket(url, port);
 		System.out.println("Client successfully connected to URL: " + url + ", port: " + port);
 		new Client(socket).run();
 	}
 
+	/**
+	 * Starts up a single player game with one player. Includes starting the clock,
+	 * which runs the game loop and then yielding control to that clock.
+	 *
+	 * @param gameClock
+	 * @param game
+	 */
 	private static void singlePlayerGame(int gameClock, World game) {
 		SinglePlayer player = new SinglePlayer(game, 1);
 		Gui frame = new Gui("Zompocalypse", 1, player);
@@ -148,7 +171,14 @@ public class Main {
 		}
 	}
 
-	private static void startGame(Clock clock, Server... connections) {
+	/**
+	 * Starts up a game for multiple players. Includes starting the clock,
+	 * which runs the game loop and then yielding control to that clock.
+	 *
+	 * @param clock
+	 * @param connections
+	 */
+	private static void multiplePlayerGame(Clock clock, Server... connections) {
 
 		clock.start();
 
@@ -159,7 +189,13 @@ public class Main {
 		return;
 	}
 
-
+	/**
+	 * This checks the given Server connections to see if they are still alive
+	 * returning a boolean for the connections state.
+	 *
+	 * @param connections
+	 * @return
+	 */
 	private static boolean checkConnections(Server... connections) {
 		for(Server server : connections) {
 			if(server.isAlive()) {
