@@ -16,11 +16,10 @@ public class World {
 
 	private Tile[][] map;
 
-	public World(int width, int height) {
+	public World(int width, int height, Tile[][] map) {
 		this.width = width;
 		this.height = height;
-
-		map = new Tile[width][height];
+		this.map = map;
 	}
 
 	/**
