@@ -1,12 +1,16 @@
 
 
+import gameWorld.World;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import userInterface.appWindow.Gui;
 import clientServer.Client;
 import clientServer.Clock;
 import clientServer.Server;
+import clientServer.SinglePlayer;
 
 /**
  * This is the entry point for playing the adventure game. It processes commands
@@ -25,12 +29,6 @@ public class Main {
 		int port = 32768;
 		int gameClock = 2000;
 		int networkClock = 50;
-
-		// If there were no arguments provided, print out instructions
-		// on using the program
-		if(args.length == 0) {
-			help();
-		}
 
 		// Run through the arguments, processing each type of command individually
 		for(int i = 0; i < args.length; i++) {
@@ -58,11 +56,13 @@ public class Main {
 
 		try {
 			if(server) {
-				runServer(port, numClients, gameClock, networkClock);
+				World game = new World(5, 5);
+				runServer(port, numClients, gameClock, networkClock, game);
 			} else if(url != null) {
 				runClient(url, port);
 			} else {
-				help();
+				World game = new World(5, 5);
+				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {
 			System.out.println("I/O error: " + e.getMessage());
@@ -96,8 +96,8 @@ public class Main {
 		System.exit(0);
 	}
 
-	private static void runServer(int port, int numClients, int gameClock, int networkClock) {
-		Clock clock = new Clock(gameClock);
+	private static void runServer(int port, int numClients, int gameClock, int networkClock, World game) {
+		Clock clock = new Clock(game, gameClock);
 
 		System.out.println("Server listening on port " + port);
 		System.out.println("Server awaiting " + numClients + " clients");
@@ -110,7 +110,7 @@ public class Main {
 				System.out.println("Accepted client: " + socket.getInetAddress());
 				int id = numClients;
 
-				connections[--numClients] = new Server(socket, id, networkClock);
+				connections[--numClients] = new Server(game, socket, id, networkClock);
 				connections[numClients].start();
 
 				if(numClients == 0) {
@@ -132,6 +132,20 @@ public class Main {
 		Socket socket = new Socket(url, port);
 		System.out.println("Client successfully connected to URL: " + url + ", port: " + port);
 		new Client(socket).run();
+	}
+
+	private static void singlePlayerGame(int gameClock, World game) {
+		SinglePlayer player = new SinglePlayer(game, 1);
+		Gui frame = new Gui("Zompocalypse", 1, player);
+		player.setFrame(frame);
+
+		Clock clock = new Clock(game, gameClock);
+
+		clock.start();
+
+		while(true) {
+			Thread.yield();
+		}
 	}
 
 	private static void startGame(Clock clock, Server... connections) {
