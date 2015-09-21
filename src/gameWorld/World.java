@@ -14,6 +14,11 @@ public class World {
 	 */
 	private final ArrayList<Character> characters = new ArrayList<Character>();
 
+	/**
+	 * This represents the entire world as 2D array of Tiles. Tiles can either
+	 * be standard floor Tiles, wall Tiles which block Players and door Tiles
+	 * which can be moved through.
+	 */
 	private Tile[][] map;
 
 	public World(int width, int height) {
