@@ -65,4 +65,10 @@ public class Door implements Item, Tile, Drawable{
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public char getCode() {
+		return '2';
+
+	}
 }

@@ -33,4 +33,9 @@ public class Wall implements Tile, Drawable{
 		return false;
 	}
 
+	@Override
+	public char getCode() {
+		return '1';
+	}
+
 }

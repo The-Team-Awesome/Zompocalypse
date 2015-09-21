@@ -34,4 +34,9 @@ public class Floor implements Tile{
 		return true;
 	}
 
+	@Override
+	public char getCode() {
+		return '0';
+	}
+
 }

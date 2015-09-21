@@ -25,4 +25,9 @@ public interface Tile {
 	 * If this tile is able to be occupied.
 	 */
 	public boolean occupiable();
+
+	/**
+	 * Return the code to represent this tile in CSV.
+	 */
+	public char getCode();
 }
