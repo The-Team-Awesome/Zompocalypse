@@ -1,4 +1,4 @@
-package zompocalypse;
+package userInterface.appWindow;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;

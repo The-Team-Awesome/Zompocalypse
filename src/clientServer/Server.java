@@ -1,4 +1,4 @@
-package zompocalypse.control;
+package clientServer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

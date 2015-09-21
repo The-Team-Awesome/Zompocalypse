@@ -1,4 +1,4 @@
-package zompocalypse.control;
+package clientServer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import zompocalypse.Frame;
+import userInterface.appWindow.Frame;
 
 /**
  * This is the Client-side Thread which listens for Events and then sends those

@@ -1,12 +1,12 @@
-package zompocalypse;
+
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import zompocalypse.control.Client;
-import zompocalypse.control.Clock;
-import zompocalypse.control.Server;
+import clientServer.Client;
+import clientServer.Clock;
+import clientServer.Server;
 
 /**
  * This is the entry point for playing the adventure game. It processes commands
