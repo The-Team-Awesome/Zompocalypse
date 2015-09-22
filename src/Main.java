@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import userInterface.appWindow.Gui;
+import userInterface.appWindow.MainFrame;
 import clientServer.Client;
 import clientServer.Clock;
 import clientServer.Server;
@@ -159,7 +159,7 @@ public class Main {
 	 */
 	private static void singlePlayerGame(int gameClock, World game) {
 		SinglePlayer player = new SinglePlayer(game, 1);
-		Gui frame = new Gui("Zompocalypse", 1, player);
+		MainFrame frame = new MainFrame(1, player);
 		player.setFrame(frame);
 
 		Clock clock = new Clock(game, gameClock);

@@ -11,7 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import userInterface.appWindow.Gui;
+import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
 /**
@@ -26,7 +26,7 @@ public class Client extends Thread implements KeyListener, MouseListener, Action
 
 	private final Socket socket;
 	private int id;
-	private Gui frame;
+	private MainFrame frame;
 	private World game;
 
 	private DataInputStream input;
@@ -44,7 +44,7 @@ public class Client extends Thread implements KeyListener, MouseListener, Action
 
 			id = input.readInt();
 
-			frame = new Gui("Client @ " + socket.getInetAddress(), id, this);
+			frame = new MainFrame(id, this);
 
 			while(running) {
 

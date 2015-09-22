@@ -10,24 +10,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * StartFrame is the frame that introduces the
- * client/player to the game. It's where the game starts.
+ * StartPanel constains the components for the start
+ * screen of the game.
  *
  * @author Danielle Emygdio
  *
  */
-public class StartFrame extends JFrame {
+public class StartPanel extends JPanel {
 	private JButton singlePlayerButton;
 	private JButton multiplayerButton;
 	private JButton loadGameButton;
 	private JButton newGameButton;
 
-	public StartFrame() {
-		this.addComponentsToPane(this.getContentPane());
-		this.pack(); // pack components tightly together
-		this.setLocationRelativeTo(null); // center the screen
-		this.setResizable(true); // changed to resizable
-		this.setVisible(true); // make sure we are visible!
+	public StartPanel() {
+		addComponentsToPane(this);
 	}
 
 	private void addComponentsToPane(Container pane) {

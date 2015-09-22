@@ -8,20 +8,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-import userInterface.appWindow.Gui;
+import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
 public class SinglePlayer implements KeyListener, MouseListener, ActionListener {
 	private final World game;
 	private final int id;
-	private Gui frame;
+	private MainFrame frame;
 
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
 	}
 
-	public void setFrame(Gui frame) {
+	public void setFrame(MainFrame frame) {
 		this.frame = frame;
 	}
 
