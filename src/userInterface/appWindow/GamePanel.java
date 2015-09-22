@@ -6,7 +6,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.EventListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -53,6 +57,13 @@ public class GamePanel extends JPanel {
 	// dialogPanel components
 	private JTextArea txtDialog;
 
+	/**
+	 * This will be the listener for all action events which are triggered,
+	 * such as button clicks or field entries. For example, when creating a button,
+	 * it should be added using button.addActionListener(action);
+	 */
+	private ActionListener action;
+
 	// icons
 	private static final String IMAGE_PATH = "images/";
 	private static final Image ITEM = loadImage("sword.png");
@@ -61,8 +72,23 @@ public class GamePanel extends JPanel {
 	private static final Image WEST = loadImage("west.png");
 	private static final Image EAST = loadImage("east.png");
 
-	public GamePanel() {
+	public GamePanel(int id, EventListener listener) {
 		this.setSize(1000, 1000);
+
+		// Set up the given EventListener to process Key, Mouse and Action events
+		if(listener instanceof KeyListener) {
+			KeyListener key = (KeyListener) listener;
+			addKeyListener(key);
+		}
+
+		if(listener instanceof MouseListener) {
+			MouseListener mouse = (MouseListener) listener;
+			addMouseListener(mouse);
+		}
+
+		if(listener instanceof ActionListener) {
+			action = (ActionListener) listener;
+		}
 
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -197,11 +223,15 @@ public class GamePanel extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		btnBackpack = new JButton("Backpack");
+		// Danielle, all of your buttons need to add this action
+		// listener, otherwise they will never be able to be processed.
+		btnBackpack.addActionListener(action);
 		c.ipadx = 0;
 		c.ipady = 0;
 		optionsPanel.add(btnBackpack, c);
 
 		btnUse = new JButton("Use");
+		btnUse.addActionListener(action);
 		c.ipadx = 0;
 		c.ipady = 1;
 		optionsPanel.add(btnUse, c);

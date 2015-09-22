@@ -6,28 +6,29 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 
-import userInterface.appWindow.MainFrame;
+import userInterface.appWindow.GamePanel;
 import gameWorld.World;
 
 public class SinglePlayer implements KeyListener, MouseListener, ActionListener {
 	private final World game;
 	private final int id;
-	private MainFrame frame;
+	private GamePanel panel;
 
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
 	}
 
-	public void setFrame(MainFrame frame) {
-		this.frame = frame;
+	public void setPanel(GamePanel panel) {
+		this.panel = panel;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
+
+		System.out.println(code);
 
 		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_RIGHT) {
 			//output.writeInt(1);
@@ -42,6 +43,8 @@ public class SinglePlayer implements KeyListener, MouseListener, ActionListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+
+		System.out.println(e.getPoint());
 		int x = e.getX();
 		int y = e.getY();
 
@@ -51,9 +54,9 @@ public class SinglePlayer implements KeyListener, MouseListener, ActionListener 
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-
+		System.out.println(command);
 		// After processing an action, give control back to the frame
-		frame.requestFocus();
+		panel.requestFocus();
 	}
 
 	@Override

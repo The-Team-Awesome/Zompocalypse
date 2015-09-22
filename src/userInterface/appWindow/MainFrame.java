@@ -20,14 +20,7 @@ import userInterface.renderWindow.Renderer;
 
 public class MainFrame {
 
-	/**
-	 * This will be the listener for all action events which are triggered,
-	 * such as button clicks or field entries. For example, when creating a button,
-	 * it should be added using button.addActionListener(action);
-	 */
-
 	private JFrame frame;
-	private ActionListener action;
 	private CardLayout layout;
 	private GamePanel gameScreenCard;
 	private JPanel cards;
@@ -36,27 +29,12 @@ public class MainFrame {
 	public MainFrame(int id, EventListener listener) {
 		this.frame = new JFrame("Zompocalypse");
 
-		// Set up the given EventListener to process Key, Mouse and Action events
-		if(listener instanceof KeyListener) {
-			KeyListener key = (KeyListener) listener;
-			frame.addKeyListener(key);
-		}
-
-		if(listener instanceof MouseListener) {
-			MouseListener mouse = (MouseListener) listener;
-			frame.addMouseListener(mouse);
-		}
-
-		if(listener instanceof ActionListener) {
-			action = (ActionListener) listener;
-		}
-
 		// creating default panel which uses cards
 		layout = new CardLayout();
 		cards = new JPanel(layout);
 
 		// adding GameScreen to content
-		gameScreenCard = new GamePanel();
+		gameScreenCard = new GamePanel(id, listener);
 		cards.add(gameScreenCard, "1");
 
 		// setting GameScreen to be the first thing to show up
@@ -74,10 +52,12 @@ public class MainFrame {
 
 		frame.pack();
 		frame.setVisible(true);
+
+		gameScreenCard.requestFocus();
 	}
 
-	public void requestFocus() {
-		this.frame.requestFocus();
+	public GamePanel getGameScreenCard() {
+		return gameScreenCard;
 	}
 
  }

@@ -160,7 +160,7 @@ public class Main {
 	private static void singlePlayerGame(int gameClock, World game) {
 		SinglePlayer player = new SinglePlayer(game, 1);
 		MainFrame frame = new MainFrame(1, player);
-		player.setFrame(frame);
+		player.setPanel(frame.getGameScreenCard());
 
 		Clock clock = new Clock(game, gameClock);
 
