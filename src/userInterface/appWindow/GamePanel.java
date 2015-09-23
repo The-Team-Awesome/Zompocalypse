@@ -56,13 +56,6 @@ public class GamePanel extends JPanel {
 	// dialogPanel components
 	private JTextArea txtDialog;
 
-	/**
-	 * This will be the listener for all action events which are triggered,
-	 * such as button clicks or field entries. For example, when creating a button,
-	 * it should be added using button.addActionListener(action);
-	 */
-	private ActionListener action;
-
 	// icons
 	private static final String IMAGE_PATH = "images/";
 	private static final Image ITEM = loadImage("sword.png");
@@ -71,23 +64,17 @@ public class GamePanel extends JPanel {
 	private static final Image WEST = loadImage("west.png");
 	private static final Image EAST = loadImage("east.png");
 
-	public GamePanel(int id, EventListener listener) {
+	/**
+	 * This will be the listener for all action events which are triggered,
+	 * such as button clicks or field entries. For example, when creating a button,
+	 * it should be added using button.addActionListener(action);
+	 */
+	private ActionListener action;
+
+	public GamePanel(ActionListener action) {
 		this.setSize(1000, 1000);
 
-		// Set up the given EventListener to process Key, Mouse and Action events
-		if(listener instanceof KeyListener) {
-			KeyListener key = (KeyListener) listener;
-			addKeyListener(key);
-		}
-
-		if(listener instanceof MouseListener) {
-			MouseListener mouse = (MouseListener) listener;
-			addMouseListener(mouse);
-		}
-
-		if(listener instanceof ActionListener) {
-			action = (ActionListener) listener;
-		}
+		this.action = action;
 
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

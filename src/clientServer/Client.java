@@ -27,7 +27,7 @@ public class Client extends GameListenerThread {
 
 	private final Socket socket;
 	private int id;
-	private GamePanel panel;
+	private MainFrame frame;
 	private World game;
 
 	private DataInputStream input;
@@ -45,8 +45,7 @@ public class Client extends GameListenerThread {
 
 			id = input.readInt();
 
-			MainFrame frame = new MainFrame(id, this);
-			panel = frame.getGameScreenCard();
+			frame = new MainFrame(id, this);
 
 			while(running) {
 
@@ -111,7 +110,7 @@ public class Client extends GameListenerThread {
 			output.flush();
 
 			// After processing an action, give control back to the frame
-			panel.requestFocus();
+			frame.requestFocus();
 		} catch(IOException exception) {
 			// Problem sending information to the Server, just ignore this
 		}
