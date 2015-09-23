@@ -6,6 +6,9 @@ n,n
 s,s
 e,e
 w,w
+ns,ns
+ew,ew
+x,x
 wa,water
 g,ground
 c,corner
@@ -15,6 +18,8 @@ sd,side
 ss,sides
 gv,gravel
 gn,green
+gl,gold
+ky,key
 rd,red
 tr,trash
 gr,grey
@@ -24,6 +29,7 @@ l,loose
 sn,stones
 sp,spikes
 r,road
+en,end
 st,straight
 p,pool
 ps,pools

@@ -94,18 +94,66 @@ public class Parser {
 	 */
 	private static void parseTile(Tile[][] map,
 			Map<String, String> textTileMap, String string, int i, int j) {
-		String[] line = string.split("-");
-		switch (line[0]) {
+		String[] line = string.split("_");
+		String[] object = line[0].split("-");
+		String[] tile = null;
+		String orientation;
+		switch (object[0]) {
 		case "0":
 			Item thing = null;
 			String floor = "";
-			for (int k = 1; k < line.length; k++) {
-				floor = floor + textTileMap.get(line[k]);
-				if (k < line.length - 1)
+			for (int k = 1; k < object.length - 1; k++) {
+				floor = floor + textTileMap.get(object[k]);
+				if (k < object.length - 2)
 					floor = floor + "_";
+				else {
+					switch (object[object.length - 1]) {
+					case "n":
+						orientation = "nsew";
+						tile = new String[4];
+						for (int x = 0; x < orientation.length(); x++) {
+							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+						}
+						break;
+					case "s":
+						orientation = "snwe";
+						tile = new String[4];
+						for (int x = 0; x < orientation.length(); x++) {
+							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+						}
+						break;
+					case "e":
+						orientation = "ewns";
+						tile = new String[4];
+						for (int x = 0; x < orientation.length(); x++) {
+							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+						}
+						break;
+					case "w":
+						orientation = "wesn";
+						tile = new String[4];
+						for (int x = 0; x < orientation.length(); x++) {
+							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+						}
+						break;
+					case "ns":
+						tile = new String[2];
+						tile[0] = floor + "_" + "ns.png";
+						tile[1] = floor + "_" + "ew.png";
+						break;
+					case "ew":
+						tile = new String[2];
+						tile[0] = floor + "_" + "ew.png";
+						tile[1] = floor + "_" + "ns.png";
+						break;
+					default:
+						floor = floor + "_" + object[object.length - 1] + ".png";
+						tile = new String[] { floor };
+						break;
+					}
+				}
 			}
-			floor = floor + ".png";
-			map[i][j] = new Floor(i, j, new String[] { floor }, thing);
+			map[i][j] = new Floor(i, j, tile, thing);
 			break;
 		case "1":
 			map[i][j] = new Wall();
@@ -201,6 +249,7 @@ public class Parser {
 
 	/**
 	 * Prints this map to the console as it would be represented in CSV
+	 *
 	 * @throws IOException
 	 */
 	public static void PrintMap(World world) throws IOException {
