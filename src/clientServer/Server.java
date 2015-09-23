@@ -87,6 +87,7 @@ public class Server extends Thread {
 								}
 								String command = String.copyValueOf(string);
 
+
 								game.processAction(id, command);
 
 								break;

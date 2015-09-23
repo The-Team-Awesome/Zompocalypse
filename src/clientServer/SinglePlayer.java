@@ -8,20 +8,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import userInterface.appWindow.GamePanel;
+import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
 public class SinglePlayer extends GameListener {
 	private final World game;
 	private final int id;
-	private GamePanel panel;
+	private MainFrame frame;
 
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
 	}
 
-	public void setPanel(GamePanel panel) {
-		this.panel = panel;
+	public void setFrame(MainFrame frame) {
+		this.frame = frame;
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class SinglePlayer extends GameListener {
 		game.processAction(id, command);
 
 		// After processing an action, give control back to the frame
-		panel.requestFocus();
+		frame.requestFocus();
 	}
 
 }

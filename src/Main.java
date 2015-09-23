@@ -161,8 +161,8 @@ public class Main {
 	 */
 	private static void singlePlayerGame(int gameClock, World game) {
 		SinglePlayer player = new SinglePlayer(game, 1);
-		MainFrame frame = new MainFrame(1, player);
-		player.setPanel(frame.getGameScreenCard());
+		MainFrame frame = new MainFrame(1, game, player);
+		player.setFrame(frame);
 
 		Clock clock = new Clock(game, gameClock);
 
