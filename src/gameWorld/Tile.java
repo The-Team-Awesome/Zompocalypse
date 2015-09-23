@@ -21,7 +21,6 @@ public interface Tile {
 
 	/**
 	 * Set the occupiable status of the Tile
-	 * @return
 	 */
 	public void setOccupiable(boolean bool);
 

@@ -15,6 +15,6 @@ public interface Item {
 	public String getCSVCode(Map<String, String> textTileMap);
 
 	public void draw(int x, int y, Graphics g);
-	
+
 	public int getUniqueID();
 }

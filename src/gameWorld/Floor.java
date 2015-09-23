@@ -13,11 +13,6 @@ public class Floor implements Tile, Drawable{
 	private int y;
 
 	private Item item;
-	private Wall wall;
-
-	//
-
-
 	private boolean occupiable;
 
 	private Image currentImage;

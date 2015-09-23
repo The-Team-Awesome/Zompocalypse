@@ -42,7 +42,7 @@ public class Container implements Item, Drawable{
 
 	@Override
 	public void use(Player player){
-		open();
+		open(player);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class Container implements Item, Drawable{
 		return movable;
 	}
 
-	private void open(){
+	private void open(Player player){
 		//TODO open and display contents to user
 	}
 
