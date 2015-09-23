@@ -41,7 +41,7 @@ public class Parser {
 		Tile[][] map = new Tile[1][1];
 		int x = 0, y = 0;
 
-		File mapCSV = new File(mapFile);
+		File mapCSV = Loader.LoadFile(mapFile);
 		BufferedReader mapReader = null;
 
 		try {
