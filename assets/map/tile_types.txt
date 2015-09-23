@@ -14,8 +14,8 @@ tw,two
 sd,side
 ss,sides
 gv,gravel
-gd,green_dots
-rd,red_dots
+gn,green
+rd,red
 tr,trash
 gr,grey
 i,island
@@ -29,5 +29,6 @@ p,pool
 ps,pools
 pt,patch
 m,mushrooms
-dd,dark_dots
-dc,dark_circle
+dt,dots
+dk,dark
+cr,circle
