@@ -23,7 +23,7 @@ public class Gui {
 		//World world = new World(id, id, null);
 
 		//RenderPanel renderPanel = new RenderPanel(id, world, null);
-		RenderPanel renderPanel = new RenderPanel(null);
+		RenderPanel renderPanel = new RenderPanel(null, null);
 		renderPanel.setPreferredSize(new Dimension(800, 600));
 
 		frame.getContentPane().add(renderPanel,  BorderLayout.CENTER);

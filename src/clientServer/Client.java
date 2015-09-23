@@ -45,7 +45,7 @@ public class Client extends GameListenerThread {
 
 			id = input.readInt();
 
-			frame = new MainFrame(id, this);
+			frame = new MainFrame(id, game, this);
 
 			while(running) {
 

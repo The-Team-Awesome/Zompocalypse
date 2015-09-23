@@ -1,5 +1,7 @@
 package userInterface.renderWindow;
 
+import gameWorld.World;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -56,6 +58,8 @@ public class RenderPanel extends JPanel {
 
 	private String filePath = "img/";
 
+	private World game;
+
 	//The panel to be rendered on
 
 	/** Constructor. Takes the height and width of the canvas into account.
@@ -63,7 +67,9 @@ public class RenderPanel extends JPanel {
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-	public RenderPanel(BufferedImage background){
+	public RenderPanel(World game, BufferedImage background){
+		this.game = game;
+
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
 

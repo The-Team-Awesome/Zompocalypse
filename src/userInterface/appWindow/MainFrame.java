@@ -1,5 +1,7 @@
 package userInterface.appWindow;
 
+import gameWorld.World;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -30,7 +32,7 @@ public class MainFrame extends JFrame {
 	private ActionListener action;
 
 	// menu panel
-	public MainFrame(int id, EventListener listener) {
+	public MainFrame(int id, World game, EventListener listener) {
 		super("Zompocalypse");
 
 		// Set up the given EventListener to process Key, Mouse and Action events
@@ -53,7 +55,7 @@ public class MainFrame extends JFrame {
 		cards = new JPanel(layout);
 
 		// adding GameScreen to content
-		gameScreenCard = new GamePanel(action);
+		gameScreenCard = new GamePanel(id, game, action);
 		cards.add(gameScreenCard, "1");
 
 		// setting GameScreen to be the first thing to show up

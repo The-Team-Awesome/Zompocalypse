@@ -2,7 +2,7 @@ package userInterface.renderWindow;
 
 public class LevelBuilder {
 
-	RenderPanel renderPanel = new RenderPanel(null);
+	RenderPanel renderPanel = new RenderPanel(null, null);
 
 	public LevelBuilder(){
 		new Gui();
