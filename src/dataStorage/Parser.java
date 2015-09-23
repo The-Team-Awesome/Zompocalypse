@@ -80,7 +80,9 @@ public class Parser {
 			if (line.length > 1) {
 				thing = parseItem(line[1]);
 			}
-			map[i][j] = new Floor(i, j, "Kieran is great", thing);
+			//TODO
+			//map[i][j] = new Floor(i, j, "Kieran is great", thing);
+			map[i][j] = new Floor(i, j, new String [] {"Kieran is great"}, thing);
 			break;
 		case "1":
 			map[i][j] = new Wall();

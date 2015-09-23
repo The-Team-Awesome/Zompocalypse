@@ -118,4 +118,10 @@ public class Container implements Item, Drawable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void draw(int x, int y, Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
 }

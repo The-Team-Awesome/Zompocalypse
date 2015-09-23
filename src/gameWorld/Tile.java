@@ -20,11 +20,6 @@ public interface Tile {
 	public int getY();
 
 	/**
-	 * Returns the file name of the sprite associated with this tile.
-	 */
-	public String getFileName();
-
-	/**
 	 * Set the occupiable status of the Tile
 	 * @return
 	 */

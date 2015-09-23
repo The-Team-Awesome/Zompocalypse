@@ -12,9 +12,11 @@ import dataStorage.Loader;
 
 public class Floor implements Tile{
 
+	//
 	private int x;
 	private int y;
-	private Item myItem;
+
+	private Item item;
 	private boolean occupiable;
 
 	private Image currentImage;
@@ -24,7 +26,7 @@ public class Floor implements Tile{
 		this.x = x;
 		this.y = y;
 
-		this.myItem = myItem;
+		this.item = myItem;
 		occupiable = true;
 
 		//Paulines code
@@ -76,32 +78,10 @@ public class Floor implements Tile{
 		}
 	}
 
-	private Image getWestOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[1];
-		case 4:
-			return images[3];  //get the 4th image
-		default:
-			throw new IllegalStateException("Shouldn't get this far");
-		}
-	}
-
-	private Image getEastOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[1];
-		case 4:
-			return images[2];  //get the 3rd image
-		default:
-			throw new IllegalStateException("Shouldn't get this far");
-		}
-	}
-
+	/**
+	 * Get the orientation for the image when viewed from the South.
+	 * @return
+	 */
 	private Image getSouthOrientationImage() {
 		switch(images.length){
 		case 1:
@@ -111,7 +91,41 @@ public class Floor implements Tile{
 		case 4:
 			return images[1];  //get the 2nd image
 		default:
-			throw new IllegalStateException("Shouldn't get this far");
+			throw new IllegalStateException("Shouldn't get this far - SOUTH");
+		}
+	}
+
+	/**
+	 * Get the orientation for the image when viewed from the East.
+	 * @return
+	 */
+	private Image getEastOrientationImage() {
+		switch(images.length){
+		case 1:
+			return images[0];  //same for all
+		case 2:
+			return images[1];
+		case 4:
+			return images[2];  //get the 3rd image
+		default:
+			throw new IllegalStateException("Shouldn't get this far - EAST");
+		}
+	}
+
+	/**
+	 * Get the orientation for the image when viewed from the West.
+	 * @return
+	 */
+	private Image getWestOrientationImage() {
+		switch(images.length){
+		case 1:
+			return images[0];  //same for all
+		case 2:
+			return images[1];
+		case 4:
+			return images[3];  //get the 4th image
+		default:
+			throw new IllegalStateException("Shouldn't get this far - WEST");
 		}
 	}
 
@@ -126,11 +140,6 @@ public class Floor implements Tile{
 	}
 
 	@Override
-	public String getFileName() {
-		return filename;
-	}
-
-	@Override
 	public boolean occupiable() {
 		return occupiable;
 	}
@@ -138,8 +147,8 @@ public class Floor implements Tile{
 	@Override
 	public String getCSVCode() {
 		String result = "0";
-		if (myItem != null) {
-			result = result + myItem.getCSVCode();
+		if (item != null) {
+			result = result + item.getCSVCode();
 		}
 		return result;
 	}
@@ -153,9 +162,9 @@ public class Floor implements Tile{
 	public void draw(int x, int y, Graphics g) {
 		g.drawImage(currentImage, x, y, null);
 
-		if(item != null){
-			item.draw(x,y,g);
-		}
+		//if(item != null){
+		//	item.draw(x,y,g);
+		//}
 
 	}
 

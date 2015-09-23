@@ -168,11 +168,15 @@ public class RenderPanel extends JPanel {
 	private gameWorld.Tile[][] getDummyWorld() {
 		gameWorld.Tile[][] tiles = new gameWorld.Tile[5][5];
 
+		String [] filenames = new String[] {
+				"assets/ground_grey_1.png"
+		};
+
 		//Get the floor
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = 0; j < tiles[0].length; ++j){
-				tiles[i][j] = new Floor(i,j,
-						"assets/ground_grey_1.png", null);
+				tiles[i][j] = new Floor(i,j,filenames
+						, null);
 			}
 		}
 

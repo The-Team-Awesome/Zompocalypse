@@ -33,4 +33,10 @@ public class Key implements Item, Drawable{
 	public String getCSVCode() {
 		return "-K";
 	}
+
+	@Override
+	public void draw(int x, int y, Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
 }
