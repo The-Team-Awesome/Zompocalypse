@@ -1,5 +1,6 @@
 
 
+
 import gameWorld.World;
 
 import java.io.IOException;
@@ -57,13 +58,13 @@ public class Main {
 
 		try {
 			if(server) {
-				World game = Parser.ParseMap("src/dataStorage/maps/TestMap.csv");
+				World game = Parser.ParseMap("maps/TestMap.csv");
 				//World game = new World(5, 5);
 				runServer(port, numClients, gameClock, networkClock, game);
 			} else if(url != null) {
 				runClient(url, port);
 			} else {
-				World game = Parser.ParseMap("src/dataStorage/maps/TestMap.csv");
+				World game = Parser.ParseMap("maps/TestMap.csv");
 				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {
