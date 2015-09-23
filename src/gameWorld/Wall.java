@@ -1,6 +1,7 @@
 package gameWorld;
 
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Wall implements Tile, Drawable{
 
@@ -40,5 +41,11 @@ public class Wall implements Tile, Drawable{
 
 	@Override
 	public void setOccupiable(boolean bool) {
+	}
+
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package userInterface.renderWindow;
 
+import gameWorld.Drawable;
 import gameWorld.World;
 
 import java.awt.Color;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -43,6 +45,8 @@ public class RenderPanel extends JPanel {
 	 *
 	 */
 
+
+
 	//For rendering objects within the game
 	private List<GameObject> objects = new ArrayList<>();
 
@@ -51,14 +55,13 @@ public class RenderPanel extends JPanel {
 	private int CANVAS_HEIGHT;
 
 	private BufferedImage background;
-
-	private World world;
-	private int id;
-
 	private String filePath = "img/";
 
 	private World game;
+	private int id;
 
+	private static final int TILE_WIDTH = 64;
+	private static final int TILE_HEIGHT = 32;
 	//The panel to be rendered on
 
 	/** Constructor. Takes the height and width of the canvas into account.
@@ -105,12 +108,28 @@ public class RenderPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, null);
 
-		gameWorld.Tile[][] tiles = world.getMap();
-
-		//
+		gameWorld.Tile[][] tiles = game.getMap();
 
 		Orientation o = Orientation.NORTH;
 
+		//start from the top center
+		int x = CANVAS_WIDTH / 2;
+		int y = 0;
+
+		//Draws from the top right of the board, goes across
+		//http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
+		for(int i = 0; i < tiles.length; ++i){
+			for(int j = tiles[i].length; j >= 0; j--){
+				if(tiles[i][j] instanceof Drawable){
+					Drawable d = (Drawable) tiles[i][j];
+					//Image tileImage = tiles[i][j].getImage();
+
+					x = (j * TILE_WIDTH/2) + (i * TILE_WIDTH/2);
+					y = (i * TILE_HEIGHT/2) - (j * ( TILE_HEIGHT/2));
+					d.draw(g);
+				}
+			}
+		}
 
 		//		switch(currentOrientation){
 		//		case NORTH:
