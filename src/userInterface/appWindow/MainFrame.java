@@ -65,7 +65,7 @@ public class MainFrame extends JFrame {
 		setContentPane(cards);
 
 		// window customization
-		ImageIcon img = new ImageIcon("img/zombie-icon.png");
+		ImageIcon img = new ImageIcon("assets/zombie-icon.png");
 		setIconImage(img.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 1000);
