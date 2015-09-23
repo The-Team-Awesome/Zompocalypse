@@ -40,10 +40,12 @@ public class Container implements Item, Drawable{
 		}
 	}
 
+	@Override
 	public void use(Player player){
 		open();
 	}
 
+	@Override
 	public boolean canMove() {
 		return movable;
 	}

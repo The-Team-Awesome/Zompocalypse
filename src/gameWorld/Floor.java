@@ -2,11 +2,7 @@ package gameWorld;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import userInterface.renderWindow.Orientation;
 import dataStorage.Loader;

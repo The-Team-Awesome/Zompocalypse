@@ -1,14 +1,9 @@
 package userInterface.renderWindow;
 
-import gameWorld.World;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Timer;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Gui {
 

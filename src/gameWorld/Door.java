@@ -1,7 +1,6 @@
 package gameWorld;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.Map;
 
 public class Door implements Item, Tile, Drawable{
@@ -25,6 +24,7 @@ public class Door implements Item, Tile, Drawable{
 
 	}
 
+	@Override
 	public void use(Player player) {
 		if(locked){
 			return;

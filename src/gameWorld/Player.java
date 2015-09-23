@@ -1,10 +1,6 @@
 package gameWorld;
 
 import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import userInterface.renderWindow.Orientation;
 
 public final class Player extends MovingCharacter implements Drawable {
@@ -64,6 +60,7 @@ public final class Player extends MovingCharacter implements Drawable {
 	/**
 	 * Get this players speed
 	 */
+	@Override
 	public int speed() {
 		return speed;
 	}
@@ -82,6 +79,7 @@ public final class Player extends MovingCharacter implements Drawable {
 		score += points;
 	}
 
+	@Override
 	public void tick(World game) {
 		if(!isDead()){
 			//do things here
@@ -91,6 +89,7 @@ public final class Player extends MovingCharacter implements Drawable {
 	/**
 	 * Draw the player to the screen
 	 */
+	@Override
 	public void draw(Graphics g) {
 
 	}

@@ -1,7 +1,6 @@
 package gameWorld;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.Map;
 
 public class Wall implements Tile, Drawable{

@@ -3,16 +3,12 @@ package dataStorage;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import zompocalypse.Main;
 
 /**
  * This class is a central place for loading all images, text, sound, font

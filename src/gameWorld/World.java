@@ -2,8 +2,6 @@ package gameWorld;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import userInterface.renderWindow.Orientation;
 
 //Equivilant of Board in djp's pacman

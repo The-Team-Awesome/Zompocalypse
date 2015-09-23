@@ -33,6 +33,7 @@ public class Client extends GameListenerThread {
 		this.socket = socket;
 	}
 
+	@Override
 	public void run() {
 		try {
 			input = new DataInputStream(socket.getInputStream());

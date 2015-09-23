@@ -1,9 +1,6 @@
 package gameWorld;
 
 import java.awt.Graphics;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 
 /**
  * A Character is a record of information about a particular character in the

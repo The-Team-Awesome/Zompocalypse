@@ -54,6 +54,7 @@ public class GameObject {
 	}
 
 	private static class GameObjectComparator implements Comparator<GameObject>{
+		@Override
 		public int compare(GameObject o1, GameObject o2) {
             return (o1.getZ() - o2.getZ());
         }

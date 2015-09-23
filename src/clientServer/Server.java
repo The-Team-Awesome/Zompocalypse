@@ -29,6 +29,7 @@ public class Server extends Thread {
 		this.networkClock = networkClock;
 	}
 
+	@Override
 	public void run() {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());

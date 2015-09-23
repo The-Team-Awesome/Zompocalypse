@@ -49,6 +49,7 @@ public abstract class MovingCharacter extends Character {
 	 * The tick method is provided to enable computer control characters to
 	 * make decisions.
 	 */
+	@Override
 	public void tick(World game) {
 		// The following are used to determine the point at which a character
 		// can change direction (if a change is queued).

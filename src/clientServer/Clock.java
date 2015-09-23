@@ -23,6 +23,7 @@ public class Clock extends Thread {
 		this.delay = delay;
 	}
 
+	@Override
 	public void run() {
 		while(true) {
 			try {
