@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import userInterface.renderWindow.Orientation;
+
 //Equivilant of Board in djp's pacman
 public class World {
 	private final int width;
@@ -20,12 +22,15 @@ public class World {
 	 * be standard floor Tiles, wall Tiles which block Players and door Tiles
 	 * which can be moved through.
 	 */
+
+	private Orientation orientation;
 	private Tile[][] map;
 
 	public World(int width, int height, Tile[][] map) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
+		this.orientation = Orientation.NORTH;
 	}
 
 	/**
@@ -159,6 +164,14 @@ public class World {
 	 */
 	public synchronized void processAction(int id, String command) {
 		System.out.println(id + ", " + command);
+	}
+
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	private void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
 	}
 
 
