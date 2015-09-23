@@ -1,13 +1,17 @@
 package clientServer;
 
+import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
 public class Clock extends Thread {
 
+	private MainFrame frame;
 	private final World game;
 	private final int delay; // delay between pulses
+	
 
-	public Clock(World game, int delay) {
+	public Clock(MainFrame frame, World game, int delay) {
+		this.frame = frame;
 		this.game = game;
 		this.delay = delay;
 	}
@@ -16,11 +20,14 @@ public class Clock extends Thread {
 		while(true) {
 			try {
 				Thread.sleep(delay);
-				game.clockTick();
 				// trigger the ticking of the game world here
-				// and repainting
-				// game.tick();
-				// display.repaint();
+				game.clockTick();
+				
+				// and repaint if it is this clocks responsibility
+				if(frame != null) {
+					frame.repaint();
+				}
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

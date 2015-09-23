@@ -110,7 +110,7 @@ public class Main {
 	 * @param game - The game!
 	 */
 	private static void runServer(int port, int numClients, int gameClock, int networkClock, World game) {
-		Clock clock = new Clock(game, gameClock);
+		Clock clock = new Clock(null, game, gameClock);
 
 		System.out.println("Server listening on port " + port);
 		System.out.println("Server awaiting " + numClients + " clients");
@@ -166,7 +166,7 @@ public class Main {
 		MainFrame frame = new MainFrame(1, game, player);
 		player.setFrame(frame);
 
-		Clock clock = new Clock(game, gameClock);
+		Clock clock = new Clock(frame, game, gameClock);
 
 		clock.start();
 
