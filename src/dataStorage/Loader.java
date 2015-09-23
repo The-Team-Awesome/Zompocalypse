@@ -28,6 +28,7 @@ public class Loader {
 	 * to different types of files throughout the project.
 	 */
 	public static final String assetsDir = "assets";
+	public static final String spritesDir = "sprites";
 	public static final String mapDir = "map";
 
 	/**
@@ -53,7 +54,14 @@ public class Loader {
 	 */
 	public static Image LoadImage(String filename) {
 
-		File imageFile = LoadFile(filename);
+		File imageFile = LoadFile(spritesDir + File.separatorChar + filename);
+		
+		// If the above didn't work, then the image isn't in the sprites
+		// folder, so search for it a level up
+		if(imageFile == null || !imageFile.exists()) {
+			imageFile = LoadFile(File.separatorChar + filename);
+		}
+		
 		Image image = null;
 
 		try {
