@@ -28,25 +28,24 @@ public class SinglePlayer extends GameListener {
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 
-		System.out.println(code);
-
-		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_RIGHT) {
-			//output.writeInt(1);
+		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
+			game.processKeyPress(id, KeyEvent.VK_LEFT);
 		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
-			//output.writeInt(2);
+			game.processKeyPress(id, KeyEvent.VK_UP);
 		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-			//output.writeInt(3);
+			game.processKeyPress(id, KeyEvent.VK_RIGHT);
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
-			//output.writeInt(4);
+			game.processKeyPress(id, KeyEvent.VK_DOWN);
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 
-		System.out.println(e.getPoint());
 		int x = e.getX();
 		int y = e.getY();
+
+		game.processMouseClick(id, x, y);
 
 	}
 
@@ -54,7 +53,8 @@ public class SinglePlayer extends GameListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		System.out.println(command);
+		game.processAction(id, command);
+
 		// After processing an action, give control back to the frame
 		panel.requestFocus();
 	}

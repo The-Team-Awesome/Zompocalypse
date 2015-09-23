@@ -132,5 +132,34 @@ public class World {
 		return map;
 	}
 
+	/**
+	 * This method takes an x and y co-ordinate for a click and does shit with it.
+	 *
+	 * @param id
+	 * @param x
+	 * @param y
+	 */
+	public synchronized void processMouseClick(int id, int x, int y) {
+		System.out.println(id + ", " + x + ":" + y);
+	}
+
+	/**
+	 *
+	 * @param id
+	 * @param key
+	 */
+	public synchronized void processKeyPress(int id, int key) {
+		System.out.println(id + ", " + key);
+	}
+
+	/**
+	 *
+	 * @param id
+	 * @param command
+	 */
+	public synchronized void processAction(int id, String command) {
+		System.out.println(id + ", " + command);
+	}
+
 
 }

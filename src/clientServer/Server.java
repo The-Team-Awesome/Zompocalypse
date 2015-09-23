@@ -2,6 +2,7 @@ package clientServer;
 
 import gameWorld.World;
 
+import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -45,29 +46,35 @@ public class Server extends Thread {
 							case 1:
 								// In this case, the key pressed
 								// corresponds to left
-								System.out.println("left");
+								game.processKeyPress(id, KeyEvent.VK_LEFT);
+
 								break;
 							case 2:
 								// In this case, the key pressed
 								// corresponds to up
-								System.out.println("up");
+								game.processKeyPress(id, KeyEvent.VK_UP);
+
 								break;
 							case 3:
 								// In this case, the key pressed
 								// corresponds to right
-								System.out.println("right");
+								game.processKeyPress(id, KeyEvent.VK_RIGHT);
+
 								break;
 							case 4:
 								// In this case, the key pressed
 								// corresponds to down
-								System.out.println("down");
+								game.processKeyPress(id, KeyEvent.VK_DOWN);
+
 								break;
 							case 5:
 								// In this case, the event passed was a
 								// mouse click somewhere on the screen
 								int x = input.readInt();
 								int y = input.readInt();
-								System.out.println(x + ": " + y);
+
+								game.processMouseClick(id, x, y);
+
 								break;
 							case 6:
 								// In this case, a Swing component was
@@ -79,7 +86,9 @@ public class Server extends Thread {
 									string[i] = input.readChar();
 								}
 								String command = String.copyValueOf(string);
-								System.out.println(command);
+
+								game.processAction(id, command);
+
 								break;
 						}
 					}
