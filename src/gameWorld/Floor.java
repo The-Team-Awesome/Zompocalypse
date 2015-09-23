@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import userInterface.renderWindow.Orientation;
 import dataStorage.Loader;
 
-public class Floor implements Tile{
+public class Floor implements Tile, Drawable{
 
 	private int x;
 	private int y;
@@ -167,4 +167,9 @@ public class Floor implements Tile{
 		//}
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

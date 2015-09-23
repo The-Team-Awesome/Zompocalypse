@@ -99,26 +99,27 @@ public class RenderPanel extends JPanel {
 		Orientation o = Orientation.NORTH;
 
 		//start from the top center
-		int x = CANVAS_WIDTH / 2;
-		//int y = (CANVAS_HEIGHT / 2) - (tiles[0].length/2)*TILE_HEIGHT;  //draw it from the center
-		int y = (CANVAS_HEIGHT / 2);
+		int x;
+		int y;
 
-		System.out.println("Drawing tiles");
 		//Draws from the top right of the board, goes across
 		//http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 
-		System.out.println("X: " + x + " Y: " + y);
-		tiles[0][0].draw(x,y,g);
+		int offsetX = 300;
+		int offsetY = 300;
 
 		for(int i = 0; i < tiles.length; ++i){
-			//for(int j = tiles[i].length; j >= 0; j--){
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
+					System.out.println("was drawable");
+
 					Drawable d = (Drawable) tiles[i][j];
 
-					x = (j * TILE_WIDTH/2) + (i * TILE_WIDTH/2);
-					y = (i * TILE_HEIGHT/2) - (j * ( TILE_HEIGHT/2));
-					//d.draw(x,y,g);
+					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
+					y = (i * TILE_HEIGHT / 2) - (j * TILE_HEIGHT / 2) + offsetY;
+
+					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
+					d.draw(x,y,g);
 				}
 			}
 		}
