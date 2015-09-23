@@ -1,6 +1,7 @@
 package userInterface.renderWindow;
 
 import gameWorld.Drawable;
+import gameWorld.Floor;
 import gameWorld.World;
 
 import java.awt.Color;
@@ -54,13 +55,16 @@ public class RenderPanel extends JPanel {
 
 	private BufferedImage background;
 
-	private String filePath = "img/";
+	private String filePath = "assets/";
 
 	private World game;
 	private int id;
 
 	private static final int TILE_WIDTH = 64;
 	private static final int TILE_HEIGHT = 32;
+
+	private boolean testing = true;
+
 	//The panel to be rendered on
 
 	/** Constructor. Takes the height and width of the canvas into account.
@@ -107,7 +111,14 @@ public class RenderPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, null);
 
-		gameWorld.Tile[][] tiles = game.getMap();
+		gameWorld.Tile[][] tiles;
+
+		if(testing){
+			 tiles = getDummyWorld();
+		}
+		else {
+			tiles = game.getMap();
+		}
 
 		Orientation o = Orientation.NORTH;
 
@@ -120,7 +131,7 @@ public class RenderPanel extends JPanel {
 		for(int i = 0; i < tiles.length; ++i){
 			//for(int j = tiles[i].length; j >= 0; j--){
 			for(int j = tiles[i].length-1; j >= 0; j--){
-				System.out.println("I:" + i + " J: " + j);
+				//System.out.println("I:" + i + " J: " + j);
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
 
@@ -151,6 +162,25 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
+	 * Dummy world for testing
+	 * @return
+	 */
+	private gameWorld.Tile[][] getDummyWorld() {
+		gameWorld.Tile[][] tiles = new gameWorld.Tile[5][5];
+
+		//Get the floor
+		for(int i = 0; i < tiles.length; ++i){
+			for(int j = 0; j < tiles[0].length; ++j){
+				tiles[i][j] = new Floor(i,j,"assets/",null);
+			}
+		}
+
+		//Get the walls
+
+		return tiles;
+	}
+
+	/**
 	 * Draws the board as seen from the west.
 	 *
 	 * Isometric formula: 	x' = x - z
@@ -168,28 +198,28 @@ public class RenderPanel extends JPanel {
 		double x;
 		double y;
 
-//		for (int i = 0; i < tiles.length; i++) {
-//			for (int j = 0; j < tiles[0].length; j++) {
-//				//Initially the current location
-//				double xOffset = playerLocation.getX();
-//				double yOffset = playerLocation.getY();
-//
-//				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
-//				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
-//
-//				Tile t = tiles[i][j];
-//
-//				//the tiles also draws the object on it
-//				if(t != null){
-//					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-//
-//					//					for(Image img: t.getObjects()){
-//					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-//					//					}
-//				}
-//				//otherwise skip it?
-//			}
-//		}
+		//		for (int i = 0; i < tiles.length; i++) {
+		//			for (int j = 0; j < tiles[0].length; j++) {
+		//				//Initially the current location
+		//				double xOffset = playerLocation.getX();
+		//				double yOffset = playerLocation.getY();
+		//
+		//				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
+		//				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
+		//
+		//				Tile t = tiles[i][j];
+		//
+		//				//the tiles also draws the object on it
+		//				if(t != null){
+		//					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+		//
+		//					//					for(Image img: t.getObjects()){
+		//					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+		//					//					}
+		//				}
+		//				//otherwise skip it?
+		//			}
+		//		}
 
 	}
 
