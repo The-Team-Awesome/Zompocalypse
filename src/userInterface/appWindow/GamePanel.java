@@ -6,13 +6,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.EventListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -48,6 +45,8 @@ public class GamePanel extends JPanel {
 	private JButton btnSouth;
 	private JButton btnEast;
 	private JButton btnWest;
+	private JButton btnTurnRightView;
+	private JButton btnTurnLeftView;
 
 	// dialogPanel components
 	private JTextArea txtDialog;
@@ -59,6 +58,8 @@ public class GamePanel extends JPanel {
 	private static final Image SOUTH = loadImage("south.png");
 	private static final Image WEST = loadImage("west.png");
 	private static final Image EAST = loadImage("east.png");
+	private static final Image TURNRIGHT = loadImage("turnRight.png");
+	private static final Image TURNLEFT = loadImage("turnLeft.png");
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -119,6 +120,7 @@ public class GamePanel extends JPanel {
 	private void addMenuPanelComponents() {
 		this.menuPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c =  new GridBagConstraints();
+		int positionY = 0;
 
 		ImageIcon itemImage = new ImageIcon();
 		// ITEMS
@@ -129,28 +131,28 @@ public class GamePanel extends JPanel {
 		}
 
 		imgItem = new JLabel(itemImage);
-		c.gridx = 0;
-		c.gridy = 0;
-		//c.ipadx = 10;
+		imgItem.setText("iteeeem");
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 3;
+		c.weightx = 1.0;
+		Insets itemsInset = new Insets(0,0,10,0);
+		c.insets = itemsInset;
 		menuPanel.add(imgItem, c);
 
-		txtItem = new JLabel("icon");
-		c.gridx = 1;
-		c.gridy = 0;
-		//c.ipadx = 10;
-		menuPanel.add(txtItem, c);
-
+		c.ipadx = 0;
 		// OPTIONS
 		btnBackpack = new JButton("Backpack");
 		btnBackpack.addActionListener(action);
-		c.gridx = 0;
-		c.gridy = 2;
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 2;
 		menuPanel.add(btnBackpack, c);
 
 		btnUse = new JButton("Use");
 		btnUse.addActionListener(action);
-		c.gridx = 0;
-		c.gridy = 3;
+		c.gridx = 1;
+		c.gridy = positionY++;
 		menuPanel.add(btnUse, c);
 
 
@@ -160,8 +162,8 @@ public class GamePanel extends JPanel {
 		btnItemOne.addActionListener(action);
 		btnItemOne.setActionCommand("ItemOne");
 		btnItemOne.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 0;
-		c.gridy = 4;
+		c.gridx = 1;
+		c.gridy = positionY++;
 		menuPanel.add(btnItemOne, c);
 
 		ImageIcon iconItemTwo = new ImageIcon(ITEM);
@@ -169,8 +171,8 @@ public class GamePanel extends JPanel {
 		btnItemTwo.addActionListener(action);
 		btnItemTwo.setActionCommand("ItemTwo");
 		btnItemTwo.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 0;
-		c.gridy = 5;
+		c.gridx = 1;
+		c.gridy = positionY++;
 		menuPanel.add(btnItemTwo, c);
 
 		ImageIcon iconItemThree = new ImageIcon(ITEM);
@@ -178,8 +180,8 @@ public class GamePanel extends JPanel {
 		btnItemThree.setActionCommand("ItemThree");
 		btnItemThree.addActionListener(action);
 		btnItemThree.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 0;
-		c.gridy = 6;
+		c.gridx = 1;
+		c.gridy = positionY++;
 		menuPanel.add(btnItemThree, c);
 
 		// TODO: DIRECTIONS
@@ -188,40 +190,68 @@ public class GamePanel extends JPanel {
 		btnNorth.setActionCommand("North");
 		btnNorth.addActionListener(action);
 		btnNorth.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 0;
-		c.gridy = 7;
+		c.gridx = 1;
+		c.gridy = positionY++;
 		menuPanel.add(btnNorth, c);
 
-
+		Insets westInset = new Insets(0, 0, 10, -50);
 		ImageIcon iconWest = new ImageIcon(WEST);
 		btnWest = new JButton(iconWest);
 		btnWest.setActionCommand("West");;
 		btnWest.addActionListener(action);
 		btnWest.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 0;
-		c.gridy = 8;
+		c.gridy = positionY;
+		c.ipadx = 1;
+		c.insets = westInset;
 		btnWest.setOpaque(false);
 		btnWest.setSize(50, 50);
 		menuPanel.add(btnWest, c);
 
+		Insets eastInset = new Insets(0, -50, 10, 0);
 		ImageIcon iconEast = new ImageIcon(EAST);
 		btnEast = new JButton(iconEast);
 		btnEast.setActionCommand("East");
 		btnEast.addActionListener(action);
 		btnEast.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 1;
-		c.gridy = 8;
+		c.gridx = 3;
+		c.gridy = positionY++;
+		c.ipadx = 1;
+		c.insets = eastInset;
 		menuPanel.add(btnEast, c);
 
-
+		c.insets = itemsInset;
 		ImageIcon iconSouth = new ImageIcon(SOUTH);
 		btnSouth = new JButton(iconSouth);
 		btnSouth.setActionCommand("South");
 		btnSouth.addActionListener(action);
 		btnSouth.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 0;
-		c.gridy = 9;
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 2;
 		menuPanel.add(btnSouth, c);
+
+		ImageIcon iconTurnRightView = new ImageIcon(TURNRIGHT);
+		btnTurnRightView = new JButton(iconTurnRightView);
+		btnTurnRightView.setActionCommand("ViewToRight");
+		btnTurnRightView.addActionListener(action);
+		btnTurnRightView.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = positionY;
+		c.ipadx = 1;
+		c.insets = westInset;
+		menuPanel.add(btnTurnRightView, c);
+
+		ImageIcon iconTurnLeftView = new ImageIcon(TURNLEFT);
+		btnTurnLeftView = new JButton(iconTurnLeftView);
+		btnTurnLeftView.setActionCommand("ViewToLeft");
+		btnTurnLeftView.addActionListener(action);
+		btnTurnLeftView.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 3;
+		c.gridy = positionY++;
+		c.ipadx = 1;
+		c.insets = eastInset;
+		menuPanel.add(btnTurnLeftView, c);
 	}
 
 	/**
