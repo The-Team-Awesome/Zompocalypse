@@ -16,6 +16,11 @@ public class Floor implements Tile, Drawable{
 	private int y;
 
 	private Item item;
+	private Wall wall;
+	
+	//
+	
+
 	private boolean occupiable;
 
 	private Image currentImage;
@@ -28,7 +33,6 @@ public class Floor implements Tile, Drawable{
 		this.item = myItem;
 		occupiable = true;
 
-		//Paulines code
 		setupImages(filenames);
 	}
 

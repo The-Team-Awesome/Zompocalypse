@@ -2,6 +2,8 @@ package userInterface.renderWindow;
 
 import gameWorld.Drawable;
 import gameWorld.Floor;
+import gameWorld.Key;
+import gameWorld.MovingCharacter;
 import gameWorld.World;
 
 import java.awt.Color;
@@ -48,9 +50,6 @@ public class RenderPanel extends JPanel {
 	 *
 	 */
 
-	//For rendering objects within the game
-	private List<GameObject> objects = new ArrayList<>();
-
 	//For scaling, knowing how big the window is
 	private int CANVAS_WIDTH;
 	private int CANVAS_HEIGHT;
@@ -59,7 +58,8 @@ public class RenderPanel extends JPanel {
 	private int id;
 
 	private static final int TILE_WIDTH = 64;
-	private static final int TILE_HEIGHT = 32;
+	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
+	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 
 	private boolean testing = true;
 
@@ -76,8 +76,6 @@ public class RenderPanel extends JPanel {
 
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
-
-		render();
 	}
 
 	/**
@@ -116,7 +114,7 @@ public class RenderPanel extends JPanel {
 					Drawable d = (Drawable) tiles[i][j];
 
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
-					y = (i * TILE_HEIGHT / 2) - (j * TILE_HEIGHT / 2) + offsetY;
+					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
 
 					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
@@ -144,118 +142,9 @@ public class RenderPanel extends JPanel {
 			}
 		}
 
-		//Get the walls
+		//Set the walls
+		tiles[3][3].setOccupiable(true);
+
 		return tiles;
 	}
-
-	/**
-	 * Draws the board as seen from the west.
-	 *
-	 * Isometric formula: 	x' = x - z
-	 * 						y' = y + ((x + z)/2)
-	 *
-	 *x: x - y,
-        y: (x / 2) + (y / 2) - z
-		http://stackoverflow.com/questions/892811/drawing-isometric-game-worlds
-        http://gamedev.stackexchange.com/questions/8151/how-should-i-sort-images-in-an-isometric-game-so-that-they-appear-in-the-correct
-	 *
-	 * http://flarerpg.org/tutorials/isometric_intro/
-	 * @param g
-	 */
-	private void drawWest(Graphics g) {
-		double x;
-		double y;
-
-		//		for (int i = 0; i < tiles.length; i++) {
-		//			for (int j = 0; j < tiles[0].length; j++) {
-		//				//Initially the current location
-		//				double xOffset = playerLocation.getX();
-		//				double yOffset = playerLocation.getY();
-		//
-		//				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
-		//				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
-		//
-		//				Tile t = tiles[i][j];
-		//
-		//				//the tiles also draws the object on it
-		//				if(t != null){
-		//					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-		//
-		//					//					for(Image img: t.getObjects()){
-		//					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-		//					//					}
-		//				}
-		//				//otherwise skip it?
-		//			}
-		//		}
-
-	}
-
-	private void drawEast(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void drawSouth(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void drawNorth(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * The Rendering method that does all the work.
-	 * Draws the objects with the lowest Z first.
-	 *
-	 * @return
-	 */
-	private BufferedImage render(){
-		return null;
-	}
-
-	/**
-	 * Load in the data for the new Location.
-	 * Should probably use this method for each location.
-	 *
-	 * @param file
-	 */
-	private void onLoad(File file){
-
-		Tile [][] tiles = new Tile[6][6];
-
-		try {
-			Scanner sc = new Scanner(file);
-
-			while(sc.hasNextLine()){  //get the next item in the folder
-				String line = sc.nextLine();
-				Scanner scanLine = new Scanner(line);
-
-				while(scanLine.hasNext()){
-					String character = scanLine.next();
-					System.out.print(character);
-					Tile tile = null;
-
-					switch(character){
-					case "0":
-						tile = new WallTile();
-						break;
-					case "1":
-						tile = new GroundTile();
-						break;
-					default:
-						throw new IllegalStateException("Illegal character parsed.");
-					}
-
-
-				}
-
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
 }
