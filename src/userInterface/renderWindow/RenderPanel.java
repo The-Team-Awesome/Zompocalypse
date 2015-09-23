@@ -60,7 +60,7 @@ public class RenderPanel extends JPanel {
 
 	private static final int TILE_WIDTH = 64;
 	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
-	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
+	private static final int FLOOR_TILE_HEIGHT = 44;  //NOT 32? Height changes for each tile
 
 	private boolean testing = true;
 
