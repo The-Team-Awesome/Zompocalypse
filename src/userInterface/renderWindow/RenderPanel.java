@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dataStorage.Loader;
+import dataStorage.Parser;
 
 /**
  * Provides a 3D view of the world, with locations
@@ -59,7 +60,7 @@ public class RenderPanel extends JPanel {
 
 	private static final int TILE_WIDTH = 64;
 	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
-	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
+	private static final int FLOOR_TILE_HEIGHT = 44;  //NOT 32? Height changes for each tile
 
 	private boolean testing = true;
 
@@ -92,6 +93,15 @@ public class RenderPanel extends JPanel {
 		}
 		else {
 			tiles = game.getMap();
+		}
+
+		// David's test code
+		try {
+			World world = Parser.ParseMap("TestMap.csv");
+			tiles = world.getMap();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		Orientation o = Orientation.NORTH;
