@@ -44,8 +44,8 @@ public class Wall implements Tile, Drawable{
 	}
 
 	@Override
-	public Image getImage() {
+	public void draw(int x, int y, Graphics g) {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 }
