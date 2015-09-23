@@ -45,8 +45,6 @@ public class RenderPanel extends JPanel {
 	 *
 	 */
 
-
-
 	//For rendering objects within the game
 	private List<GameObject> objects = new ArrayList<>();
 
@@ -115,15 +113,16 @@ public class RenderPanel extends JPanel {
 
 		//start from the top center
 		int x = CANVAS_WIDTH / 2;
-		int y = 0;
+		int y = (CANVAS_HEIGHT / 2) - (tiles[0].length/2)*TILE_HEIGHT;  //draw it from the center
 
 		//Draws from the top right of the board, goes across
 		//http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 		for(int i = 0; i < tiles.length; ++i){
-			for(int j = tiles[i].length; j >= 0; j--){
+			//for(int j = tiles[i].length; j >= 0; j--){
+			for(int j = tiles[i].length-1; j >= 0; j--){
+				System.out.println("I:" + i + " J: " + j);
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
-					//Image tileImage = tiles[i][j].getImage();
 
 					x = (j * TILE_WIDTH/2) + (i * TILE_WIDTH/2);
 					y = (i * TILE_HEIGHT/2) - (j * ( TILE_HEIGHT/2));
