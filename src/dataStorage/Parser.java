@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 
@@ -40,10 +42,28 @@ public class Parser {
 
 		Tile[][] map = new Tile[1][1];
 		int x = 0, y = 0;
+		Map<String, String> textTileMap = new HashMap<String, String>();
 
-		File mapCSV = Loader.LoadFile(Loader.mapDir + File.separatorChar + mapFile);
 		BufferedReader mapReader = null;
+		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
+				+ "tile_types.txt");
+		try {
+			mapReader = new BufferedReader(new FileReader(textTiles));
 
+			String line;
+			String[] split;
+			while ((line = mapReader.readLine()) != null) {
+				split = line.split(",");
+				textTileMap.put(split[0], split[1]);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			mapReader.close();
+		}
+
+		File mapCSV = Loader.LoadFile(Loader.mapDir + File.separatorChar
+				+ mapFile);
 		try {
 			mapReader = new BufferedReader(new FileReader(mapCSV));
 			String line = mapReader.readLine();
@@ -55,7 +75,7 @@ public class Parser {
 			while ((line = mapReader.readLine()) != null) {
 				split = line.split(",");
 				for (int j = 0; j < x; j++) {
-					parseTile(map, split[j], i, j);
+					parseTile(map, textTileMap, split[j], i, j);
 				}
 				i++;
 			}
@@ -72,17 +92,20 @@ public class Parser {
 	 * Parses a tile from a String and places it on 2D array of Tiles at (i,j)
 	 * coordinate.
 	 */
-	private static void parseTile(Tile[][] map, String string, int i, int j) {
+	private static void parseTile(Tile[][] map,
+			Map<String, String> textTileMap, String string, int i, int j) {
 		String[] line = string.split("-");
 		switch (line[0]) {
 		case "0":
 			Item thing = null;
-			if (line.length > 1) {
-				thing = parseItem(line[1]);
+			String floor = "";
+			for (int k = 1; k < line.length; k++) {
+				floor = floor + textTileMap.get(line[k]);
+				if (k < line.length - 1)
+					floor = floor + "_";
 			}
-			//TODO
-			//map[i][j] = new Floor(i, j, "Kieran is great", thing);
-			map[i][j] = new Floor(i, j, new String [] {"Kieran is great"}, thing);
+			floor = floor + ".png";
+			map[i][j] = new Floor(i, j, new String[] { floor }, thing);
 			break;
 		case "1":
 			map[i][j] = new Wall();
@@ -97,10 +120,11 @@ public class Parser {
 		if (str.equalsIgnoreCase("K")) {
 			return new Key("Kieran is so berady");
 		} else
-		return null;
+			return null;
 	}
 
 	/**
+	 * @param textTileMap
 	 * @param map
 	 *            2D array of tiles representing map
 	 * @param x
@@ -109,7 +133,7 @@ public class Parser {
 	 *            height of board
 	 * @return map in CSV
 	 */
-	private static String getCSVMap(World world) {
+	private static String getCSVMap(World world, Map<String, String> textTileMap) {
 
 		Tile[][] map = world.getMap();
 		int x = world.width();
@@ -118,9 +142,9 @@ public class Parser {
 		String mapOutput = x + "," + y + "\n";
 
 		for (int i = 0; i < y; i++) {
-			mapOutput = mapOutput + map[i][0].getCSVCode();
+			mapOutput = mapOutput + map[i][0].getCSVCode(textTileMap);
 			for (int j = 1; j < x; j++) {
-				mapOutput = mapOutput + "," + map[i][j].getCSVCode();
+				mapOutput = mapOutput + "," + map[i][j].getCSVCode(textTileMap);
 			}
 			mapOutput = mapOutput + "\n";
 		}
@@ -141,6 +165,27 @@ public class Parser {
 	 *             packs a sad
 	 */
 	public static void SaveMap(World world) throws IOException {
+
+		Map<String, String> textTileMap = new HashMap<String, String>();
+
+		BufferedReader mapReader = null;
+		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
+				+ "tile_types.txt");
+		try {
+			mapReader = new BufferedReader(new FileReader(textTiles));
+
+			String line;
+			String[] split;
+			while ((line = mapReader.readLine()) != null) {
+				split = line.split(",");
+				textTileMap.put(split[1], split[0]);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			mapReader.close();
+		}
+
 		JFileChooser c = new JFileChooser();
 		// TODO maybe should pass showSaveDialog a different parameter than
 		// itself? IDK does it make a difference? Should it be main window or
@@ -149,16 +194,37 @@ public class Parser {
 		if (fc == JFileChooser.APPROVE_OPTION) {
 			BufferedWriter out = new BufferedWriter(new FileWriter(c
 					.getSelectedFile().getAbsolutePath()));
-			out.write(getCSVMap(world));
+			out.write(getCSVMap(world, textTileMap));
 			out.close();
 		}
 	}
 
 	/**
 	 * Prints this map to the console as it would be represented in CSV
+	 * @throws IOException
 	 */
-	public static void PrintMap(World world) {
-		System.out.println(getCSVMap(world));
+	public static void PrintMap(World world) throws IOException {
+		Map<String, String> textTileMap = new HashMap<String, String>();
+
+		BufferedReader mapReader = null;
+		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
+				+ "tile_types.txt");
+		try {
+			mapReader = new BufferedReader(new FileReader(textTiles));
+
+			String line;
+			String[] split;
+			while ((line = mapReader.readLine()) != null) {
+				split = line.split(",");
+				textTileMap.put(split[1], split[0]);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			mapReader.close();
+		}
+
+		System.out.println(getCSVMap(world, textTileMap));
 	}
 
 }

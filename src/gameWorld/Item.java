@@ -1,6 +1,7 @@
 package gameWorld;
 
 import java.awt.Graphics;
+import java.util.Map;
 
 public interface Item {
 
@@ -11,7 +12,7 @@ public interface Item {
 	/**
 	 * Returns a CSV representation of this Item that can be saved to CSV document
 	 */
-	public String getCSVCode();
+	public String getCSVCode(Map<String, String> textTileMap);
 
 	public void draw(int x, int y, Graphics g);
 }

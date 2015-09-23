@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Container implements Item, Drawable{
 	private int size;
@@ -109,7 +110,7 @@ public class Container implements Item, Drawable{
 	}
 
 	@Override
-	public String getCSVCode() {
+	public String getCSVCode(Map<String, String> textTileMap) {
 		// TODO Auto-generated method stub
 		return null;
 	}

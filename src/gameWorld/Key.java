@@ -1,6 +1,7 @@
 package gameWorld;
 
 import java.awt.Graphics;
+import java.util.Map;
 
 public class Key implements Item, Drawable{
 	private String filename;
@@ -25,7 +26,7 @@ public class Key implements Item, Drawable{
 	}
 
 	@Override
-	public String getCSVCode() {
+	public String getCSVCode(Map<String, String> textTileMap) {
 		return "-K";
 	}
 

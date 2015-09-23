@@ -2,6 +2,7 @@ package gameWorld;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Map;
 
 /**
  * Represents a Tile in the world of Zompocalypse.
@@ -32,8 +33,9 @@ public interface Tile {
 
 	/**
 	 * Return the code to represent this tile in CSV.
+	 * @param textTileMap
 	 */
-	public String getCSVCode();
+	public String getCSVCode(Map<String, String> textTileMap);
 
 	public void draw(int x, int y, Graphics g);
 }

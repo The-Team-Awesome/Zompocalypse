@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -17,13 +18,14 @@ public class Floor implements Tile, Drawable{
 
 	private Item item;
 	private Wall wall;
-	
+
 	//
-	
+
 
 	private boolean occupiable;
 
 	private Image currentImage;
+	private String imageName;
 	private Image[] images;   //in order NSEW
 
 	public Floor(int x, int y, String[] filenames, Item myItem) {
@@ -54,6 +56,7 @@ public class Floor implements Tile, Drawable{
 			images[i] = Loader.LoadImage(filenames[i]);
 		}
 		currentImage = images[0];  //get the north (default orientation)
+		imageName = filenames[0];
 	}
 
 	/**
@@ -148,10 +151,17 @@ public class Floor implements Tile, Drawable{
 	}
 
 	@Override
-	public String getCSVCode() {
-		String result = "0";
+	public String getCSVCode(Map<String, String> textTileMap) {
+		String result = "0-";
+		System.out.println(imageName); //TODO delete
+		String[] tileCode = imageName.substring(0, imageName.length() - 4).split("_");
+		for (x = 0; x < tileCode.length; x++) {
+			result = result + textTileMap.get(tileCode[x]);
+			if (x < tileCode.length - 1)
+				result = result + "-";
+		}
 		if (item != null) {
-			result = result + item.getCSVCode();
+			result = result + item.getCSVCode(textTileMap);
 		}
 		return result;
 	}

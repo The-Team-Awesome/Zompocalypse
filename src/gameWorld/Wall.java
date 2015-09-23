@@ -2,6 +2,7 @@ package gameWorld;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Map;
 
 public class Wall implements Tile, Drawable{
 
@@ -29,7 +30,7 @@ public class Wall implements Tile, Drawable{
 	}
 
 	@Override
-	public String getCSVCode() {
+	public String getCSVCode(Map<String, String> textTileMap) {
 		return "1";
 	}
 
