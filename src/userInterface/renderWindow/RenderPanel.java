@@ -57,6 +57,8 @@ public class RenderPanel extends JPanel {
 
 	private String filePath = "img/";
 
+	private World game;
+
 	//The panel to be rendered on
 
 	/** Constructor. Takes the height and width of the canvas into account.
@@ -64,7 +66,10 @@ public class RenderPanel extends JPanel {
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-	public RenderPanel(int id, World world){
+
+	public RenderPanel(int id, World game, BufferedImage background){
+		this.game = game;
+
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
 
@@ -106,11 +111,6 @@ public class RenderPanel extends JPanel {
 
 		Orientation o = Orientation.NORTH;
 
-		for(Tile t : tiles){
-			for(Tile ){
-
-			}
-		}
 
 		//		switch(currentOrientation){
 		//		case NORTH:
@@ -149,28 +149,28 @@ public class RenderPanel extends JPanel {
 		double x;
 		double y;
 
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles[0].length; j++) {
-				//Initially the current location
-				double xOffset = playerLocation.getX();
-				double yOffset = playerLocation.getY();
-
-				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
-				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
-
-				Tile t = tiles[i][j];
-
-				//the tiles also draws the object on it
-				if(t != null){
-					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-
-					//					for(Image img: t.getObjects()){
-					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-					//					}
-				}
-				//otherwise skip it?
-			}
-		}
+//		for (int i = 0; i < tiles.length; i++) {
+//			for (int j = 0; j < tiles[0].length; j++) {
+//				//Initially the current location
+//				double xOffset = playerLocation.getX();
+//				double yOffset = playerLocation.getY();
+//
+//				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
+//				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
+//
+//				Tile t = tiles[i][j];
+//
+//				//the tiles also draws the object on it
+//				if(t != null){
+//					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+//
+//					//					for(Image img: t.getObjects()){
+//					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+//					//					}
+//				}
+//				//otherwise skip it?
+//			}
+//		}
 
 	}
 

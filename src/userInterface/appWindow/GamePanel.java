@@ -1,5 +1,7 @@
 package userInterface.appWindow;
 
+import gameWorld.World;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -71,7 +73,7 @@ public class GamePanel extends JPanel {
 	 */
 	private ActionListener action;
 
-	public GamePanel(ActionListener action) {
+	public GamePanel(int id, World game, ActionListener action) {
 		this.setSize(1000, 1000);
 
 		this.action = action;
@@ -79,7 +81,7 @@ public class GamePanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		renderingPanel = new RenderPanel(null);  //TODO background img goes here
+		renderingPanel = new RenderPanel(0, game, null);  //TODO background img goes here
 		renderingPanel.setPreferredSize(new Dimension(800, 600));
 		renderingPanel.setBackground(Color.ORANGE);
 		c.fill = GridBagConstraints.NONE;

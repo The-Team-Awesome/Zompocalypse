@@ -45,7 +45,7 @@ public class Client extends GameListenerThread {
 
 			id = input.readInt();
 
-			frame = new MainFrame(id, this);
+			frame = new MainFrame(id, game, this);
 
 			while(running) {
 
@@ -66,7 +66,7 @@ public class Client extends GameListenerThread {
 		try {
 			int code = e.getKeyCode();
 
-			if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_RIGHT) {
+			if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
 				output.writeInt(1);
 			} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
 				output.writeInt(2);
