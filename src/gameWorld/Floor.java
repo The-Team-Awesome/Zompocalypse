@@ -1,5 +1,6 @@
 package gameWorld;
 
+import java.awt.Graphics;
 import java.awt.Image;
 
 public class Floor implements Tile{
@@ -53,9 +54,9 @@ public class Floor implements Tile{
 	}
 
 	@Override
-	public Image getImage() {
+	public void draw(int x, int y, Graphics g) {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 }

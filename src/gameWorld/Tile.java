@@ -1,5 +1,6 @@
 package gameWorld;
 
+import java.awt.Graphics;
 import java.awt.Image;
 
 /**
@@ -39,5 +40,5 @@ public interface Tile {
 	 */
 	public String getCSVCode();
 
-	public Image getImage();
+	public void draw(int x, int y, Graphics g);
 }
