@@ -8,20 +8,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import userInterface.appWindow.GamePanel;
+import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
 public class SinglePlayer extends GameListener {
 	private final World game;
 	private final int id;
-	private GamePanel panel;
+	private MainFrame frame;
 
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
 	}
 
-	public void setPanel(GamePanel panel) {
-		this.panel = panel;
+	public void setFrame(MainFrame frame) {
+		this.frame = frame;
 	}
 
 	@Override
@@ -29,13 +30,13 @@ public class SinglePlayer extends GameListener {
 		int code = e.getKeyCode();
 
 		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
-			game.processKeyPress(id, KeyEvent.VK_LEFT);
+			game.processKeyPress(id, "left");
 		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
-			game.processKeyPress(id, KeyEvent.VK_UP);
+			game.processKeyPress(id, "up");
 		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-			game.processKeyPress(id, KeyEvent.VK_RIGHT);
+			game.processKeyPress(id, "right");
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
-			game.processKeyPress(id, KeyEvent.VK_DOWN);
+			game.processKeyPress(id, "down");
 		}
 	}
 
@@ -56,7 +57,7 @@ public class SinglePlayer extends GameListener {
 		game.processAction(id, command);
 
 		// After processing an action, give control back to the frame
-		panel.requestFocus();
+		frame.requestFocus();
 	}
 
 }

@@ -46,25 +46,25 @@ public class Server extends Thread {
 							case 1:
 								// In this case, the key pressed
 								// corresponds to left
-								game.processKeyPress(id, KeyEvent.VK_LEFT);
+								game.processKeyPress(id, "left");
 
 								break;
 							case 2:
 								// In this case, the key pressed
 								// corresponds to up
-								game.processKeyPress(id, KeyEvent.VK_UP);
+								game.processKeyPress(id, "up");
 
 								break;
 							case 3:
 								// In this case, the key pressed
 								// corresponds to right
-								game.processKeyPress(id, KeyEvent.VK_RIGHT);
+								game.processKeyPress(id, "right");
 
 								break;
 							case 4:
 								// In this case, the key pressed
 								// corresponds to down
-								game.processKeyPress(id, KeyEvent.VK_DOWN);
+								game.processKeyPress(id, "down");
 
 								break;
 							case 5:
@@ -86,6 +86,7 @@ public class Server extends Thread {
 									string[i] = input.readChar();
 								}
 								String command = String.copyValueOf(string);
+
 
 								game.processAction(id, command);
 
