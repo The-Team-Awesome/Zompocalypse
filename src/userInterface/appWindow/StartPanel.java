@@ -1,5 +1,7 @@
 package userInterface.appWindow;
 
+import gameWorld.World;
+
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,7 +24,14 @@ public class StartPanel extends JPanel {
 	private JButton loadGameButton;
 	private JButton newGameButton;
 
-	public StartPanel() {
+	private ActionListener action;
+	private World game;
+
+	public StartPanel(int id, World game, ActionListener action) {
+		this.setSize(1000, 1000);
+		this.game = game;
+		this.action = action;
+
 		addComponentsToPane(this);
 	}
 
@@ -35,42 +44,22 @@ public class StartPanel extends JPanel {
 
 		// SINGLE PLAYER BUTTON
 		singlePlayerButton = new JButton("Single Player");
-		singlePlayerButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
+		singlePlayerButton.addActionListener(action);
 		buttonsPanel.add(singlePlayerButton);
 
 		// MULTIPLAYER PLAYER BUTTON
 		multiplayerButton = new JButton("Multiplayer");
-		multiplayerButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
+		multiplayerButton.addActionListener(action);
 		buttonsPanel.add(multiplayerButton);
 
 		// LOAD GAME BUTTON
 		newGameButton = new JButton("New game");
-		newGameButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
+		newGameButton.addActionListener(action);
 		buttonsPanel.add(newGameButton);
 
 		// LOAD GAME BUTTON
 		loadGameButton = new JButton("Load game");
-		loadGameButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
+		loadGameButton.addActionListener(action);
 		buttonsPanel.add(loadGameButton);
 	}
 }

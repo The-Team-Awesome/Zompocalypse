@@ -21,7 +21,8 @@ import javax.swing.JTextArea;
 public class MainFrame extends JFrame {
 
 	private CardLayout layout;
-	private GamePanel gameScreenCard;
+	private GamePanel gameCard;
+	private StartPanel startCard;
 	private JPanel cards;
 
 	/**
@@ -54,8 +55,10 @@ public class MainFrame extends JFrame {
 		cards = new JPanel(layout);
 
 		// adding GameScreen to content
-		gameScreenCard = new GamePanel(id, game, action);
-		cards.add(gameScreenCard, "1");
+		gameCard = new GamePanel(id, game, action);
+		startCard = new StartPanel(id, game, action);
+		cards.add(gameCard, "1");
+		cards.add(startCard, "2");
 
 		// setting GameScreen to be the first thing to show up
 		layout.show(cards, "1");

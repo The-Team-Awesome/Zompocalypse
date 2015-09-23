@@ -61,6 +61,8 @@ public class GamePanel extends JPanel {
 	private static final Image TURNRIGHT = loadImage("turnRight.png");
 	private static final Image TURNLEFT = loadImage("turnLeft.png");
 
+	private World game;
+
 	/**
 	 * This will be the listener for all action events which are triggered,
 	 * such as button clicks or field entries. For example, when creating a button,
@@ -70,7 +72,7 @@ public class GamePanel extends JPanel {
 
 	public GamePanel(int id, World game, ActionListener action) {
 		this.setSize(1000, 1000);
-
+		this.game = game;
 		this.action = action;
 
 		this.setLayout(new GridBagLayout());
