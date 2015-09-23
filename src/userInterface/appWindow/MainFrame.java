@@ -31,7 +31,6 @@ public class MainFrame extends JFrame {
 	 */
 	private ActionListener action;
 
-	// menu panel
 	public MainFrame(int id, World game, EventListener listener) {
 		super("Zompocalypse");
 
@@ -62,6 +61,7 @@ public class MainFrame extends JFrame {
 		layout.show(cards, "1");
 
 		// setting content as default content for this frame
+
 		setContentPane(cards);
 
 		// window customization

@@ -52,13 +52,15 @@ public class RenderPanel extends JPanel {
 
 	private BufferedImage background;
 
-	private Orientation currentOrientation;;
+	private Orientation currentOrientation = Orientation.NORTH;
 	private Tile[][] tiles;
 	private Location playerLocation;
+
 
 	private String filePath = "img/";
 
 	private World game;
+	private int id;
 
 	//The panel to be rendered on
 
@@ -67,20 +69,18 @@ public class RenderPanel extends JPanel {
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-	public RenderPanel(World game, BufferedImage background){
+
+	public RenderPanel(int id, World game, BufferedImage background){
 		this.game = game;
 
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
 
-		if(background == null){
-			try {
-				background = ImageIO.read(new File(filePath + "black-background.png"));
-			} catch (IOException e) {
-				throw new IllegalStateException("Couldn't find the background pic");
-			}
+		try {
+			background = ImageIO.read(new File(filePath + "black-background.png"));
+		} catch (IOException e) {
+			throw new IllegalStateException("Couldn't find the background pic");
 		}
-		this.background = background;
 		render();
 	}
 
@@ -96,10 +96,8 @@ public class RenderPanel extends JPanel {
 	 *
 	 *  Change the shift depending on what is chosen.
 	 */
-	public void update(Tile[][]tiles, Orientation o, Location playerLocation){
-		this.tiles = tiles;
-		currentOrientation = o;
-		this.playerLocation = playerLocation;
+	public void update(){
+
 	}
 
 	/**
@@ -110,22 +108,29 @@ public class RenderPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, null);
 
-//		switch(currentOrientation){
-//		case NORTH:
-//			drawNorth(g);
-//			break;
-//		case SOUTH:
-//			drawSouth(g);
-//			break;
-//		case EAST:
-//			drawEast(g);
-//			break;
-//		case WEST:
-//			drawWest(g);
-//			break;
-//		default:
-//			throw new IllegalStateException("Orientation shouldn't get to this.");
-//		}
+		gameWorld.Tile[][] tiles = game.getMap();
+
+		//
+
+		Orientation o = Orientation.NORTH;
+
+
+		//		switch(currentOrientation){
+		//		case NORTH:
+		//			drawNorth(g);
+		//			break;
+		//		case SOUTH:
+		//			drawSouth(g);
+		//			break;
+		//		case EAST:
+		//			drawEast(g);
+		//			break;
+		//		case WEST:
+		//			drawWest(g);
+		//			break;
+		//		default:
+		//			throw new IllegalStateException("Orientation shouldn't get to this.");
+		//		}
 
 	}
 
@@ -147,28 +152,28 @@ public class RenderPanel extends JPanel {
 		double x;
 		double y;
 
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles[0].length; j++) {
-				//Initially the current location
-				double xOffset = playerLocation.getX();
-				double yOffset = playerLocation.getY();
-
-				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
-				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
-
-				Tile t = tiles[i][j];
-
-				//the tiles also draws the object on it
-				if(t != null){
-					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-
-//					for(Image img: t.getObjects()){
-//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-//					}
-				}
-				//otherwise skip it?
-			}
-		}
+//		for (int i = 0; i < tiles.length; i++) {
+//			for (int j = 0; j < tiles[0].length; j++) {
+//				//Initially the current location
+//				double xOffset = playerLocation.getX();
+//				double yOffset = playerLocation.getY();
+//
+//				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
+//				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
+//
+//				Tile t = tiles[i][j];
+//
+//				//the tiles also draws the object on it
+//				if(t != null){
+//					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+//
+//					//					for(Image img: t.getObjects()){
+//					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+//					//					}
+//				}
+//				//otherwise skip it?
+//			}
+//		}
 
 	}
 
