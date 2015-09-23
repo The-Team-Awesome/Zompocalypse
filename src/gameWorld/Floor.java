@@ -12,7 +12,6 @@ import dataStorage.Loader;
 
 public class Floor implements Tile{
 
-	//
 	private int x;
 	private int y;
 
@@ -47,9 +46,9 @@ public class Floor implements Tile{
 		images = new Image[filenames.length];  //image is same length as array
 
 		for(int i = 0; i < filenames.length; ++i){
+			System.out.println(filenames[i]);
 			images[i] = Loader.LoadImage(filenames[i]);
 		}
-
 		currentImage = images[0];  //get the north (default orientation)
 	}
 
@@ -165,7 +164,6 @@ public class Floor implements Tile{
 		//if(item != null){
 		//	item.draw(x,y,g);
 		//}
-
 	}
 
 }

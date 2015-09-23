@@ -20,6 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import dataStorage.Loader;
+
 /**
  * Provides a 3D view of the world, with locations
  * that are presented from a side on perspective.
@@ -79,28 +81,9 @@ public class RenderPanel extends JPanel {
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
 
-		try {
-			background = ImageIO.read(new File(filePath + "black-background.png"));
-		} catch (IOException e) {
-			throw new IllegalStateException("Couldn't find the background pic");
-		}
+		Loader.LoadFile("black-background.png");
+		System.out.println("drew black background");
 		render();
-	}
-
-	/**
-	 * The user has moved to a new position - now need to
-	 * check what to render.
-	 *
-	 * 3 situations:
-	 * 	a) 	They have moved forward a step in the same direction
-	 *  b) 	They have moved backwards a step in the same direction
-	 *  c) 	They have rotated left or right - check which
-	 *  	then render the correct location.
-	 *
-	 *  Change the shift depending on what is chosen.
-	 */
-	public void update(){
-
 	}
 
 	/**
@@ -169,19 +152,18 @@ public class RenderPanel extends JPanel {
 		gameWorld.Tile[][] tiles = new gameWorld.Tile[5][5];
 
 		String [] filenames = new String[] {
-				"assets/ground_grey_1.png"
+				"ground_grey_1.png"
 		};
+		System.out.println("making the floor");
 
 		//Get the floor
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = 0; j < tiles[0].length; ++j){
-				tiles[i][j] = new Floor(i,j,filenames
-						, null);
+				tiles[i][j] = new Floor(i,j,filenames, null);
 			}
 		}
 
 		//Get the walls
-
 		return tiles;
 	}
 
