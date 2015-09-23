@@ -3,6 +3,7 @@ package dataStorage;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -11,8 +12,21 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import zompocalypse.Main;
+
+/**
+ * This class is a central place for loading all images, text, sound, font
+ * etc. files. This keeps repetition of functionality down to a minimum and
+ * ensures that all files are correctly loaded from the same place.
+ *
+ * @author Sam Costigan
+ */
 public class Loader {
 
+	/**
+	 * These represent common file names which are used to refer
+	 * to different types of files throughout the project.
+	 */
 	public static final String assetsDir = "assets";
 	public static final String mapDir = "map";
 
