@@ -34,8 +34,8 @@ public class GamePanel extends JPanel {
 	private RenderPanel renderingPanel;
 
 	// menuPanel components
-	private JLabel imgItem;
-	private JLabel txtItem;
+	private JLabel lblItem;
+	private JLabel lblBackpack;
 	private JButton btnBackpack;
 	private JButton btnUse;
 	private JButton btnItemOne;
@@ -110,6 +110,7 @@ public class GamePanel extends JPanel {
 	private void addDialogPanelComponents() {
 		txtDialog = new JTextArea(4, 50);
 		txtDialog.setEditable(false);
+		txtDialog.setBackground(Color.LIGHT_GRAY);
 		txtDialog.setVisible(true);
 		dialoguePanel.add(txtDialog);
 	}
@@ -130,33 +131,41 @@ public class GamePanel extends JPanel {
 			throw new RuntimeException("Error finding image: "+e);
 		}
 
-		imgItem = new JLabel(itemImage);
-		imgItem.setText("iteeeem");
+		Insets bottomInset = new Insets(0, 0, 40, 0);
+		Insets generalInset = new Insets(0,0,10,0);
+
+		lblItem = new JLabel(itemImage);
+		lblItem.setText("iteeeem");
 		c.gridx = 1;
 		c.gridy = positionY++;
 		c.ipadx = 3;
 		c.weightx = 1.0;
-		Insets itemsInset = new Insets(0,0,10,0);
-		c.insets = itemsInset;
-		menuPanel.add(imgItem, c);
+		c.insets = bottomInset;
+		menuPanel.add(lblItem, c);
 
-		c.ipadx = 0;
 		// OPTIONS
 		btnBackpack = new JButton("Backpack");
 		btnBackpack.addActionListener(action);
 		c.gridx = 1;
 		c.gridy = positionY++;
 		c.ipadx = 2;
+		c.insets = generalInset;
 		menuPanel.add(btnBackpack, c);
 
 		btnUse = new JButton("Use");
 		btnUse.addActionListener(action);
 		c.gridx = 1;
 		c.gridy = positionY++;
+		c.insets = bottomInset;
 		menuPanel.add(btnUse, c);
 
+		// BACKPACK HUB
+		lblItem = new JLabel("Backpack HUB");
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.insets = generalInset;
+		menuPanel.add(lblItem, c);
 
-		// TODO: BACKPACK HUB
 		ImageIcon iconItemOne = new ImageIcon(ITEM);
 		btnItemOne = new JButton(iconItemOne);
 		btnItemOne.addActionListener(action);
@@ -184,7 +193,7 @@ public class GamePanel extends JPanel {
 		c.gridy = positionY++;
 		menuPanel.add(btnItemThree, c);
 
-		// TODO: DIRECTIONS
+		// DIRECTIONS
 		ImageIcon iconNorth = new ImageIcon(NORTH);
 		btnNorth = new JButton(iconNorth);
 		btnNorth.setActionCommand("North");
@@ -192,6 +201,7 @@ public class GamePanel extends JPanel {
 		btnNorth.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
 		c.gridy = positionY++;
+		c.insets = new Insets(20, 0, 10, 0);
 		menuPanel.add(btnNorth, c);
 
 		Insets westInset = new Insets(0, 0, 10, -50);
@@ -220,7 +230,7 @@ public class GamePanel extends JPanel {
 		c.insets = eastInset;
 		menuPanel.add(btnEast, c);
 
-		c.insets = itemsInset;
+		c.insets = generalInset;
 		ImageIcon iconSouth = new ImageIcon(SOUTH);
 		btnSouth = new JButton(iconSouth);
 		btnSouth.setActionCommand("South");
@@ -252,6 +262,14 @@ public class GamePanel extends JPanel {
 		c.ipadx = 1;
 		c.insets = eastInset;
 		menuPanel.add(btnTurnLeftView, c);
+
+		minimapPanel = new JPanel();
+		minimapPanel.setSize(100, 100);
+		minimapPanel.setBackground(Color.cyan);
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.insets = generalInset;
+		menuPanel.add(minimapPanel, c);
 	}
 
 	/**
