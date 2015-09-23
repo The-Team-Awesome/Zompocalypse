@@ -1,5 +1,7 @@
 package userInterface.renderWindow;
 
+import gameWorld.World;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -50,9 +52,8 @@ public class RenderPanel extends JPanel {
 
 	private BufferedImage background;
 
-	private Orientation currentOrientation;;
-	private Tile[][] tiles;
-	private Location playerLocation;
+	private World world;
+	private int id;
 
 	private String filePath = "img/";
 
@@ -63,18 +64,15 @@ public class RenderPanel extends JPanel {
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-	public RenderPanel(BufferedImage background){
+	public RenderPanel(int id, World world){
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
 
-		if(background == null){
-			try {
-				background = ImageIO.read(new File(filePath + "black-background.png"));
-			} catch (IOException e) {
-				throw new IllegalStateException("Couldn't find the background pic");
-			}
+		try {
+			background = ImageIO.read(new File(filePath + "black-background.png"));
+		} catch (IOException e) {
+			throw new IllegalStateException("Couldn't find the background pic");
 		}
-		this.background = background;
 		render();
 	}
 
@@ -90,10 +88,8 @@ public class RenderPanel extends JPanel {
 	 *
 	 *  Change the shift depending on what is chosen.
 	 */
-	public void update(Tile[][]tiles, Orientation o, Location playerLocation){
-		this.tiles = tiles;
-		currentOrientation = o;
-		this.playerLocation = playerLocation;
+	public void update(){
+
 	}
 
 	/**
@@ -104,22 +100,34 @@ public class RenderPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, null);
 
-//		switch(currentOrientation){
-//		case NORTH:
-//			drawNorth(g);
-//			break;
-//		case SOUTH:
-//			drawSouth(g);
-//			break;
-//		case EAST:
-//			drawEast(g);
-//			break;
-//		case WEST:
-//			drawWest(g);
-//			break;
-//		default:
-//			throw new IllegalStateException("Orientation shouldn't get to this.");
-//		}
+		gameWorld.Tile[][] tiles = world.getMap();
+
+		//
+
+		Orientation o = Orientation.NORTH;
+
+		for(Tile t : tiles){
+			for(Tile ){
+
+			}
+		}
+
+		//		switch(currentOrientation){
+		//		case NORTH:
+		//			drawNorth(g);
+		//			break;
+		//		case SOUTH:
+		//			drawSouth(g);
+		//			break;
+		//		case EAST:
+		//			drawEast(g);
+		//			break;
+		//		case WEST:
+		//			drawWest(g);
+		//			break;
+		//		default:
+		//			throw new IllegalStateException("Orientation shouldn't get to this.");
+		//		}
 
 	}
 
@@ -156,9 +164,9 @@ public class RenderPanel extends JPanel {
 				if(t != null){
 					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
 
-//					for(Image img: t.getObjects()){
-//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-//					}
+					//					for(Image img: t.getObjects()){
+					//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+					//					}
 				}
 				//otherwise skip it?
 			}
