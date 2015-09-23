@@ -55,6 +55,7 @@ public class RenderPanel extends JPanel {
 	private int CANVAS_HEIGHT;
 
 	private BufferedImage background;
+
 	private String filePath = "img/";
 
 	private World game;

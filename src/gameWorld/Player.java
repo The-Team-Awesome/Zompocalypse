@@ -5,8 +5,15 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import userInterface.renderWindow.Orientation;
+
 public final class Player extends MovingCharacter implements Drawable {
+	private final int PLAYER_HEALTH = 100;
+	private final int PLAYER_SPEED = 5;
+	private final int PLAYER_STRENGTH = 20;
+
 	private final int uid;
+	private Orientation orientation;
 	private int score;
 	private int health;
 	private int speed;
@@ -15,21 +22,21 @@ public final class Player extends MovingCharacter implements Drawable {
 	private String filename;
 
 
-	public Player(int realX, int realY, int dir, int uid, int score, String filename) {
+	public Player(int realX, int realY, int dir, int uid, int score, String playerName, String filename) {
 		super(realX,realY,dir);
 		this.score = score;
 		this.uid = uid;
 		this.filename = filename;
-
-		this.health = 100;
-		this.speed = 5;
-		this.strength = 20;
+		this.orientation = Orientation.NORTH;
+		this.health = PLAYER_HEALTH;
+		this.speed = PLAYER_SPEED;
+		this.strength = PLAYER_STRENGTH;
 	}
 
 	/**
 	 * Get this players unique identifier.
 	 */
-	public int uid() {
+	public int getUID() {
 		return uid;
 	}
 
@@ -98,5 +105,13 @@ public final class Player extends MovingCharacter implements Drawable {
 	@Override
 	public String getFileName() {
 		return filename;
+	}
+
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
 	}
 }

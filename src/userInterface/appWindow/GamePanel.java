@@ -36,12 +36,6 @@ public class GamePanel extends JPanel {
 	private JPanel minimapPanel;
 	private RenderPanel renderingPanel;
 
-	// menuPanel panels
-	private JPanel itemsPanel;
-	private JPanel optionsPanel;
-	private JPanel backpackPanel;
-	private JPanel directionsPanel;
-
 	// menuPanel components
 	private JLabel imgItem;
 	private JLabel txtItem;
@@ -87,6 +81,7 @@ public class GamePanel extends JPanel {
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
+		this.add(renderingPanel, c);
 
 		menuPanel = new JPanel();
 		menuPanel.setPreferredSize(new Dimension(150, 700));
@@ -125,105 +120,108 @@ public class GamePanel extends JPanel {
 		this.menuPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c =  new GridBagConstraints();
 
-		JPanel backpackPanel = new JPanel();
-		JPanel directionsPanel = new JPanel();
-
+		ImageIcon itemImage = new ImageIcon();
 		// ITEMS
-		arrangeItemsPanel();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridheight = 50;
-		c.gridwidth = 50;
-		menuPanel.add(itemsPanel, c);
-
-		// OPTIONS
-		arrangeOptionsPanel();
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridheight = 100;
-		c.gridwidth = 50;
-		menuPanel.add(optionsPanel, c);
-/*
-		// TODO: BACKPACK HUB
-		ImageIcon iconItemOne = new ImageIcon(ITEM);
-		btnItemOne = new JButton(iconItemOne);
-		btnItemOne.setBorder(BorderFactory.createEmptyBorder());
-		menuPanel.add(btnItemOne);
-
-		ImageIcon iconItemTwo = new ImageIcon(ITEM);
-		btnItemTwo = new JButton(iconItemTwo);
-		btnItemTwo.setBorder(BorderFactory.createEmptyBorder());
-		menuPanel.add(btnItemTwo);
-
-		ImageIcon iconItemThree = new ImageIcon(ITEM);
-		btnItemThree = new JButton(iconItemThree);
-		btnItemThree.setBorder(BorderFactory.createEmptyBorder());
-		menuPanel.add(btnItemThree);
-
-		// TODO: DIRECTIONS
-		ImageIcon iconNorth = new ImageIcon(NORTH);
-		btnNorth = new JButton(iconNorth);
-		btnNorth.setBorder(BorderFactory.createEmptyBorder());
-		menuPanel.add(btnNorth);
-
-		ImageIcon iconSouth = new ImageIcon(SOUTH);
-		btnSouth = new JButton(iconSouth);
-		btnSouth.setBorder(BorderFactory.createEmptyBorder());
-		menuPanel.add(btnSouth);
-
-		ImageIcon iconEast = new ImageIcon(EAST);
-		btnEast = new JButton(iconEast);
-		btnEast.setBorder(BorderFactory.createEmptyBorder());
-		menuPanel.add(btnEast);
-
-		ImageIcon iconWest = new ImageIcon(WEST);
-		btnWest = new JButton(iconWest);
-		btnWest.setBorder(BorderFactory.createEmptyBorder());
-		btnWest.setOpaque(false);
-		btnWest.setSize(50, 50);
-		menuPanel.add(btnWest);*/
-	}
-
-	private void arrangeItemsPanel() {
-		itemsPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
 		try {
-			imgItem = new JLabel(new ImageIcon(ITEM));
-			c.ipadx = 0;
-			c.ipady = 0;
-			itemsPanel.add(imgItem, c);
-
-			txtItem = new JLabel("icon");
-			c.ipadx = 1;
-			c.ipady = 0;
-			itemsPanel.add(txtItem, c);
+			itemImage = new ImageIcon(ITEM);
 		} catch (Exception e) {
 			throw new RuntimeException("Error finding image: "+e);
 		}
 
-		itemsPanel.setSize(150, 300);
-	}
+		imgItem = new JLabel(itemImage);
+		c.gridx = 0;
+		c.gridy = 0;
+		//c.ipadx = 10;
+		menuPanel.add(imgItem, c);
 
-	private void arrangeOptionsPanel() {
-		optionsPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		txtItem = new JLabel("icon");
+		c.gridx = 1;
+		c.gridy = 0;
+		//c.ipadx = 10;
+		menuPanel.add(txtItem, c);
 
+		// OPTIONS
 		btnBackpack = new JButton("Backpack");
-		// Danielle, all of your buttons need to add this action
-		// listener, otherwise they will never be able to be processed.
 		btnBackpack.addActionListener(action);
-		c.ipadx = 0;
-		c.ipady = 0;
-		optionsPanel.add(btnBackpack, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		menuPanel.add(btnBackpack, c);
 
 		btnUse = new JButton("Use");
 		btnUse.addActionListener(action);
-		c.ipadx = 0;
-		c.ipady = 1;
-		optionsPanel.add(btnUse, c);
+		c.gridx = 0;
+		c.gridy = 3;
+		menuPanel.add(btnUse, c);
 
-		optionsPanel.setSize(150, 300);
-		optionsPanel.setBackground(Color.RED);
+
+		// TODO: BACKPACK HUB
+		ImageIcon iconItemOne = new ImageIcon(ITEM);
+		btnItemOne = new JButton(iconItemOne);
+		btnItemOne.addActionListener(action);
+		btnItemOne.setActionCommand("ItemOne");
+		btnItemOne.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = 4;
+		menuPanel.add(btnItemOne, c);
+
+		ImageIcon iconItemTwo = new ImageIcon(ITEM);
+		btnItemTwo = new JButton(iconItemTwo);
+		btnItemTwo.addActionListener(action);
+		btnItemTwo.setActionCommand("ItemTwo");
+		btnItemTwo.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = 5;
+		menuPanel.add(btnItemTwo, c);
+
+		ImageIcon iconItemThree = new ImageIcon(ITEM);
+		btnItemThree = new JButton(iconItemThree);
+		btnItemThree.setActionCommand("ItemThree");
+		btnItemThree.addActionListener(action);
+		btnItemThree.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = 6;
+		menuPanel.add(btnItemThree, c);
+
+		// TODO: DIRECTIONS
+		ImageIcon iconNorth = new ImageIcon(NORTH);
+		btnNorth = new JButton(iconNorth);
+		btnNorth.setActionCommand("North");
+		btnNorth.addActionListener(action);
+		btnNorth.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = 7;
+		menuPanel.add(btnNorth, c);
+
+
+		ImageIcon iconWest = new ImageIcon(WEST);
+		btnWest = new JButton(iconWest);
+		btnWest.setActionCommand("West");;
+		btnWest.addActionListener(action);
+		btnWest.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = 8;
+		btnWest.setOpaque(false);
+		btnWest.setSize(50, 50);
+		menuPanel.add(btnWest, c);
+
+		ImageIcon iconEast = new ImageIcon(EAST);
+		btnEast = new JButton(iconEast);
+		btnEast.setActionCommand("East");
+		btnEast.addActionListener(action);
+		btnEast.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 1;
+		c.gridy = 8;
+		menuPanel.add(btnEast, c);
+
+
+		ImageIcon iconSouth = new ImageIcon(SOUTH);
+		btnSouth = new JButton(iconSouth);
+		btnSouth.setActionCommand("South");
+		btnSouth.addActionListener(action);
+		btnSouth.setBorder(BorderFactory.createEmptyBorder());
+		c.gridx = 0;
+		c.gridy = 9;
+		menuPanel.add(btnSouth, c);
 	}
 
 	/**
