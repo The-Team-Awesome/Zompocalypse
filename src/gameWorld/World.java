@@ -148,7 +148,7 @@ public class World {
 	 * @param id
 	 * @param key
 	 */
-	public synchronized void processKeyPress(int id, int key) {
+	public synchronized void processKeyPress(int id, String key) {
 		System.out.println(id + ", " + key);
 	}
 

@@ -29,13 +29,13 @@ public class SinglePlayer extends GameListener {
 		int code = e.getKeyCode();
 
 		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
-			game.processKeyPress(id, KeyEvent.VK_LEFT);
+			game.processKeyPress(id, "left");
 		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
-			game.processKeyPress(id, KeyEvent.VK_UP);
+			game.processKeyPress(id, "up");
 		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-			game.processKeyPress(id, KeyEvent.VK_RIGHT);
+			game.processKeyPress(id, "right");
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
-			game.processKeyPress(id, KeyEvent.VK_DOWN);
+			game.processKeyPress(id, "down");
 		}
 	}
 
