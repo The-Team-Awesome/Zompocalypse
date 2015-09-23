@@ -11,6 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import userInterface.appWindow.GamePanel;
 import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
@@ -22,11 +23,11 @@ import gameWorld.World;
  * @author Sam Costigan
  *
  */
-public class Client extends Thread implements KeyListener, MouseListener, ActionListener {
+public class Client extends GameListenerThread {
 
 	private final Socket socket;
 	private int id;
-	private MainFrame frame;
+	private GamePanel panel;
 	private World game;
 
 	private DataInputStream input;
@@ -44,7 +45,8 @@ public class Client extends Thread implements KeyListener, MouseListener, Action
 
 			id = input.readInt();
 
-			frame = new MainFrame(id, this);
+			MainFrame frame = new MainFrame(id, this);
+			panel = frame.getGameScreenCard();
 
 			while(running) {
 
@@ -109,28 +111,10 @@ public class Client extends Thread implements KeyListener, MouseListener, Action
 			output.flush();
 
 			// After processing an action, give control back to the frame
-			frame.requestFocus();
+			panel.requestFocus();
 		} catch(IOException exception) {
 			// Problem sending information to the Server, just ignore this
 		}
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
 
 }

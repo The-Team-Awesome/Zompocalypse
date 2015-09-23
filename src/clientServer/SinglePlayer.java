@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import userInterface.appWindow.GamePanel;
 import gameWorld.World;
 
-public class SinglePlayer implements KeyListener, MouseListener, ActionListener {
+public class SinglePlayer extends GameListener {
 	private final World game;
 	private final int id;
 	private GamePanel panel;
@@ -58,23 +58,5 @@ public class SinglePlayer implements KeyListener, MouseListener, ActionListener 
 		// After processing an action, give control back to the frame
 		panel.requestFocus();
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
-
-	@Override
-	public void keyTyped(KeyEvent e) {}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
 
 }
