@@ -153,6 +153,11 @@ public class Parser {
 					}
 				}
 			}
+
+			if (line.length > 1) {
+				thing = parseItem(line[1]);
+			}
+
 			map[i][j] = new Floor(i, j, tile, thing);
 			break;
 		case "1":
@@ -165,8 +170,8 @@ public class Parser {
 	}
 
 	private static Item parseItem(String str) {
-		if (str.equalsIgnoreCase("K")) {
-			return new Key("Kieran is so berady");
+		if (str.equalsIgnoreCase("ky")) {
+			return new Key("gold_key.png");
 		} else
 			return null;
 	}

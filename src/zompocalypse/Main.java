@@ -68,7 +68,8 @@ public class Main {
 				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {
-			System.out.println("I/O error: " + e.getMessage());
+			System.out.println("I/O error: " + e.getMessage());			String floor = "";
+
 			System.exit(1);
 		}
 	}

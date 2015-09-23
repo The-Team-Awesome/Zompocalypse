@@ -173,12 +173,12 @@ public class Floor implements Tile, Drawable{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		System.out.println("drawing floor tile");
+//		System.out.println("drawing floor tile");
 		g.drawImage(currentImage, x, y, null);
 
-		//if(item != null){
-		//	item.draw(x,y,g);
-		//}
+		if(item != null){
+			item.draw(x,y,g);
+		}
 	}
 
 	@Override
