@@ -140,9 +140,9 @@ public class RenderPanel extends JPanel {
 				if(t != null){
 					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
 
-					for(Image img: t.getObjects()){
-						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
-					}
+//					for(Image img: t.getObjects()){
+//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+//					}
 				}
 				//otherwise skip it?
 			}

@@ -1,11 +1,13 @@
 package userInterface.renderWindow;
 
-import javax.swing.JPanel;
+public class LevelBuilder {
 
-public class RenderTestMain {
+	public LevelBuilder(){
+
+	}
 
 	public static void main(String[] args) {
-		new Gui();
+		new LevelBuilder();
 	}
 
 }

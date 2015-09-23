@@ -14,4 +14,9 @@ public abstract class Tile {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Tile getObjects() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

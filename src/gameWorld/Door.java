@@ -1,10 +1,29 @@
 package gameWorld;
 
-public class Door extends Tile implements Item{
+import java.awt.Graphics;
+
+public class Door implements Item, Tile, Drawable{
+
+	private int x;
+	private int y;
+
+	private String fileName;
+
 	private boolean open;
 	private boolean locked;
+	private boolean occupiable;
 
-	public void use() {
+	public Door(int x, int y, String fileName, boolean locked) {
+		this.x = x;
+		this.y = y;
+		this.fileName = fileName;
+		this.open = false;
+		this.occupiable = false;
+		this.locked = locked;
+
+	}
+
+	public void use(Player player) {
 		if(locked){
 			return;
 		}
@@ -22,5 +41,42 @@ public class Door extends Tile implements Item{
 	@Override
 	public boolean canMove() {
 		return false;
+	}
+
+	@Override
+	public int getX() {
+		return x;
+	}
+
+	@Override
+	public int getY() {
+		return y;
+	}
+
+	@Override
+	public boolean occupiable() {
+		return open;
+	}
+
+	@Override
+	public String getFileName() {
+		return fileName;
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getCSVCode() {
+		return "2";
+
+	}
+
+	@Override
+	public void setOccupiable(boolean bool) {
+		occupiable = bool;
 	}
 }
