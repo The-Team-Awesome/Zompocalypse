@@ -1,5 +1,7 @@
 package userInterface.renderWindow;
 
+import gameWorld.World;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.Timer;
@@ -17,22 +19,16 @@ public class Gui {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JPanel renderPanel = new JPanel();
-		renderPanel.setPreferredSize(new Dimension(800, 600));
+		//int id = 1; //id for player
+		//World world = new World(id, id, null);
 
-		RenderPanel r = new RenderPanel(null);  //todo add a background image
+		//RenderPanel renderPanel = new RenderPanel(id, world, null);
+		RenderPanel renderPanel = new RenderPanel(null);
+		renderPanel.setPreferredSize(new Dimension(800, 600));
 
 		frame.getContentPane().add(renderPanel,  BorderLayout.CENTER);
 
 		frame.pack();
 		frame.setVisible(true);
-
-		//get the tick method, update r
-//		while(1 == 1){
-//
-//			System.out.println("tick");
-//			//get information from client - orientations, actions, everything
-//			r.update();
-//		}
 	}
 }
