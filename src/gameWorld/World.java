@@ -28,13 +28,6 @@ public class World {
 		this.map = map;
 	}
 
-	//TODO Remove once data storage correctly constructs world
-	public World(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.map = new Tile[width][height];
-	}
-
 	/**
 	 * The clock tick is essentially a clock trigger, which allows the world to
 	 * update the current state. The frequency with which this is called

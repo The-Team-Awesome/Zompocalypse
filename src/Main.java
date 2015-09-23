@@ -11,6 +11,7 @@ import clientServer.Client;
 import clientServer.Clock;
 import clientServer.Server;
 import clientServer.SinglePlayer;
+import dataStorage.Parser;
 
 /**
  * This is the entry point for playing the adventure game. It processes commands
@@ -56,12 +57,12 @@ public class Main {
 
 		try {
 			if(server) {
-				World game = new World(5, 5);
+				World game = Parser.ParseMap("src/dataStorage/maps/TestMap.csv");
 				runServer(port, numClients, gameClock, networkClock, game);
 			} else if(url != null) {
 				runClient(url, port);
 			} else {
-				World game = new World(5, 5);
+				World game = Parser.ParseMap("src/dataStorage/maps/TestMap.csv");
 				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {
