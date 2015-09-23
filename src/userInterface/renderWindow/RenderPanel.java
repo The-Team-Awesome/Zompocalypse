@@ -47,7 +47,7 @@ public class RenderPanel extends JPanel {
 
 	private BufferedImage background;
 
-	private Orientation currentOrientation;;
+	private Orientation currentOrientation = Orientation.NORTH;
 	private Tile[][] tiles;
 	private Location playerLocation;
 

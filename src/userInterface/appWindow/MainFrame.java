@@ -16,16 +16,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class MainFrame {
+public class MainFrame extends JFrame {
 
-	private JFrame frame;
 	private CardLayout layout;
 	private GamePanel gameScreenCard;
 	private JPanel cards;
 
 	// menu panel
 	public MainFrame(int id, EventListener listener) {
-		this.frame = new JFrame("Zompocalypse");
+		super("Zompocalypse");
 
 		// creating default panel which uses cards
 		layout = new CardLayout();
@@ -39,17 +38,17 @@ public class MainFrame {
 		layout.show(cards, "1");
 
 		// setting content as default content for this frame
-		frame.setContentPane(cards);
+		this.setContentPane(cards);
 
 		// window customization
 		ImageIcon img = new ImageIcon("img/zombie-icon.png");
-		frame.setIconImage(img.getImage());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1000, 1000);
-		frame.setLocationRelativeTo(null); // center the screen
+		this.setIconImage(img.getImage());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(1000, 1000);
+		this.setLocationRelativeTo(null); // center the screen
 
-		frame.pack();
-		frame.setVisible(true);
+		this.pack();
+		this.setVisible(true);
 
 		gameScreenCard.requestFocus();
 	}
