@@ -7,6 +7,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * This class simply implements the necessary Listener interfaces for a multi player
+ * game and then overrides the methods that won't end up being used. This cuts down
+ * the amount of clutter in the extending class.
+ * 
+ * @author Sam Costigan
+ */
 public abstract class GameListenerThread extends Thread implements KeyListener, MouseListener, ActionListener {
 
 	public abstract void keyPressed(KeyEvent e);

@@ -1,17 +1,13 @@
 package clientServer;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import userInterface.appWindow.GamePanel;
 import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
@@ -65,18 +61,27 @@ public class Client extends GameListenerThread {
 	public void keyPressed(KeyEvent e) {
 		try {
 			int code = e.getKeyCode();
+			
+			
+			String key = "";
 
 			if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
-				output.writeInt(1);
+				key = "left";
 			} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
-				output.writeInt(2);
+				key = "up";
 			} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-				output.writeInt(3);
+				key = "right";
 			} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
-				output.writeInt(4);
+				key = "down";
 			}
-
-			output.flush();
+			
+			if(key.length() > 0) {
+				output.writeInt(1);
+				output.writeInt(key.length());
+				output.writeChars(key);
+				
+				output.flush();
+			}
 		} catch (IOException exception) {
 			// Problem sending information to the Server, just ignore this
 		}
@@ -88,7 +93,7 @@ public class Client extends GameListenerThread {
 			int x = e.getX();
 			int y = e.getY();
 
-			output.writeInt(5);
+			output.writeInt(2);
 			output.writeInt(x);
 			output.writeInt(y);
 
@@ -103,7 +108,7 @@ public class Client extends GameListenerThread {
 		try {
 			String command = e.getActionCommand();
 
-			output.writeInt(6);
+			output.writeInt(3);
 			output.writeInt(command.length());
 			output.writeChars(command);
 

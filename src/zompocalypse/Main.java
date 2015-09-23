@@ -60,7 +60,6 @@ public class Main {
 		try {
 			if(server) {
 				World game = Parser.ParseMap("TestMap.csv");
-				//World game = new World(5, 5);
 				runServer(port, numClients, gameClock, networkClock, game);
 			} else if(url != null) {
 				runClient(url, port);

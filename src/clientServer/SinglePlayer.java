@@ -1,19 +1,22 @@
 package clientServer;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import userInterface.appWindow.GamePanel;
 import userInterface.appWindow.MainFrame;
 import gameWorld.World;
 
+/**
+ * This is the Single Player Event Listener which passes input from the user
+ * to the game.
+ * 
+ * @author Sam Costigan
+ */
 public class SinglePlayer extends GameListener {
-	private final World game;
+	
 	private final int id;
+	private final World game;
 	private MainFrame frame;
 
 	public SinglePlayer(World game, int id) {

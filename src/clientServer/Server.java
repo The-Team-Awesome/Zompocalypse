@@ -2,7 +2,6 @@ package clientServer;
 
 import gameWorld.World;
 
-import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,10 +17,10 @@ import java.net.*;
  */
 public class Server extends Thread {
 
-	private final World game;
 	private final Socket socket;
 	private final int id;
 	private final int networkClock;
+	private final World game;
 
 	public Server(World game, Socket socket, int id, int networkClock) {
 		this.game = game;
@@ -44,30 +43,13 @@ public class Server extends Thread {
 						int code = input.readInt();
 						switch(code) {
 							case 1:
-								// In this case, the key pressed
-								// corresponds to left
-								game.processKeyPress(id, "left");
+								// In this case, a key was pressed
+								String key = readInputString(input);
+								
+								game.processKeyPress(id, key);
 
 								break;
 							case 2:
-								// In this case, the key pressed
-								// corresponds to up
-								game.processKeyPress(id, "up");
-
-								break;
-							case 3:
-								// In this case, the key pressed
-								// corresponds to right
-								game.processKeyPress(id, "right");
-
-								break;
-							case 4:
-								// In this case, the key pressed
-								// corresponds to down
-								game.processKeyPress(id, "down");
-
-								break;
-							case 5:
 								// In this case, the event passed was a
 								// mouse click somewhere on the screen
 								int x = input.readInt();
@@ -76,17 +58,11 @@ public class Server extends Thread {
 								game.processMouseClick(id, x, y);
 
 								break;
-							case 6:
+							case 3:
 								// In this case, a Swing component was
 								// triggered, such as a button press.
 								// The command is given and will be passed on
-								int length = input.readInt();
-								char[] string = new char[length];
-								for(int i = 0; i < length; i++) {
-									string[i] = input.readChar();
-								}
-								String command = String.copyValueOf(string);
-
+								String command = readInputString(input);
 
 								game.processAction(id, command);
 
@@ -107,6 +83,17 @@ public class Server extends Thread {
 			// TODO: handle removal of Player from game
 		}
 
+	}
+	
+	private String readInputString(DataInputStream input) throws IOException {
+		int length = input.readInt();
+		char[] string = new char[length];
+		for(int i = 0; i < length; i++) {
+			string[i] = input.readChar();
+		}
+		
+		String value = String.copyValueOf(string);
+		return value;
 	}
 
 }
