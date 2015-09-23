@@ -13,6 +13,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Loader {
 
+	public static final String assetsDir = "assets";
+	public static final String mapDir = "map";
+
 	/**
 	 * This method is used for the safe loading of files. File paths
 	 * are often different when a file is loaded using Eclipse compared
@@ -22,10 +25,7 @@ public class Loader {
 	 * @return The loaded file using the given string
 	 */
 	public static File LoadFile(String filename) {
-
-		java.net.URL imageURL = Loader.class.getResource(filename);
-
-		File newFile = new File(imageURL.getFile());
+		File newFile = new File(assetsDir + File.separatorChar + filename);
 
 		return newFile;
 	}
