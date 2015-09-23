@@ -20,7 +20,7 @@ public class Gui {
 		JPanel renderPanel = new JPanel();
 		renderPanel.setPreferredSize(new Dimension(800, 600));
 		
-		Renderer r = new Renderer(renderPanel);
+		RenderPanel r = new RenderPanel(renderPanel);
 		
 		frame.getContentPane().add(renderPanel,  BorderLayout.CENTER);
 		
