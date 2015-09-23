@@ -65,12 +65,6 @@ public class Door implements Item, Tile, Drawable{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String getCSVCode() {
 		return "2";
 

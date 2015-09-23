@@ -76,9 +76,9 @@ public class GamePanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		renderingPanel = new RenderPanel(0, game, null);  //TODO background img goes here
+		renderingPanel = new RenderPanel(0, game);  //TODO background img goes here
 		renderingPanel.setPreferredSize(new Dimension(800, 600));
-		renderingPanel.setBackground(Color.ORANGE);
+		renderingPanel.setBackground(Color.BLACK);
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;

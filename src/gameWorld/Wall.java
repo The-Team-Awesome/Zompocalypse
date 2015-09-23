@@ -6,12 +6,6 @@ import java.awt.Image;
 public class Wall implements Tile, Drawable{
 
 	@Override
-	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public int getX() {
 		// TODO Auto-generated method stub
 		return 0;

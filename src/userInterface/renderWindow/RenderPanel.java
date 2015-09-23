@@ -55,10 +55,6 @@ public class RenderPanel extends JPanel {
 	private int CANVAS_WIDTH;
 	private int CANVAS_HEIGHT;
 
-	private BufferedImage background;
-
-	private String filePath = "assets/";
-
 	private World game;
 	private int id;
 
@@ -75,14 +71,12 @@ public class RenderPanel extends JPanel {
 	 * @param ht Height of window
 	 */
 
-	public RenderPanel(int id, World game, BufferedImage background){
+	public RenderPanel(int id, World game){
 		this.game = game;
 
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
 
-		Loader.LoadFile("black-background.png");
-		System.out.println("drew black background");
 		render();
 	}
 
@@ -92,7 +86,6 @@ public class RenderPanel extends JPanel {
 	public void paintComponent(Graphics g){
 		System.out.println("painting");
 		super.paintComponent(g);
-		g.drawImage(background, 0, 0, null);
 
 		gameWorld.Tile[][] tiles;
 
@@ -107,41 +100,28 @@ public class RenderPanel extends JPanel {
 
 		//start from the top center
 		int x = CANVAS_WIDTH / 2;
-		int y = (CANVAS_HEIGHT / 2) - (tiles[0].length/2)*TILE_HEIGHT;  //draw it from the center
+		//int y = (CANVAS_HEIGHT / 2) - (tiles[0].length/2)*TILE_HEIGHT;  //draw it from the center
+		int y = (CANVAS_HEIGHT / 2);
 
+		System.out.println("Drawing tiles");
 		//Draws from the top right of the board, goes across
 		//http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
+
+		System.out.println("X: " + x + " Y: " + y);
+		tiles[0][0].draw(x,y,g);
+
 		for(int i = 0; i < tiles.length; ++i){
 			//for(int j = tiles[i].length; j >= 0; j--){
 			for(int j = tiles[i].length-1; j >= 0; j--){
-				//System.out.println("I:" + i + " J: " + j);
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
 
 					x = (j * TILE_WIDTH/2) + (i * TILE_WIDTH/2);
 					y = (i * TILE_HEIGHT/2) - (j * ( TILE_HEIGHT/2));
-					d.draw(g);
+					//d.draw(x,y,g);
 				}
 			}
 		}
-
-		//		switch(currentOrientation){
-		//		case NORTH:
-		//			drawNorth(g);
-		//			break;
-		//		case SOUTH:
-		//			drawSouth(g);
-		//			break;
-		//		case EAST:
-		//			drawEast(g);
-		//			break;
-		//		case WEST:
-		//			drawWest(g);
-		//			break;
-		//		default:
-		//			throw new IllegalStateException("Orientation shouldn't get to this.");
-		//		}
-
 	}
 
 	/**

@@ -109,11 +109,6 @@ public class Container implements Item, Drawable{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public String getCSVCode() {
 		// TODO Auto-generated method stub
 		return null;

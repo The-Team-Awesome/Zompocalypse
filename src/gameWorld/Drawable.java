@@ -12,5 +12,5 @@ public interface Drawable {
 	/**
 	 * This object draws itself as appropriate.
 	 */
-	public void draw(Graphics g);
+	public void draw(int x, int y, Graphics g);
 }

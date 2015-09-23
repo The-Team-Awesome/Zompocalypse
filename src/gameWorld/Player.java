@@ -114,4 +114,10 @@ public final class Player extends MovingCharacter implements Drawable {
 	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
+
+	@Override
+	public void draw(int x, int y, Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
 }

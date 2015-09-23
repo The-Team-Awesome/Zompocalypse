@@ -159,6 +159,7 @@ public class Floor implements Tile{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
+		System.out.println("drawing floor tile");
 		g.drawImage(currentImage, x, y, null);
 
 		//if(item != null){
