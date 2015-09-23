@@ -35,4 +35,10 @@ public class Key implements Item, Drawable{
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public int getUniqueID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
