@@ -16,8 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import userInterface.renderWindow.Renderer;
-
 public class MainFrame {
 
 	private JFrame frame;

@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import userInterface.renderWindow.Renderer;
+import userInterface.renderWindow.RenderPanel;
 
 /**
  * Contains the components for the main game screen.
@@ -32,8 +32,7 @@ public class GamePanel extends JPanel {
 	private JPanel dialoguePanel;
 	private JPanel menuPanel;
 	private JPanel minimapPanel;
-	private JPanel renderingPanel;
-	private Renderer renderer;
+	private RenderPanel renderingPanel;
 
 	// menuPanel panels
 	private JPanel itemsPanel;
@@ -93,14 +92,12 @@ public class GamePanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		renderingPanel = new JPanel();
+		renderingPanel = new RenderPanel(null);  //TODO background img goes here
 		renderingPanel.setPreferredSize(new Dimension(800, 600));
 		renderingPanel.setBackground(Color.ORANGE);
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		renderer = new Renderer(renderingPanel);
-		this.add(renderingPanel, c);
 
 		menuPanel = new JPanel();
 		menuPanel.setPreferredSize(new Dimension(150, 700));

@@ -1,6 +1,8 @@
 package userInterface.renderWindow;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +21,7 @@ import javax.swing.JPanel;
  * @author Pauline Kelly
  *
  */
-public class Renderer {
+public class RenderPanel extends JPanel {
 
 	/* Application Canvas is a field - need one in
 	 * the constructor for the Renderer.
@@ -38,37 +40,28 @@ public class Renderer {
 
 	//For rendering objects within the game
 	private List<GameObject> objects = new ArrayList<>();
-	private Location location;
-
-	private Orientation currentOrientation = Orientation.NORTH;
-	private Direction currentDir = Direction.STATIONARY;
 
 	//For scaling, knowing how big the window is
-	private final int CANVAS_WIDTH;
-	private final int CANVAS_HEIGHT;
+	private int CANVAS_WIDTH;
+	private int CANVAS_HEIGHT;
 
-	//For rendering everything
-	private Vector3D lightSource;
+	private BufferedImage background;
 
-	//The shift in X and Y that changes when the character
-	//moves
-	private float shiftX = 1.0f;
-	private float shiftY = 1.0f;
+	private Orientation currentOrientation;;
+	private Tile[][] tiles;
+	private Location playerLocation;
 
 	//The panel to be rendered on
-	private JPanel panel;
 
 	/** Constructor. Takes the height and width of the canvas into account.
 	 *
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-	public Renderer(JPanel panel){
-		CANVAS_WIDTH = panel.getWidth();
-		CANVAS_HEIGHT = panel.getHeight();
-		this.panel = panel;
-		//onLoad(new File("level1.txt"));
-		render();
+	public RenderPanel(BufferedImage background){
+		CANVAS_WIDTH = this.getWidth();
+		CANVAS_HEIGHT = this.getHeight();
+		this.background = background;
 	}
 
 	/**
@@ -83,42 +76,93 @@ public class Renderer {
 	 *
 	 *  Change the shift depending on what is chosen.
 	 */
-	private void keyPressed(Orientation o, Direction dir){
-		//If the player has turned left or right, check for this.
-		if(!(o.equals(currentOrientation))){
-			switch(o){
-			case NORTH:
-				currentOrientation = Orientation.NORTH;
-				break;
-			case SOUTH:
-				currentOrientation = Orientation.SOUTH;
-				break;
-			case EAST:
-				currentOrientation = Orientation.EAST;
-				break;
-			case WEST:
-				currentOrientation = Orientation.WEST;
-				break;
-			}
+	public void update(Tile[][]tiles, Orientation o, Location playerLocation){
+		this.tiles = tiles;
+		currentOrientation = o;
+		this.playerLocation = playerLocation;
+	}
+
+	/**
+	 * Draws the background first, then draws the tiles and players.
+	 */
+	public void paintComponent(Graphics g){
+		g.drawImage(background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, null);
+
+		switch(currentOrientation){
+		case NORTH:
+			drawNorth(g);
+			break;
+		case SOUTH:
+			drawSouth(g);
+			break;
+		case EAST:
+			drawEast(g);
+			break;
+		case WEST:
+			drawWest(g);
+			break;
+		default:
+			throw new IllegalStateException("Orientation shouldn't get to this.");
 		}
-		else {
-			//the character has moved forwards or backwards
-			switch(dir){
-			case STATIONARY:
-				currentDir = Direction.STATIONARY;
-				break;
-			case FORWARD:
-				currentDir = Direction.FORWARD;
-				break;
-			case BACKWARD:
-				currentDir = Direction.BACKWARD;
-				break;
+
+	}
+
+	/**
+	 * Draws the board as seen from the west.
+	 *
+	 * Isometric formula: 	x' = x - z
+	 * 						y' = y + ((x + z)/2)
+	 *
+	 *x: x - y,
+        y: (x / 2) + (y / 2) - z
+		http://stackoverflow.com/questions/892811/drawing-isometric-game-worlds
+        http://gamedev.stackexchange.com/questions/8151/how-should-i-sort-images-in-an-isometric-game-so-that-they-appear-in-the-correct
+	 *
+	 * http://flarerpg.org/tutorials/isometric_intro/
+	 * @param g
+	 */
+	private void drawWest(Graphics g) {
+		double x;
+		double y;
+
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				//Initially the current location
+				double xOffset = playerLocation.getX();
+				double yOffset = playerLocation.getY();
+
+				x =  i + 5.5 - xOffset * 0.5 * WIDTH / 10;  //more complicated
+				y =  i + 5.5 - yOffset * 0.5 * WIDTH / 10;
+
+				Tile t = tiles[i][j];
+
+				//the tiles also draws the object on it
+				if(t != null){
+					g.drawImage(t.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+
+//					for(Image img: t.getObjects()){
+//						g.drawImage(img.draw(), (int) x, (int) y, WIDTH, HEIGHT, null);  //draw method also handles drawing items and players
+//					}
+				}
+				//otherwise skip it?
 			}
 		}
 
-		//Finally, calculate the new object values and
-		//render the scene
-		render();
+	}
+
+	private void drawEast(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void drawSouth(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void drawNorth(Graphics g) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -153,21 +197,6 @@ public class Renderer {
 		return image;
 	}
 
-	private ZBuffer initialiseZBuffer(){
-		ZBuffer zBuffer = new ZBuffer();
-
-		zBuffer.setColor(new Color [CANVAS_WIDTH][CANVAS_HEIGHT]);
-		zBuffer.setDepth(new float [CANVAS_WIDTH][CANVAS_HEIGHT]);  //set this to infinity
-
-		for(int x = 0; x < CANVAS_WIDTH; x++){
-			for(int y = 0; y < CANVAS_HEIGHT; y++){
-				zBuffer.depth[x][y] = Float.POSITIVE_INFINITY;
-			}
-		}
-
-		return zBuffer;
-	}
-
 	/**
 	 * Load in the data for the new Location.
 	 * Should probably use this method for each location.
@@ -200,19 +229,14 @@ public class Renderer {
 					default:
 						throw new IllegalStateException("Illegal character parsed.");
 					}
-					
-					
+
+
 				}
 
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
