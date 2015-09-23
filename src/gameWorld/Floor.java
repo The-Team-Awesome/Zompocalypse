@@ -1,5 +1,7 @@
 package gameWorld;
 
+import java.awt.Image;
+
 public class Floor implements Tile{
 
 	private int x;
@@ -48,6 +50,12 @@ public class Floor implements Tile{
 	@Override
 	public void setOccupiable(boolean bool) {
 		occupiable = bool;
+	}
+
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

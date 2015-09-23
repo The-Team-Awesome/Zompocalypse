@@ -1,5 +1,7 @@
 package gameWorld;
 
+import java.awt.Image;
+
 /**
  * Represents a Tile in the world of Zompocalypse.
  * A Tile is a single location in a 2D array of tiles representing the game world.
@@ -36,4 +38,6 @@ public interface Tile {
 	 * Return the code to represent this tile in CSV.
 	 */
 	public String getCSVCode();
+
+	public Image getImage();
 }
