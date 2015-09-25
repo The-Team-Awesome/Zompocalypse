@@ -6,22 +6,35 @@ import java.awt.Graphics;
  * A Character is a record of information about a particular character in the
  * game. There are essentially two kinds of characters: player controlled and
  * computer controlled.
+ * 
+ * @author Kieran Mckay, 300276166
  */
 public abstract class Character implements Drawable{
-	protected int realX; // real x-position
-	protected int realY; // real y-position
+	protected int xCoord; // real x-position
+	protected int yCoord; // real y-position
 
-	public Character(int realX, int realY) {
-		this.realX = realX;
-		this.realY = realY;
+	/**
+	 * Constructor taking an X and Y co-ordinate for the current character
+	 */
+	public Character(int xCoord, int yCoord) {
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
 	}
 
-	public int realX() {
-		return realX;
+	/**
+	 * The current X coordinate for this character
+	 * @return X co-ordinate
+	 */
+	public int getX() {
+		return xCoord;
 	}
 
-	public int realY() {
-		return realY;
+	/**
+	 * The current y coordinate for this character
+	 * @return Y co-ordinate
+	 */
+	public int getY() {
+		return yCoord;
 	}
 
 	/**
@@ -34,5 +47,5 @@ public abstract class Character implements Drawable{
 	/**
 	 * This method enables characters to draw themselves onto a given canvas.
 	 */
-	public abstract void draw(Graphics g);
+	//public abstract void draw(Graphics g);
 }

@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import userInterface.renderWindow.Orientation;
 
-//Equivilant of Board in djp's pacman
+/**
+ * The World class representing the world in which Zompocolypse takes place.
+ *
+ * @author Kieran Mckay, 300276166
+ */
 public class World {
 	private final int width;
 	private final int height;
@@ -86,8 +90,8 @@ public class World {
 
 		int offset = (size - 1) / 2;
 
-		int charX = character.realX;
-		int charY = character.realY;
+		int charX = character.xCoord;
+		int charY = character.yCoord;
 
 		int perspX = 0;
 		for(int x = charX - offset; x <= charX + offset; x++) {

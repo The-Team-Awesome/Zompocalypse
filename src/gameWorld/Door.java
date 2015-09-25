@@ -3,7 +3,8 @@ package gameWorld;
 import java.awt.Graphics;
 import java.util.Map;
 
-public class Door implements Item, Tile, Drawable{
+
+public class Door implements Item, Tile{
 
 	private int x;
 	private int y;
@@ -41,7 +42,7 @@ public class Door implements Item, Tile, Drawable{
 	}
 
 	@Override
-	public boolean canMove() {
+	public boolean movable() {
 		return false;
 	}
 

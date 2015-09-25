@@ -5,6 +5,8 @@ package gameWorld;
  * The moving character class represents characters in the game world which
  * move. Moving characters have a direction of movement, and a speed at which
  * they are moving.
+ * 
+ * @author Kieran Mckay, 300276166
  */
 public abstract class MovingCharacter extends Character {
 	// Direction constants
@@ -53,8 +55,8 @@ public abstract class MovingCharacter extends Character {
 	public void tick(World game) {
 		// The following are used to determine the point at which a character
 		// can change direction (if a change is queued).
-		boolean xready = realX % 30 == 0;
-		boolean yready = realY % 30 == 0;
+		boolean xready = xCoord % 30 == 0;
+		boolean yready = yCoord % 30 == 0;
 
 		if(xready && yready) {
 			// yes, can accept direction change
@@ -64,8 +66,8 @@ public abstract class MovingCharacter extends Character {
 		// Attempt to update the character's position. This is done by
 		// speculating at the new board position and then deciding if this
 		// should be allowed or not.
-		int nRealX = realX;
-		int nRealY = realY;
+		int nRealX = xCoord;
+		int nRealY = yCoord;
 		int nx,ny;
 		int speed = speed();
 		int width = game.width();
@@ -105,8 +107,8 @@ public abstract class MovingCharacter extends Character {
 			direction = MovingCharacter.STOPPED;
 		} else {
 			// we can update our position ...
-			realX = nRealX;
-			realY = nRealY;
+			xCoord = nRealX;
+			yCoord = nRealY;
 		}
 	}
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import dataStorage.Loader;
 
-public class Key implements Item, Drawable{
+public class Key implements Item{
 	private String filename;
 	private Image currentImage;
 
@@ -22,7 +22,7 @@ public class Key implements Item, Drawable{
 	}
 
 	@Override
-	public boolean canMove() {
+	public boolean movable() {
 		return true;
 	}
 

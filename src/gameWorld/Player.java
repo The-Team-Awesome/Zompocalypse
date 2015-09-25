@@ -3,7 +3,12 @@ package gameWorld;
 import java.awt.*;
 import userInterface.renderWindow.Orientation;
 
-public final class Player extends MovingCharacter implements Drawable {
+/**
+ * Player is a human played character in the game.
+ * 
+ * @author Kieran Mckay, 300276166
+ */
+public final class Player extends MovingCharacter{
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;
@@ -87,14 +92,6 @@ public final class Player extends MovingCharacter implements Drawable {
 	}
 
 	/**
-	 * Draw the player to the screen
-	 */
-	@Override
-	public void draw(Graphics g) {
-
-	}
-
-	/**
 	 * Draw the player that is yours to the screen different so you know which one is you
 	 */
 	public void drawOwn(Graphics g) {
@@ -114,6 +111,9 @@ public final class Player extends MovingCharacter implements Drawable {
 		this.orientation = orientation;
 	}
 
+	/**
+	 * Draw the player to the screen
+	 */
 	@Override
 	public void draw(int x, int y, Graphics g) {
 		// TODO Auto-generated method stub
