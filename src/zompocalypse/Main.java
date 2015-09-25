@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import controller.Client;
+import controller.Clock;
+import controller.Server;
+import controller.SinglePlayer;
 import userInterface.appWindow.MainFrame;
-import clientServer.Client;
-import clientServer.Clock;
-import clientServer.Server;
-import clientServer.SinglePlayer;
 import dataStorage.Parser;
 
 /**

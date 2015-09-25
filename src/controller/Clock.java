@@ -1,4 +1,4 @@
-package clientServer;
+package controller;
 
 import userInterface.appWindow.MainFrame;
 import gameWorld.World;

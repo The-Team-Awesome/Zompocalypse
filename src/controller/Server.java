@@ -1,4 +1,4 @@
-package clientServer;
+package controller;
 
 import gameWorld.World;
 
