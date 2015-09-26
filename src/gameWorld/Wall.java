@@ -3,7 +3,16 @@ package gameWorld;
 import java.awt.Graphics;
 import java.util.Map;
 
-public class Wall implements Tile{
+/**
+ * Walls can have
+ * @author kellypaul1
+ *
+ */
+public class Wall extends Tile implements Drawable {
+
+	public Wall(String[] filenames){
+		setupImages(filenames);
+	}
 
 	@Override
 	public int getX() {
@@ -39,7 +48,6 @@ public class Wall implements Tile{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		// TODO Auto-generated method stub
-
+		g.drawImage(currentImage, x, y, null);
 	}
 }

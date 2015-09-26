@@ -5,10 +5,10 @@ import java.util.Map;
 /**
  * Item is an interface representing any "usable" item in the game.
  * It represents the component interface class from the composite pattern.
- * 
+ *
  * @author Kieran Mckay, 300276166
  */
-public interface Item extends Drawable{
+public interface Item extends GameObject {
 
 	/**
 	 * Calling use on this item allows it to perform the appropriate behaviour of its class

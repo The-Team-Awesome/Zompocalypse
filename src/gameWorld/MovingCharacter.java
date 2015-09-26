@@ -8,7 +8,7 @@ package gameWorld;
  * 
  * @author Kieran Mckay, 300276166
  */
-public abstract class MovingCharacter extends Character {
+public abstract class MovingCharacter extends Actor {
 	// Direction constants
 	public static final int STOPPED = 0;
 	public static final int UP = 1;

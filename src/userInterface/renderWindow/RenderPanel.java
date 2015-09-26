@@ -1,11 +1,15 @@
 package userInterface.renderWindow;
 
+import gameWorld.Actor;
 import gameWorld.Drawable;
 import gameWorld.Floor;
+import gameWorld.Wall;
 import gameWorld.World;
+import gameWorld.Tile;
 
 import java.awt.Graphics;
 import java.io.IOException;
+
 import javax.swing.JPanel;
 
 import dataStorage.Parser;
@@ -37,8 +41,8 @@ public class RenderPanel extends JPanel {
 	 */
 
 	//For scaling, knowing how big the window is
-	private int CANVAS_WIDTH;
-	private int CANVAS_HEIGHT;
+	private int WIDTH;
+	private int HEIGHT;
 
 	private World game;
 	private int id;
@@ -56,12 +60,44 @@ public class RenderPanel extends JPanel {
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-
 	public RenderPanel(int id, World game){
 		this.game = game;
 
-		CANVAS_WIDTH = this.getWidth();
-		CANVAS_HEIGHT = this.getHeight();
+		WIDTH = this.getWidth();
+		HEIGHT = this.getHeight();
+	}
+
+	/**
+	 * 	Use the player id and the game objects to get the clipping
+	 *  from the player.
+	 *
+	 *  The clipping is a smaller version of the complete game board that
+	 *  will be displayed on the screen.
+	 */
+	public Tile[][] clip(){
+
+		Actor c = game.getCharacterByID(id);
+
+		//use this to find neighbouring tiles
+		int actorX = c.getX();
+		int actorY = c.getY();
+
+		//find the position to render the character at
+		int renderActorX = WIDTH / 2;
+		int renderActorY = HEIGHT / 2;
+
+		int xTilesPerPanel = WIDTH / TILE_WIDTH;  //800 / 64/ Truncates
+		int yTilesPerPanel = HEIGHT / FLOOR_TILE_HEIGHT; //600 / 44
+
+		//Make a new tileset with the correct numbers of tiles
+		Tile[][] tiles = new Tile[xTilesPerPanel][yTilesPerPanel];
+
+		//iterate through the game world.
+		int topLeftX = actorX - xTilesPerPanel;
+		int topLeftY = actorY - yTilesPerPanel;
+
+		return tiles;
+
 	}
 
 	/**
@@ -78,16 +114,15 @@ public class RenderPanel extends JPanel {
 			 tiles = getDummyWorld();
 		}
 		else {
-			tiles = game.getMap();
-		}
-
-		// David's test code
-		try {
-			World world = Parser.ParseMap("TestMap.csv");
-			tiles = world.getMap();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// David's test code
+			try {
+				World world = Parser.ParseMap("TestMap.csv");
+				tiles = world.getMap();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				tiles = game.getMap();
+			}
 		}
 
 		Orientation o = Orientation.NORTH;
@@ -102,13 +137,13 @@ public class RenderPanel extends JPanel {
 		int offsetX = 300;
 		int offsetY = 300;
 
+		tiles[0][0].draw(offsetX, offsetY, g);
+
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
-					System.out.println("was drawable");
-
 					Drawable d = (Drawable) tiles[i][j];
-
+					System.out.println("is drawable");
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
 					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
 
@@ -123,23 +158,29 @@ public class RenderPanel extends JPanel {
 	 * Dummy world for testing
 	 * @return
 	 */
-	private gameWorld.Tile[][] getDummyWorld() {
-		gameWorld.Tile[][] tiles = new gameWorld.Tile[5][5];
+	private Tile[][] getDummyWorld() {
+		Tile[][] tiles = new Tile[5][5];
 
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
 		};
 		System.out.println("making the floor");
 
-		//Get the floor
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = 0; j < tiles[0].length; ++j){
 				tiles[i][j] = new Floor(i,j,filenames, null);
 			}
 		}
 
-		//Set the walls
-		tiles[3][3].setOccupiable(true);
+		Wall w = new Wall(new String[] {
+				"wall_grey_3_t_n.png",
+				"wall_grey_3_t_s.png",
+				"wall_grey_3_t_e.png",
+				"wall_grey_3_t_w.png"
+		});
+
+		((Floor) tiles[3][3]).setWall(w);
+		tiles[3][3].setOccupiable(false);
 
 		return tiles;
 	}

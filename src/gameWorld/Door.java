@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.Map;
 
 
-public class Door implements Item, Tile{
+public class Door implements Item, Drawable {
 
 	private int x;
 	private int y;
@@ -22,7 +22,6 @@ public class Door implements Item, Tile{
 		this.open = false;
 		this.occupiable = false;
 		this.locked = locked;
-
 	}
 
 	@Override
@@ -46,17 +45,14 @@ public class Door implements Item, Tile{
 		return false;
 	}
 
-	@Override
 	public int getX() {
 		return x;
 	}
 
-	@Override
 	public int getY() {
 		return y;
 	}
 
-	@Override
 	public boolean occupiable() {
 		return open;
 	}
@@ -66,13 +62,11 @@ public class Door implements Item, Tile{
 		return fileName;
 	}
 
-	@Override
 	public String getCSVCode(Map<String, String> textTileMap) {
 		return "2";
 
 	}
 
-	@Override
 	public void setOccupiable(boolean bool) {
 		occupiable = bool;
 	}

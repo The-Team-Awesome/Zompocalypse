@@ -3,126 +3,45 @@ package gameWorld;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Map;
+
 import userInterface.renderWindow.Orientation;
 import dataStorage.Loader;
 
-public class Floor implements Tile, Drawable{
+/**
+ * The Floor class is a tile on the board, which is responsible for drawing
+ * the ground and the items that are situated on this part of the Floor.
+ *
+ * Drawables that the floor contains can be:
+ *
+ *
+ * @author Keiran & Pauline
+ *
+ */
+public class Floor extends Tile implements Drawable{
 
 	private int x;
 	private int y;
 
-	private Item item;
+	//Floor tiles can contain
+	private Wall wall;
 	private boolean occupiable;
 
-	private Image currentImage;
+	//private Image currentImage;
 	private String imageName;
-	private Image[] images;   //in order NSEW
+	//private Image[] images;   //in order NSEW
 
-	public Floor(int x, int y, String[] filenames, Item myItem) {
+	public Floor(int x, int y, String[] filenames, Wall wall) {
 		this.x = x;
 		this.y = y;
 
-		this.item = myItem;
+		this.wall = wall;
 		occupiable = true;
 
 		setupImages(filenames);
 	}
 
-	/**
-	 * Sets up the selection of images that this floor tile can be.
-	 * There are 3 possible ways to draw an item:
-	 *
-	 * [N]
-	 * [NS,EW]
-	 * [N,S,E,W]
-	 *
-	 * @param filenames
-	 */
-	private void setupImages(String[] filenames) {
-		images = new Image[filenames.length];  //image is same length as array
-
-		for(int i = 0; i < filenames.length; ++i){
-			System.out.println(filenames[i]);
-			images[i] = Loader.LoadImage(filenames[i]);
-		}
-		currentImage = images[0];  //get the north (default orientation)
-		imageName = filenames[0];
-	}
-
-	/**
-	 * If the orientation has changed, or if the player has changed direction,
-	 * then change the current image.
-	 */
-	public void setCurrentImage(Orientation orientation){
-		//Changes the current image if the board is rotated
-		switch(orientation){
-		case NORTH:
-			currentImage = images[0];  //Will always be the first image
-			return;
-		case SOUTH:
-			currentImage =
-			getSouthOrientationImage();
-			return;
-		case EAST:
-			currentImage =
-			getEastOrientationImage();
-			return;
-		case WEST:
-			currentImage =
-			getWestOrientationImage();
-			return;
-		}
-	}
-
-	/**
-	 * Get the orientation for the image when viewed from the South.
-	 * @return
-	 */
-	private Image getSouthOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[0];
-		case 4:
-			return images[1];  //get the 2nd image
-		default:
-			throw new IllegalStateException("Shouldn't get this far - SOUTH");
-		}
-	}
-
-	/**
-	 * Get the orientation for the image when viewed from the East.
-	 * @return
-	 */
-	private Image getEastOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[1];
-		case 4:
-			return images[2];  //get the 3rd image
-		default:
-			throw new IllegalStateException("Shouldn't get this far - EAST");
-		}
-	}
-
-	/**
-	 * Get the orientation for the image when viewed from the West.
-	 * @return
-	 */
-	private Image getWestOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[1];
-		case 4:
-			return images[3];  //get the 4th image
-		default:
-			throw new IllegalStateException("Shouldn't get this far - WEST");
-		}
+	public void setWall(Wall w){
+		this.wall = wall;
 	}
 
 	@Override
@@ -150,9 +69,6 @@ public class Floor implements Tile, Drawable{
 			if (x < tileCode.length - 1)
 				result = result + "-";
 		}
-		if (item != null) {
-			result = result + item.getCSVCode(textTileMap);
-		}
 		return result;
 	}
 
@@ -163,11 +79,12 @@ public class Floor implements Tile, Drawable{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-//		System.out.println("drawing floor tile");
+		System.out.println("drawing floor");
 		g.drawImage(currentImage, x, y, null);
 
-		if(item != null){
-			item.draw(x,y,g);
+		//If it has a wall, draw it
+		if(wall != null){
+			wall.draw(x, y, g);
 		}
 	}
 

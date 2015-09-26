@@ -171,13 +171,13 @@ public class Parser {
 				thing = parseItem(line[1]);
 			}
 
-			map[i][j] = new Floor(i, j, tile, thing);
+			//map[i][j] = new Floor(i, j, tile, thing);
 			break;
 		case "1":
-			map[i][j] = new Wall();
+			//map[i][j] = new Wall(null);
 			break;
 		case "2":
-			map[i][j] = new Door(i, j, "I love Kieran", false);
+			//map[i][j] = new Door(i, j, "I love Kieran", false);
 			break;
 		}
 	}

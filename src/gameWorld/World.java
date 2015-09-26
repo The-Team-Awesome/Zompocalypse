@@ -2,6 +2,9 @@ package gameWorld;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import userInterface.renderWindow.Orientation;
 
 /**
@@ -14,10 +17,10 @@ public class World {
 	private final int height;
 
 	/**
-	 * The following is a list of the characters in the game. This includes
+	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
 	 */
-	private final ArrayList<Character> characters = new ArrayList<Character>();
+	private final Map<Integer,Actor> charToID = new HashMap<>();
 
 	/**
 	 * This represents the entire world as 2D array of Tiles. Tiles can either
@@ -27,6 +30,7 @@ public class World {
 
 	private Orientation orientation;
 	private Tile[][] map;
+	private GameObject[][] objects;
 
 	public World(int width, int height, Tile[][] map) {
 		this.width = width;
@@ -43,8 +47,8 @@ public class World {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (int i = 0; i < characters.size(); i++){
-			Character c = characters.get(i);
+		for (int i = 0; i < charToID.size(); i++){
+			Actor c = charToID.get(i);
 			c.tick(this);
 		}
 	}
@@ -85,7 +89,7 @@ public class World {
 	 * @param size - The size of the perspective to return
 	 * @return A 2D array of Tiles - edge cases are null objects
 	 */
-	public Tile[][] getCharacterPerspective(Character character, int size) {
+	public Tile[][] getCharacterPerspective(Actor character, int size) {
 		Tile[][] perspective = new Tile[size][size];
 
 		int offset = (size - 1) / 2;
@@ -174,6 +178,21 @@ public class World {
 
 	private void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
+	}
+
+	/**
+	 * Gets the character based on the id - if it doesn't exist then
+	 * something has gone wrong
+	 * @param id The ID of the character
+	 * @return The character itself
+	 */
+	public Actor getCharacterByID(int id) {
+		if(charToID.containsKey(id)){
+			return charToID.get(id);
+		}
+		else {
+			throw new IllegalStateException("Character with this code does not exist");
+		}
 	}
 
 
