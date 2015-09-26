@@ -3,6 +3,7 @@ package userInterface.renderWindow;
 import gameWorld.Actor;
 import gameWorld.Drawable;
 import gameWorld.Floor;
+import gameWorld.Orientation;
 import gameWorld.Wall;
 import gameWorld.World;
 import gameWorld.Tile;
@@ -168,19 +169,19 @@ public class RenderPanel extends JPanel {
 
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = 0; j < tiles[0].length; ++j){
-				tiles[i][j] = new Floor(i,j,filenames, null);
+				tiles[i][j] = new Floor(i,j,filenames);
 			}
 		}
 
-		Wall w = new Wall(new String[] {
-				"wall_grey_3_t_n.png",
-				"wall_grey_3_t_s.png",
-				"wall_grey_3_t_e.png",
-				"wall_grey_3_t_w.png"
-		});
-
-		((Floor) tiles[3][3]).setWall(w);
-		tiles[3][3].setOccupiable(false);
+//		Wall w = new Wall(new String[] {
+//				"wall_grey_3_t_n.png",
+//				"wall_grey_3_t_s.png",
+//				"wall_grey_3_t_e.png",
+//				"wall_grey_3_t_w.png"
+//		});
+//
+//		((Floor) tiles[3][3]).setWall(w);
+//		tiles[3][3].setOccupiable(false);
 
 		return tiles;
 	}

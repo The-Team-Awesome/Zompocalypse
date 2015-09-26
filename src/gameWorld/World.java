@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import userInterface.renderWindow.Orientation;
-
 /**
  * The World class representing the world in which Zompocolypse takes place.
  *

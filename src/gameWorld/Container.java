@@ -9,10 +9,10 @@ import java.util.Map;
 /**
  * A container is a type of item which can hold other items, including other containers.
  * It represents the composite class from the composite pattern.
- * 
+ *
  * @author Kieran Mckay, 300276166
  */
-public class Container implements Item, Drawable{
+public class Container implements GameObject, Drawable{
 	private int size;
 	private boolean movable;
 	private String filename;
@@ -46,12 +46,10 @@ public class Container implements Item, Drawable{
 		}
 	}
 
-	@Override
 	public void use(Player player){
 		open(player);
 	}
 
-	@Override
 	public boolean movable() {
 		return movable;
 	}
@@ -62,7 +60,7 @@ public class Container implements Item, Drawable{
 
 	/**
 	 * Whether or not there is any more room available in this container.
-	 * 
+	 *
 	 * @return true if this container is full, false if there is more room
 	 */
 	public boolean isFull(){
@@ -71,7 +69,7 @@ public class Container implements Item, Drawable{
 
 	/**
 	 * Returns a boolean determining whether or not an item exists at a given index in this container.
-	 * 
+	 *
 	 * @param index - position in the containiner to find item
 	 * @return True if item exists at index, False if no item at index
 	 */
@@ -81,7 +79,7 @@ public class Container implements Item, Drawable{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns the item at a given index in this container.
 	 * The item is removed from the container.
@@ -99,10 +97,10 @@ public class Container implements Item, Drawable{
 	}
 
 	/**
-	 * Used to check if this container has an item. 
+	 * Used to check if this container has an item.
 	 * If it contains the item, it will return the index of the first occurrence of the item
 	 * If it does not contain it, it will return -1.
-	 * 
+	 *
 	 * @param item - an item to see if this container is holding
 	 * @return index of the first occurrence of item if it is contained, or -1 if it is not contained
 	 */
@@ -118,7 +116,7 @@ public class Container implements Item, Drawable{
 
 	/**
 	 * Attempt to add an item to this container.
-	 * 
+	 *
 	 * @param item - the item to add to the container
 	 * @return true if add successful, false if unsuccessful
 	 */
@@ -143,7 +141,6 @@ public class Container implements Item, Drawable{
 		return filename;
 	}
 
-	@Override
 	public String getCSVCode(Map<String, String> textTileMap) {
 		// TODO Auto-generated method stub
 		return null;
@@ -155,7 +152,6 @@ public class Container implements Item, Drawable{
 
 	}
 
-	@Override
 	public int getUniqueID() {
 		// TODO Auto-generated method stub
 		return 0;

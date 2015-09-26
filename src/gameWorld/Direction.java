@@ -1,4 +1,4 @@
-package userInterface.renderWindow;
+package gameWorld;
 
 /**
  * The direction represents the movement of the player.

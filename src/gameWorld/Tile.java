@@ -3,7 +3,6 @@ package gameWorld;
 import java.awt.Image;
 import java.util.Map;
 
-import userInterface.renderWindow.Orientation;
 import dataStorage.Loader;
 
 /**

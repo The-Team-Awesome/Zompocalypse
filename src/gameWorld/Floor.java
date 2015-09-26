@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Map;
 
-import userInterface.renderWindow.Orientation;
+import userInterface.renderWindow.ImageUtils;
 import dataStorage.Loader;
 
 /**
@@ -23,25 +23,27 @@ public class Floor extends Tile implements Drawable{
 	private int y;
 
 	//Floor tiles can contain
-	private Wall wall;
 	private boolean occupiable;
 
-	//private Image currentImage;
-	private String imageName;
-	//private Image[] images;   //in order NSEW
+	protected Image[] images;
+	protected Image currentImage;
+	protected String imageName;
 
-	public Floor(int x, int y, String[] filenames, Wall wall) {
+	public Floor(int x, int y, String[] filenames) {
 		this.x = x;
 		this.y = y;
 
-		this.wall = wall;
 		occupiable = true;
 
-		setupImages(filenames);
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+		imu.setupImages(filenames);
+		this.imageName = filenames[0];
 	}
 
-	public void setWall(Wall w){
-		this.wall = wall;
+	private void setFilename(String string) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -81,11 +83,6 @@ public class Floor extends Tile implements Drawable{
 	public void draw(int x, int y, Graphics g) {
 		System.out.println("drawing floor");
 		g.drawImage(currentImage, x, y, null);
-
-		//If it has a wall, draw it
-		if(wall != null){
-			wall.draw(x, y, g);
-		}
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package gameWorld;
 
 import java.awt.*;
-import userInterface.renderWindow.Orientation;
 
 /**
  * Player is a human played character in the game.
