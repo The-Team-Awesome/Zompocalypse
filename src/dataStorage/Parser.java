@@ -158,7 +158,7 @@ public class Parser {
 				thing = parseItem(line[1]);
 			}
 
-			map[i][j] = new Floor(i, j, tile, thing);
+			//map[i][j] = new Floor(i, j, tile, thing);
 			break;
 		case "1":
 			map[i][j] = new Wall();

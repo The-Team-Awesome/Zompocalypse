@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.Map;
 
 
-public class Door implements Item, Tile{
+public class Door extends Wall implements Item {
 
 	private int x;
 	private int y;

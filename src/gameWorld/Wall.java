@@ -3,7 +3,7 @@ package gameWorld;
 import java.awt.Graphics;
 import java.util.Map;
 
-public class Wall implements Tile{
+public class Wall extends Tile implements Drawable {
 
 	@Override
 	public int getX() {

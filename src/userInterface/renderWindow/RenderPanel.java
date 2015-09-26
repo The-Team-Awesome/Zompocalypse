@@ -78,16 +78,15 @@ public class RenderPanel extends JPanel {
 			 tiles = getDummyWorld();
 		}
 		else {
-			tiles = game.getMap();
-		}
-
-		// David's test code
-		try {
-			World world = Parser.ParseMap("TestMap.csv");
-			tiles = world.getMap();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// David's test code
+			try {
+				World world = Parser.ParseMap("TestMap.csv");
+				tiles = world.getMap();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				tiles = game.getMap();
+			}
 		}
 
 		Orientation o = Orientation.NORTH;
@@ -105,8 +104,6 @@ public class RenderPanel extends JPanel {
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
-					System.out.println("was drawable");
-
 					Drawable d = (Drawable) tiles[i][j];
 
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
@@ -137,6 +134,10 @@ public class RenderPanel extends JPanel {
 				tiles[i][j] = new Floor(i,j,filenames, null);
 			}
 		}
+
+		//put a wall on
+		tiles[4][4].setOccupiable(false);
+		//tiles[4][4].setWall();
 
 		//Set the walls
 		tiles[3][3].setOccupiable(true);
