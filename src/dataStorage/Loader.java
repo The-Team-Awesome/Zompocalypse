@@ -42,24 +42,29 @@ public class Loader {
 	 * @return The loaded file using the given string
 	 */
 	public static File LoadFile(String filename) {
-
-		//String name = File.separatorChar + assetsDir + File.separatorChar + filename;
 		String name = assetsDir + File.separatorChar + filename;
 
+		// Using an InputStream rather than simply loading files by filename
+		// allows the Loader to work when exported to a .jar as well as in Eclipse.
 		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);
 
 		File file = null;
 		try {
+			// It just comes with the overhead of needing to read in the file this way!
+			// Files are created, then populated with data by being read in through
+			// the InputStream and output to the temporary file using an OutputStream.
 			file = File.createTempFile("tempfile", ".tmp");
 
 			int read;
-	        byte[] bytes = new byte[1024];
-	        OutputStream out = new FileOutputStream(file);
+			byte[] bytes = new byte[1024];
 
-	        while ((read = stream.read(bytes)) != -1) {
-	            out.write(bytes, 0, read);
-	        }
-	        file.deleteOnExit();
+			OutputStream out = new FileOutputStream(file);
+
+			while ((read = stream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+
+			file.deleteOnExit();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
