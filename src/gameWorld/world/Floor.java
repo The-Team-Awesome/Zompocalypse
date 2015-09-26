@@ -28,9 +28,9 @@ public class Floor extends Tile implements Drawable{
 	private Wall wall;
 	private boolean occupiable;
 
-	private Image currentImage;
+	//private Image currentImage;
 	private String imageName;
-	private Image[] images;   //in order NSEW
+	//private Image[] images;   //in order NSEW
 
 	public Floor(int x, int y, String[] filenames, Wall wall) {
 		this.x = x;
@@ -40,6 +40,10 @@ public class Floor extends Tile implements Drawable{
 		occupiable = true;
 
 		setupImages(filenames);
+	}
+
+	public void setWall(Wall w){
+		this.wall = wall;
 	}
 
 	@Override
@@ -77,6 +81,7 @@ public class Floor extends Tile implements Drawable{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
+		System.out.println("drawing floor");
 		g.drawImage(currentImage, x, y, null);
 
 		//If it has a wall, draw it

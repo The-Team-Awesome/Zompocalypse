@@ -16,9 +16,9 @@ import dataStorage.Loader;
  */
 public abstract class Tile implements Drawable{
 
-	private Image[] images;
-	private Image currentImage;
-	private String imageName;
+	protected Image[] images;
+	protected Image currentImage;
+	protected String imageName;
 
 	/**
 	 * Returns the X co-ordinate of this tile's position in the 2D map of the world
