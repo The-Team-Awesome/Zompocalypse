@@ -27,6 +27,7 @@ public class World {
 
 	private Orientation orientation;
 	private Tile[][] map;
+	private GameObject[][] objects;
 
 	public World(int width, int height, Tile[][] map) {
 		this.width = width;
