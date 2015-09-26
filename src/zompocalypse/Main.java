@@ -13,6 +13,7 @@ import controller.Clock;
 import controller.Server;
 import controller.SinglePlayer;
 import userInterface.appWindow.MainFrame;
+import dataStorage.Loader;
 import dataStorage.Parser;
 
 /**
@@ -59,12 +60,12 @@ public class Main {
 
 		try {
 			if(server) {
-				World game = Parser.ParseMap("TestMap.csv");
+				World game = Parser.ParseMap(Loader.mapFile);
 				runServer(port, numClients, gameClock, networkClock, game);
 			} else if(url != null) {
 				runClient(url, port);
 			} else {
-				World game = Parser.ParseMap("TestMap.csv");
+				World game = Parser.ParseMap(Loader.mapFile);
 				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {

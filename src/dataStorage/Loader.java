@@ -33,6 +33,8 @@ public class Loader {
 	public static final String spritesDir = "sprites";
 	public static final String mapDir = "map";
 
+	public static final String mapFile = "TestMap2.xml";
+
 	/**
 	 * This method is used for the safe loading of files. File paths
 	 * are often different when a file is loaded using Eclipse compared
