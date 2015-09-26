@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.util.Map;
 
 import userInterface.renderWindow.ImageUtils;
-import dataStorage.Loader;
 
 /**
  * The Floor class is a tile on the board, which is responsible for drawing
@@ -43,12 +42,6 @@ public class Floor extends Tile implements Drawable{
 		this.images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
-
-	}
-
-	private void setFilename(String string) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
