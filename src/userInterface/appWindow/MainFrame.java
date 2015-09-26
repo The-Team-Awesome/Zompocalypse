@@ -1,6 +1,6 @@
 package userInterface.appWindow;
 
-import gameWorld.World;
+import gameWorld.world.World;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;

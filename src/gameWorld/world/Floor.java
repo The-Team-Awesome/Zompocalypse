@@ -1,4 +1,6 @@
-package gameWorld;
+package gameWorld.world;
+
+import gameWorld.Drawable;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -36,6 +38,7 @@ public class Floor extends Tile implements Drawable{
 
 		this.wall = wall;
 		occupiable = true;
+		imageName = filenames[0];
 
 		setupImages(filenames);
 	}

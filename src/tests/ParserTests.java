@@ -1,6 +1,6 @@
 package tests;
 
-import gameWorld.World;
+import gameWorld.world.World;
 
 import java.io.IOException;
 

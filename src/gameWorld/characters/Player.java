@@ -1,6 +1,9 @@
-package gameWorld;
+package gameWorld.characters;
+
+import gameWorld.world.World;
 
 import java.awt.*;
+
 import userInterface.renderWindow.Orientation;
 
 /**

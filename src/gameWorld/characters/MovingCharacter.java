@@ -1,4 +1,6 @@
-package gameWorld;
+package gameWorld.characters;
+
+import gameWorld.world.World;
 
 
 /**

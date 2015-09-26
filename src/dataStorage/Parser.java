@@ -12,6 +12,8 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 
 import gameWorld.*;
+import gameWorld.items.*;
+import gameWorld.world.*;
 
 /**
  * Static functions used to Parse Maps for the World from a file, and can be
@@ -55,7 +57,7 @@ public class Parser {
 			mapReader.close();
 		}
 
-		File mapCSV = new File("assets/" + Loader.mapDir + File.separatorChar
+		File mapCSV = Loader.LoadFile(Loader.mapDir + File.separatorChar
 				+ mapFile);
 		try {
 
@@ -171,7 +173,7 @@ public class Parser {
 				thing = parseItem(line[1]);
 			}
 
-			//map[i][j] = new Floor(i, j, tile, thing);
+			map[i][j] = new Floor(i, j, tile, null);
 			break;
 		case "1":
 			//map[i][j] = new Wall(null);
