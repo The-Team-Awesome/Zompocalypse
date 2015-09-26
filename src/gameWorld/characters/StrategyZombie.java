@@ -1,0 +1,60 @@
+package gameWorld.characters;
+
+import gameWorld.world.World;
+
+import java.awt.Graphics;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public class StrategyZombie extends MovingCharacter {
+
+	private Strategy strategy;
+
+	public StrategyZombie(int realX, int realY, Strategy strategy) {
+		super(realX, realY, MovingCharacter.STOPPED);
+		this.strategy = strategy;
+	}
+
+	@Override
+	public int speed() {
+		return strategy.speed();
+	}
+
+	public void tick(World game) {
+		int homeDistance = 300;
+		/*
+		for(Character c : game.characters()) {
+			if(c instanceof Pacman && !((Pacman)c).isDead()) {
+				int deltaX = Math.abs(c.realX() - realX());
+				int deltaY = Math.abs(c.realY() - realY());
+				double distance = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
+
+				if(distance < homeDistance) {
+					strategy = new RandomStrategy();
+				} else {
+					strategy = new HomerStrategy();
+				}
+			}
+		}
+		*/
+		super.tick(game);
+
+		strategy.tick(game, this);
+	}
+
+	public void setQueued(int queued) {
+		this.queued = queued;
+	}
+
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void draw(int x, int y, Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+}

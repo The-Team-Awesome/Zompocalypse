@@ -1,4 +1,7 @@
-package gameWorld;
+package gameWorld.world;
+
+import gameWorld.Drawable;
+import gameWorld.Orientation;
 
 import java.awt.Image;
 import java.util.Map;

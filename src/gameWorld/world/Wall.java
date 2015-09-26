@@ -1,4 +1,7 @@
-package gameWorld;
+package gameWorld.world;
+
+import gameWorld.Drawable;
+import gameWorld.GameObject;
 
 import java.awt.Graphics;
 import java.awt.Image;

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import userInterface.appWindow.MainFrame;
-import gameWorld.World;
+import gameWorld.world.World;
 
 /**
  * This is the Client-side Thread which listens for Events and then sends those
@@ -42,11 +42,22 @@ public class Client extends GameListenerThread {
 
 			id = input.readInt();
 
+			int width = input.readInt();
+			int height = input.readInt();
+
 			frame = new MainFrame(id, game, this);
+			game = new World(width, height, null);
+			int length = input.readInt();
+			byte[] gameData = new byte[length];
+
+			game.fromByteArray(gameData);
 
 			while(running) {
+				length = input.readInt();
+				byte[] data = new byte[length];
+				game.fromByteArray(data);
 
-				//System.out.println(id);
+				frame.repaint();
 			}
 
 			socket.close();
@@ -62,8 +73,8 @@ public class Client extends GameListenerThread {
 	public void keyPressed(KeyEvent e) {
 		try {
 			int code = e.getKeyCode();
-			
-			
+
+
 			String key = "";
 
 			if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
@@ -75,12 +86,12 @@ public class Client extends GameListenerThread {
 			} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 				key = "down";
 			}
-			
+
 			if(key.length() > 0) {
 				output.writeInt(1);
 				output.writeInt(key.length());
 				output.writeChars(key);
-				
+
 				output.flush();
 			}
 		} catch (IOException exception) {

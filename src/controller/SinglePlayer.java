@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import userInterface.appWindow.MainFrame;
-import gameWorld.World;
+import gameWorld.world.World;
 
 /**
  * This is the Single Player Event Listener which passes input from the user

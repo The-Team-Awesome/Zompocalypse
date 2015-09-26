@@ -1,7 +1,12 @@
-package gameWorld;
+package gameWorld.world;
+
+import gameWorld.GameObject;
+import gameWorld.Orientation;
+import gameWorld.characters.Actor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,12 +76,36 @@ public class World {
 		return false;
 	}
 
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	private void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
+	/**
+	 * Gets the character based on the id - if it doesn't exist then
+	 * something has gone wrong
+	 * @param id The ID of the character
+	 * @return The character itself
+	 */
+	public Actor getCharacterByID(int id) {
+		if(charToID.containsKey(id)){
+			return charToID.get(id);
+		}
+		else {
+			throw new IllegalStateException("Character with this code does not exist");
+		}
+	}
+
 	// ***********************************************
 	// Networking Methods
 	// ******************
 	// These methods are all used to convert World
 	// data into a smaller format for sending
-	// between the Client and Server.
+	// between the Client and Server or giving the
+	// World information about Events to use.
 	// ***********************************************
 
 	/**
@@ -92,8 +121,8 @@ public class World {
 
 		int offset = (size - 1) / 2;
 
-		int charX = character.xCoord;
-		int charY = character.yCoord;
+		int charX = character.getX();
+		int charY = character.getY();
 
 		int perspX = 0;
 		for(int x = charX - offset; x <= charX + offset; x++) {
@@ -122,7 +151,7 @@ public class World {
 	 * @throws IOException
 	 */
 	public synchronized void fromByteArray(byte[] bytes) throws IOException {
-
+		System.out.println(Arrays.toString(bytes));
 	}
 
 	/**
@@ -133,8 +162,10 @@ public class World {
 	 * @throws IOException
 	 */
 	public synchronized byte[] toByteArray() throws IOException {
-
-		return null;
+		byte[] data = new byte[2];
+		data[0] = 1;
+		data[1] = 0;
+		return data;
 	}
 
 	public Tile[][] getMap() {
@@ -170,28 +201,7 @@ public class World {
 		System.out.println(id + ", " + command);
 	}
 
-	public Orientation getOrientation() {
-		return orientation;
-	}
-
-	private void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
-	}
-
-	/**
-	 * Gets the character based on the id - if it doesn't exist then
-	 * something has gone wrong
-	 * @param id The ID of the character
-	 * @return The character itself
-	 */
-	public Actor getCharacterByID(int id) {
-		if(charToID.containsKey(id)){
-			return charToID.get(id);
-		}
-		else {
-			throw new IllegalStateException("Character with this code does not exist");
-		}
-	}
-
-
+	// ***********************************************
+	// End of Networking Methods
+	// ***********************************************
 }
