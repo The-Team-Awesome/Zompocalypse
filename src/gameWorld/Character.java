@@ -6,10 +6,10 @@ import java.awt.Graphics;
  * A Character is a record of information about a particular character in the
  * game. There are essentially two kinds of characters: player controlled and
  * computer controlled.
- * 
+ *
  * @author Kieran Mckay, 300276166
  */
-public abstract class Character implements Drawable{
+public abstract class Character implements GameObject {
 	protected int xCoord; // real x-position
 	protected int yCoord; // real y-position
 
