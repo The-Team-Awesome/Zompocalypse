@@ -1,6 +1,6 @@
 package userInterface.appWindow;
 
-import gameWorld.World;
+import gameWorld.world.World;
 
 import java.awt.Container;
 import java.awt.Graphics;
@@ -10,9 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
