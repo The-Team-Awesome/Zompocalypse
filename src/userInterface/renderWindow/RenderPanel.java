@@ -1,17 +1,11 @@
 package userInterface.renderWindow;
 
 import gameWorld.Drawable;
-<<<<<<< HEAD
 import gameWorld.characters.Actor;
 import gameWorld.world.Floor;
 import gameWorld.world.Tile;
+import gameWorld.world.Wall;
 import gameWorld.world.World;
-=======
-import gameWorld.Floor;
-import gameWorld.Wall;
-import gameWorld.World;
-import gameWorld.Tile;
->>>>>>> 5643178bb9825ecb2af5edc69cc7b24651c93afb
 
 import java.awt.Graphics;
 import java.io.IOException;
@@ -164,13 +158,8 @@ public class RenderPanel extends JPanel {
 	 * Dummy world for testing
 	 * @return
 	 */
-<<<<<<< HEAD
-	private gameWorld.world.Tile[][] getDummyWorld() {
-		gameWorld.world.Tile[][] tiles = new Tile[5][5];
-=======
 	private Tile[][] getDummyWorld() {
 		Tile[][] tiles = new Tile[5][5];
->>>>>>> 5643178bb9825ecb2af5edc69cc7b24651c93afb
 
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
