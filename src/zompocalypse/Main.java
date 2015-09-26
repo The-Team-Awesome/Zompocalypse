@@ -2,7 +2,7 @@ package zompocalypse;
 
 
 
-import gameWorld.World;
+import gameWorld.world.World;
 
 import java.io.IOException;
 import java.net.ServerSocket;

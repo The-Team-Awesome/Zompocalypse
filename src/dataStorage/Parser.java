@@ -12,13 +12,13 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import gameWorld.Door;
-import gameWorld.Floor;
-import gameWorld.Item;
-import gameWorld.Key;
-import gameWorld.Tile;
-import gameWorld.Wall;
-import gameWorld.World;
+import gameWorld.items.Item;
+import gameWorld.items.Key;
+import gameWorld.world.Door;
+import gameWorld.world.Floor;
+import gameWorld.world.Tile;
+import gameWorld.world.Wall;
+import gameWorld.world.World;
 
 /**
  * Static functions used to Parse Maps for the World from a file, and can be

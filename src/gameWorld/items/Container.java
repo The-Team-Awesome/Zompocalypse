@@ -1,4 +1,7 @@
-package gameWorld;
+package gameWorld.items;
+
+import gameWorld.Drawable;
+import gameWorld.characters.Player;
 
 import java.awt.Graphics;
 import java.security.InvalidParameterException;

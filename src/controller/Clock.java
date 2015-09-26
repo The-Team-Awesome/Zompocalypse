@@ -1,7 +1,7 @@
 package controller;
 
 import userInterface.appWindow.MainFrame;
-import gameWorld.World;
+import gameWorld.world.World;
 
 /**
  * This class runs the game loop of the entire game. At regular intervals, defined

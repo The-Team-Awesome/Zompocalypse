@@ -1,6 +1,6 @@
 package userInterface.appWindow;
 
-import gameWorld.World;
+import gameWorld.world.World;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,6 +1,6 @@
 package controller;
 
-import gameWorld.World;
+import gameWorld.world.World;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
