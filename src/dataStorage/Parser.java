@@ -1,24 +1,17 @@
 package dataStorage;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.*;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import gameWorld.Door;
-import gameWorld.Floor;
-import gameWorld.Item;
-import gameWorld.Key;
-import gameWorld.Tile;
-import gameWorld.Wall;
-import gameWorld.World;
+import gameWorld.*;
 
 /**
  * Static functions used to Parse Maps for the World from a file, and can be
@@ -62,24 +55,39 @@ public class Parser {
 			mapReader.close();
 		}
 
-		File mapCSV = Loader.LoadFile(Loader.mapDir + File.separatorChar
+		File mapCSV = new File("assets/" + Loader.mapDir + File.separatorChar
 				+ mapFile);
 		try {
-			mapReader = new BufferedReader(new FileReader(mapCSV));
-			String line = mapReader.readLine();
-			String[] split = line.split(",");
+
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(mapCSV);
+
+			// remember, cool kids don't take drugs
+
+			Element nodeMap = (Element) doc.getElementsByTagName("map").item(0);
+
+			String[] split = nodeMap.getAttribute("dimensions").split(",");
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
 			map = new Tile[y][x];
-			int i = 0;
-			while ((line = mapReader.readLine()) != null) {
-				split = line.split(",");
-				for (int j = 0; j < x; j++) {
-					parseTile(map, textTileMap, split[j], i, j);
+
+			NodeList rows = nodeMap.getElementsByTagName("row");
+
+			System.out.println(rows.getLength());
+
+			for (int i = 0; i < rows.getLength(); i++) {
+				Element cellMap = (Element) rows.item(i);
+				NodeList cells = cellMap.getElementsByTagName("cell");
+				for (int j = 0; j < cells.getLength(); j++) {
+					Element cell = (Element) cells.item(j);
+					System.out.println(cell.getAttribute("img"));
+					parseTile(map, textTileMap, cell.getAttribute("img"), i, j);
 				}
-				i++;
 			}
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException | ParserConfigurationException
+				| SAXException e) {
 			e.printStackTrace();
 		} finally {
 			mapReader.close();
@@ -112,28 +120,32 @@ public class Parser {
 						orientation = "nsew";
 						tile = new String[4];
 						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+							tile[x] = floor + "_" + orientation.charAt(x)
+									+ ".png";
 						}
 						break;
 					case "s":
 						orientation = "snwe";
 						tile = new String[4];
 						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+							tile[x] = floor + "_" + orientation.charAt(x)
+									+ ".png";
 						}
 						break;
 					case "e":
 						orientation = "ewns";
 						tile = new String[4];
 						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+							tile[x] = floor + "_" + orientation.charAt(x)
+									+ ".png";
 						}
 						break;
 					case "w":
 						orientation = "wesn";
 						tile = new String[4];
 						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+							tile[x] = floor + "_" + orientation.charAt(x)
+									+ ".png";
 						}
 						break;
 					case "ns":
@@ -147,7 +159,8 @@ public class Parser {
 						tile[1] = floor + "_" + "ns.png";
 						break;
 					default:
-						floor = floor + "_" + object[object.length - 1] + ".png";
+						floor = floor + "_" + object[object.length - 1]
+								+ ".png";
 						tile = new String[] { floor };
 						break;
 					}
@@ -177,6 +190,11 @@ public class Parser {
 	}
 
 	/**
+	 * I already had this set up to return CSV before reading that had to save
+	 * files in XML, modified this in a lazy way to return XML formatted
+	 * document, should rewrite this class later to use proper XML file creation
+	 * tools
+	 *
 	 * @param textTileMap
 	 * @param map
 	 *            2D array of tiles representing map
@@ -184,23 +202,27 @@ public class Parser {
 	 *            width of board
 	 * @param y
 	 *            height of board
-	 * @return map in CSV
+	 * @return map in XML
 	 */
-	private static String getCSVMap(World world, Map<String, String> textTileMap) {
+	private static String getXMLMap(World world, Map<String, String> textTileMap) {
 
 		Tile[][] map = world.getMap();
 		int x = world.width();
 		int y = world.height();
 
-		String mapOutput = x + "," + y + "\n";
+		String mapOutput = "<?xml version=\"1.0\"?>\n<world>\n    "
+				+ "<map dimensions=\"" + x + "," + x + "\">\n";
 
 		for (int i = 0; i < y; i++) {
-			mapOutput = mapOutput + map[i][0].getCSVCode(textTileMap);
+			mapOutput = mapOutput + "        <row>\n            <cell img=\""
+					+ map[i][0].getCSVCode(textTileMap);
 			for (int j = 1; j < x; j++) {
-				mapOutput = mapOutput + "," + map[i][j].getCSVCode(textTileMap);
+				mapOutput = mapOutput + "\"></cell>\n            <cell img=\""
+						+ map[i][j].getCSVCode(textTileMap);
 			}
-			mapOutput = mapOutput + "\n";
+			mapOutput = mapOutput + "\"></cell>\n        </row>\n";
 		}
+		mapOutput = mapOutput + "    </map>\n</world>";
 
 		return mapOutput;
 	}
@@ -247,7 +269,7 @@ public class Parser {
 		if (fc == JFileChooser.APPROVE_OPTION) {
 			BufferedWriter out = new BufferedWriter(new FileWriter(c
 					.getSelectedFile().getAbsolutePath()));
-			out.write(getCSVMap(world, textTileMap));
+			out.write(getXMLMap(world, textTileMap));
 			out.close();
 		}
 	}
@@ -278,7 +300,7 @@ public class Parser {
 			mapReader.close();
 		}
 
-		System.out.println(getCSVMap(world, textTileMap));
+		System.out.println(getXMLMap(world, textTileMap));
 	}
 
 }
