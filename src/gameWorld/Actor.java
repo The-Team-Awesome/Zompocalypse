@@ -9,14 +9,14 @@ import java.awt.Graphics;
  *
  * @author Kieran Mckay, 300276166
  */
-public abstract class Character implements GameObject {
+public abstract class Actor implements GameObject {
 	protected int xCoord; // real x-position
 	protected int yCoord; // real y-position
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character
 	 */
-	public Character(int xCoord, int yCoord) {
+	public Actor(int xCoord, int yCoord) {
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 	}

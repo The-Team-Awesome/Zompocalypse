@@ -1,11 +1,14 @@
 package userInterface.renderWindow;
 
+import gameWorld.Actor;
 import gameWorld.Drawable;
 import gameWorld.Floor;
 import gameWorld.World;
+import gameWorld.Tile;
 
 import java.awt.Graphics;
 import java.io.IOException;
+
 import javax.swing.JPanel;
 
 import dataStorage.Parser;
@@ -56,12 +59,29 @@ public class RenderPanel extends JPanel {
 	 * @param wd Width of window
 	 * @param ht Height of window
 	 */
-
 	public RenderPanel(int id, World game){
 		this.game = game;
 
 		CANVAS_WIDTH = this.getWidth();
 		CANVAS_HEIGHT = this.getHeight();
+	}
+
+	/**
+	 * 	Use the player id and the game objects to get the clipping
+	 *  from the player.
+	 *
+	 *  The clipping is a smaller version of the complete game board that
+	 *  will be displayed on the screen.
+	 */
+	public Tile[][] clip(){
+
+		Actor c = game.getCharacterByID(id);
+		//iterate through the game world.
+		//render panel is
+
+		Tile[][] returnTiles;
+		return null;
+
 	}
 
 	/**
@@ -121,7 +141,7 @@ public class RenderPanel extends JPanel {
 	 * @return
 	 */
 	private gameWorld.Tile[][] getDummyWorld() {
-		gameWorld.Tile[][] tiles = new gameWorld.Tile[5][5];
+		gameWorld.Tile[][] tiles = new Tile[5][5];
 
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
@@ -134,13 +154,6 @@ public class RenderPanel extends JPanel {
 				tiles[i][j] = new Floor(i,j,filenames, null);
 			}
 		}
-
-		//put a wall on
-		tiles[4][4].setOccupiable(false);
-		//tiles[4][4].setWall();
-
-		//Set the walls
-		tiles[3][3].setOccupiable(true);
 
 		return tiles;
 	}
