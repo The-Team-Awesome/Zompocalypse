@@ -63,6 +63,8 @@ public class RenderPanel extends JPanel {
 
 		WIDTH = this.getWidth();
 		HEIGHT = this.getHeight();
+
+
 	}
 
 	/**
