@@ -52,7 +52,7 @@ public class GamePanel extends JPanel {
 	private JTextArea txtDialog;
 
 	// icons
-	private static final String IMAGE_PATH = "images/";
+	private static final String IMAGE_PATH = "assets/icons/";
 	private static final Image ITEM = loadImage("sword.png");
 	private static final Image NORTH = loadImage("north.png");
 	private static final Image SOUTH = loadImage("south.png");
@@ -88,7 +88,7 @@ public class GamePanel extends JPanel {
 
 		menuPanel = new JPanel();
 		menuPanel.setPreferredSize(new Dimension(150, 700));
-		menuPanel.setBackground(Color.MAGENTA);
+		menuPanel.setBackground(Color.lightGray);
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 2;
 		c.gridx = 1;
@@ -98,7 +98,7 @@ public class GamePanel extends JPanel {
 
 		dialoguePanel = new JPanel();
 		dialoguePanel.setPreferredSize(new Dimension(800, 100));
-		dialoguePanel.setBackground(Color.green);
+		dialoguePanel.setBackground(Color.gray);
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -283,9 +283,9 @@ public class GamePanel extends JPanel {
 	public static Image loadImage(String filename) {
 		// using the URL means the image loads when stored
 		// in a jar or expanded into individual files.
-		System.out.println(GamePanel.class.getResource(IMAGE_PATH
+		System.out.println(GamePanel.class.getResource("../../"+IMAGE_PATH
 				+ filename));
-		java.net.URL imageURL = GamePanel.class.getResource(IMAGE_PATH
+		java.net.URL imageURL = GamePanel.class.getResource("../../"+IMAGE_PATH
 				+ filename);
 
 		try {
