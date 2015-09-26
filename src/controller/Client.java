@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import userInterface.appWindow.MainFrame;
-import gameWorld.World;
+import gameWorld.world.World;
 
 /**
  * This is the Client-side Thread which listens for Events and then sends those

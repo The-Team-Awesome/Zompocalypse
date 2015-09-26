@@ -1,4 +1,7 @@
-package gameWorld;
+package gameWorld.items;
+
+import gameWorld.GameObject;
+import gameWorld.characters.Player;
 
 import java.util.Map;
 

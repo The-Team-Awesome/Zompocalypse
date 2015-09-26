@@ -1,4 +1,7 @@
-package gameWorld;
+package gameWorld.world;
+
+import gameWorld.GameObject;
+import gameWorld.characters.Actor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,8 +97,8 @@ public class World {
 
 		int offset = (size - 1) / 2;
 
-		int charX = character.xCoord;
-		int charY = character.yCoord;
+		int charX = character.getX();
+		int charY = character.getY();
 
 		int perspX = 0;
 		for(int x = charX - offset; x <= charX + offset; x++) {

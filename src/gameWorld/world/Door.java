@@ -1,4 +1,7 @@
-package gameWorld;
+package gameWorld.world;
+
+import gameWorld.characters.Player;
+import gameWorld.items.Item;
 
 import java.awt.Graphics;
 import java.util.Map;
@@ -22,7 +25,6 @@ public class Door extends Wall implements Item {
 		this.open = false;
 		this.occupiable = false;
 		this.locked = locked;
-
 	}
 
 	@Override
