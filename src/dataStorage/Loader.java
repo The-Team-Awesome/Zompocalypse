@@ -2,7 +2,13 @@ package dataStorage;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -36,9 +42,34 @@ public class Loader {
 	 * @return The loaded file using the given string
 	 */
 	public static File LoadFile(String filename) {
-		File newFile = new File(assetsDir + File.separatorChar + filename);
+		String name = assetsDir + File.separatorChar + filename;
 
-		return newFile;
+		// Using an InputStream rather than simply loading files by filename
+		// allows the Loader to work when exported to a .jar as well as in Eclipse.
+		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);
+
+		File file = null;
+		try {
+			// It just comes with the overhead of needing to read in the file this way!
+			// Files are created, then populated with data by being read in through
+			// the InputStream and output to the temporary file using an OutputStream.
+			file = File.createTempFile("tempfile", ".tmp");
+
+			int read;
+			byte[] bytes = new byte[1024];
+
+			OutputStream out = new FileOutputStream(file);
+
+			while ((read = stream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+
+			file.deleteOnExit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return file;
 	}
 
 	/**
@@ -51,13 +82,13 @@ public class Loader {
 	public static Image LoadImage(String filename) {
 
 		File imageFile = LoadFile(spritesDir + File.separatorChar + filename);
-		
+
 		// If the above didn't work, then the image isn't in the sprites
 		// folder, so search for it a level up
 		if(imageFile == null || !imageFile.exists()) {
 			imageFile = LoadFile(File.separatorChar + filename);
 		}
-		
+
 		Image image = null;
 
 		try {
