@@ -31,7 +31,6 @@ public class Floor extends Tile implements Drawable{
 	//private Image[] images;   //in order NSEW
 
 	public Floor(int x, int y, String[] filenames, Wall wall) {
-		super();
 		this.x = x;
 		this.y = y;
 
@@ -39,6 +38,10 @@ public class Floor extends Tile implements Drawable{
 		occupiable = true;
 
 		setupImages(filenames);
+	}
+
+	public void setWall(Wall w){
+		this.wall = wall;
 	}
 
 	@Override
