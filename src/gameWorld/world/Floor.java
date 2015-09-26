@@ -40,8 +40,10 @@ public class Floor extends Tile implements Drawable{
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 
-		imu.setupImages(filenames);
+		this.images = imu.setupImages(filenames);
+		this.currentImage = images[0];
 		this.imageName = filenames[0];
+
 	}
 
 	private void setFilename(String string) {
