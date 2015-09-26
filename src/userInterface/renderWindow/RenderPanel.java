@@ -40,8 +40,8 @@ public class RenderPanel extends JPanel {
 	 */
 
 	//For scaling, knowing how big the window is
-	private int CANVAS_WIDTH;
-	private int CANVAS_HEIGHT;
+	private int WIDTH;
+	private int HEIGHT;
 
 	private World game;
 	private int id;
@@ -62,8 +62,8 @@ public class RenderPanel extends JPanel {
 	public RenderPanel(int id, World game){
 		this.game = game;
 
-		CANVAS_WIDTH = this.getWidth();
-		CANVAS_HEIGHT = this.getHeight();
+		WIDTH = this.getWidth();
+		HEIGHT = this.getHeight();
 	}
 
 	/**
@@ -76,11 +76,26 @@ public class RenderPanel extends JPanel {
 	public Tile[][] clip(){
 
 		Actor c = game.getCharacterByID(id);
-		//iterate through the game world.
-		//render panel is
 
-		Tile[][] returnTiles;
-		return null;
+		//use this to find neighbouring tiles
+		int actorX = c.getX();
+		int actorY = c.getY();
+
+		//find the position to render the character at
+		int renderActorX = WIDTH / 2;
+		int renderActorY = HEIGHT / 2;
+
+		int xTilesPerPanel = WIDTH / TILE_WIDTH;  //800 / 64/ Truncates
+		int yTilesPerPanel = HEIGHT / FLOOR_TILE_HEIGHT; //600 / 44
+
+		//Make a new tileset with the correct numbers of tiles
+		Tile[][] tiles = new Tile[xTilesPerPanel][yTilesPerPanel];
+
+		//iterate through the game world.
+		int topLeftX = actorX - xTilesPerPanel;
+		int topLeftY = actorY - yTilesPerPanel;
+
+		return tiles;
 
 	}
 
@@ -121,11 +136,13 @@ public class RenderPanel extends JPanel {
 		int offsetX = 300;
 		int offsetY = 300;
 
+		tiles[0][0].draw(offsetX, offsetY, g);
+
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
-
+					System.out.println("is drawable");
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
 					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
 
@@ -140,21 +157,19 @@ public class RenderPanel extends JPanel {
 	 * Dummy world for testing
 	 * @return
 	 */
-	private gameWorld.Tile[][] getDummyWorld() {
-		gameWorld.Tile[][] tiles = new Tile[5][5];
+	private Tile[][] getDummyWorld() {
+		Tile[][] tiles = new Tile[5][5];
 
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
 		};
 		System.out.println("making the floor");
 
-		//Get the floor
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = 0; j < tiles[0].length; ++j){
 				tiles[i][j] = new Floor(i,j,filenames, null);
 			}
 		}
-
 		return tiles;
 	}
 }
