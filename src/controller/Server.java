@@ -38,6 +38,13 @@ public class Server extends Thread {
 			boolean running = true;
 			output.writeInt(id);
 
+			output.writeInt(game.width());
+			output.writeInt(game.height());
+
+			byte[] data = game.toByteArray();
+			output.writeInt(data.length);
+			output.write(data);
+
 			while(running) {
 				try {
 					if(input.available() != 0) {
@@ -46,7 +53,7 @@ public class Server extends Thread {
 							case 1:
 								// In this case, a key was pressed
 								String key = readInputString(input);
-								
+
 								game.processKeyPress(id, key);
 
 								break;
@@ -71,6 +78,11 @@ public class Server extends Thread {
 						}
 					}
 
+					data = game.toByteArray();
+					output.writeInt(data.length);
+					output.write(data);
+					output.flush();
+
 					Thread.sleep(networkClock);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -85,14 +97,14 @@ public class Server extends Thread {
 		}
 
 	}
-	
+
 	private String readInputString(DataInputStream input) throws IOException {
 		int length = input.readInt();
 		char[] string = new char[length];
 		for(int i = 0; i < length; i++) {
 			string[i] = input.readChar();
 		}
-		
+
 		String value = String.copyValueOf(string);
 		return value;
 	}

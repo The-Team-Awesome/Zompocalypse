@@ -68,7 +68,7 @@ public class Main {
 				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {
-			System.out.println("I/O error: " + e.getMessage());			String floor = "";
+			System.out.println("I/O error: " + e.getMessage());
 
 			System.exit(1);
 		}
@@ -131,6 +131,7 @@ public class Main {
 					multiplePlayerGame(clock, connections);
 					System.out.println("All clients disconnected, closing server");
 					socketServer.close();
+					System.exit(1);
 					return;
 				}
 
