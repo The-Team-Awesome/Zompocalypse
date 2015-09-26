@@ -1,11 +1,13 @@
-package gameWorld;
+package gameWorld.characters;
+
+import gameWorld.Orientation;
+import gameWorld.world.World;
 
 import java.awt.*;
-import userInterface.renderWindow.Orientation;
 
 /**
  * Player is a human played character in the game.
- * 
+ *
  * @author Kieran Mckay, 300276166
  */
 public final class Player extends MovingCharacter{

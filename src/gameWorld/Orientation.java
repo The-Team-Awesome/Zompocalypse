@@ -1,4 +1,4 @@
-package userInterface.renderWindow;
+package gameWorld;
 
 public enum Orientation {
 	NORTH,
