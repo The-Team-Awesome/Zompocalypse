@@ -35,7 +35,6 @@ public class Floor extends Tile implements Drawable{
 		this.y = y;
 
 		occupiable = true;
-		imageName = filenames[0];
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 
@@ -79,13 +78,12 @@ public class Floor extends Tile implements Drawable{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		System.out.println("drawing floor");
+		//System.out.println("drawing floor");
 		g.drawImage(currentImage, x, y, null);
 	}
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		return imageName;
 	}
 }
