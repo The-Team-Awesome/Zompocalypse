@@ -5,7 +5,31 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Random;
 
-public class HomerStrategy {
+public class HomerStrategy implements Strategy {
+
+	@Override
+	public int type() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int speed() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void tick(World game, StrategyZombie ghost) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(Graphics g, StrategyZombie ghost) {
+		// TODO Auto-generated method stub
+		
+	}
 	/*
 	private static final Random random = new Random(System.currentTimeMillis());
 

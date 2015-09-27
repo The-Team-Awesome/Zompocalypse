@@ -121,4 +121,12 @@ public final class Player extends MovingCharacter{
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public String toString() {
+		return "Player [uid=" + uid + ", orientation=" + orientation
+				+ ", score=" + score + ", health=" + health + ", speed="
+				+ speed + ", strength=" + strength + ", filename=" + filename
+				+ "]";
+	}
 }
