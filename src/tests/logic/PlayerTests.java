@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import gameWorld.characters.Player;
+import gameWorld.items.Container;
+import gameWorld.items.Key;
+import gameWorld.world.Door;
 import gameWorld.world.World;
 
 import org.junit.Test;
@@ -57,6 +60,8 @@ public class PlayerTests {
 		// TODO: This test currently fails, which means movement is not correctly implemented!
 		Player p = generatePlayer(3, 3);
 		p.moveDown();
+		p.tick(game);
+		
 		p.moveLeft();
 		
 		p.tick(game);
@@ -88,6 +93,51 @@ public class PlayerTests {
 		
 		assertTrue(p.getY() == 5);
 		assertTrue(p.getX() == 0);
+	}
+	
+	@Test public void playerValidKeyTest1() {
+		Player p = generatePlayer(0, 0);
+		Key k = new Key("gold_key_inv.png");
+		
+		k.use(p);
+		
+		// TODO: At this point, it is expected that the key will be in the Players inventory.
+		// Inventories aren't yet implemented, so can't be checked! But soon....
+	}
+	
+	@Test public void playerValidDoorTest1() {
+		Player p = generatePlayer(0, 0);
+		Door d = new Door(0, 0, "test", false);
+		
+		d.use(p);
+		
+		assertTrue(d.occupiable());
+	}
+	
+	@Test public void playerValidDoorTest2() {
+		Player p = generatePlayer(0, 0);
+		Door d = new Door(0, 0, "test", true);
+		
+		d.unlock(true);
+		d.use(p);
+		
+		assertTrue(d.occupiable());
+	}
+	
+	@Test public void playerInvalidDoorTest1() {
+		Player p = generatePlayer(0, 0);
+		Door d = new Door(0, 0, "test", true);
+		
+		d.use(p);
+		
+		assertFalse(d.occupiable());
+	}
+	
+	@Test public void playerInvalidDoorTest2() {
+		Player p = generatePlayer(0, 0);
+		Door d = new Door(0, 0, "test", true);
+		
+		assertFalse(d.occupiable());
 	}
 	
 	// TODO: Following more implementation, there will be more tests here for interaction with Items

@@ -47,10 +47,15 @@ public class ZombieTests {
 		StrategyZombie z = new StrategyZombie(5, 5, new HomerStrategy());
 		// This sequence should leave the zombie at 4, 4
 		z.moveUp();
-		z.moveLeft();
-		z.moveUp();
-		z.moveDown();
+		z.tick(game);
 		
+		z.moveLeft();
+		z.tick(game);
+		
+		z.moveUp();
+		z.tick(game);
+		
+		z.moveDown();
 		z.tick(game);
 		
 		assertTrue(z.getX() == 4);
@@ -75,11 +80,18 @@ public class ZombieTests {
 		StrategyZombie z = new StrategyZombie(0, 0, new HomerStrategy());
 		// This sequence of movements should still leave the Zombie at the position 0,0
 		z.moveLeft();
-		z.moveUp();
-		z.moveDown();
-		z.moveUp();
-		z.moveUp();
+		z.tick(game);
 		
+		z.moveUp();
+		z.tick(game);
+		
+		z.moveDown();
+		z.tick(game);
+		
+		z.moveUp();
+		z.tick(game);
+		
+		z.moveUp();
 		z.tick(game);
 		
 		assertTrue(z.getX() == 0);
