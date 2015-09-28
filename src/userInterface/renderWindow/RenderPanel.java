@@ -50,7 +50,7 @@ public class RenderPanel extends JPanel {
 	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 
-	private boolean testing = false;
+	private boolean testing = true;
 
 	//The panel to be rendered on
 
@@ -121,17 +121,17 @@ public class RenderPanel extends JPanel {
 			 tiles = getDummyTiles(wd,ht);
 
 		}
-		/*else {
+		else {
 			// David's test code
 			try {
 				World world = Parser.ParseMap(Loader.mapFile);
 				tiles = world.getMap();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();*/
+				e.printStackTrace();
 				tiles = game.getMap();
-		/*	}
-		}*/
+			}
+		}
 
 		wd = tiles.length;
 		ht = tiles[0].length;
