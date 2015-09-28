@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import dataStorage.Loader;
 
 /**
- * StartPanel constains the components for the start
+ * StartPanel contains the components for the start
  * screen of the game.
  *
  * @author Danielle Emygdio
