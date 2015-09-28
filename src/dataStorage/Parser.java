@@ -39,6 +39,7 @@ public class Parser {
 	public static World ParseMap(String mapFile) throws IOException {
 
 		Tile[][] map = new Tile[1][1];
+		GameObject[][] objects = new GameObject[1][1];
 		int x = 0, y = 0;
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
@@ -82,6 +83,7 @@ public class Parser {
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
 			map = new Tile[y][x];
+			objects = new GameObject[y][x];
 
 			NodeList rows = nodeMap.getElementsByTagName("row");
 
@@ -91,6 +93,10 @@ public class Parser {
 				for (int j = 0; j < cells.getLength(); j++) {
 					Element cell = (Element) cells.item(j);
 					parseTile(map, textTileMap, cell.getAttribute("img"), i, j);
+					if (cell.hasAttribute("wall")) {
+						parseWall(objects, textTileMap, cell.getAttribute("wall"), cell.getAttribute("offset"), i, j);
+
+					}
 				}
 			}
 		} catch (FileNotFoundException | ParserConfigurationException
@@ -100,7 +106,14 @@ public class Parser {
 			mapReader.close();
 		}
 
-		return new World(x, y, map);
+		return new World(x, y, map, objects);
+	}
+
+	private static void parseWall(GameObject[][] objects,
+			Map<String, String> textTileMap, String attribute,
+			String attribute2, int i, int j) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
