@@ -40,11 +40,11 @@ public class StartPanel extends JPanel {
 		this.action = action;
 		this.id = id;
 
-		addComponentsToPane(this);
+		arrangeComponents();
 	}
 
-	private void addComponentsToPane(Container pane) {
-		pane.setLayout(new GridBagLayout());
+	private void arrangeComponents() {
+		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		Insets topInset = new Insets(400, 0, 0, 0);
 		Insets buttonsInset = new Insets(20, 0, 0, 0);
@@ -55,20 +55,20 @@ public class StartPanel extends JPanel {
 		singlePlayerButton.addActionListener(action);
 		c.insets = topInset;
 		c.gridy = positionY++;
-		pane.add(singlePlayerButton, c);
+		this.add(singlePlayerButton, c);
 
 		// MULTIPLAYER PLAYER BUTTON
 		multiplayerButton = new JButton("Multiplayer");
 		c.insets = buttonsInset;
 		c.gridy = positionY++;
 		multiplayerButton.addActionListener(action);
-		pane.add(multiplayerButton, c);
+		this.add(multiplayerButton, c);
 
 		// LOAD GAME BUTTON
 		loadGameButton = new JButton("Load game");
 		loadGameButton.addActionListener(action);
 		c.gridy = positionY++;
-		pane.add(loadGameButton, c);
+		this.add(loadGameButton, c);
 	}
 
 	@Override
