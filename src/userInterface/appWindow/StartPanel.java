@@ -4,12 +4,12 @@ import gameWorld.world.World;
 
 import java.awt.Container;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -32,7 +32,7 @@ public class StartPanel extends JPanel {
 	private World game;
 	private int id;
 
-	private static final Image BACKGROUND = Loader.LoadImage("background02.jpg");
+	private static final Image BACKGROUND = Loader.LoadImage("background03.png");
 
 	public StartPanel(int id, World game, ActionListener action) {
 		this.setSize(1000, 1000);
@@ -44,36 +44,31 @@ public class StartPanel extends JPanel {
 	}
 
 	private void addComponentsToPane(Container pane) {
-		pane.setLayout(new GridLayout(3,3));
-
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setSize(400, 300);
-		pane.add(buttonsPanel);
+		pane.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		Insets topInset = new Insets(400, 0, 0, 0);
+		Insets buttonsInset = new Insets(20, 0, 0, 0);
+		int positionY = 0;
 
 		// SINGLE PLAYER BUTTON
 		singlePlayerButton = new JButton("Single Player");
 		singlePlayerButton.addActionListener(action);
-		buttonsPanel.add(singlePlayerButton);
+		c.insets = topInset;
+		c.gridy = positionY++;
+		pane.add(singlePlayerButton, c);
 
 		// MULTIPLAYER PLAYER BUTTON
 		multiplayerButton = new JButton("Multiplayer");
+		c.insets = buttonsInset;
+		c.gridy = positionY++;
 		multiplayerButton.addActionListener(action);
-		buttonsPanel.add(multiplayerButton);
-
-		// LOAD GAME BUTTON
-		newGameButton = new JButton("New game");
-		newGameButton.addActionListener(action);
-		buttonsPanel.add(newGameButton);
+		pane.add(multiplayerButton, c);
 
 		// LOAD GAME BUTTON
 		loadGameButton = new JButton("Load game");
 		loadGameButton.addActionListener(action);
-		buttonsPanel.add(loadGameButton);
-
-		/*ImageIcon icon = new ImageIcon(BACKGROUND);
-		JLabel thumb = new JLabel();
-		thumb.setIcon(icon);
-		buttonsPanel.add(thumb);*/
+		c.gridy = positionY++;
+		pane.add(loadGameButton, c);
 	}
 
 	@Override
