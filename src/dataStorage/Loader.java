@@ -15,6 +15,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 
 /**
  * This class is a central place for loading all images, text, sound, font
@@ -107,6 +108,16 @@ public class Loader {
 		}
 
 		return image;
+	}
+
+	public static ImageIcon LoadSpriteIcon(String filename) {
+		return LoadImageIcon(spritesDir + File.separatorChar + filename);
+	}
+
+	public static ImageIcon LoadImageIcon(String filename) {
+		Image imageFile = LoadImage(filename);
+
+		return new ImageIcon(imageFile);
 	}
 
 	/**

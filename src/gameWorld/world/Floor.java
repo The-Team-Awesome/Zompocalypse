@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 import userInterface.renderWindow.ImageUtils;
 
 /**
@@ -26,8 +28,8 @@ public class Floor extends Tile{
 	//Floor tiles can contain
 	private boolean occupiable;
 
-	protected transient Image[] images;
-	protected transient Image currentImage;
+	protected ImageIcon[] images;
+	protected ImageIcon currentImage;
 	protected String imageName;
 	protected String[] filenames;
 
@@ -80,14 +82,8 @@ public class Floor extends Tile{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		ImageUtils imu = ImageUtils.getImageUtilsObject();
-
-		if(images == null || images.length == 0) {
-			images = imu.setupImages(filenames);
-			currentImage = images[0];
-		}
 		//System.out.println("drawing floor");
-		g.drawImage(currentImage, x, y, null);
+		g.drawImage(currentImage.getImage(), x, y, null);
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import gameWorld.Orientation;
 
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 import dataStorage.Loader;
 
 /**
@@ -32,12 +34,12 @@ public class ImageUtils {
 	 *
 	 * @param filenames
 	 */
-	public Image[] setupImages(String[] filenames) {
-		Image[] images = new Image[filenames.length];  //image is same length as array
+	public ImageIcon[] setupImages(String[] filenames) {
+		ImageIcon[] images = new ImageIcon[filenames.length];  //image is same length as array
 
 		for(int i = 0; i < filenames.length; ++i){
 			//System.out.println(filenames[i]);
-			images[i] = Loader.LoadSprite(filenames[i]);
+			images[i] = Loader.LoadSpriteIcon(filenames[i]);
 		}
 		return images;
 	}
