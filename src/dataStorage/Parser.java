@@ -65,6 +65,7 @@ public class Parser {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			System.out.println(mapCSV.toString());
 			Document doc = dBuilder.parse(mapCSV);
 
 			// remember, cool kids don't take drugs
@@ -304,6 +305,16 @@ public class Parser {
 		}
 
 		System.out.println(getXMLMap(world, textTileMap));
+	}
+
+	/**
+	 * Will save using proper XML tools rather
+	 *
+	 * @param world
+	 */
+	public static void SaveXML(World world) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
