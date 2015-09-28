@@ -215,7 +215,7 @@ public class Parser {
 		int y = world.height();
 
 		String mapOutput = "<?xml version=\"1.0\"?>\n<world>\n    "
-				+ "<map dimensions=\"" + x + "," + x + "\">\n";
+				+ "<map dimensions=\"" + x + "," + y + "\">\n";
 
 		for (int i = 0; i < y; i++) {
 			mapOutput = mapOutput + "        <row>\n            <cell img=\""
