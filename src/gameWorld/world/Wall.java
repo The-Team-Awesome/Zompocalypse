@@ -16,14 +16,16 @@ import userInterface.renderWindow.ImageUtils;
  */
 public class Wall implements GameObject {
 
-	protected Image[] images;
-	protected Image currentImage;
+	protected transient Image[] images;
+	protected transient Image currentImage;
+	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
+
 	protected String imageName;
-	protected ImageUtils imu = ImageUtils.getImageUtilsObject();
+
 
 	public Wall(String[] filenames){
 		imu = ImageUtils.getImageUtilsObject();
-		
+
 		images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];

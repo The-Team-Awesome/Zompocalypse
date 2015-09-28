@@ -26,8 +26,8 @@ public class Floor extends Tile{
 	//Floor tiles can contain
 	private boolean occupiable;
 
-	protected Image[] images;
-	protected Image currentImage;
+	protected transient Image[] images;
+	protected transient Image currentImage;
 	protected String imageName;
 
 	public Floor(int x, int y, String[] filenames) {

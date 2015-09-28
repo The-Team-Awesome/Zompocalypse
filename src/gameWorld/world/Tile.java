@@ -16,8 +16,8 @@ import dataStorage.Loader;
  */
 public abstract class Tile implements Drawable{
 
-	protected Image[] images;
-	protected Image currentImage;
+	protected transient Image[] images;
+	protected transient Image currentImage;
 	protected String imageName;
 
 	/**

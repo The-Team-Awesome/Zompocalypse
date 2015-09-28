@@ -5,7 +5,7 @@ import gameWorld.Orientation;
 import gameWorld.characters.Actor;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Kieran Mckay, 300276166
  */
-public class World {
+public class World implements Serializable {
 	private final int width;
 	private final int height;
 
@@ -204,7 +204,7 @@ public class World {
 	// ***********************************************
 	// End of Networking Methods
 	// ***********************************************
-	
+
 	@Override
 	public String toString() {
 		return "World [width=" + width + ", height=" + height + ", charToID="

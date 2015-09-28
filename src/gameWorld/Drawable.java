@@ -1,13 +1,14 @@
 package gameWorld;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * Drawable is an interface representing any class in the game which is able to be rendered in the graphics window.
  *
  * @author Kieran Mckay, 300276166
  */
-public interface Drawable {
+public interface Drawable extends Serializable {
 
 	/**
 	 * Returns the file name of the sprite associated with this object

@@ -72,6 +72,7 @@ public class Loader {
 			}
 
 			file.deleteOnExit();
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

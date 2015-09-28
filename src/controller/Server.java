@@ -5,6 +5,7 @@ import gameWorld.world.World;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.*;
 
 /**
@@ -38,12 +39,15 @@ public class Server extends Thread {
 			boolean running = true;
 			output.writeInt(id);
 
-			output.writeInt(game.width());
+			/*output.writeInt(game.width());
 			output.writeInt(game.height());
 
 			byte[] data = game.toByteArray();
 			output.writeInt(data.length);
-			output.write(data);
+			output.write(data);*/
+
+			ObjectOutputStream objOut = new ObjectOutputStream(output);
+			objOut.writeObject(game);
 
 			while(running) {
 				try {
@@ -78,20 +82,23 @@ public class Server extends Thread {
 						}
 					}
 
-					data = game.toByteArray();
+					/*data = game.toByteArray();
 					output.writeInt(data.length);
-					output.write(data);
+					output.write(data);*/
 					output.flush();
 
 					Thread.sleep(networkClock);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+
+				//objOut.close();
 			}
 
 			socket.close();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("Player " + id + " has disconnected");
 			// TODO: handle removal of Player from game
 		}
