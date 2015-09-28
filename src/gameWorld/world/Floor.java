@@ -15,10 +15,10 @@ import userInterface.renderWindow.ImageUtils;
  * Drawables that the floor contains can be:
  *
  *
- * @author Keiran & Pauline
+ * @author Kieran Mckay, 300276166 & Pauline
  *
  */
-public class Floor extends Tile implements Drawable{
+public class Floor extends Tile{
 
 	private int x;
 	private int y;

@@ -46,9 +46,4 @@ public abstract class Actor implements GameObject {
 	 * in.
 	 */
 	public abstract void tick(World game);
-
-	/**
-	 * This method enables characters to draw themselves onto a given canvas.
-	 */
-	//public abstract void draw(Graphics g);
 }

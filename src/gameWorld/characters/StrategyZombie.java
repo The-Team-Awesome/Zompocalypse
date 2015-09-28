@@ -21,12 +21,12 @@ public class StrategyZombie extends MovingCharacter {
 	}
 
 	public void tick(World game) {
-		int homeDistance = 300;
+		int homeDistance = 50;
 		/*
 		for(Character c : game.characters()) {
-			if(c instanceof Pacman && !((Pacman)c).isDead()) {
-				int deltaX = Math.abs(c.realX() - realX());
-				int deltaY = Math.abs(c.realY() - realY());
+			if(c instanceof Player && !((Player)c).isDead()) {
+				int deltaX = Math.abs(c.getX() - getX());
+				int deltaY = Math.abs(c.getY() - getY());
 				double distance = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
 
 				if(distance < homeDistance) {
