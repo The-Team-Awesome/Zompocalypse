@@ -60,7 +60,7 @@ public abstract class Tile implements Drawable{
 
 		for(int i = 0; i < filenames.length; ++i){
 			System.out.println(filenames[i]);
-			images[i] = Loader.LoadImage(filenames[i]);
+			images[i] = Loader.LoadSprite(filenames[i]);
 		}
 		currentImage = images[0];  //get the north (default orientation)
 		imageName = filenames[0];

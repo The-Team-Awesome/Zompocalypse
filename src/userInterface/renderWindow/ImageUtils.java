@@ -37,7 +37,7 @@ public class ImageUtils {
 
 		for(int i = 0; i < filenames.length; ++i){
 			System.out.println(filenames[i]);
-			images[i] = Loader.LoadImage(filenames[i]);
+			images[i] = Loader.LoadSprite(filenames[i]);
 		}
 		return images;
 	}

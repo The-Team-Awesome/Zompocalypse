@@ -42,6 +42,7 @@ public class Parser {
 		BufferedReader mapReader = null;
 		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
 				+ "tile_types.txt");
+
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
 

@@ -10,11 +10,11 @@ import gameWorld.world.World;
 /**
  * This is the Single Player Event Listener which passes input from the user
  * to the game.
- * 
+ *
  * @author Sam Costigan
  */
 public class SinglePlayer extends GameListener {
-	
+
 	private final int id;
 	private final World game;
 	private MainFrame frame;
@@ -50,7 +50,6 @@ public class SinglePlayer extends GameListener {
 		int y = e.getY();
 
 		game.processMouseClick(id, x, y);
-
 	}
 
 	@Override

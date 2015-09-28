@@ -14,7 +14,7 @@ public class Key implements Item{
 
 	public Key(String filename) {
 		this.filename = filename;
-		currentImage = Loader.LoadImage(filename);
+		currentImage = Loader.LoadSprite(filename);
 
 	}
 

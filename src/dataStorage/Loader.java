@@ -31,6 +31,7 @@ public class Loader {
 	 */
 	public static final String assetsDir = "assets";
 	public static final String spritesDir = "sprites";
+	public static final String iconsDir = "icons";
 	public static final String mapDir = "map";
 
 	public static final String mapFile = "TestMap2.xml";
@@ -49,7 +50,7 @@ public class Loader {
 		// Using an InputStream rather than simply loading files by filename
 		// allows the Loader to work when exported to a .jar as well as in Eclipse.
 		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);
-		
+
 		File file = null;
 		try {
 			// It just comes with the overhead of needing to read in the file this way!
@@ -63,7 +64,7 @@ public class Loader {
 			// If the file was not successfully found, a NullPointerException will occur at this point.
 			// This usually means the file doesn't exist within the assets folder - try moving it there,
 			// changing permissions on the file or making sure you're using the correct name.
-			
+
 			OutputStream out = new FileOutputStream(file);
 
 			while ((read = stream.read(bytes)) != -1) {
@@ -74,7 +75,7 @@ public class Loader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return file;
 	}
 
@@ -85,15 +86,16 @@ public class Loader {
 	 * @param filename
 	 * @return
 	 */
-	public static Image LoadImage(String filename) {
+	public static Image LoadSprite(String filename) {
+		return LoadImage(spritesDir + File.separatorChar + filename);
+	}
 
-		File imageFile = LoadFile(spritesDir + File.separatorChar + filename);
+	public static Image LoadIcon(String filename) {
+		return LoadImage(iconsDir + File.separatorChar + filename);
+	}
 
-		// If the above didn't work, then the image isn't in the sprites
-		// folder, so search for it a level up
-		if(imageFile == null || !imageFile.exists()) {
-			imageFile = LoadFile(File.separatorChar + filename);
-		}
+	private static Image LoadImage(String filename) {
+		File imageFile = LoadFile(filename);
 
 		Image image = null;
 

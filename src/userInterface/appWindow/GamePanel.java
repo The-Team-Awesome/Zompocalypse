@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import dataStorage.Loader;
 import userInterface.renderWindow.RenderPanel;
 
 /**
@@ -53,13 +54,13 @@ public class GamePanel extends JPanel {
 
 	// icons
 	private static final String IMAGE_PATH = "assets/icons/";
-	private static final Image ITEM = loadImage("sword.png");
-	private static final Image NORTH = loadImage("north.png");
-	private static final Image SOUTH = loadImage("south.png");
-	private static final Image WEST = loadImage("west.png");
-	private static final Image EAST = loadImage("east.png");
-	private static final Image TURNRIGHT = loadImage("turnRight.png");
-	private static final Image TURNLEFT = loadImage("turnLeft.png");
+	private static final Image ITEM = Loader.LoadIcon("sword.png");
+	private static final Image NORTH = Loader.LoadIcon("north.png");
+	private static final Image SOUTH = Loader.LoadIcon("south.png");
+	private static final Image WEST = Loader.LoadIcon("west.png");
+	private static final Image EAST = Loader.LoadIcon("east.png");
+	private static final Image TURNRIGHT = Loader.LoadIcon("turnRight.png");
+	private static final Image TURNLEFT = Loader.LoadIcon("turnLeft.png");
 
 	private World game;
 
@@ -272,30 +273,6 @@ public class GamePanel extends JPanel {
 		c.gridy = positionY++;
 		c.insets = generalInset;
 		menuPanel.add(minimapPanel, c);
-	}
-
-	/**
-	 * Load an image from the file system, using a given filename.
-	 *
-	 * @param filename
-	 * @return imageloaded
-	 */
-	public static Image loadImage(String filename) {
-		// using the URL means the image loads when stored
-		// in a jar or expanded into individual files.
-		System.out.println(GamePanel.class.getResource("../../"+IMAGE_PATH
-				+ filename));
-		java.net.URL imageURL = GamePanel.class.getResource("../../"+IMAGE_PATH
-				+ filename);
-
-		try {
-			Image img = ImageIO.read(imageURL);
-			return img;
-		} catch (IOException e) {
-			// we've encountered an error loading the image. There's not much we
-			// can actually do at this point, except to abort the game.
-			throw new RuntimeException("Unable to load image: " + filename);
-		}
 	}
 }
 
