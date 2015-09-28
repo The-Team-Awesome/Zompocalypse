@@ -179,8 +179,9 @@ public class World implements Serializable {
 	 * @param x
 	 * @param y
 	 */
-	public synchronized void processMouseClick(int id, int x, int y) {
+	public synchronized boolean processMouseClick(int id, int x, int y) {
 		System.out.println(id + ", " + x + ":" + y);
+		return true;
 	}
 
 	/**
@@ -188,8 +189,9 @@ public class World implements Serializable {
 	 * @param id
 	 * @param key
 	 */
-	public synchronized void processKeyPress(int id, String key) {
+	public synchronized boolean processKeyPress(int id, String key) {
 		System.out.println(id + ", " + key);
+		return true;
 	}
 
 	/**
@@ -197,8 +199,9 @@ public class World implements Serializable {
 	 * @param id
 	 * @param command
 	 */
-	public synchronized void processAction(int id, String command) {
+	public synchronized boolean processAction(int id, String command) {
 		System.out.println(id + ", " + command);
+		return true;
 	}
 
 	// ***********************************************
