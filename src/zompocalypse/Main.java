@@ -59,12 +59,12 @@ public class Main {
 
 		try {
 			if(server) {
-				World game = Parser.ParseMap("TestMap.csv");
+				World game = Parser.ParseMap("TestMap2.xml");
 				runServer(port, numClients, gameClock, networkClock, game);
 			} else if(url != null) {
 				runClient(url, port);
 			} else {
-				World game = Parser.ParseMap("TestMap.csv");
+				World game = Parser.ParseMap("TestMap2.xml");
 				singlePlayerGame(gameClock, game);
 			}
 		} catch(IOException e) {
