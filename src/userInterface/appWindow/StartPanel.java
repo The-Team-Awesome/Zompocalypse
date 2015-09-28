@@ -32,7 +32,7 @@ public class StartPanel extends JPanel {
 	private World game;
 	private int id;
 
-	private static final Image BACKGROUND = Loader.LoadImage("background03.png");
+	private static final Image BACKGROUND = Loader.LoadImage("background02.jpg");
 
 	public StartPanel(int id, World game, ActionListener action) {
 		this.setSize(1000, 1000);
