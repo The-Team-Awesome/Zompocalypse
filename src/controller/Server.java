@@ -82,6 +82,8 @@ public class Server extends Thread {
 						}
 					}
 
+					objOut.writeObject(game);
+
 					/*data = game.toByteArray();
 					output.writeInt(data.length);
 					output.write(data);*/
@@ -97,7 +99,7 @@ public class Server extends Thread {
 			socket.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			System.out.println("Player " + id + " has disconnected");
 			// TODO: handle removal of Player from game
 		}

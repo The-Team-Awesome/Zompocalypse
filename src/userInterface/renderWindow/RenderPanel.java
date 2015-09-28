@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import dataStorage.Loader;
 import dataStorage.Parser;
 
 /**
@@ -49,7 +50,7 @@ public class RenderPanel extends JPanel {
 	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 
-	private boolean testing = true;
+	private boolean testing = false;
 
 	//The panel to be rendered on
 
@@ -107,10 +108,10 @@ public class RenderPanel extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 
-		int wd = 5,ht = 5;
-
 		gameWorld.world.Tile[][] tiles;
 		gameWorld.GameObject[][] objects;
+
+		int wd = 5,ht = 5;
 
 		if(testing){
 			 tiles = getDummyTiles(wd,ht);
@@ -119,7 +120,7 @@ public class RenderPanel extends JPanel {
 		else {
 			// David's test code
 			try {
-				World world = Parser.ParseMap("TestMap.csv");
+				World world = Parser.ParseMap(Loader.mapFile);
 				tiles = world.getMap();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -127,6 +128,9 @@ public class RenderPanel extends JPanel {
 				tiles = game.getMap();
 			}
 		}
+
+		wd = tiles.length;
+		ht = tiles[0].length;
 
 		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;

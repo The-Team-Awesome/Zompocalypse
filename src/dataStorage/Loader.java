@@ -92,10 +92,7 @@ public class Loader {
 	}
 
 	public static Image LoadIcon(String filename) {
-
-		Image image = LoadImage(iconsDir + File.separatorChar + filename);
-
-		return image;
+		return LoadImage(iconsDir + File.separatorChar + filename);
 	}
 
 	public static Image LoadImage(String filename) {

@@ -61,6 +61,9 @@ public class Client extends GameListenerThread {
 				/*length = input.readInt();
 				byte[] data = new byte[length];
 				game.fromByteArray(data);*/
+				game = (World) objIn.readObject();
+
+				System.out.println(game);
 
 				frame.repaint();
 			}
