@@ -94,7 +94,9 @@ public class Parser {
 					Element cell = (Element) cells.item(j);
 					parseTile(map, textTileMap, cell.getAttribute("img"), i, j);
 					if (cell.hasAttribute("wall")) {
-						parseWall(objects, textTileMap, cell.getAttribute("wall"), cell.getAttribute("offset"), i, j);
+						parseWall(objects, textTileMap,
+								cell.getAttribute("wall"),
+								cell.getAttribute("offset"), i, j);
 
 					}
 				}
@@ -109,11 +111,15 @@ public class Parser {
 		return new World(x, y, map, objects);
 	}
 
+	/**
+	 * Parses a Wall from a String and places it on 2D array of GameObjects at
+	 * (i,j) with the offset it is to be drawn at
+	 */
 	private static void parseWall(GameObject[][] objects,
-			Map<String, String> textTileMap, String attribute,
-			String attribute2, int i, int j) {
-		// TODO Auto-generated method stub
-
+			Map<String, String> textTileMap, String string, String offset, int i,
+			int j) {
+		String[] wall = expandCode(textTileMap, string);
+		objects[i][j] = new Wall(wall, Integer.parseInt(offset));
 	}
 
 	/**
@@ -122,91 +128,74 @@ public class Parser {
 	 */
 	private static void parseTile(Tile[][] map,
 			Map<String, String> textTileMap, String string, int i, int j) {
-		String[] line = string.split("_");
-		String[] object = line[0].split("-");
+
+		String[] tile = expandCode(textTileMap, string);
+		map[i][j] = new Floor(i, j, tile);
+	}
+
+	private static String[] expandCode(Map<String, String> textTileMap,
+			String string) {
 		String[] tile = null;
 		String orientation;
+		String[] object = string.split("-");
+		String floor = "";
+		for (int k = 0; k < object.length - 1; k++) {
 
-		// Creates Floor if first element is 0, Wall if 1, Door if 2.
-		switch (object[0]) {
-		case "0":
-			Item thing = null;
-			String floor = "";
-			for (int k = 1; k < object.length - 1; k++) {
+			// for each part of string, expands it using Tile map.
+			floor = floor + textTileMap.get(object[k]);
+			if (k < object.length - 2)
+				floor = floor + "_";
+			else {
 
-				// for each part of string, expands it using Tile map.
-				floor = floor + textTileMap.get(object[k]);
-				if (k < object.length - 2)
-					floor = floor + "_";
-				else {
-
-					// Creates array of different directions Tile can be facing
-					// based on original direction
-					switch (object[object.length - 1]) {
-					case "n":
-						orientation = "nsew";
-						tile = new String[4];
-						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x)
-									+ ".png";
-						}
-						break;
-					case "s":
-						orientation = "snwe";
-						tile = new String[4];
-						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x)
-									+ ".png";
-						}
-						break;
-					case "e":
-						orientation = "ewns";
-						tile = new String[4];
-						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x)
-									+ ".png";
-						}
-						break;
-					case "w":
-						orientation = "wesn";
-						tile = new String[4];
-						for (int x = 0; x < orientation.length(); x++) {
-							tile[x] = floor + "_" + orientation.charAt(x)
-									+ ".png";
-						}
-						break;
-					case "ns":
-						tile = new String[2];
-						tile[0] = floor + "_" + "ns.png";
-						tile[1] = floor + "_" + "ew.png";
-						break;
-					case "ew":
-						tile = new String[2];
-						tile[0] = floor + "_" + "ew.png";
-						tile[1] = floor + "_" + "ns.png";
-						break;
-					default:
-						floor = floor + "_" + object[object.length - 1]
-								+ ".png";
-						tile = new String[] { floor };
-						break;
+				// Creates array of different directions Tile can be facing
+				// based on original direction
+				switch (object[object.length - 1]) {
+				case "n":
+					orientation = "nsew";
+					tile = new String[4];
+					for (int x = 0; x < orientation.length(); x++) {
+						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
 					}
+					break;
+				case "s":
+					orientation = "snwe";
+					tile = new String[4];
+					for (int x = 0; x < orientation.length(); x++) {
+						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+					}
+					break;
+				case "e":
+					orientation = "ewns";
+					tile = new String[4];
+					for (int x = 0; x < orientation.length(); x++) {
+						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+					}
+					break;
+				case "w":
+					orientation = "wesn";
+					tile = new String[4];
+					for (int x = 0; x < orientation.length(); x++) {
+						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
+					}
+					break;
+				case "ns":
+					tile = new String[2];
+					tile[0] = floor + "_" + "ns.png";
+					tile[1] = floor + "_" + "ew.png";
+					break;
+				case "ew":
+					tile = new String[2];
+					tile[0] = floor + "_" + "ew.png";
+					tile[1] = floor + "_" + "ns.png";
+					break;
+				default:
+					floor = floor + "_" + object[object.length - 1] + ".png";
+					tile = new String[] { floor };
+					break;
 				}
 			}
-
-			if (line.length > 1) {
-				thing = parseItem(line[1]);
-			}
-
-			map[i][j] = new Floor(i, j, tile);
-			break;
-		case "1":
-			// map[i][j] = new Wall(null);
-			break;
-		case "2":
-			// map[i][j] = new Door(i, j, "I love Kieran", false);
-			break;
 		}
+		return tile;
 	}
 
 	/**
@@ -233,6 +222,7 @@ public class Parser {
 	private static String getXMLMap(World world) throws IOException {
 
 		Tile[][] map = world.getMap();
+		GameObject[][] objects = world.getObjects();
 		int x = world.width();
 		int y = world.height();
 
@@ -282,8 +272,15 @@ public class Parser {
 				for (int j = 0; j < x; j++) {
 					Element xmlCell = doc.createElement("cell");
 					xmlCell.setAttribute("img",
-							map[i][j].getCSVCode(textTileMap));
+							getCode(map[i][j].getFileName(), textTileMap));
 					xmlRow.appendChild(xmlCell);
+					if (objects[i][j] != null) {
+						if (objects[i][j] instanceof gameWorld.world.Wall) {
+							Wall wall = (Wall) objects[i][j];
+							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
+							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
+						}
+					}
 				}
 				xmlMap.appendChild(xmlRow);
 			}
@@ -305,6 +302,17 @@ public class Parser {
 
 		// If we got here something went wrong!
 		return "Error: Unable to save World";
+	}
+
+	private static String getCode(String string, Map<String, String> textTileMap) {
+		String result = "";
+		String[] tileCode = string.substring(0, string.length() - 4).split("_");
+		for (int x = 0; x < tileCode.length; x++) {
+			result = result + textTileMap.get(tileCode[x]);
+			if (x < tileCode.length - 1)
+				result = result + "-";
+		}
+		return result;
 	}
 
 	/**

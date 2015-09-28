@@ -4,6 +4,7 @@ import gameWorld.Orientation;
 import gameWorld.world.World;
 
 import java.awt.*;
+import java.util.Map;
 
 /**
  * Player is a human played character in the game.

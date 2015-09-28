@@ -1,6 +1,7 @@
 package gameWorld;
 
 import java.awt.Image;
+import java.util.Map;
 
 import dataStorage.Loader;
 

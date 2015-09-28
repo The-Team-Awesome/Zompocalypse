@@ -63,19 +63,6 @@ public class Floor extends Tile{
 	}
 
 	@Override
-	public String getCSVCode(Map<String, String> textTileMap) {
-		String result = "0-";
-		System.out.println(imageName); //TODO delete
-		String[] tileCode = imageName.substring(0, imageName.length() - 4).split("_");
-		for (x = 0; x < tileCode.length; x++) {
-			result = result + textTileMap.get(tileCode[x]);
-			if (x < tileCode.length - 1)
-				result = result + "-";
-		}
-		return result;
-	}
-
-	@Override
 	public void setOccupiable(boolean bool) {
 		occupiable = bool;
 	}

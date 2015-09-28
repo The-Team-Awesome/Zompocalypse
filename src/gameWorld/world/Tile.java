@@ -40,12 +40,6 @@ public abstract class Tile implements Drawable{
 	public abstract boolean occupiable();
 
 	/**
-	 * Return the code to represent this tile in CSV.
-	 * @param textTileMap
-	 */
-	public abstract String getCSVCode(Map<String, String> textTileMap);
-
-	/**
 	 * Sets up the selection of images that this floor tile can be.
 	 * There are 3 possible ways to draw an item:
 	 *

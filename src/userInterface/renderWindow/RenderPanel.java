@@ -8,8 +8,6 @@ import gameWorld.characters.*;
 import java.awt.Graphics;
 import java.io.IOException;
 
-import javafx.scene.transform.Rotate;
-
 import javax.swing.JPanel;
 
 import dataStorage.Loader;
@@ -142,16 +140,18 @@ public class RenderPanel extends JPanel {
 		super.paintComponent(g);
 
 		gameWorld.world.Tile[][] tiles;
-		gameWorld.GameObject[][] objects;
+		gameWorld.GameObject[][] objects = new GameObject[1][1];
 
-		if(false){
+		if(testing){
 			 tiles = getDummyTiles(5,5);
+			 objects = getDummyObjects(5, 5);
 		}
 		else {
 			// David's test code
 			try {
 				World world = Parser.ParseMap(Loader.mapFile);
 				tiles = world.getMap();
+				objects = world.getObjects();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -162,7 +162,6 @@ public class RenderPanel extends JPanel {
 		int wd = tiles.length;
 		int ht = tiles[0].length;
 
-		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;
 
 		//start from the top center

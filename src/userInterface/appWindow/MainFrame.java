@@ -68,7 +68,7 @@ public class MainFrame extends JFrame {
 		cards.add(insertServer, "3");
 
 		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "1");
+		layout.show(cards, "3");
 
 		// setting content as default content for this frame
 

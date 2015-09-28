@@ -216,4 +216,8 @@ public class World implements Serializable {
 				+ Arrays.toString(map) + ", objects="
 				+ Arrays.toString(objects) + "]";
 	}
+
+	public GameObject[][] getObjects() {
+		return objects;
+	}
 }

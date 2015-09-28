@@ -45,4 +45,8 @@ public class Wall implements GameObject {
 		//System.out.println("drew current image" + currentImage.toString());
 		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}
+
+	public int getOffset() {
+		return offset;
+	}
 }

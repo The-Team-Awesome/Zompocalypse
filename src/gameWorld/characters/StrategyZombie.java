@@ -5,6 +5,7 @@ import gameWorld.world.World;
 import java.awt.Graphics;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 public class StrategyZombie extends MovingCharacter {
 
