@@ -36,7 +36,7 @@ public class ImageUtils {
 		Image[] images = new Image[filenames.length];  //image is same length as array
 
 		for(int i = 0; i < filenames.length; ++i){
-			System.out.println(filenames[i]);
+			//System.out.println(filenames[i]);
 			images[i] = Loader.LoadSprite(filenames[i]);
 		}
 		return images;

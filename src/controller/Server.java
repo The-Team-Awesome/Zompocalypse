@@ -91,10 +91,9 @@ public class Server extends Thread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-
-				//objOut.close();
 			}
 
+			objOut.close();
 			socket.close();
 
 		} catch (IOException e) {

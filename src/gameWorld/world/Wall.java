@@ -38,7 +38,7 @@ public class Wall implements GameObject {
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		System.out.println("drew current image" + currentImage.toString());
+		//System.out.println("drew current image" + currentImage.toString());
 		g.drawImage(currentImage, x, y, null);
 	}
 }

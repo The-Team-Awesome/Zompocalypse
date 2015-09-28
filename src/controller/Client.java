@@ -65,7 +65,7 @@ public class Client extends GameListenerThread {
 				frame.repaint();
 			}
 
-			//objIn.close();
+			objIn.close();
 			socket.close();
 
 		} catch (IOException e) {

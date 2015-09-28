@@ -106,7 +106,7 @@ public class RenderPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
+
 		int wd = 5,ht = 5;
 
 		gameWorld.world.Tile[][] tiles;
@@ -114,7 +114,7 @@ public class RenderPanel extends JPanel {
 
 		if(testing){
 			 tiles = getDummyTiles(wd,ht);
-			
+
 		}
 		else {
 			// David's test code
@@ -127,7 +127,7 @@ public class RenderPanel extends JPanel {
 				tiles = game.getMap();
 			}
 		}
-		
+
 		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;
 
@@ -147,24 +147,24 @@ public class RenderPanel extends JPanel {
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
-					System.out.println("is drawable");
+					//System.out.println("is drawable");
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
 					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
 
-					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
+					//System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
-					
+
 					Drawable dd = (Drawable) objects[i][j];
-					if(dd != null){			
-						System.out.println("draw wall");
+					if(dd != null){
+						//System.out.println("draw wall");
 						dd.draw(x, y, g);
 					}
-					
+
 				}
 			}
 		}
 	}
-	
+
 	private GameObject[][] getDummyObjects(int wd, int ht) {
 		gameWorld.GameObject[][] objects = new GameObject[wd][ht];
 		//Create a wall
@@ -177,7 +177,7 @@ public class RenderPanel extends JPanel {
 
 		//put the wall at the items position
 		objects[2][2] = w;
-		
+
 		return objects;
 	}
 
@@ -191,14 +191,14 @@ public class RenderPanel extends JPanel {
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
 		};
-		System.out.println("making the floor");
+		//System.out.println("making the floor");
 
 		//Do all the floor tiles first
 		for(int i = 0; i < wd; ++i){
 			for(int j = 0; j < ht; ++j){
 				tiles[i][j] = new Floor(i,j,filenames);
 			}
-		}		
+		}
 		return tiles;
 	}
 }
