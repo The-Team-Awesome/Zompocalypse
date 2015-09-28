@@ -53,7 +53,6 @@ public class GamePanel extends JPanel {
 	private JTextArea txtDialog;
 
 	// icons
-	private static final String IMAGE_PATH = "assets/icons/";
 	private static final Image ITEM = Loader.LoadIcon("sword.png");
 	private static final Image NORTH = Loader.LoadIcon("north.png");
 	private static final Image SOUTH = Loader.LoadIcon("south.png");

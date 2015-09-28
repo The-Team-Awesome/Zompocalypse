@@ -91,10 +91,13 @@ public class Loader {
 	}
 
 	public static Image LoadIcon(String filename) {
-		return LoadImage(iconsDir + File.separatorChar + filename);
+
+		Image image = LoadImage(iconsDir + File.separatorChar + filename);
+
+		return image;
 	}
 
-	private static Image LoadImage(String filename) {
+	public static Image LoadImage(String filename) {
 		File imageFile = LoadFile(filename);
 
 		Image image = null;
