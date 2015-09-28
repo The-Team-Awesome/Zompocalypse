@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import dataStorage.Loader;
 import dataStorage.Parser;
 
 /**
@@ -51,6 +52,13 @@ public class RenderPanel extends JPanel {
 
 	private boolean testing = true;
 
+	private Orientation currentOrientation = Orientation.NORTH;
+
+	//Remember the tiles and objects for next time you render - in case the orientation hasn't changed.
+	//Will need to update each tme.
+	private gameWorld.world.Tile[][] tiles;
+	private gameWorld.GameObject[][] objects;
+
 	//The panel to be rendered on
 
 	/** Constructor. Takes the height and width of the canvas into account.
@@ -63,8 +71,6 @@ public class RenderPanel extends JPanel {
 
 		WIDTH = this.getWidth();
 		HEIGHT = this.getHeight();
-
-
 	}
 
 	/**
@@ -100,6 +106,22 @@ public class RenderPanel extends JPanel {
 
 	}
 
+	public void updateGame(World game) {
+		this.game = game;
+	}
+
+	/**
+	 * The rotation method takes in:
+	 * 	-the current orientation of the board
+	 * 	-the new orientation of the player
+	 */
+	public void rotate(Orientation oldO, int direction,
+			gameWorld.world.Tile[][] tiles,
+			gameWorld.GameObject[][] objects){
+
+
+	}
+
 	/**
 	 * Draws the background first, then draws the tiles and players.
 	 */
@@ -107,29 +129,28 @@ public class RenderPanel extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 
-		int wd = 0, ht = 0;
-
 		gameWorld.world.Tile[][] tiles;
 		gameWorld.GameObject[][] objects;
 
 		if(testing){
-			wd = 5; ht = 5;
-			 tiles = getDummyTiles(wd,ht);
+			 tiles = getDummyTiles(5,5);
+
 
 		}
 		else {
 			// David's test code
 			try {
-				World world = Parser.ParseMap("TestMap2.xml");
+				World world = Parser.ParseMap(Loader.mapFile);
 				tiles = world.getMap();
-				wd = world.width();
-				ht = world.height();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				tiles = game.getMap();
 			}
 		}
+
+		int wd = tiles.length;
+		int ht = tiles[0].length;
 
 		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;
@@ -150,11 +171,11 @@ public class RenderPanel extends JPanel {
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
-					System.out.println("is drawable");
+					//System.out.println("is drawable");
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
 					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
 
-					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
+					//System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
 
 					Drawable dd = (Drawable) objects[i][j];
@@ -194,7 +215,7 @@ public class RenderPanel extends JPanel {
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
 		};
-		System.out.println("making the floor");
+		//System.out.println("making the floor");
 
 		//Do all the floor tiles first
 		for(int i = 0; i < wd; ++i){

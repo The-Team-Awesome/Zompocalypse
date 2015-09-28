@@ -17,7 +17,9 @@ public class MainFrame extends JFrame {
 	private CardLayout layout;
 	private GamePanel gameCard;
 	private StartPanel startCard;
+	private InsertServerPanel insertServer;
 	private JPanel cards;
+
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -51,11 +53,13 @@ public class MainFrame extends JFrame {
 		// adding GameScreen to content
 		gameCard = new GamePanel(id, game, action);
 		startCard = new StartPanel(id, game, action);
+		insertServer = new InsertServerPanel(id, game, action);
 		cards.add(gameCard, "1");
 		cards.add(startCard, "2");
+		cards.add(insertServer, "3");
 
 		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "1");
+		layout.show(cards, "3");
 
 		// setting content as default content for this frame
 
@@ -72,6 +76,10 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 
 		this.requestFocus();
+	}
+
+	public void updateGame(World game) {
+		gameCard.updateGame(game);
 	}
 
  }
