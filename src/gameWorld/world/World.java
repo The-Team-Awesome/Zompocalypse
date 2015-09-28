@@ -5,7 +5,7 @@ import gameWorld.Orientation;
 import gameWorld.characters.Actor;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Kieran Mckay, 300276166
  */
-public class World {
+public class World implements Serializable {
 	private final int width;
 	private final int height;
 
@@ -179,8 +179,9 @@ public class World {
 	 * @param x
 	 * @param y
 	 */
-	public synchronized void processMouseClick(int id, int x, int y) {
+	public synchronized boolean processMouseClick(int id, int x, int y) {
 		System.out.println(id + ", " + x + ":" + y);
+		return true;
 	}
 
 	/**
@@ -188,8 +189,9 @@ public class World {
 	 * @param id
 	 * @param key
 	 */
-	public synchronized void processKeyPress(int id, String key) {
+	public synchronized boolean processKeyPress(int id, String key) {
 		System.out.println(id + ", " + key);
+		return true;
 	}
 
 	/**
@@ -197,14 +199,15 @@ public class World {
 	 * @param id
 	 * @param command
 	 */
-	public synchronized void processAction(int id, String command) {
+	public synchronized boolean processAction(int id, String command) {
 		System.out.println(id + ", " + command);
+		return true;
 	}
 
 	// ***********************************************
 	// End of Networking Methods
 	// ***********************************************
-	
+
 	@Override
 	public String toString() {
 		return "World [width=" + width + ", height=" + height + ", charToID="

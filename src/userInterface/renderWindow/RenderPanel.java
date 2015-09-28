@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import dataStorage.Loader;
 import dataStorage.Parser;
 
 /**
@@ -105,6 +106,10 @@ public class RenderPanel extends JPanel {
 
 	}
 
+	public void updateGame(World game) {
+		this.game = game;
+	}
+
 	/**
 	 * The rotation method takes in:
 	 * 	-the current orientation of the board
@@ -136,7 +141,7 @@ public class RenderPanel extends JPanel {
 		else {
 			// David's test code
 			try {
-				World world = Parser.ParseMap("TestMap.csv");
+				World world = Parser.ParseMap(Loader.mapFile);
 				tiles = world.getMap();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -144,6 +149,9 @@ public class RenderPanel extends JPanel {
 				tiles = game.getMap();
 			}
 		}
+
+		wd = tiles.length;
+		ht = tiles[0].length;
 
 		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;
@@ -164,11 +172,11 @@ public class RenderPanel extends JPanel {
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
 					Drawable d = (Drawable) tiles[i][j];
-					System.out.println("is drawable");
+					//System.out.println("is drawable");
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
 					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
 
-					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
+					//System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
 
 					Drawable dd = (Drawable) objects[i][j];
@@ -208,7 +216,7 @@ public class RenderPanel extends JPanel {
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
 		};
-		System.out.println("making the floor");
+		//System.out.println("making the floor");
 
 		//Do all the floor tiles first
 		for(int i = 0; i < wd; ++i){

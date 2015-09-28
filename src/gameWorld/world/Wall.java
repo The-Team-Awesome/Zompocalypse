@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 import userInterface.renderWindow.ImageUtils;
 
 /**
@@ -16,14 +18,16 @@ import userInterface.renderWindow.ImageUtils;
  */
 public class Wall implements GameObject {
 
-	protected Image[] images;
-	protected Image currentImage;
+	protected ImageIcon[] images;
+	protected ImageIcon currentImage;
+	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
+
 	protected String imageName;
-	protected ImageUtils imu = ImageUtils.getImageUtilsObject();
+
 
 	public Wall(String[] filenames){
 		imu = ImageUtils.getImageUtilsObject();
-		
+
 		images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
@@ -36,7 +40,7 @@ public class Wall implements GameObject {
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		System.out.println("drew current image" + currentImage.toString());
-		g.drawImage(currentImage, x, y, null);
+		//System.out.println("drew current image" + currentImage.toString());
+		g.drawImage(currentImage.getImage(), x, y, null);
 	}
 }

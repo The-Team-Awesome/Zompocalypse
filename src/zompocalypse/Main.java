@@ -17,7 +17,7 @@ import dataStorage.Loader;
 import dataStorage.Parser;
 
 /**
- * This is the entry point for playing the adventure game. It processes commands
+ * This is the entry point for playing the networked zompocalypse. It processes commands
  * provided by the user and translates those into running the game as a server or client.
  *
  * @author Sam Costigan, much obliged to David J. Pearce's Pacman code:
@@ -85,9 +85,10 @@ public class Main {
 				{"-client/-c <url>", "Create a client connection to the server at url"}
 		};
 
-		System.out.println("Welcome to the Zompocalypse, created by the Dream Team:");
+		System.out.println("Welcome to Zompocalypse, created by the Team Awesome:");
 		System.out.println("Kieran Mckay, Danielle Emygdio, David Thomsen, Pauline Kelly and Sam Costigan.\n");
-		System.out.println("To play, type into the command line: \n\tjava -jar adventure.jar <commands>");
+		System.out.println("To play, type into the command line: \n\tjava -jar zompocalypse.jar <commands>");
+		System.out.println("Typing in no commands will run the game in single player mode.");
 		System.out.println("Commands:");
 
 		for(String[] command : commands) {

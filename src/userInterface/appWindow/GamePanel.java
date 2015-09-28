@@ -273,5 +273,10 @@ public class GamePanel extends JPanel {
 		c.insets = generalInset;
 		menuPanel.add(minimapPanel, c);
 	}
+
+	public void updateGame(World game) {
+		this.game = game;
+		renderingPanel.updateGame(game);
+	}
 }
 

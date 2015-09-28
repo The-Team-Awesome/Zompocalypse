@@ -78,4 +78,8 @@ public class MainFrame extends JFrame {
 		this.requestFocus();
 	}
 
+	public void updateGame(World game) {
+		gameCard.updateGame(game);
+	}
+
  }

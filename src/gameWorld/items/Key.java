@@ -15,8 +15,9 @@ import dataStorage.Loader;
  * @author Kieran Mckay, 300276166
  */
 public class Key implements Item{
+
+	private transient Image currentImage;
 	private String filename;
-	private Image currentImage;
 	private int uid;
 
 	public Key(String filename, int uid) {
