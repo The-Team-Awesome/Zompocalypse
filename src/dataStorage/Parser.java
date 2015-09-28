@@ -186,7 +186,7 @@ public class Parser {
 
 	private static Item parseItem(String str) {
 		if (str.equalsIgnoreCase("ky")) {
-			return new Key("gold_key.png");
+			return new Key("gold_key.png", 0);
 		} else
 			return null;
 	}

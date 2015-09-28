@@ -7,8 +7,16 @@ import gameWorld.items.Item;
 import java.awt.Graphics;
 import java.util.Map;
 
-
-public class Door implements Item, Drawable {
+/**
+ * A door in the game world.
+ * Doors can be locked or unlocked, if they are locked, they require a key to open.
+ * A door must be open for a character to walk through it.
+ *
+ * Implements item, and represents a leaf in the composite pattern.
+ *
+ * @author Kieran Mckay, 300276166
+ */
+public class Door implements Item{
 
 	private int x;
 	private int y;
@@ -18,14 +26,16 @@ public class Door implements Item, Drawable {
 	private boolean open;
 	private boolean locked;
 	private boolean occupiable;
+	private int uid;
 
-	public Door(int x, int y, String fileName, boolean locked) {
+	public Door(int x, int y, String fileName, boolean locked, int uid) {
 		this.x = x;
 		this.y = y;
 		this.fileName = fileName;
 		this.open = false;
 		this.occupiable = false;
 		this.locked = locked;
+		this.uid = uid;
 	}
 
 	@Override
@@ -58,6 +68,7 @@ public class Door implements Item, Drawable {
 	}
 
 	public boolean occupiable() {
+		//TODO
 		return open;
 	}
 
@@ -83,7 +94,6 @@ public class Door implements Item, Drawable {
 
 	@Override
 	public int getUniqueID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return uid;
 	}
 }
