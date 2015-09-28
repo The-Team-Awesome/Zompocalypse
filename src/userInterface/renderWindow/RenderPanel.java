@@ -51,6 +51,13 @@ public class RenderPanel extends JPanel {
 
 	private boolean testing = true;
 
+	private Orientation currentOrientation = Orientation.NORTH;
+
+	//Remember the tiles and objects for next time you render - in case the orientation hasn't changed.
+	//Will need to update each tme.
+	private gameWorld.world.Tile[][] tiles;
+	private gameWorld.GameObject[][] objects;
+
 	//The panel to be rendered on
 
 	/** Constructor. Takes the height and width of the canvas into account.
@@ -63,8 +70,6 @@ public class RenderPanel extends JPanel {
 
 		WIDTH = this.getWidth();
 		HEIGHT = this.getHeight();
-
-
 	}
 
 	/**
@@ -101,20 +106,32 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
+	 * The rotation method takes in:
+	 * 	-the current orientation of the board
+	 * 	-the new orientation of the player
+	 */
+	public void rotate(Orientation oldO, int direction,
+			gameWorld.world.Tile[][] tiles,
+			gameWorld.GameObject[][] objects){
+
+
+	}
+
+	/**
 	 * Draws the background first, then draws the tiles and players.
 	 */
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
+
 		int wd = 5,ht = 5;
 
 		gameWorld.world.Tile[][] tiles;
 		gameWorld.GameObject[][] objects;
 
 		if(testing){
-			 tiles = getDummyTiles(wd,ht);
-			
+			tiles = getDummyTiles(wd,ht);
+
 		}
 		else {
 			// David's test code
@@ -127,7 +144,7 @@ public class RenderPanel extends JPanel {
 				tiles = game.getMap();
 			}
 		}
-		
+
 		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;
 
@@ -153,18 +170,18 @@ public class RenderPanel extends JPanel {
 
 					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
-					
+
 					Drawable dd = (Drawable) objects[i][j];
-					if(dd != null){			
+					if(dd != null){
 						System.out.println("draw wall");
 						dd.draw(x, y, g);
 					}
-					
+
 				}
 			}
 		}
 	}
-	
+
 	private GameObject[][] getDummyObjects(int wd, int ht) {
 		gameWorld.GameObject[][] objects = new GameObject[wd][ht];
 		//Create a wall
@@ -177,7 +194,7 @@ public class RenderPanel extends JPanel {
 
 		//put the wall at the items position
 		objects[2][2] = w;
-		
+
 		return objects;
 	}
 
@@ -198,7 +215,7 @@ public class RenderPanel extends JPanel {
 			for(int j = 0; j < ht; ++j){
 				tiles[i][j] = new Floor(i,j,filenames);
 			}
-		}		
+		}
 		return tiles;
 	}
 }

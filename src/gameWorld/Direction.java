@@ -7,7 +7,6 @@ package gameWorld;
  *
  */
 public enum Direction {
-	FORWARD,
-	BACKWARD,
-	STATIONARY
+	CLOCKWISE,
+	ANTICLOCKWISE
 }
