@@ -32,7 +32,7 @@ public class Main {
 		String url = null;
 		int port = 32768;
 		int gameClock = 200;
-		int networkClock = 1000;
+		int networkClock = 50;
 
 		// Run through the arguments, processing each type of command individually
 		for(int i = 0; i < args.length; i++) {

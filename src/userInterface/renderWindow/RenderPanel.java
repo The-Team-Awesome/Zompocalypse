@@ -101,6 +101,10 @@ public class RenderPanel extends JPanel {
 
 	}
 
+	public void updateGame(World game) {
+		this.game = game;
+	}
+
 	/**
 	 * Draws the background first, then draws the tiles and players.
 	 */
@@ -117,17 +121,17 @@ public class RenderPanel extends JPanel {
 			 tiles = getDummyTiles(wd,ht);
 
 		}
-		else {
+		/*else {
 			// David's test code
 			try {
 				World world = Parser.ParseMap(Loader.mapFile);
 				tiles = world.getMap();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace();*/
 				tiles = game.getMap();
-			}
-		}
+		/*	}
+		}*/
 
 		wd = tiles.length;
 		ht = tiles[0].length;

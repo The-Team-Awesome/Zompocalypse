@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import userInterface.appWindow.MainFrame;
+import gameWorld.world.Tile;
 import gameWorld.world.World;
 
 /**
@@ -63,7 +64,15 @@ public class Client extends GameListenerThread {
 				game.fromByteArray(data);*/
 				game = (World) objIn.readObject();
 
-				System.out.println(game);
+				/*for(Tile[] t : game.getMap()) {
+					for(Tile tile : t) {
+						System.out.println(tile);
+					}
+				}*/
+
+				frame.updateGame(game);
+
+				//System.out.println(game);
 
 				frame.repaint();
 			}

@@ -29,6 +29,7 @@ public class Floor extends Tile{
 	protected transient Image[] images;
 	protected transient Image currentImage;
 	protected String imageName;
+	protected String[] filenames;
 
 	public Floor(int x, int y, String[] filenames) {
 		this.x = x;
@@ -38,6 +39,7 @@ public class Floor extends Tile{
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 
+		this.filenames = filenames;
 		this.images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
@@ -78,6 +80,12 @@ public class Floor extends Tile{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+		if(images == null || images.length == 0) {
+			images = imu.setupImages(filenames);
+			currentImage = images[0];
+		}
 		//System.out.println("drawing floor");
 		g.drawImage(currentImage, x, y, null);
 	}
