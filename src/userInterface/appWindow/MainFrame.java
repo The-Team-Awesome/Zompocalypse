@@ -6,12 +6,22 @@ import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 import java.util.EventListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.hamcrest.core.IsInstanceOf;
+
+/**
+ * MainFrame is the main window of the application. It holds the other panels containing
+ * the different screens of the game.
+ *
+ * @author Danielle Emygdio
+ *
+ */
 public class MainFrame extends JFrame {
 
 	private CardLayout layout;
@@ -19,7 +29,6 @@ public class MainFrame extends JFrame {
 	private StartPanel startCard;
 	private InsertServerPanel insertServer;
 	private JPanel cards;
-
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -59,7 +68,7 @@ public class MainFrame extends JFrame {
 		cards.add(insertServer, "3");
 
 		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "3");
+		layout.show(cards, "1");
 
 		// setting content as default content for this frame
 
@@ -82,4 +91,45 @@ public class MainFrame extends JFrame {
 		gameCard.updateGame(game);
 	}
 
+	/**
+	 * This method takes an x and y co-ordinate for a click and does shit with it.
+	 *
+	 * @param id
+	 * @param x
+	 * @param y
+	 */
+	public synchronized boolean processMouseClick(int id, int x, int y) {
+
+		return true;
+	}
+
+	/**
+	 * Processes the given key press event.
+	 *
+	 * @param id
+	 * @param key
+	 */
+	public synchronized boolean processKeyPress(int id, String key) {
+		if(key == "clockwise") {
+			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
+		} else if (key == "anticlockwise") {
+			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
+		}
+		return true;
+	}
+
+	/**
+	 * Processes action received.
+	 *
+	 * @param id
+	 * @param command
+	 */
+	public synchronized boolean processAction(int id, String command) {
+		System.out.println(id + ", " + command);
+		if(command == UICommand.ROTATEANTICLOCKWISE.getValue()
+				|| command == UICommand.ROTATECLOCKWISE.getValue()) {
+			gameCard.rotateView(command);
+		}
+		return true;
+	}
  }

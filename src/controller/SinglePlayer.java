@@ -40,6 +40,10 @@ public class SinglePlayer extends GameListener {
 			game.processKeyPress(id, "right");
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 			game.processKeyPress(id, "down");
+		} else if(code == KeyEvent.VK_COMMA) {
+			frame.processKeyPress(code, "clockwise");
+		} else if (code == KeyEvent.VK_PERIOD) {
+			frame.processKeyPress(code, "anticlockwise");
 		}
 	}
 
@@ -49,14 +53,21 @@ public class SinglePlayer extends GameListener {
 		int x = e.getX();
 		int y = e.getY();
 
-		game.processMouseClick(id, x, y);
+		if (game.processMouseClick(id, x, y)) {
+
+		} else {
+
+		}
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		game.processAction(id, command);
+		if(!game.processAction(id, command)) {
+			frame.processAction(id, command);
+		}
 
 		// After processing an action, give control back to the frame
 		frame.requestFocus();

@@ -8,6 +8,8 @@ import gameWorld.characters.*;
 import java.awt.Graphics;
 import java.io.IOException;
 
+import javafx.scene.transform.Rotate;
+
 import javax.swing.JPanel;
 
 import dataStorage.Loader;
@@ -115,11 +117,21 @@ public class RenderPanel extends JPanel {
 	 * 	-the current orientation of the board
 	 * 	-the new orientation of the player
 	 */
-	public void rotate(Orientation oldO, int direction,
+	private void rotate(Orientation oldO, int direction,
 			gameWorld.world.Tile[][] tiles,
 			gameWorld.GameObject[][] objects){
 
 
+	}
+
+	/**
+	 * Rotates the rendering in the given direction.
+	 * @param clockwise
+	 */
+	public void rotate(Direction clockwise) {
+		// and call the private method from here - it was taking
+		// too many methods to be public directly:
+		// rotate(oldO, direction, tiles, objects);
 	}
 
 	/**
@@ -225,4 +237,10 @@ public class RenderPanel extends JPanel {
 		}
 		return tiles;
 	}
+
+	public Orientation getCurrentOrientation() {
+		return currentOrientation;
+	}
+
+
 }

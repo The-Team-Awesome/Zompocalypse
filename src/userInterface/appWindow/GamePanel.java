@@ -1,6 +1,7 @@
 package userInterface.appWindow;
 
 import gameWorld.world.World;
+import gameWorld.Direction;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,9 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,8 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import dataStorage.Loader;
 import userInterface.renderWindow.RenderPanel;
+
+import dataStorage.Loader;
 
 /**
  * Contains the components for the main game screen.
@@ -46,8 +46,8 @@ public class GamePanel extends JPanel {
 	private JButton btnSouth;
 	private JButton btnEast;
 	private JButton btnWest;
-	private JButton btnTurnRightView;
-	private JButton btnTurnLeftView;
+	private JButton btnRotateClockwise;
+	private JButton btnRotateAnticlockwise;
 
 	// dialogPanel components
 	private JTextArea txtDialog;
@@ -60,6 +60,7 @@ public class GamePanel extends JPanel {
 	private static final Image EAST = Loader.LoadIcon("east.png");
 	private static final Image TURNRIGHT = Loader.LoadIcon("turnRight.png");
 	private static final Image TURNLEFT = Loader.LoadIcon("turnLeft.png");
+
 
 	private World game;
 
@@ -198,7 +199,7 @@ public class GamePanel extends JPanel {
 		// DIRECTIONS
 		ImageIcon iconNorth = new ImageIcon(NORTH);
 		btnNorth = new JButton(iconNorth);
-		btnNorth.setActionCommand("North");
+		btnNorth.setActionCommand(UICommand.NORTH.getValue());
 		btnNorth.addActionListener(action);
 		btnNorth.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
@@ -209,7 +210,7 @@ public class GamePanel extends JPanel {
 		Insets westInset = new Insets(0, 0, 10, -50);
 		ImageIcon iconWest = new ImageIcon(WEST);
 		btnWest = new JButton(iconWest);
-		btnWest.setActionCommand("West");;
+		btnWest.setActionCommand(UICommand.WEST.getValue());;
 		btnWest.addActionListener(action);
 		btnWest.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 0;
@@ -223,7 +224,7 @@ public class GamePanel extends JPanel {
 		Insets eastInset = new Insets(0, -50, 10, 0);
 		ImageIcon iconEast = new ImageIcon(EAST);
 		btnEast = new JButton(iconEast);
-		btnEast.setActionCommand("East");
+		btnEast.setActionCommand(UICommand.EAST.getValue());
 		btnEast.addActionListener(action);
 		btnEast.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 3;
@@ -235,7 +236,7 @@ public class GamePanel extends JPanel {
 		c.insets = generalInset;
 		ImageIcon iconSouth = new ImageIcon(SOUTH);
 		btnSouth = new JButton(iconSouth);
-		btnSouth.setActionCommand("South");
+		btnSouth.setActionCommand(UICommand.SOUTH.getValue());
 		btnSouth.addActionListener(action);
 		btnSouth.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
@@ -244,26 +245,26 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnSouth, c);
 
 		ImageIcon iconTurnRightView = new ImageIcon(TURNRIGHT);
-		btnTurnRightView = new JButton(iconTurnRightView);
-		btnTurnRightView.setActionCommand("ViewToRight");
-		btnTurnRightView.addActionListener(action);
-		btnTurnRightView.setBorder(BorderFactory.createEmptyBorder());
+		btnRotateClockwise = new JButton(iconTurnRightView);
+		btnRotateClockwise.setActionCommand(UICommand.ROTATECLOCKWISE.getValue());
+		btnRotateClockwise.addActionListener(action);
+		btnRotateClockwise.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 0;
 		c.gridy = positionY;
 		c.ipadx = 1;
 		c.insets = westInset;
-		menuPanel.add(btnTurnRightView, c);
+		menuPanel.add(btnRotateClockwise, c);
 
 		ImageIcon iconTurnLeftView = new ImageIcon(TURNLEFT);
-		btnTurnLeftView = new JButton(iconTurnLeftView);
-		btnTurnLeftView.setActionCommand("ViewToLeft");
-		btnTurnLeftView.addActionListener(action);
-		btnTurnLeftView.setBorder(BorderFactory.createEmptyBorder());
+		btnRotateAnticlockwise = new JButton(iconTurnLeftView);
+		btnRotateAnticlockwise.setActionCommand(UICommand.ROTATEANTICLOCKWISE.getValue());
+		btnRotateAnticlockwise.addActionListener(action);
+		btnRotateAnticlockwise.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 3;
 		c.gridy = positionY++;
 		c.ipadx = 1;
 		c.insets = eastInset;
-		menuPanel.add(btnTurnLeftView, c);
+		menuPanel.add(btnRotateAnticlockwise, c);
 
 		minimapPanel = new JPanel();
 		minimapPanel.setSize(100, 100);
@@ -274,9 +275,29 @@ public class GamePanel extends JPanel {
 		menuPanel.add(minimapPanel, c);
 	}
 
+	/**
+	 * Update the game for visualization at the renderingPanel.
+	 *
+	 * @param game in the current state.
+	 */
 	public void updateGame(World game) {
 		this.game = game;
 		renderingPanel.updateGame(game);
+	}
+
+	/**
+	 * Rotates the rendered world at the renderingPanel.
+	 *
+	 * @param command is the actionCommand of the button pressed.
+	 */
+	public void rotateView(String command) {
+		if(command == UICommand.ROTATECLOCKWISE.getValue()) {
+			renderingPanel.rotate(Direction.CLOCKWISE);
+			System.out.println(UICommand.ROTATECLOCKWISE+"YOOOOOO");
+		} else {
+			renderingPanel.rotate(Direction.ANTICLOCKWISE);
+			System.out.println(UICommand.ROTATEANTICLOCKWISE+"YOOOOOO");
+		}
 	}
 }
 

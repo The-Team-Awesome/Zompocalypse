@@ -200,8 +200,8 @@ public class World implements Serializable {
 	 * @param command
 	 */
 	public synchronized boolean processAction(int id, String command) {
-		System.out.println(id + ", " + command);
-		return true;
+		//System.out.println(id + ", " + command);
+		return false;
 	}
 
 	// ***********************************************
