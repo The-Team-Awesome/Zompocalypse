@@ -204,4 +204,12 @@ public class World {
 	// ***********************************************
 	// End of Networking Methods
 	// ***********************************************
+	
+	@Override
+	public String toString() {
+		return "World [width=" + width + ", height=" + height + ", charToID="
+				+ charToID + ", orientation=" + orientation + ", map="
+				+ Arrays.toString(map) + ", objects="
+				+ Arrays.toString(objects) + "]";
+	}
 }

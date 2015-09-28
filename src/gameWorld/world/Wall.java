@@ -23,18 +23,20 @@ public class Wall implements GameObject {
 
 	public Wall(String[] filenames){
 		imu = ImageUtils.getImageUtilsObject();
-
+		
 		images = imu.setupImages(filenames);
+		this.currentImage = images[0];
+		this.imageName = filenames[0];
 	}
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		return imageName;
 	}
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
+		System.out.println("drew current image" + currentImage.toString());
 		g.drawImage(currentImage, x, y, null);
 	}
 }

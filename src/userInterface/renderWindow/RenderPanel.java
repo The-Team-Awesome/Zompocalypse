@@ -47,7 +47,7 @@ public class RenderPanel extends JPanel {
 
 	private static final int TILE_WIDTH = 64;
 	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
-	private static final int FLOOR_TILE_HEIGHT = 44;  //NOT 32? Height changes for each tile
+	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 
 	private boolean testing = true;
 
@@ -105,13 +105,16 @@ public class RenderPanel extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g){
-		System.out.println("painting");
 		super.paintComponent(g);
+		
+		int wd = 5,ht = 5;
 
 		gameWorld.world.Tile[][] tiles;
+		gameWorld.GameObject[][] objects;
 
 		if(testing){
-			 tiles = getDummyWorld();
+			 tiles = getDummyTiles(wd,ht);
+			
 		}
 		else {
 			// David's test code
@@ -124,7 +127,8 @@ public class RenderPanel extends JPanel {
 				tiles = game.getMap();
 			}
 		}
-
+		
+		objects = getDummyObjects(wd, ht);
 		Orientation o = Orientation.NORTH;
 
 		//start from the top center
@@ -149,39 +153,52 @@ public class RenderPanel extends JPanel {
 
 					System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
+					
+					Drawable dd = (Drawable) objects[i][j];
+					if(dd != null){			
+						System.out.println("draw wall");
+						dd.draw(x, y, g);
+					}
+					
 				}
 			}
 		}
+	}
+	
+	private GameObject[][] getDummyObjects(int wd, int ht) {
+		gameWorld.GameObject[][] objects = new GameObject[wd][ht];
+		//Create a wall
+		Wall w = new Wall(new String[] {
+				"wall_grey_3_t_n.png",
+				"wall_grey_3_t_s.png",
+				"wall_grey_3_t_e.png",
+				"wall_grey_3_t_w.png"
+		});
+
+		//put the wall at the items position
+		objects[2][2] = w;
+		
+		return objects;
 	}
 
 	/**
 	 * Dummy world for testing
 	 * @return
 	 */
-	private gameWorld.world.Tile[][] getDummyWorld() {
-		gameWorld.world.Tile[][] tiles = new Tile[5][5];
+	private gameWorld.world.Tile[][] getDummyTiles(int wd, int ht) {
+		gameWorld.world.Tile[][] tiles = new Tile[wd][ht];
 
 		String [] filenames = new String[] {
 				"ground_grey_1.png"
 		};
 		System.out.println("making the floor");
 
-		for(int i = 0; i < tiles.length; ++i){
-			for(int j = 0; j < tiles[0].length; ++j){
+		//Do all the floor tiles first
+		for(int i = 0; i < wd; ++i){
+			for(int j = 0; j < ht; ++j){
 				tiles[i][j] = new Floor(i,j,filenames);
 			}
-		}
-
-//		Wall w = new Wall(new String[] {
-//				"wall_grey_3_t_n.png",
-//				"wall_grey_3_t_s.png",
-//				"wall_grey_3_t_e.png",
-//				"wall_grey_3_t_w.png"
-//		});
-//
-//		((Floor) tiles[3][3]).setWall(w);
-//		tiles[3][3].setOccupiable(false);
-
+		}		
 		return tiles;
 	}
 }

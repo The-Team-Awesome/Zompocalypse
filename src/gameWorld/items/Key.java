@@ -8,14 +8,21 @@ import java.util.Map;
 
 import dataStorage.Loader;
 
+/**
+ * A key used to open a locked item such as a door or chest etc.
+ * Implements item, and represents a leaf in the composite pattern.
+ *
+ * @author Kieran Mckay, 300276166
+ */
 public class Key implements Item{
 	private String filename;
 	private Image currentImage;
+	private int uid;
 
-	public Key(String filename) {
+	public Key(String filename, int uid) {
 		this.filename = filename;
-		currentImage = Loader.LoadImage(filename);
-
+		currentImage = Loader.LoadSprite(filename);
+		this.uid = uid;
 	}
 
 	@Override
@@ -40,14 +47,12 @@ public class Key implements Item{
 
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		// TODO Auto-generated method stub
 		g.drawImage(currentImage, x, y-18, null);
 
 	}
 
 	@Override
 	public int getUniqueID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return uid;
 	}
 }

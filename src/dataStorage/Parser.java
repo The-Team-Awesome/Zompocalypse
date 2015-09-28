@@ -42,6 +42,7 @@ public class Parser {
 		BufferedReader mapReader = null;
 		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
 				+ "tile_types.txt");
+
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
 
@@ -187,7 +188,7 @@ public class Parser {
 
 	private static Item parseItem(String str) {
 		if (str.equalsIgnoreCase("ky")) {
-			return new Key("gold_key.png");
+			return new Key("gold_key.png", 0);
 		} else
 			return null;
 	}
