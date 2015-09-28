@@ -65,6 +65,7 @@ public class Parser {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			System.out.println(mapCSV.toString());
 			Document doc = dBuilder.parse(mapCSV);
 
 			// remember, cool kids don't take drugs
@@ -214,7 +215,7 @@ public class Parser {
 		int y = world.height();
 
 		String mapOutput = "<?xml version=\"1.0\"?>\n<world>\n    "
-				+ "<map dimensions=\"" + x + "," + x + "\">\n";
+				+ "<map dimensions=\"" + x + "," + y + "\">\n";
 
 		for (int i = 0; i < y; i++) {
 			mapOutput = mapOutput + "        <row>\n            <cell img=\""
@@ -304,6 +305,16 @@ public class Parser {
 		}
 
 		System.out.println(getXMLMap(world, textTileMap));
+	}
+
+	/**
+	 * Will save using proper XML tools rather
+	 *
+	 * @param world
+	 */
+	public static void SaveXML(World world) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
