@@ -3,6 +3,7 @@ package userInterface.appWindow;
 import gameWorld.world.World;
 
 import java.awt.CardLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -14,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.hamcrest.core.IsInstanceOf;
+
+import dataStorage.Loader;
 
 /**
  * MainFrame is the main window of the application. It holds the other panels containing
@@ -68,15 +71,15 @@ public class MainFrame extends JFrame {
 		cards.add(insertServer, "3");
 
 		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "3");
+		layout.show(cards, "1");
 
 		// setting content as default content for this frame
 
 		setContentPane(cards);
 
 		// window customization
-		ImageIcon img = new ImageIcon("assets/zombie-icon.png");
-		setIconImage(img.getImage());
+		Image img = Loader.LoadImage("zombie-icon.png");
+		setIconImage(img);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 1000);
 		setLocationRelativeTo(null); // center the screen
