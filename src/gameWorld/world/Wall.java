@@ -23,14 +23,16 @@ public class Wall implements GameObject {
 	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
 
 	protected String imageName;
+	protected int offset;
 
 
-	public Wall(String[] filenames){
+	public Wall(String[] filenames, int offset){
 		imu = ImageUtils.getImageUtilsObject();
 
 		images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
+		this.offset = offset;
 	}
 
 	@Override
@@ -41,6 +43,6 @@ public class Wall implements GameObject {
 	@Override
 	public void draw(int x, int y, Graphics g) {
 		//System.out.println("drew current image" + currentImage.toString());
-		g.drawImage(currentImage.getImage(), x, y, null);
+		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}
 }

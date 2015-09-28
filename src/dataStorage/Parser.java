@@ -4,6 +4,9 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.StreamResult;
 
 import java.io.*;
 import java.util.HashMap;
@@ -36,9 +39,13 @@ public class Parser {
 	public static World ParseMap(String mapFile) throws IOException {
 
 		Tile[][] map = new Tile[1][1];
+		GameObject[][] objects = new GameObject[1][1];
 		int x = 0, y = 0;
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
+		// Uses tile_type text to create a map of all the shortcuts to full
+		// words used to condense down full image file names into much shorter
+		// strings
 		BufferedReader mapReader = null;
 		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
 				+ "tile_types.txt");
@@ -58,6 +65,7 @@ public class Parser {
 			mapReader.close();
 		}
 
+		// Load file and parse each part of XML into cell of Map
 		File mapCSV = Loader.LoadFile(Loader.mapDir + File.separatorChar
 				+ mapFile);
 		try {
@@ -65,7 +73,6 @@ public class Parser {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			System.out.println(mapCSV.toString());
 			Document doc = dBuilder.parse(mapCSV);
 
 			// remember, cool kids don't take drugs
@@ -76,18 +83,20 @@ public class Parser {
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
 			map = new Tile[y][x];
+			objects = new GameObject[y][x];
 
 			NodeList rows = nodeMap.getElementsByTagName("row");
-
-			System.out.println(rows.getLength());
 
 			for (int i = 0; i < rows.getLength(); i++) {
 				Element cellMap = (Element) rows.item(i);
 				NodeList cells = cellMap.getElementsByTagName("cell");
 				for (int j = 0; j < cells.getLength(); j++) {
 					Element cell = (Element) cells.item(j);
-					System.out.println(cell.getAttribute("img"));
 					parseTile(map, textTileMap, cell.getAttribute("img"), i, j);
+					if (cell.hasAttribute("wall")) {
+						parseWall(objects, textTileMap, cell.getAttribute("wall"), cell.getAttribute("offset"), i, j);
+
+					}
 				}
 			}
 		} catch (FileNotFoundException | ParserConfigurationException
@@ -97,7 +106,14 @@ public class Parser {
 			mapReader.close();
 		}
 
-		return new World(x, y, map);
+		return new World(x, y, map, objects);
+	}
+
+	private static void parseWall(GameObject[][] objects,
+			Map<String, String> textTileMap, String attribute,
+			String attribute2, int i, int j) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -110,15 +126,22 @@ public class Parser {
 		String[] object = line[0].split("-");
 		String[] tile = null;
 		String orientation;
+
+		// Creates Floor if first element is 0, Wall if 1, Door if 2.
 		switch (object[0]) {
 		case "0":
 			Item thing = null;
 			String floor = "";
 			for (int k = 1; k < object.length - 1; k++) {
+
+				// for each part of string, expands it using Tile map.
 				floor = floor + textTileMap.get(object[k]);
 				if (k < object.length - 2)
 					floor = floor + "_";
 				else {
+
+					// Creates array of different directions Tile can be facing
+					// based on original direction
 					switch (object[object.length - 1]) {
 					case "n":
 						orientation = "nsew";
@@ -178,14 +201,20 @@ public class Parser {
 			map[i][j] = new Floor(i, j, tile);
 			break;
 		case "1":
-			//map[i][j] = new Wall(null);
+			// map[i][j] = new Wall(null);
 			break;
 		case "2":
-			//map[i][j] = new Door(i, j, "I love Kieran", false);
+			// map[i][j] = new Door(i, j, "I love Kieran", false);
 			break;
 		}
 	}
 
+	/**
+	 * Creates an Item from a String and returns it.
+	 *
+	 * @param str
+	 * @return
+	 */
 	private static Item parseItem(String str) {
 		if (str.equalsIgnoreCase("ky")) {
 			return new Key("gold_key.png", 0);
@@ -194,57 +223,22 @@ public class Parser {
 	}
 
 	/**
-	 * I already had this set up to return CSV before reading that had to save
-	 * files in XML, modified this in a lazy way to return XML formatted
-	 * document, should rewrite this class later to use proper XML file creation
-	 * tools
+	 * Converts World Map to XML and returns it as a String to be printed or
+	 * saved
 	 *
-	 * @param textTileMap
-	 * @param map
-	 *            2D array of tiles representing map
-	 * @param x
-	 *            width of board
-	 * @param y
-	 *            height of board
+	 * @param world
 	 * @return map in XML
+	 * @throws IOException
 	 */
-	private static String getXMLMap(World world, Map<String, String> textTileMap) {
+	private static String getXMLMap(World world) throws IOException {
 
 		Tile[][] map = world.getMap();
 		int x = world.width();
 		int y = world.height();
 
-		String mapOutput = "<?xml version=\"1.0\"?>\n<world>\n    "
-				+ "<map dimensions=\"" + x + "," + y + "\">\n";
-
-		for (int i = 0; i < y; i++) {
-			mapOutput = mapOutput + "        <row>\n            <cell img=\""
-					+ map[i][0].getCSVCode(textTileMap);
-			for (int j = 1; j < x; j++) {
-				mapOutput = mapOutput + "\"></cell>\n            <cell img=\""
-						+ map[i][j].getCSVCode(textTileMap);
-			}
-			mapOutput = mapOutput + "\"></cell>\n        </row>\n";
-		}
-		mapOutput = mapOutput + "    </map>\n</world>";
-
-		return mapOutput;
-	}
-
-	/**
-	 * Gives a dialog box that can be used to save the current map in CSV
-	 *
-	 * @param map
-	 *            series of tiles in map
-	 * @param x
-	 *            width of map
-	 * @param y
-	 *            height of map
-	 * @throws IOException
-	 *             packs a sad
-	 */
-	public static void SaveMap(World world) throws IOException {
-
+		// This will take the File for converting map elements to two-digit code
+		// and create a Map that will be used to convert Object image names into
+		// code for saving
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
 		BufferedReader mapReader = null;
@@ -259,27 +253,62 @@ public class Parser {
 				split = line.split(",");
 				textTileMap.put(split[1], split[0]);
 			}
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			mapReader.close();
 		}
 
-		JFileChooser c = new JFileChooser();
-		// TODO maybe should pass showSaveDialog a different parameter than
-		// itself? IDK does it make a difference? Should it be main window or
-		// something?
-		int fc = c.showSaveDialog(c);
-		if (fc == JFileChooser.APPROVE_OPTION) {
-			BufferedWriter out = new BufferedWriter(new FileWriter(c
-					.getSelectedFile().getAbsolutePath()));
-			out.write(getXMLMap(world, textTileMap));
-			out.close();
+		// Create XML Doc of World
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.newDocument();
+			Element xmlWorld = doc.createElement("world");
+			doc.appendChild(xmlWorld);
+
+			// Create a Map with the (x,y) 'dimensions' of the Map.
+			Element xmlMap = doc.createElement("map");
+			xmlMap.setAttribute("dimensions",
+					world.width() + "," + world.height());
+			xmlWorld.appendChild(xmlMap);
+
+			// Read through the Map and create a Row for every row in the map,
+			// and a
+			// Cell for every cell in each row.
+			for (int i = 0; i < y; i++) {
+				Element xmlRow = doc.createElement("row");
+				for (int j = 0; j < x; j++) {
+					Element xmlCell = doc.createElement("cell");
+					xmlCell.setAttribute("img",
+							map[i][j].getCSVCode(textTileMap));
+					xmlRow.appendChild(xmlCell);
+				}
+				xmlMap.appendChild(xmlRow);
+			}
+
+			// Convert Doc to Source
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+
+			// Convert Source to String, then return
+			StreamResult result = new StreamResult(new StringWriter());
+			transformer.transform(source, result);
+			return result.getWriter().toString();
+		} catch (ParserConfigurationException | TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		// If we got here something went wrong!
+		return "Error: Unable to save World";
 	}
 
 	/**
-	 * Prints this map to the console as it would be represented in CSV
+	 * Prints this map to the console as it would be represented in XML
 	 *
 	 * @throws IOException
 	 */
@@ -304,16 +333,32 @@ public class Parser {
 			mapReader.close();
 		}
 
-		System.out.println(getXMLMap(world, textTileMap));
+		System.out.println(getXMLMap(world));
 	}
 
 	/**
-	 * Will save using proper XML tools rather
+	 * Will convert World's Map to XML and offer a pop-up dialog box to save it
 	 *
-	 * @param world
+	 * @throws IOException
 	 */
-	public static void SaveXML(World world) {
-		// TODO Auto-generated method stub
+	public static void SaveMap(World world) throws IOException {
+		String saveResult = getXMLMap(world);
+
+		// Open dialog box and save XML file
+		JFileChooser c = new JFileChooser();
+		File f = new File("map.xml");
+		c.setSelectedFile(f);
+		// TODO maybe should pass showSaveDialog a different parameter than
+		// itself? IDK does it make a difference? Should it be main window or
+		// something?
+
+		int fc = c.showSaveDialog(c);
+		if (fc == JFileChooser.APPROVE_OPTION) {
+			BufferedWriter out = new BufferedWriter(new FileWriter(c
+					.getSelectedFile().getAbsolutePath()));
+			out.write(saveResult);
+			out.close();
+		}
 
 	}
 

@@ -35,10 +35,11 @@ public class World implements Serializable {
 	private Tile[][] map;
 	private GameObject[][] objects;
 
-	public World(int width, int height, Tile[][] map) {
+	public World(int width, int height, Tile[][] map, GameObject[][] objects) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
+		this.objects = objects;
 		this.orientation = Orientation.NORTH;
 	}
 

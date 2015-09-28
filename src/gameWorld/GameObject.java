@@ -6,6 +6,6 @@ import dataStorage.Loader;
 
 public interface GameObject extends Drawable {
 
-	//just the fact other things can 
-	
+	//just the fact other things can
+
 }

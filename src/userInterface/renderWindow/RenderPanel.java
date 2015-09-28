@@ -144,10 +144,8 @@ public class RenderPanel extends JPanel {
 		gameWorld.world.Tile[][] tiles;
 		gameWorld.GameObject[][] objects;
 
-		if(testing){
+		if(false){
 			 tiles = getDummyTiles(5,5);
-
-
 		}
 		else {
 			// David's test code
@@ -209,7 +207,7 @@ public class RenderPanel extends JPanel {
 				"wall_grey_3_t_s.png",
 				"wall_grey_3_t_e.png",
 				"wall_grey_3_t_w.png"
-		});
+		}, 50);
 
 		//put the wall at the items position
 		objects[2][2] = w;
