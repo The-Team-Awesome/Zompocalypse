@@ -82,10 +82,11 @@ public abstract class MovingCharacter extends Actor {
 
 		if(game.isWall(newX,newY)) {
 			// we've bumped into a wall ... so we have to stop!!
+			System.out.println("HIT A WALL");
 		} else {
 			// we can update our position ...
-			xCoord = oldX;
-			yCoord = oldY;
+			xCoord = newX;
+			yCoord = newY;
 		}
 	}
 

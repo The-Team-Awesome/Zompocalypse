@@ -30,7 +30,7 @@ public final class Player extends MovingCharacter{
 		this.score = score;
 		this.uid = uid;
 		this.filename = filename;
-		this.orientation = Orientation.NORTH;
+		this.orientation = dir;
 		this.health = PLAYER_HEALTH;
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
