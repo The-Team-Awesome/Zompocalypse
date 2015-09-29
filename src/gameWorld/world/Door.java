@@ -1,6 +1,5 @@
 package gameWorld.world;
 
-import gameWorld.Drawable;
 import gameWorld.characters.Player;
 import gameWorld.items.Item;
 
@@ -77,6 +76,7 @@ public class Door implements Item{
 		return fileName;
 	}
 
+	@Override
 	public String getCSVCode(Map<String, String> textTileMap) {
 		return "2";
 

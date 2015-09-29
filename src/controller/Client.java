@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import userInterface.appWindow.MainFrame;
-import gameWorld.world.Tile;
 import gameWorld.world.World;
 
 /**

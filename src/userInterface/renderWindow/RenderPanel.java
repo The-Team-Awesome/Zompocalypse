@@ -2,16 +2,10 @@ package userInterface.renderWindow;
 
 import gameWorld.*;
 import gameWorld.world.*;
-import gameWorld.items.*;
 import gameWorld.characters.*;
 
 import java.awt.Graphics;
-import java.io.IOException;
-
 import javax.swing.JPanel;
-
-import dataStorage.Loader;
-import dataStorage.Parser;
 
 /**
  * Provides a 3D view of the world, with locations
@@ -171,7 +165,7 @@ public class RenderPanel extends JPanel {
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = tiles[i].length-1; j >= 0; j--){
 				if(tiles[i][j] instanceof Drawable){
-					Drawable d = (Drawable) tiles[i][j];
+					Drawable d = tiles[i][j];
 					//System.out.println("is drawable");
 					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
 					y = (i * FLOOR_TILE_HEIGHT / 2) - (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
@@ -179,7 +173,7 @@ public class RenderPanel extends JPanel {
 					//System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
 
-					Drawable dd = (Drawable) objects[i][j];
+					Drawable dd = objects[i][j];
 					if(dd != null){
 						System.out.println("draw wall");
 						dd.draw(x, y, g);

@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import gameWorld.Orientation;
 import gameWorld.characters.Player;
-import gameWorld.items.Container;
 import gameWorld.items.Key;
 import gameWorld.world.Door;
 import gameWorld.world.World;
@@ -150,7 +150,7 @@ public class PlayerTests {
 	 * @return
 	 */
 	private Player generatePlayer(int x, int y) {
-		Player p = new Player(x, y, 0, 1, 0, "Bibbly Bob", "file");
+		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob", "file");
 
 		return p;
 	}

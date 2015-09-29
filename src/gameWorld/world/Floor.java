@@ -1,11 +1,6 @@
 package gameWorld.world;
 
-import gameWorld.Drawable;
-
 import java.awt.Graphics;
-import java.awt.Image;
-import java.util.Map;
-
 import javax.swing.ImageIcon;
 
 import userInterface.renderWindow.ImageUtils;

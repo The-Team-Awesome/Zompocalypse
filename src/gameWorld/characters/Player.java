@@ -4,7 +4,6 @@ import gameWorld.Orientation;
 import gameWorld.world.World;
 
 import java.awt.*;
-import java.util.Map;
 
 /**
  * Player is a human played character in the game.
@@ -26,7 +25,7 @@ public final class Player extends MovingCharacter{
 	private String filename;
 
 
-	public Player(int realX, int realY, int dir, int uid, int score, String playerName, String filename) {
+	public Player(int realX, int realY, Orientation dir, int uid, int score, String playerName, String filename) {
 		super(realX,realY,dir);
 		this.score = score;
 		this.uid = uid;

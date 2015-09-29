@@ -1,18 +1,16 @@
 package gameWorld.characters;
 
+import gameWorld.Orientation;
 import gameWorld.world.World;
 
 import java.awt.Graphics;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Map;
 
 public class StrategyZombie extends MovingCharacter {
 
 	private Strategy strategy;
 
 	public StrategyZombie(int realX, int realY, Strategy strategy) {
-		super(realX, realY, MovingCharacter.STOPPED);
+		super(realX, realY, Orientation.NORTH);
 		this.strategy = strategy;
 	}
 
@@ -21,6 +19,7 @@ public class StrategyZombie extends MovingCharacter {
 		return strategy.speed();
 	}
 
+	@Override
 	public void tick(World game) {
 		int homeDistance = 50;
 		/*
@@ -43,7 +42,7 @@ public class StrategyZombie extends MovingCharacter {
 		strategy.tick(game, this);
 	}
 
-	public void setQueued(int queued) {
+	public void setQueued(Orientation queued) {
 		this.queued = queued;
 	}
 

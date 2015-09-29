@@ -7,14 +7,10 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import java.util.Arrays;
 import java.util.EventListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.hamcrest.core.IsInstanceOf;
 
 import dataStorage.Loader;
 

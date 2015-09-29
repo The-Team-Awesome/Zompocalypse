@@ -2,8 +2,6 @@ package gameWorld.characters;
 
 import gameWorld.world.World;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.util.Random;
 
 public class HomerStrategy implements Strategy {
 

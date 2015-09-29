@@ -4,8 +4,6 @@ import gameWorld.Drawable;
 import gameWorld.Orientation;
 
 import java.awt.Image;
-import java.util.Map;
-
 import dataStorage.Loader;
 
 /**

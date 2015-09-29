@@ -2,7 +2,6 @@ package userInterface.appWindow;
 
 import gameWorld.world.World;
 
-import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

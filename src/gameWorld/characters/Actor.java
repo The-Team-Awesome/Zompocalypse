@@ -3,8 +3,6 @@ package gameWorld.characters;
 import gameWorld.GameObject;
 import gameWorld.world.World;
 
-import java.awt.Graphics;
-
 /**
  * A Character is a record of information about a particular character in the
  * game. There are essentially two kinds of characters: player controlled and

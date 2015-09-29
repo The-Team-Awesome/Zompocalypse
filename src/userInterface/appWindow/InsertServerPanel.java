@@ -77,20 +77,24 @@ public class InsertServerPanel extends JPanel {
 	                    //Do something, OK?
 	                }
 	            }
-	            public void insertUpdate(DocumentEvent e) {
+	            @Override
+				public void insertUpdate(DocumentEvent e) {
 	                checkDocument(e);
 	            }
-	            public void removeUpdate(DocumentEvent e) {
+	            @Override
+				public void removeUpdate(DocumentEvent e) {
 	                checkDocument(e);
 	            }
-	            public void changedUpdate(DocumentEvent e) {
+	            @Override
+				public void changedUpdate(DocumentEvent e) {
 	                checkDocument(e);
 	            }
 	        });
 
 		// verifies if the pattern is matching the IP pattern
 		 txtServerIp.setInputVerifier(new InputVerifier() {
-	            public boolean shouldYieldFocus(JComponent input) {
+	            @Override
+				public boolean shouldYieldFocus(JComponent input) {
 	                boolean inputOK = verify(input);
 	                if (inputOK) {
 	                    return true;
@@ -99,7 +103,8 @@ public class InsertServerPanel extends JPanel {
 	                    return false;
 	                }
 	            }
-	            public boolean verify(JComponent input) {
+	            @Override
+				public boolean verify(JComponent input) {
 	                JTextField field = (JTextField) input;
 	                return checkIPString(field.getText());
 	            }
