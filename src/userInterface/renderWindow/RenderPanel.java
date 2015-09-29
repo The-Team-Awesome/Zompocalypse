@@ -50,7 +50,7 @@ public class RenderPanel extends JPanel {
 	//private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 	private static final int FLOOR_TILE_HEIGHT = 42;  //NOT 32? Height changes for each tile
 
-	private boolean testing = true;
+	private boolean testing = false;
 
 	private Orientation currentOrientation = Orientation.NORTH;
 
@@ -142,21 +142,13 @@ public class RenderPanel extends JPanel {
 		gameWorld.world.Tile[][] tiles;
 		gameWorld.GameObject[][] objects = new GameObject[1][1];
 
+		// Just change testing to true to use these dummy methods
 		if(testing){
 			 tiles = getDummyTiles(5,5);
 			 objects = getDummyObjects(5, 5);
-		}
-		else {
-			// David's test code
-			try {
-				World world = Parser.ParseMap(Loader.mapFile);
-				tiles = world.getMap();
-				objects = world.getObjects();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				tiles = game.getMap();
-			}
+		} else {
+			tiles = game.getMap();
+			objects = game.getObjects();
 		}
 
 		int wd = tiles.length;
