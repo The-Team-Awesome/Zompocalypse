@@ -74,7 +74,7 @@ public final class Player extends MovingCharacter{
 	 * Check if this player is dead.
 	 */
 	public boolean isDead() {
-		return health > 0;
+		return health <= 0;
 	}
 
 	/**
