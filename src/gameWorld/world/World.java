@@ -54,9 +54,8 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (int i = 0; i < idToActor.size(); i++){
-			Actor c = idToActor.get(i);
-			c.tick(this);
+		for (Actor actor : idToActor.values()) {
+			actor.tick(this);
 		}
 	}
 
@@ -158,9 +157,10 @@ public class World implements Serializable {
 	}
 
 	public synchronized int registerPlayer() {
-		// A new player has been added! Create them and put them in the
-		// map of actors here.
-		return ++id;
+		Player p = new Player(1, 1, Orientation.NORTH, ++id, 0, "Bibbly Bob", "file");
+		idToActor.put(id, p);
+		// TODO: A new player has been added! Create them and put them in the map of actors here.
+		return id;
 	}
 
 	/**
@@ -176,15 +176,17 @@ public class World implements Serializable {
 	}
 
 	/**
+	 * This is either a key press or a button click. Key presses should for the most
+	 * part just be shortcuts which correspond to a button click, making for an easy UI.
 	 *
 	 * @param id
-	 * @param key
+	 * @param command
 	 */
-	public synchronized boolean processKeyPress(int id, String key) {
-		System.out.println(id + ", " + key);
+	public synchronized boolean processCommand(int id, String command) {
+		System.out.println(id + ", " + command);
 		Player player = (Player) idToActor.get(id);
 
-		switch (key) {
+		switch (command) {
 			case "North":
 				player.moveNorth();
 				return true;
@@ -212,16 +214,6 @@ public class World implements Serializable {
 			default:
 				break;
 		}
-		return false;
-	}
-
-	/**
-	 *
-	 * @param id
-	 * @param command
-	 */
-	public synchronized boolean processAction(int id, String command) {
-		//System.out.println(id + ", " + command);
 		return false;
 	}
 
