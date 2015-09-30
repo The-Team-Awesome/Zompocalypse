@@ -175,7 +175,7 @@ public class RenderPanel extends JPanel {
 
 					Drawable dd = objects[i][j];
 					if(dd != null){
-						System.out.println("draw wall");
+						//System.out.println("draw wall");
 						dd.draw(x, y, g);
 					}
 

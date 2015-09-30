@@ -48,7 +48,7 @@ public class PlayerTests {
 	@Test public void playerValidMoveTest1() {
 		// TODO: This test currently fails, which means movement is not correctly implemented!
 		Player p = generatePlayer(3, 3);
-		p.moveDown();
+		p.moveSouth();
 
 		p.tick(game);
 		assertTrue(p.getX() == 3);
@@ -58,10 +58,10 @@ public class PlayerTests {
 	@Test public void playerValidMoveTest2() {
 		// TODO: This test currently fails, which means movement is not correctly implemented!
 		Player p = generatePlayer(3, 3);
-		p.moveDown();
+		p.moveSouth();
 		p.tick(game);
 
-		p.moveLeft();
+		p.moveWest();
 
 		p.tick(game);
 
@@ -75,7 +75,7 @@ public class PlayerTests {
 
 	@Test public void playerInvalidMoveTest1() {
 		Player p = generatePlayer(0, 0);
-		p.moveUp();
+		p.moveNorth();
 
 		p.tick(game);
 
@@ -86,7 +86,7 @@ public class PlayerTests {
 
 	@Test public void playerInvalidMoveTest2() {
 		Player p = generatePlayer(0, 5);
-		p.moveLeft();
+		p.moveWest();
 
 		p.tick(game);
 

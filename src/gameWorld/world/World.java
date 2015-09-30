@@ -3,6 +3,7 @@ package gameWorld.world;
 import gameWorld.GameObject;
 import gameWorld.Orientation;
 import gameWorld.characters.Actor;
+import gameWorld.characters.Player;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,11 +20,13 @@ public class World implements Serializable {
 	private final int width;
 	private final int height;
 
+	private static int id;
+
 	/**
 	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
 	 */
-	private final Map<Integer,Actor> charToID = new HashMap<>();
+	private final Map<Integer,Actor> idToActor = new HashMap<Integer,Actor>();
 
 	/**
 	 * This represents the entire world as 2D array of Tiles. Tiles can either
@@ -51,9 +54,8 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (int i = 0; i < charToID.size(); i++){
-			Actor c = charToID.get(i);
-			c.tick(this);
+		for (Actor actor : idToActor.values()){
+			actor.tick(this);
 		}
 	}
 
@@ -97,8 +99,8 @@ public class World implements Serializable {
 	 * @return The character itself
 	 */
 	public Actor getCharacterByID(int id) {
-		if(charToID.containsKey(id)){
-			return charToID.get(id);
+		if(idToActor.containsKey(id)){
+			return idToActor.get(id);
 		}
 		else {
 			throw new IllegalStateException("Character with this code does not exist");
@@ -150,32 +152,16 @@ public class World implements Serializable {
 		return perspective;
 	}
 
-	/**
-	 * This method populates the Tile map of the World from the given byte array.
-	 *
-	 * @param bytes
-	 * @throws IOException
-	 */
-	public synchronized void fromByteArray(byte[] bytes) throws IOException {
-		System.out.println(Arrays.toString(bytes));
-	}
-
-	/**
-	 * This method converts the Tile map of this World into a byte array
-	 * and returns it.
-	 *
-	 * @return
-	 * @throws IOException
-	 */
-	public synchronized byte[] toByteArray() throws IOException {
-		byte[] data = new byte[2];
-		data[0] = 1;
-		data[1] = 0;
-		return data;
-	}
-
 	public Tile[][] getMap() {
 		return map;
+	}
+
+	public synchronized int registerPlayer() {
+		// A new player has been added! Create them and put them in the
+		// map of actors here.
+		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0, "Bibbly Bob", "file");
+		idToActor.put(id, player);
+		return id;
 	}
 
 	/**
@@ -195,18 +181,38 @@ public class World implements Serializable {
 	 * @param id
 	 * @param key
 	 */
-	public synchronized boolean processKeyPress(int id, String key) {
+	public synchronized boolean processCommand(int id, String key) {
 		System.out.println(id + ", " + key);
-		return true;
-	}
+		Player player = (Player) idToActor.get(id);
 
-	/**
-	 *
-	 * @param id
-	 * @param command
-	 */
-	public synchronized boolean processAction(int id, String command) {
-		//System.out.println(id + ", " + command);
+		switch (key) {
+			case "North":
+				player.moveNorth();
+				return true;
+			case "South":
+				player.moveSouth();
+				return true;
+			case "East":
+				player.moveEast();
+				return true;
+			case "West":
+				player.moveWest();
+				return true;
+			case "ItemOne":
+				return true;
+			case "ItemTwo":
+				return true;
+			case "ItemThree":
+				return true;
+			case "Use":
+				return true;
+			case "RotateClockwise":
+				return true;
+			case "RotateAnticlockwise":
+				return true;
+			default:
+				break;
+		}
 		return false;
 	}
 
@@ -217,7 +223,7 @@ public class World implements Serializable {
 	@Override
 	public String toString() {
 		return "World [width=" + width + ", height=" + height + ", charToID="
-				+ charToID + ", orientation=" + orientation + ", map="
+				+ idToActor + ", orientation=" + orientation + ", map="
 				+ Arrays.toString(map) + ", objects="
 				+ Arrays.toString(objects) + "]";
 	}

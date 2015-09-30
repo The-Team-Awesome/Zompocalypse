@@ -39,13 +39,6 @@ public class Server extends Thread {
 			boolean running = true;
 			output.writeInt(id);
 
-			/*output.writeInt(game.width());
-			output.writeInt(game.height());
-
-			byte[] data = game.toByteArray();
-			output.writeInt(data.length);
-			output.write(data);*/
-
 			ObjectOutputStream objOut = new ObjectOutputStream(output);
 			objOut.writeObject(game);
 
@@ -58,7 +51,7 @@ public class Server extends Thread {
 								// In this case, a key was pressed
 								String key = readInputString(input);
 
-								game.processKeyPress(id, key);
+								game.processCommand(id, key);
 
 								break;
 							case 2:
@@ -76,17 +69,13 @@ public class Server extends Thread {
 								// The command is given and will be passed on
 								String command = readInputString(input);
 
-								game.processAction(id, command);
+								game.processCommand(id, command);
 
 								break;
 						}
 					}
 
 					objOut.writeObject(game);
-
-					/*data = game.toByteArray();
-					output.writeInt(data.length);
-					output.write(data);*/
 					output.flush();
 
 					Thread.sleep(networkClock);
@@ -99,7 +88,6 @@ public class Server extends Thread {
 			socket.close();
 
 		} catch (IOException e) {
-			// e.printStackTrace();
 			System.out.println("Player " + id + " has disconnected");
 			// TODO: handle removal of Player from game
 		}

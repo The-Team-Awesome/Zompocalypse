@@ -74,7 +74,7 @@ public final class Player extends MovingCharacter{
 	 * Check if this player is dead.
 	 */
 	public boolean isDead() {
-		return health > 0;
+		return health <= 0;
 	}
 
 	/**
@@ -88,6 +88,8 @@ public final class Player extends MovingCharacter{
 	public void tick(World game) {
 		if(!isDead()){
 			super.tick(game);
+
+			System.out.println(this.xCoord + ": " + this.yCoord);
 		}
 	}
 
