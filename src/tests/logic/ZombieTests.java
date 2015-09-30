@@ -35,7 +35,7 @@ public class ZombieTests {
 
 	@Test public void zombieValidMove1() {
 		StrategyZombie z = new StrategyZombie(3, 3, new HomerStrategy());
-		z.moveUp();
+		z.moveNorth();
 
 		z.tick(game);
 
@@ -46,16 +46,16 @@ public class ZombieTests {
 	@Test public void zombieValidMove2() {
 		StrategyZombie z = new StrategyZombie(4, 4, new HomerStrategy());
 		// This sequence should leave the zombie at 3, 3
-		z.moveUp();
+		z.moveNorth();
 		z.tick(game);
 
-		z.moveLeft();
+		z.moveWest();
 		z.tick(game);
 
-		z.moveUp();
+		z.moveNorth();
 		z.tick(game);
 
-		z.moveDown();
+		z.moveSouth();
 		z.tick(game);
 
 		assertTrue(z.getX() == 3);
@@ -68,7 +68,7 @@ public class ZombieTests {
 
 	@Test public void zombieInvalidMove1() {
 		StrategyZombie z = new StrategyZombie(0, 0, new HomerStrategy());
-		z.moveUp();
+		z.moveNorth();
 
 		z.tick(game);
 
@@ -79,20 +79,20 @@ public class ZombieTests {
 	@Test public void zombieInvalidMove2() {
 		StrategyZombie z = new StrategyZombie(0, 0, new HomerStrategy());
 		// This sequence of movements should still leave the Zombie at the position 0,0
-		z.moveLeft();
+		z.moveWest();
 		z.tick(game);
 
-		z.moveUp();
+		z.moveNorth();
 		z.tick(game);
 
 		//TODO The following down move hits a wall in current test map
-		z.moveDown();
+		z.moveSouth();
 		z.tick(game);
 
-		z.moveUp();
+		z.moveNorth();
 		z.tick(game);
 
-		z.moveUp();
+		z.moveNorth();
 		z.tick(game);
 
 		assertTrue(z.getX() == 0);

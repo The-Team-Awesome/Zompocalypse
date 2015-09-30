@@ -30,20 +30,20 @@ public abstract class MovingCharacter extends Actor {
 		return orientation;
 	}
 
-	public void moveUp() {
+	public void moveNorth() {
 		orientation = Orientation.NORTH;
 	}
 
-	public void moveDown() {
+	public void moveEast() {
+		orientation = Orientation.EAST;
+	}
+
+	public void moveSouth() {
 		orientation = Orientation.SOUTH;
 	}
 
-	public void moveLeft() {
+	public void moveWest() {
 		orientation = Orientation.WEST;
-	}
-
-	public void moveRight() {
-		orientation = Orientation.EAST;
 	}
 
 	/**
