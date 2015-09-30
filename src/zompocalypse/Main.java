@@ -174,6 +174,9 @@ public class Main {
 		Clock clock = new Clock(frame, game, gameClock);
 
 		clock.start();
+		
+		// Make sure the frame is in focus, so key presses are processed
+		frame.requestFocus();
 
 		while(true) {
 			Thread.yield();

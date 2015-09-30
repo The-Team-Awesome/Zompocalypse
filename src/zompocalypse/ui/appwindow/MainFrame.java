@@ -46,6 +46,7 @@ public class MainFrame extends JFrame {
 
 		if(listener instanceof MouseListener) {
 			MouseListener mouse = (MouseListener) listener;
+			System.out.println(mouse);
 			addMouseListener(mouse);
 		}
 
@@ -82,7 +83,8 @@ public class MainFrame extends JFrame {
 		pack();
 		setVisible(true);
 
-		this.requestFocus();
+		// TODO: From Sam. This is not always called successfully...
+		//this.requestFocus();
 	}
 
 	public void updateGame(World game) {

@@ -49,6 +49,9 @@ public class Client extends GameListenerThread {
 			frame = new MainFrame(id, game, this);
 
 			while(running) {
+				// Make sure the frame is in focus, so key presses are processed
+				frame.requestFocus();
+				
 				game = (World) objIn.readObject();
 
 				frame.updateGame(game);
