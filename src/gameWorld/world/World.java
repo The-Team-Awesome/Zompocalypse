@@ -157,8 +157,7 @@ public class World implements Serializable {
 	}
 
 	public synchronized int registerPlayer() {
-		// A new player has been added! Create them and put them in the
-		// map of actors here.
+		// TODO: A new player has been added! Create them and put them in the map of actors here.
 		return ++id;
 	}
 

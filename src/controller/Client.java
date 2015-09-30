@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -43,35 +44,14 @@ public class Client extends GameListenerThread {
 
 			id = input.readInt();
 
-			/*int width = input.readInt();
-			int height = input.readInt();
-
-			frame = new MainFrame(id, game, this);
-			game = new World(width, height, null);
-			int length = input.readInt();
-			byte[] gameData = new byte[length];
-
-			game.fromByteArray(gameData);*/
-
 			ObjectInputStream objIn = new ObjectInputStream(input);
 			game = (World) objIn.readObject();
 			frame = new MainFrame(id, game, this);
 
 			while(running) {
-				/*length = input.readInt();
-				byte[] data = new byte[length];
-				game.fromByteArray(data);*/
 				game = (World) objIn.readObject();
 
-				/*for(Tile[] t : game.getMap()) {
-					for(Tile tile : t) {
-						System.out.println(tile);
-					}
-				}*/
-
 				frame.updateGame(game);
-
-				//System.out.println(game);
 
 				frame.repaint();
 			}
@@ -79,10 +59,9 @@ public class Client extends GameListenerThread {
 			objIn.close();
 			socket.close();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Server disconnected, closing down Client");
+			System.exit(-1);
 		}
 
 	}
