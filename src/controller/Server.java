@@ -51,7 +51,7 @@ public class Server extends Thread {
 								// In this case, a key was pressed
 								String key = readInputString(input);
 
-								game.processKeyPress(id, key);
+								game.processCommand(id, key);
 
 								break;
 							case 2:
@@ -69,7 +69,7 @@ public class Server extends Thread {
 								// The command is given and will be passed on
 								String command = readInputString(input);
 
-								game.processAction(id, command);
+								game.processCommand(id, command);
 
 								break;
 						}
