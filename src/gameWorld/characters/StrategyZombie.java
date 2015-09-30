@@ -21,29 +21,12 @@ public class StrategyZombie extends MovingCharacter {
 
 	@Override
 	public void tick(World game) {
-		int homeDistance = 50;
-		/*
-		for(Character c : game.characters()) {
-			if(c instanceof Player && !((Player)c).isDead()) {
-				int deltaX = Math.abs(c.getX() - getX());
-				int deltaY = Math.abs(c.getY() - getY());
-				double distance = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
-
-				if(distance < homeDistance) {
-					strategy = new RandomStrategy();
-				} else {
-					strategy = new HomerStrategy();
-				}
-			}
-		}
-		*/
 		super.tick(game);
-
 		strategy.tick(game, this);
 	}
 
 	public void setQueued(Orientation queued) {
-		this.queued = queued;
+		this.orientation = queued;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package gameWorld.characters;
 
+import javax.management.RuntimeErrorException;
+
 import gameWorld.Orientation;
 import gameWorld.world.World;
 
@@ -13,35 +15,35 @@ import gameWorld.world.World;
  */
 public abstract class MovingCharacter extends Actor {
 
-	protected Orientation direction;
-	protected Orientation queued; // queued direction change
+	protected Orientation orientation;
+	//protected Orientation queued; 	// queued direction change
 
-	public MovingCharacter(int realX, int realY, Orientation direction) {
-		super(realX,realY);
-		this.direction = direction;
+	public MovingCharacter(int xCoord, int yCoord, Orientation direction) {
+		super(xCoord,yCoord);
+		this.orientation = direction;
 	}
 
 	/**
 	 * Determine the direction in which this character is moving.
 	 */
 	public Orientation direction() {
-		return direction;
+		return orientation;
 	}
 
 	public void moveUp() {
-		queued = Orientation.NORTH;
+		orientation = Orientation.NORTH;
 	}
 
 	public void moveDown() {
-		queued = Orientation.SOUTH;
+		orientation = Orientation.SOUTH;
 	}
 
 	public void moveLeft() {
-		queued = Orientation.WEST;
+		orientation = Orientation.WEST;
 	}
 
 	public void moveRight() {
-		queued = Orientation.EAST;
+		orientation = Orientation.EAST;
 	}
 
 	/**
@@ -60,16 +62,16 @@ public abstract class MovingCharacter extends Actor {
 		int width = game.width();
 		int height = game.height();
 
-		if(direction == Orientation.NORTH) {
+		if(orientation == Orientation.NORTH) {
 			newX = xCoord;
 			newY = yCoord -1;
-		} else if(direction == Orientation.SOUTH) {
+		} else if(orientation == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
-		} else if(direction == Orientation.EAST) {
+		} else if(orientation == Orientation.EAST) {
 			newX = xCoord +1;
 			newY = yCoord;
-		} else if(direction == Orientation.WEST) {
+		} else if(orientation == Orientation.WEST) {
 			newX = xCoord -1;
 			newY = yCoord;
 		} else {
@@ -82,7 +84,6 @@ public abstract class MovingCharacter extends Actor {
 
 		if(game.isWall(newX,newY)) {
 			// we've bumped into a wall ... so we have to stop!!
-			System.out.println("HIT A WALL");
 		} else {
 			// we can update our position ...
 			xCoord = newX;

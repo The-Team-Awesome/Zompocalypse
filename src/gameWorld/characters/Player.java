@@ -16,7 +16,6 @@ public final class Player extends MovingCharacter{
 	private final int PLAYER_STRENGTH = 20;
 
 	private final int uid;
-	private Orientation orientation;
 	private int score;
 	private int health;
 	private int speed;
@@ -25,12 +24,11 @@ public final class Player extends MovingCharacter{
 	private String filename;
 
 
-	public Player(int realX, int realY, Orientation dir, int uid, int score, String playerName, String filename) {
-		super(realX,realY,dir);
+	public Player(int xCoord, int yCoord, Orientation orientation, int uid, int score, String playerName, String filename) {
+		super(xCoord, yCoord, orientation);
 		this.score = score;
 		this.uid = uid;
 		this.filename = filename;
-		this.orientation = dir;
 		this.health = PLAYER_HEALTH;
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
@@ -89,7 +87,7 @@ public final class Player extends MovingCharacter{
 	@Override
 	public void tick(World game) {
 		if(!isDead()){
-			//do things here
+			super.tick(game);
 		}
 	}
 

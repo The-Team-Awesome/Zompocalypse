@@ -74,12 +74,6 @@ public class World implements Serializable {
 	}
 
 	public boolean isWall(int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height){
-			//TODO remove this after testing
-			System.out.println("TESTING FOR WALL OUT OF BOUNDS: World.isWall");
-			return false;
-		}
-
 		GameObject obj = objects[x][y];
 		if (obj != null && obj instanceof Wall){
 			return true;

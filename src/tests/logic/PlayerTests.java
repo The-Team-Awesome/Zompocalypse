@@ -51,7 +51,6 @@ public class PlayerTests {
 		p.moveDown();
 
 		p.tick(game);
-
 		assertTrue(p.getX() == 3);
 		assertTrue(p.getY() == 4);
 	}
