@@ -3,6 +3,7 @@ package gameWorld.world;
 import gameWorld.GameObject;
 import gameWorld.Orientation;
 import gameWorld.characters.Actor;
+import gameWorld.characters.Player;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -23,7 +24,7 @@ public class World implements Serializable {
 	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
 	 */
-	private final Map<Integer,Actor> charToID = new HashMap<>();
+	private final Map<Integer,Actor> idToActor = new HashMap<Integer,Actor>();
 
 	/**
 	 * This represents the entire world as 2D array of Tiles. Tiles can either
@@ -51,8 +52,8 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (int i = 0; i < charToID.size(); i++){
-			Actor c = charToID.get(i);
+		for (int i = 0; i < idToActor.size(); i++){
+			Actor c = idToActor.get(i);
 			c.tick(this);
 		}
 	}
@@ -97,8 +98,8 @@ public class World implements Serializable {
 	 * @return The character itself
 	 */
 	public Actor getCharacterByID(int id) {
-		if(charToID.containsKey(id)){
-			return charToID.get(id);
+		if(idToActor.containsKey(id)){
+			return idToActor.get(id);
 		}
 		else {
 			throw new IllegalStateException("Character with this code does not exist");
@@ -197,7 +198,37 @@ public class World implements Serializable {
 	 */
 	public synchronized boolean processKeyPress(int id, String key) {
 		System.out.println(id + ", " + key);
-		return true;
+		Player player = (Player) idToActor.get(id);
+
+		switch (key) {
+			case "North":
+				player.moveUp();
+				return true;
+			case "South":
+				player.moveDown();
+				return true;
+			case "East":
+				player.moveLeft();
+				return true;
+			case "West":
+				player.moveRight();
+				return true;
+			case "ItemOne":
+				return true;
+			case "ItemTwo":
+				return true;
+			case "ItemThree":
+				return true;
+			case "Use":
+				return true;
+			case "RotateClockwise":
+				return true;
+			case "RotateAnticlockwise":
+				return true;
+			default:
+				break;
+		}
+		return false;
 	}
 
 	/**
@@ -217,7 +248,7 @@ public class World implements Serializable {
 	@Override
 	public String toString() {
 		return "World [width=" + width + ", height=" + height + ", charToID="
-				+ charToID + ", orientation=" + orientation + ", map="
+				+ idToActor + ", orientation=" + orientation + ", map="
 				+ Arrays.toString(map) + ", objects="
 				+ Arrays.toString(objects) + "]";
 	}
