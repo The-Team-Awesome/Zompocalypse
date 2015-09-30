@@ -186,16 +186,16 @@ public class World implements Serializable {
 
 		switch (key) {
 			case "North":
-				player.moveUp();
+				player.moveNorth();
 				return true;
 			case "South":
-				player.moveDown();
+				player.moveSouth();
 				return true;
 			case "East":
-				player.moveLeft();
+				player.moveEast();
 				return true;
 			case "West":
-				player.moveRight();
+				player.moveWest();
 				return true;
 			case "ItemOne":
 				return true;
