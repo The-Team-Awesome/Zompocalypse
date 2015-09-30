@@ -2,19 +2,18 @@ package zompocalypse;
 
 
 
-import gameWorld.world.World;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import controller.Client;
-import controller.Clock;
-import controller.Server;
-import controller.SinglePlayer;
-import userInterface.appWindow.MainFrame;
-import dataStorage.Loader;
-import dataStorage.Parser;
+import zompocalypse.controller.Client;
+import zompocalypse.controller.Clock;
+import zompocalypse.controller.Server;
+import zompocalypse.controller.SinglePlayer;
+import zompocalypse.datastorage.Loader;
+import zompocalypse.datastorage.Parser;
+import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.MainFrame;
 
 /**
  * This is the entry point for playing the networked zompocalypse. It processes commands
