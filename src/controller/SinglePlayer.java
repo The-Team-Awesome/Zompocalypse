@@ -33,11 +33,11 @@ public class SinglePlayer extends GameListener {
 		int code = e.getKeyCode();
 
 		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
-			game.processCommand(id, "East");
+			game.processCommand(id, "West");
 		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
 			game.processCommand(id, "North");
 		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-			game.processCommand(id, "West");
+			game.processCommand(id, "East");
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 			game.processCommand(id, "South");
 		} else if(code == KeyEvent.VK_COMMA) {
