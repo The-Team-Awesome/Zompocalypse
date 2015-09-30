@@ -123,7 +123,7 @@ public class Main {
 			while(true) {
 				Socket socket = socketServer.accept();
 				System.out.println("Accepted client: " + socket.getInetAddress());
-				int id = numClients;
+				int id = game.registerPlayer();
 
 				connections[--numClients] = new Server(game, socket, id, networkClock);
 				connections[numClients].start();
@@ -165,8 +165,11 @@ public class Main {
 	 * @param game
 	 */
 	private static void singlePlayerGame(int gameClock, World game) {
-		SinglePlayer player = new SinglePlayer(game, 1);
-		MainFrame frame = new MainFrame(1, game, player);
+
+		int id = game.registerPlayer();
+
+		SinglePlayer player = new SinglePlayer(game, id);
+		MainFrame frame = new MainFrame(id, game, player);
 		player.setFrame(frame);
 
 		Clock clock = new Clock(frame, game, gameClock);

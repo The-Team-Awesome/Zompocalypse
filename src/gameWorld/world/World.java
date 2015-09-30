@@ -20,6 +20,8 @@ public class World implements Serializable {
 	private final int width;
 	private final int height;
 
+	private static int id;
+
 	/**
 	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
@@ -151,32 +153,14 @@ public class World implements Serializable {
 		return perspective;
 	}
 
-	/**
-	 * This method populates the Tile map of the World from the given byte array.
-	 *
-	 * @param bytes
-	 * @throws IOException
-	 */
-	public synchronized void fromByteArray(byte[] bytes) throws IOException {
-		System.out.println(Arrays.toString(bytes));
-	}
-
-	/**
-	 * This method converts the Tile map of this World into a byte array
-	 * and returns it.
-	 *
-	 * @return
-	 * @throws IOException
-	 */
-	public synchronized byte[] toByteArray() throws IOException {
-		byte[] data = new byte[2];
-		data[0] = 1;
-		data[1] = 0;
-		return data;
-	}
-
 	public Tile[][] getMap() {
 		return map;
+	}
+
+	public synchronized int registerPlayer() {
+		// A new player has been added! Create them and put them in the
+		// map of actors here.
+		return ++id;
 	}
 
 	/**
