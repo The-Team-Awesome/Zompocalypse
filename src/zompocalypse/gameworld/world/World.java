@@ -1,10 +1,13 @@
 package zompocalypse.gameworld.world;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -37,13 +40,17 @@ public class World implements Serializable {
 	private Orientation orientation;
 	private Tile[][] map;
 	private GameObject[][] objects;
+	private Set<Point> playerSpawnPoints;
+	private Set<Point> zombieSpawnPoints;
 
-	public World(int width, int height, Tile[][] map, GameObject[][] objects) {
+	public World(int width, int height, Tile[][] map, GameObject[][] objects, Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
 		this.objects = objects;
 		this.orientation = Orientation.NORTH;
+		this.zombieSpawnPoints = zombieSpawnPoints;
+		this.playerSpawnPoints = playerSpawnPoints;
 	}
 
 	/**
@@ -90,6 +97,14 @@ public class World implements Serializable {
 
 	private void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
+	}
+
+	public Set<Point> getPlayerSpawnPoints() {
+		return playerSpawnPoints;
+	}
+
+	public Set<Point> getZombieSpawnPoints() {
+		return zombieSpawnPoints;
 	}
 
 	/**

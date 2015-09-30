@@ -12,9 +12,12 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.StreamResult;
 
+import java.awt.Point;
 import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JFileChooser;
 
@@ -40,6 +43,8 @@ public class Parser {
 
 		Tile[][] map = new Tile[1][1];
 		GameObject[][] objects = new GameObject[1][1];
+		Set<Point> zombieSpawnPoints = new HashSet<Point>();
+		Set<Point> playerSpawnPoints = new HashSet<Point>();
 		int x = 0, y = 0;
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
@@ -99,6 +104,12 @@ public class Parser {
 								cell.getAttribute("offset"), i, j);
 
 					}
+					if (cell.hasAttribute("zombieSpawnPoint")) {
+						zombieSpawnPoints.add(new Point(i,j));
+					}
+					if (cell.hasAttribute("playerSpawnPoint")) {
+						playerSpawnPoints.add(new Point(i,j));
+					}
 				}
 			}
 		} catch (FileNotFoundException | ParserConfigurationException
@@ -108,7 +119,7 @@ public class Parser {
 			mapReader.close();
 		}
 
-		return new World(x, y, map, objects);
+		return new World(x, y, map, objects, zombieSpawnPoints, playerSpawnPoints);
 	}
 
 	/**
@@ -225,6 +236,8 @@ public class Parser {
 		GameObject[][] objects = world.getObjects();
 		int x = world.width();
 		int y = world.height();
+		Set<Point> zombieSpawnPoints = world.getZombieSpawnPoints();
+		Set<Point> playerSpawnPoints = world.getPlayerSpawnPoints();
 
 		// This will take the File for converting map elements to two-digit code
 		// and create a Map that will be used to convert Object image names into
@@ -280,6 +293,12 @@ public class Parser {
 							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
 						}
+					}
+					if (zombieSpawnPoints.contains(new Point(i,j))) {
+						xmlCell.setAttribute("zombieSpawnPoint", "");
+					}
+					if (playerSpawnPoints.contains(new Point(i,j))) {
+						xmlCell.setAttribute("playerSpawnPoint", "");
 					}
 				}
 				xmlMap.appendChild(xmlRow);
@@ -340,7 +359,6 @@ public class Parser {
 		} finally {
 			mapReader.close();
 		}
-
 		System.out.println(getXMLMap(world));
 	}
 
