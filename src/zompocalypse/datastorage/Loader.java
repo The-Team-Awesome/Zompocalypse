@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -13,6 +14,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
+
+import zompocalypse.Main;
 
 /**
  * This class is a central place for loading all images, text, sound, font
@@ -33,6 +36,8 @@ public class Loader {
 	public static final String mapDir = "map";
 
 	public static final String mapFile = "TestMap2.xml";
+	public static final char separator = '/';
+	//public static final char separator = File.separatorChar;
 
 	/**
 	 * This method is used for the safe loading of files. File paths
@@ -43,8 +48,12 @@ public class Loader {
 	 * @return The loaded file using the given string
 	 */
 	public static File LoadFile(String filename) {
-		String name = assetsDir + File.separatorChar + filename;
+		String name = assetsDir + separator + filename;
 
+		
+		InputStream test = Main.class.getClassLoader().getResourceAsStream(name);
+		System.out.println(test + ": " + name);
+		
 		// Using an InputStream rather than simply loading files by filename
 		// allows the Loader to work when exported to a .jar as well as in Eclipse.
 		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);
@@ -86,11 +95,11 @@ public class Loader {
 	 * @return
 	 */
 	public static Image LoadSprite(String filename) {
-		return LoadImage(spritesDir + File.separatorChar + filename);
+		return LoadImage(spritesDir + separator + filename);
 	}
 
 	public static Image LoadIcon(String filename) {
-		return LoadImage(iconsDir + File.separatorChar + filename);
+		return LoadImage(iconsDir + separator + filename);
 	}
 
 	public static Image LoadImage(String filename) {
@@ -108,7 +117,7 @@ public class Loader {
 	}
 
 	public static ImageIcon LoadSpriteIcon(String filename) {
-		return LoadImageIcon(spritesDir + File.separatorChar + filename);
+		return LoadImageIcon(spritesDir + separator + filename);
 	}
 
 	public static ImageIcon LoadImageIcon(String filename) {

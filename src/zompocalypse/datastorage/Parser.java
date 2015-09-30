@@ -52,7 +52,7 @@ public class Parser {
 		// words used to condense down full image file names into much shorter
 		// strings
 		BufferedReader mapReader = null;
-		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
+		File textTiles = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ "tile_types.txt");
 
 		try {
@@ -71,7 +71,7 @@ public class Parser {
 		}
 
 		// Load file and parse each part of XML into cell of Map
-		File mapCSV = Loader.LoadFile(Loader.mapDir + File.separatorChar
+		File mapCSV = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ mapFile);
 		try {
 
@@ -245,7 +245,7 @@ public class Parser {
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
 		BufferedReader mapReader = null;
-		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
+		File textTiles = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ "tile_types.txt");
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
@@ -343,7 +343,7 @@ public class Parser {
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
 		BufferedReader mapReader = null;
-		File textTiles = Loader.LoadFile(Loader.mapDir + File.separatorChar
+		File textTiles = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ "tile_types.txt");
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
