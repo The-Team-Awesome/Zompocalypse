@@ -37,7 +37,6 @@ public class Loader {
 
 	public static final String mapFile = "TestMap2.xml";
 	public static final char separator = '/';
-	//public static final char separator = File.separatorChar;
 
 	/**
 	 * This method is used for the safe loading of files. File paths
@@ -49,10 +48,6 @@ public class Loader {
 	 */
 	public static File LoadFile(String filename) {
 		String name = assetsDir + separator + filename;
-
-		
-		InputStream test = Main.class.getClassLoader().getResourceAsStream(name);
-		System.out.println(test + ": " + name);
 		
 		// Using an InputStream rather than simply loading files by filename
 		// allows the Loader to work when exported to a .jar as well as in Eclipse.
