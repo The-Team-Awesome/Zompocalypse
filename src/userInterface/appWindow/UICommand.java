@@ -11,7 +11,11 @@ public enum UICommand {
 	NORTH("North"),
 	SOUTH("South"),
 	WEST("West"),
-	EAST("East");
+	EAST("East"),
+	SINGLEPLAYER("SinglePlayer"),
+	MULTIPLAYER("Multiplayer"),
+	LOADGAME("LoadGame"),
+	ENTERIP("EnterIP");
 
 	private String value;
 

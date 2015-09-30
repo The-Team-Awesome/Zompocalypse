@@ -51,6 +51,7 @@ public class StartPanel extends JPanel {
 
 		// SINGLE PLAYER BUTTON
 		singlePlayerButton = new JButton("Single Player");
+		singlePlayerButton.setActionCommand(UICommand.SINGLEPLAYER.getValue());
 		singlePlayerButton.addActionListener(action);
 		c.insets = topInset;
 		c.gridy = positionY++;
@@ -58,6 +59,7 @@ public class StartPanel extends JPanel {
 
 		// MULTIPLAYER PLAYER BUTTON
 		multiplayerButton = new JButton("Multiplayer");
+		multiplayerButton.setActionCommand(UICommand.MULTIPLAYER.getValue());
 		c.insets = buttonsInset;
 		c.gridy = positionY++;
 		multiplayerButton.addActionListener(action);
@@ -65,6 +67,7 @@ public class StartPanel extends JPanel {
 
 		// LOAD GAME BUTTON
 		loadGameButton = new JButton("Load game");
+		loadGameButton.setActionCommand(UICommand.LOADGAME.getValue());
 		loadGameButton.addActionListener(action);
 		c.gridy = positionY++;
 		this.add(loadGameButton, c);

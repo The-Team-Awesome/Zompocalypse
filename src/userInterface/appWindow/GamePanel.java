@@ -58,8 +58,8 @@ public class GamePanel extends JPanel {
 	private static final Image SOUTH = Loader.LoadIcon("south.png");
 	private static final Image WEST = Loader.LoadIcon("west.png");
 	private static final Image EAST = Loader.LoadIcon("east.png");
-	private static final Image TURNRIGHT = Loader.LoadIcon("turnRight.png");
-	private static final Image TURNLEFT = Loader.LoadIcon("turnLeft.png");
+	private static final Image CLOCKWISE = Loader.LoadIcon("turnLeft.png");
+	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnRight.png");
 
 
 	private World game;
@@ -244,8 +244,8 @@ public class GamePanel extends JPanel {
 		c.ipadx = 2;
 		menuPanel.add(btnSouth, c);
 
-		ImageIcon iconTurnRightView = new ImageIcon(TURNRIGHT);
-		btnRotateClockwise = new JButton(iconTurnRightView);
+		ImageIcon iconClockwise = new ImageIcon(CLOCKWISE);
+		btnRotateClockwise = new JButton(iconClockwise);
 		btnRotateClockwise.setActionCommand(UICommand.ROTATECLOCKWISE.getValue());
 		btnRotateClockwise.addActionListener(action);
 		btnRotateClockwise.setBorder(BorderFactory.createEmptyBorder());
@@ -255,8 +255,8 @@ public class GamePanel extends JPanel {
 		c.insets = westInset;
 		menuPanel.add(btnRotateClockwise, c);
 
-		ImageIcon iconTurnLeftView = new ImageIcon(TURNLEFT);
-		btnRotateAnticlockwise = new JButton(iconTurnLeftView);
+		ImageIcon iconAnticlockwise = new ImageIcon(ANTICLOCKWISE);
+		btnRotateAnticlockwise = new JButton(iconAnticlockwise);
 		btnRotateAnticlockwise.setActionCommand(UICommand.ROTATEANTICLOCKWISE.getValue());
 		btnRotateAnticlockwise.addActionListener(action);
 		btnRotateAnticlockwise.setBorder(BorderFactory.createEmptyBorder());

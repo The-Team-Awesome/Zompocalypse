@@ -61,6 +61,7 @@ public class InsertServerPanel extends JPanel {
 		lblInformation = new JLabel("Insert IP address of the server:");
 
 		btnEnter = new JButton("Enter");
+		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
 		btnEnter.addActionListener(action);
 		btnEnter.setEnabled(false);
 
