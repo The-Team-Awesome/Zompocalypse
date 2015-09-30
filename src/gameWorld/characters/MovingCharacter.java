@@ -1,7 +1,5 @@
 package gameWorld.characters;
 
-import javax.management.RuntimeErrorException;
-
 import gameWorld.Orientation;
 import gameWorld.world.World;
 
@@ -16,11 +14,13 @@ import gameWorld.world.World;
 public abstract class MovingCharacter extends Actor {
 
 	protected Orientation orientation;
-	//protected Orientation queued; 	// queued direction change
+	protected boolean moving;
+	protected Orientation queued; 	// queued direction change
 
 	public MovingCharacter(int xCoord, int yCoord, Orientation direction) {
 		super(xCoord,yCoord);
 		this.orientation = direction;
+		this.moving = false;
 	}
 
 	/**
@@ -31,19 +31,23 @@ public abstract class MovingCharacter extends Actor {
 	}
 
 	public void moveNorth() {
-		orientation = Orientation.NORTH;
+		queued = Orientation.NORTH;
+		moving = true;
 	}
 
 	public void moveEast() {
-		orientation = Orientation.EAST;
+		queued = Orientation.EAST;
+		moving = true;
 	}
 
 	public void moveSouth() {
-		orientation = Orientation.SOUTH;
+		queued = Orientation.SOUTH;
+		moving = true;
 	}
 
 	public void moveWest() {
-		orientation = Orientation.WEST;
+		queued = Orientation.WEST;
+		moving = true;
 	}
 
 	/**
@@ -52,6 +56,11 @@ public abstract class MovingCharacter extends Actor {
 	 */
 	@Override
 	public void tick(World game) {
+
+		if(!moving){
+			return;
+		}
+		moving = false;
 
 		// Attempt to update the character's position. This is done by
 		// speculating at the new board position and then deciding if this
@@ -62,18 +71,22 @@ public abstract class MovingCharacter extends Actor {
 		int width = game.width();
 		int height = game.height();
 
-		if(orientation == Orientation.NORTH) {
+		if(queued == Orientation.NORTH) {
 			newX = xCoord;
 			newY = yCoord -1;
-		} else if(orientation == Orientation.SOUTH) {
+			orientation = queued;
+		} else if(queued == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
-		} else if(orientation == Orientation.EAST) {
+			orientation = queued;
+		} else if(queued == Orientation.EAST) {
 			newX = xCoord +1;
 			newY = yCoord;
-		} else if(orientation == Orientation.WEST) {
+			orientation = queued;
+		} else if(queued == Orientation.WEST) {
 			newX = xCoord -1;
 			newY = yCoord;
+			orientation = queued;
 		} else {
 			return;
 		}
