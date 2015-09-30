@@ -54,9 +54,8 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (int i = 0; i < idToActor.size(); i++){
-			Actor c = idToActor.get(i);
-			c.tick(this);
+		for (Actor actor : idToActor.values()){
+			actor.tick(this);
 		}
 	}
 
@@ -160,7 +159,9 @@ public class World implements Serializable {
 	public synchronized int registerPlayer() {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		return ++id;
+		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0, "Bibbly Bob", "file");
+		idToActor.put(id, player);
+		return id;
 	}
 
 	/**
