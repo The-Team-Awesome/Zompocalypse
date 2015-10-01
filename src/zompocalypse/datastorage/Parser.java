@@ -170,28 +170,28 @@ public class Parser {
 				// based on original direction
 				switch (object[object.length - 1]) {
 				case "n":
-					orientation = "nsew";
+					orientation = "nesw";
 					tile = new String[4];
 					for (int x = 0; x < orientation.length(); x++) {
 						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
 					}
 					break;
 				case "s":
-					orientation = "snwe";
+					orientation = "swne";
 					tile = new String[4];
 					for (int x = 0; x < orientation.length(); x++) {
 						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
 					}
 					break;
 				case "e":
-					orientation = "ewns";
+					orientation = "eswn";
 					tile = new String[4];
 					for (int x = 0; x < orientation.length(); x++) {
 						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
 					}
 					break;
 				case "w":
-					orientation = "wesn";
+					orientation = "wnes";
 					tile = new String[4];
 					for (int x = 0; x < orientation.length(); x++) {
 						tile[x] = floor + "_" + orientation.charAt(x) + ".png";
