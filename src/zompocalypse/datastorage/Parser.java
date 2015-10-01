@@ -87,28 +87,28 @@ public class Parser {
 			String[] split = nodeMap.getAttribute("dimensions").split(",");
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
-			map = new Tile[y][x];
-			objects = new GameObject[y][x];
+			map = new Tile[x][y];
+			objects = new GameObject[x][y];
 
 			NodeList rows = nodeMap.getElementsByTagName("row");
 
-			for (int i = 0; i < rows.getLength(); i++) {
-				Element cellMap = (Element) rows.item(i);
+			for (int row = 0; row < rows.getLength(); row++) {
+				Element cellMap = (Element) rows.item(row);
 				NodeList cells = cellMap.getElementsByTagName("cell");
-				for (int j = 0; j < cells.getLength(); j++) {
-					Element cell = (Element) cells.item(j);
-					parseTile(map, textTileMap, cell.getAttribute("img"), i, j);
+				for (int col = 0; col < cells.getLength(); col++) {
+					Element cell = (Element) cells.item(col);
+					parseTile(map, textTileMap, cell.getAttribute("img"), col, row);
 					if (cell.hasAttribute("wall")) {
 						parseWall(objects, textTileMap,
 								cell.getAttribute("wall"),
-								cell.getAttribute("offset"), i, j);
+								cell.getAttribute("offset"), col, row);
 
 					}
 					if (cell.hasAttribute("zombieSpawnPoint")) {
-						zombieSpawnPoints.add(new Point(i,j));
+						zombieSpawnPoints.add(new Point(col,row));
 					}
 					if (cell.hasAttribute("playerSpawnPoint")) {
-						playerSpawnPoints.add(new Point(i,j));
+						playerSpawnPoints.add(new Point(col,row));
 					}
 				}
 			}
@@ -280,24 +280,24 @@ public class Parser {
 			// Read through the Map and create a Row for every row in the map,
 			// and a
 			// Cell for every cell in each row.
-			for (int i = 0; i < y; i++) {
+			for (int col = 0; col < y; col++) {
 				Element xmlRow = doc.createElement("row");
-				for (int j = 0; j < x; j++) {
+				for (int row = 0; row < x; row++) {
 					Element xmlCell = doc.createElement("cell");
 					xmlCell.setAttribute("img",
-							getCode(map[i][j].getFileName(), textTileMap));
+							getCode(map[row][col].getFileName(), textTileMap));
 					xmlRow.appendChild(xmlCell);
-					if (objects[i][j] != null) {
-						if (objects[i][j] instanceof zompocalypse.gameworld.world.Wall) {
-							Wall wall = (Wall) objects[i][j];
+					if (objects[row][col] != null) {
+						if (objects[row][col] instanceof zompocalypse.gameworld.world.Wall) {
+							Wall wall = (Wall) objects[row][col];
 							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
 						}
 					}
-					if (zombieSpawnPoints.contains(new Point(i,j))) {
+					if (zombieSpawnPoints.contains(new Point(row,col))) {
 						xmlCell.setAttribute("zombieSpawnPoint", "");
 					}
-					if (playerSpawnPoints.contains(new Point(i,j))) {
+					if (playerSpawnPoints.contains(new Point(row,col))) {
 						xmlCell.setAttribute("playerSpawnPoint", "");
 					}
 				}
