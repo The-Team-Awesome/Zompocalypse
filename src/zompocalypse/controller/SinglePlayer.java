@@ -84,10 +84,22 @@ public class SinglePlayer extends GameListener {
 			game.expandMap("west");
 		} else if (code == KeyEvent.VK_L) { // shrink west
 			game.shrinkMap("west");
-		} else if (code == KeyEvent.VK_Z) { // shrink west
+		} else if (code == KeyEvent.VK_Z) { // toggle zombie spawn point
 			game.toggleZombieSpawnPoint();
-		} else if (code == KeyEvent.VK_X) { // shrink west
+		} else if (code == KeyEvent.VK_X) { // toggle zombie spawn point
 			game.togglePlayerSpawnPoint();
+		} else if (code == KeyEvent.VK_T) { // edit tile
+			game.editTile();
+		} else if (code == KeyEvent.VK_R) { // rotate tile
+			game.rotateTile();
+		} else if (code == KeyEvent.VK_G) { // edit wall
+			game.editWall();
+		} else if (code == KeyEvent.VK_B) { // edit object
+			game.editObject();
+		} else if (code == KeyEvent.VK_C) { // copy location
+			game.copyLocation();
+		} else if (code == KeyEvent.VK_V) { // paste location
+			game.pasteLocation();
 		}
 	}
 

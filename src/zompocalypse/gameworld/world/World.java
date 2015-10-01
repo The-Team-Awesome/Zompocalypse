@@ -27,6 +27,7 @@ public class World implements Serializable {
 	private int height;
 
 	private static int id;
+	private Floor clipboard;
 
 	/**
 	 * The following is a map of ID's and characters in the game. This includes
@@ -41,7 +42,7 @@ public class World implements Serializable {
 	 */
 
 	private Orientation orientation;
-	private Tile[][] map;
+	private Floor[][] map;
 	private PriorityQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
@@ -49,7 +50,7 @@ public class World implements Serializable {
 	private boolean showWalls = true;
 	private Point editor = new Point(0, 0);
 
-	public World(int width, int height, Tile[][] map,
+	public World(int width, int height, Floor[][] map,
 			PriorityQueue<GameObject>[][] objects,
 			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
 		this.width = width;
@@ -398,4 +399,33 @@ public class World implements Serializable {
 		else
 			playerSpawnPoints.add(new Point(editor.x, editor.y));
 	}
+
+	public void editTile() {
+		String[] tileName = WorldBuilder.getFileName();
+		System.out.println(tileName[0]);
+		map[editor.x][editor.y] = new Floor(editor.x, editor.y, tileName);
+
+	}
+
+	public void editWall() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void editObject() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void rotateTile() {
+		map[editor.x][editor.y].rotate();
+	}
+
+	public void copyLocation() {
+		clipboard = map[editor.x][editor.y];
+	}
+
+	public void pasteLocation() {
+		map[editor.x][editor.y] = clipboard.cloneMe();
+		}
 }

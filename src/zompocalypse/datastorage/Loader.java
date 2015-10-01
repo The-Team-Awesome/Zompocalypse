@@ -48,7 +48,7 @@ public class Loader {
 	 */
 	public static File LoadFile(String filename) {
 		String name = assetsDir + separator + filename;
-		
+
 		// Using an InputStream rather than simply loading files by filename
 		// allows the Loader to work when exported to a .jar as well as in Eclipse.
 		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);

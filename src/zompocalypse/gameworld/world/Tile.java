@@ -16,7 +16,7 @@ public abstract class Tile implements Drawable{
 
 	protected transient Image[] images;
 	protected transient Image currentImage;
-	protected String imageName;
+	protected String[] tileNames;
 
 	/**
 	 * Returns the X co-ordinate of this tile's position in the 2D map of the world
@@ -45,17 +45,17 @@ public abstract class Tile implements Drawable{
 	 * [NS,EW]
 	 * [N,S,E,W]
 	 *
-	 * @param filenames
+	 * @param fileNames
 	 */
-	protected void setupImages(String[] filenames) {
-		images = new Image[filenames.length];  //image is same length as array
+	protected void setupImages(String[] fileNames) {
+		images = new Image[fileNames.length];  //image is same length as array
 
-		for(int i = 0; i < filenames.length; ++i){
-			System.out.println(filenames[i]);
-			images[i] = Loader.LoadSprite(filenames[i]);
+		for(int i = 0; i < fileNames.length; ++i){
+			System.out.println(fileNames[i]);
+			images[i] = Loader.LoadSprite(fileNames[i]);
 		}
 		currentImage = images[0];  //get the north (default orientation)
-		imageName = filenames[0];
+		this.tileNames = fileNames;
 	}
 
 	/**

@@ -43,7 +43,7 @@ public class Parser {
 	 */
 	public static World ParseMap(String mapFile) throws IOException {
 
-		Tile[][] map = new Tile[1][1];
+		Floor[][] map = new Floor[1][1];
 		PriorityQueue<GameObject>[][] objects = null;
 		Set<Point> zombieSpawnPoints = new HashSet<Point>();
 		Set<Point> playerSpawnPoints = new HashSet<Point>();
@@ -89,7 +89,7 @@ public class Parser {
 			String[] split = nodeMap.getAttribute("dimensions").split(",");
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
-			map = new Tile[x][y];
+			map = new Floor[x][y];
 
 			objects = new PriorityQueue[x][y];
 			for (int j = 0; j < y; j++) {
@@ -145,7 +145,7 @@ public class Parser {
 	 * Parses a tile from a String and places it on 2D array of Tiles at (i,j)
 	 * coordinate.
 	 */
-	private static void parseTile(Tile[][] map,
+	private static void parseTile(Floor[][] map,
 			Map<String, String> textTileMap, String string, int i, int j) {
 
 		String[] tile = expandCode(textTileMap, string);

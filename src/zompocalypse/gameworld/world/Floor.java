@@ -73,4 +73,24 @@ public class Floor extends Tile{
 	public String getFileName() {
 		return imageName;
 	}
+
+	public void rotate() {
+		String[] rotate = new String[filenames.length];
+		for (int x = 0; x < rotate.length - 1; x ++) {
+			rotate[x] = filenames[x + 1];
+		}
+		rotate[rotate.length - 1] = filenames[0];
+
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+		this.filenames = rotate;
+		this.images = imu.setupImages(rotate);
+		this.currentImage = images[0];
+		this.imageName = rotate[0];
+
+	}
+
+	public Floor cloneMe() {
+		return new Floor(x, y, filenames);
+	}
 }
