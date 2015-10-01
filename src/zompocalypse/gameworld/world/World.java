@@ -136,6 +136,14 @@ public class World implements Serializable {
 		}
 	}
 
+	public Tile[][] getMap() {
+		return map;
+	}
+
+	public PriorityQueue<GameObject>[][] getObjects() {
+		return objects;
+	}
+
 	// ***********************************************
 	// Networking Methods
 	// ******************
@@ -183,10 +191,13 @@ public class World implements Serializable {
 		return perspective;
 	}
 
-	public Tile[][] getMap() {
-		return map;
-	}
-
+	/**
+	 * This method creates a new player on the game and returns the
+	 * id value which they were registered with. It is synchronized because
+	 * it can be called in a networked game by multiple Client/Server connections.
+	 *
+	 * @return integer ID value
+	 */
 	public synchronized int registerPlayer() {
 		// A new player has been added
 		int x, y;
@@ -198,6 +209,7 @@ public class World implements Serializable {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
 
+
 		String[]filenames = {
 				"character_gina_empty_n.png",
 				"character_gina_empty_s.png",
@@ -205,6 +217,8 @@ public class World implements Serializable {
 				"character_gina_empty_w.png"
 		};
 
+		// TODO: This should really get valid information for name,
+		// as well as select their x, y co-ordinates based on a valid portal
 		Player player = new Player(1, 1, Orientation.NORTH, id, 0, "Bibbly Bob", filenames);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
@@ -268,10 +282,6 @@ public class World implements Serializable {
 				+ idToActor + ", orientation=" + orientation + ", map="
 				+ Arrays.toString(map) + ", objects="
 				+ Arrays.toString(objects) + "]";
-	}
-
-	public PriorityQueue<GameObject>[][] getObjects() {
-		return objects;
 	}
 
 	public void expandMap(String direction) {
