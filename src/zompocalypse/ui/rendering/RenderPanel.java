@@ -97,8 +97,6 @@ public class RenderPanel extends JPanel {
 
 		//get top, left, right, bottom points to know how many tiles
 		//to render
-		
-		
 
 		//iterate through the game world.
 		int topLeftX = actorX - xTilesPerPanel;
@@ -164,10 +162,10 @@ public class RenderPanel extends JPanel {
 		//Draws from the top right of the board, goes across
 		//http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 
-		int offsetX = 300;
-		int offsetY = 300;
+		int offsetX = 0;
+		int offsetY = 50;
 
-		tiles[0][0].draw(offsetX, offsetY, g);
+		//tiles[0][0].draw(offsetX, offsetY, g);
 
 		for(int i = 0; i < tiles.length; ++i){
 			for(int j = tiles[i].length-1; j >= 0; j--){
