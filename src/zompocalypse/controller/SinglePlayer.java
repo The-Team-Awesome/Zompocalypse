@@ -66,23 +66,28 @@ public class SinglePlayer extends GameListener {
 			// start editing screens
 		} else if (code == KeyEvent.VK_F8) { // expand north
 			game.setEditMode();
-
+		} else if (code == KeyEvent.VK_P) { // expand north
+			game.toggleWalls();
 		} else if (code == KeyEvent.VK_Y) { // expand north
 			game.expandMap("north");
 		} else if (code == KeyEvent.VK_H) { // shrink north
-
+			game.shrinkMap("north");
 		} else if (code == KeyEvent.VK_U) { // expand east
 			game.expandMap("east");
 		} else if (code == KeyEvent.VK_J) { // shrink east
-
+			game.shrinkMap("east");
 		} else if (code == KeyEvent.VK_I) { // expand south
 			game.expandMap("south");
 		} else if (code == KeyEvent.VK_K) { // shrink south
-
+			game.shrinkMap("south");
 		} else if (code == KeyEvent.VK_O) { // expand west
 			game.expandMap("west");
 		} else if (code == KeyEvent.VK_L) { // shrink west
-
+			game.shrinkMap("west");
+		} else if (code == KeyEvent.VK_Z) { // shrink west
+			game.toggleZombieSpawnPoint();
+		} else if (code == KeyEvent.VK_X) { // shrink west
+			game.togglePlayerSpawnPoint();
 		}
 	}
 

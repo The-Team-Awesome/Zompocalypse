@@ -46,9 +46,12 @@ public class World implements Serializable {
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
 	private boolean editMode = false;
+	private boolean showWalls = true;
+	private Point editor = new Point(0, 0);
 
-
-	public World(int width, int height, Tile[][] map, PriorityQueue<GameObject>[][] objects, Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
+	public World(int width, int height, Tile[][] map,
+			PriorityQueue<GameObject>[][] objects,
+			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
@@ -91,13 +94,13 @@ public class World implements Serializable {
 
 	public boolean isWall(int x, int y) {
 
-		//everything off the map is treated as a wall
-		if(x < 0 || y < 0 || x >= width || y >= height){
+		// everything off the map is treated as a wall
+		if (x < 0 || y < 0 || x >= width || y >= height) {
 			return true;
 		}
 		PriorityQueue<GameObject> obj = objects[x][y];
-		for (GameObject o : obj){
-			if (o != null && o instanceof Wall){
+		for (GameObject o : obj) {
+			if (o != null && o instanceof Wall) {
 				return true;
 			}
 		}
@@ -193,9 +196,9 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * This method creates a new player on the game and returns the
-	 * id value which they were registered with. It is synchronized because
-	 * it can be called in a networked game by multiple Client/Server connections.
+	 * This method creates a new player on the game and returns the id value
+	 * which they were registered with. It is synchronized because it can be
+	 * called in a networked game by multiple Client/Server connections.
 	 *
 	 * @return integer ID value
 	 */
@@ -203,24 +206,21 @@ public class World implements Serializable {
 		// A new player has been added
 		int x, y;
 
-		for(Point p : playerSpawnPoints){
+		for (Point p : playerSpawnPoints) {
 			x = p.x;
 			y = p.y;
 		}
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
 
-
-		String[]filenames = {
-				"character_gina_empty_n.png",
-				"character_gina_empty_s.png",
-				"character_gina_empty_e.png",
-				"character_gina_empty_w.png"
-		};
+		String[] filenames = { "character_gina_empty_n.png",
+				"character_gina_empty_s.png", "character_gina_empty_e.png",
+				"character_gina_empty_w.png" };
 
 		// TODO: This should really get valid information for name,
 		// as well as select their x, y co-ordinates based on a valid portal
-		Player player = new Player(1, 1, Orientation.NORTH, ++id, 0, "Bibbly Bob", filenames);
+		Player player = new Player(1, 1, Orientation.NORTH, ++id, 0,
+				"Bibbly Bob", filenames);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 		return player.getUID();
@@ -248,25 +248,37 @@ public class World implements Serializable {
 		System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
 
-		if(key == UICommand.NORTH.getValue()) {
-			player.moveNorth();
+		if (key == UICommand.NORTH.getValue()) {
+			if (editMode)
+				editor.y--;
+			else
+				player.moveNorth();
 			return true;
 		} else if (key == UICommand.SOUTH.getValue()) {
-			player.moveSouth();
+			if (editMode)
+				editor.y++;
+			else
+				player.moveSouth();
 			return true;
 		} else if (key == UICommand.EAST.getValue()) {
-			player.moveEast();
+			if (editMode)
+				editor.x++;
+			else
+				player.moveEast();
 			return true;
-		} else if(key == UICommand.WEST.getValue()) {
-			player.moveWest();
+		} else if (key == UICommand.WEST.getValue()) {
+			if (editMode)
+				editor.x--;
+			else
+				player.moveWest();
 			return true;
 		} else if (key == UICommand.ITEMONE.getValue()) {
 			return true;
-		} else if(key == UICommand.ITEMTWO.getValue()) {
+		} else if (key == UICommand.ITEMTWO.getValue()) {
 			return true;
-		} else if(key == UICommand.ITEMTHREE.getValue()){
+		} else if (key == UICommand.ITEMTHREE.getValue()) {
 			return true;
-		} else if (key == UICommand.USE.getValue()){
+		} else if (key == UICommand.USE.getValue()) {
 			return true;
 		} else {
 			return false;
@@ -285,33 +297,105 @@ public class World implements Serializable {
 				+ Arrays.toString(objects) + "]";
 	}
 
+	// ***********************************************
+	// Everything below here is used for editing mode
+	// ***********************************************
+
 	public void setEditMode() {
 		editMode = true;
 		for (int k : idToActor.keySet()) {
 			Actor a = idToActor.get(k);
 			objects[a.getX()][a.getY()].clear();
 		}
+		editor = new Point(0, 0);
+	}
+
+	public boolean getEditMode() {
+		return editMode;
+	}
+
+	public Point getEditor() {
+		return editor;
+	}
+
+	public void toggleWalls() {
+		if (editMode)
+			showWalls = !showWalls;
+	}
+
+	public boolean getShowWalls() {
+		return showWalls;
 	}
 
 	public void expandMap(String direction) {
-		if (editMode ) {
-		switch (direction) {
-		case "north":
-			for (Point p : playerSpawnPoints) p.y++;
-			for (Point p : zombieSpawnPoints) p.y++;
-		case "south":
-			height++;
-			break;
-		case "east":
-			for (Point p : playerSpawnPoints) p.x++;
-			for (Point p : zombieSpawnPoints) p.x++;
-		case "west":
-			width++;
-			break;
+		if (editMode) {
+			switch (direction) {
+			case "north":
+				editor.y++;
+				for (Point p : playerSpawnPoints)
+					p.y++;
+				for (Point p : zombieSpawnPoints)
+					p.y++;
+			case "south":
+				height++;
+				break;
+			case "west":
+				editor.x++;
+				for (Point p : playerSpawnPoints)
+					p.x++;
+				for (Point p : zombieSpawnPoints)
+					p.x++;
+			case "east":
+				width++;
+				break;
+			}
+			System.out.println("New width: " + width + ", new height: "
+					+ height);
+			map = WorldBuilder.expandMap(map, direction);
+			objects = WorldBuilder.expandObjects(objects, direction);
 		}
-		System.out.println("New width: " + width + ", new height: "+ height);
-		map = WorldBuilder.expandMap(map, direction);
-		objects = WorldBuilder.expandObjects(objects, direction);
+	}
+
+	public void shrinkMap(String direction) {
+		if (editMode) {
+			switch (direction) {
+			case "north":
+				editor.y--;
+				for (Point p : playerSpawnPoints)
+					p.y--;
+				for (Point p : zombieSpawnPoints)
+					p.y--;
+			case "south":
+				height--;
+				break;
+			case "west":
+				editor.x--;
+				for (Point p : playerSpawnPoints)
+					p.x--;
+				for (Point p : zombieSpawnPoints)
+					p.x--;
+			case "east":
+				width--;
+				break;
+			}
 		}
+		System.out.println("New width: " + width + ", new height: "
+				+ height);
+		map = WorldBuilder.shrinkMap(map, direction);
+		objects = WorldBuilder.shrinkObjects(objects, direction);
+	}
+
+	public void toggleZombieSpawnPoint() {
+		if (zombieSpawnPoints.contains(editor))
+			zombieSpawnPoints.remove(editor);
+		else
+			zombieSpawnPoints.add(new Point(editor.x, editor.y));
+	}
+
+	public void togglePlayerSpawnPoint() {
+		if (playerSpawnPoints.contains(editor))
+			playerSpawnPoints.remove(editor);
+		else
+			playerSpawnPoints.add(new Point(editor.x, editor.y));
 	}
 }
