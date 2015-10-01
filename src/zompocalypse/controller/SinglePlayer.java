@@ -57,6 +57,8 @@ public class SinglePlayer extends GameListener {
 					UICommand.ROTATEANTICLOCKWISE.getValue());
 			// TODO this is just something for me to work with to be able to
 			// start editing screens
+		} else if (code == KeyEvent.VK_F8) { // expand north
+			game.setEditMode();
 		} else if (code == KeyEvent.VK_Y) { // expand north
 			game.expandMap("north");
 		} else if (code == KeyEvent.VK_H) { // shrink north

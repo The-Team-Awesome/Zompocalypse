@@ -1,5 +1,8 @@
 package zompocalypse.datastorage;
 
+import java.util.PriorityQueue;
+
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.world.*;
 
 public class WorldBuilder {
@@ -62,6 +65,70 @@ public class WorldBuilder {
 			break;
 		}
 		return returnMap;
+	}
+
+	public static PriorityQueue<GameObject>[][] expandObjects(
+			PriorityQueue<GameObject>[][] objects, String direction) {
+		// TODO Auto-generated method stub
+		PriorityQueue<GameObject>[][] returnObjects = null;
+		int x, y;
+
+		switch(direction) {
+		case "north":
+			returnObjects = new PriorityQueue[objects.length][objects[0].length + 1];
+			for (y = 0; y < returnObjects[0].length; y++) {
+				for (x = 0; x < returnObjects.length; x ++) {
+					returnObjects[x][y] = new PriorityQueue<GameObject>();
+				}
+			}
+			for (y = 0; y < objects[0].length; y++) {
+				for (x = 0; x < objects.length; x++) {
+					returnObjects[x][y+1].addAll(objects[x][y]);
+				}
+			}
+			break;
+		case "south":
+			returnObjects = new PriorityQueue[objects.length][objects[0].length + 1];
+			for (y = 0; y < returnObjects[0].length; y++) {
+				for (x = 0; x < returnObjects.length; x ++) {
+					returnObjects[x][y] = new PriorityQueue<GameObject>();
+				}
+			}
+			for (y = 0; y < objects[0].length; y++) {
+				for (x = 0; x < objects.length; x++) {
+					returnObjects[x][y].addAll(objects[x][y]);
+				}
+			}
+			break;
+		case "east":
+			returnObjects = new PriorityQueue[objects.length + 1][objects[0].length];
+			for (y = 0; y < returnObjects[0].length; y++) {
+				for (x = 0; x < returnObjects.length; x ++) {
+					returnObjects[x][y] = new PriorityQueue<GameObject>();
+				}
+			}
+			for (y = 0; y < objects[0].length; y++) {
+				for (x = 0; x < objects.length; x++) {
+					returnObjects[x][y].addAll(objects[x][y]);
+				}
+			}
+			break;
+		case "west":
+			returnObjects = new PriorityQueue[objects.length + 1][objects[0].length];
+			for (y = 0; y < returnObjects[0].length; y++) {
+				for (x = 0; x < returnObjects.length; x ++) {
+					returnObjects[x][y] = new PriorityQueue<GameObject>();
+				}
+			}
+			for (y = 0; y < objects[0].length; y++) {
+				for (x = 0; x < objects.length; x++) {
+					returnObjects[x+1][y].addAll(objects[x][y]);
+				}
+			}
+			break;
+		}
+
+		return returnObjects;
 	}
 
 }

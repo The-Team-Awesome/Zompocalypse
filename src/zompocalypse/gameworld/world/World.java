@@ -45,6 +45,7 @@ public class World implements Serializable {
 	private PriorityQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
+	private boolean editMode = false;
 
 
 	public World(int width, int height, Tile[][] map, PriorityQueue<GameObject>[][] objects, Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
@@ -219,7 +220,7 @@ public class World implements Serializable {
 
 		// TODO: This should really get valid information for name,
 		// as well as select their x, y co-ordinates based on a valid portal
-		Player player = new Player(1, 1, Orientation.NORTH, id, 0, "Bibbly Bob", filenames);
+		Player player = new Player(1, 1, Orientation.NORTH, ++id, 0, "Bibbly Bob", filenames);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 		return player.getUID();
@@ -284,18 +285,33 @@ public class World implements Serializable {
 				+ Arrays.toString(objects) + "]";
 	}
 
+	public void setEditMode() {
+		editMode = true;
+		for (int k : idToActor.keySet()) {
+			Actor a = idToActor.get(k);
+			objects[a.getX()][a.getY()].clear();
+		}
+	}
+
 	public void expandMap(String direction) {
+		if (editMode ) {
 		switch (direction) {
 		case "north":
+			for (Point p : playerSpawnPoints) p.y++;
+			for (Point p : zombieSpawnPoints) p.y++;
 		case "south":
 			height++;
 			break;
 		case "east":
+			for (Point p : playerSpawnPoints) p.x++;
+			for (Point p : zombieSpawnPoints) p.x++;
 		case "west":
 			width++;
 			break;
 		}
-		System.out.println("(" + width + ", "+ height +")");
+		System.out.println("New width: " + width + ", new height: "+ height);
 		map = WorldBuilder.expandMap(map, direction);
+		objects = WorldBuilder.expandObjects(objects, direction);
+		}
 	}
 }

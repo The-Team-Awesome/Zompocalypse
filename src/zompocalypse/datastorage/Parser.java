@@ -44,7 +44,6 @@ public class Parser {
 	public static World ParseMap(String mapFile) throws IOException {
 
 		Tile[][] map = new Tile[1][1];
-		// GameObject[][] objects = new GameObject[1][1];
 		PriorityQueue<GameObject>[][] objects = null;
 		Set<Point> zombieSpawnPoints = new HashSet<Point>();
 		Set<Point> playerSpawnPoints = new HashSet<Point>();
@@ -297,8 +296,8 @@ public class Parser {
 							getCode(map[row][col].getFileName(), textTileMap));
 					xmlRow.appendChild(xmlCell);
 					if (objects[row][col] != null) {
-						if (objects[row][col].poll() instanceof zompocalypse.gameworld.world.Wall) {
-							Wall wall = (Wall) objects[row][col].poll();
+						if (objects[row][col].peek() instanceof zompocalypse.gameworld.world.Wall) {
+							Wall wall = (Wall) objects[row][col].peek();
 							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
 						}

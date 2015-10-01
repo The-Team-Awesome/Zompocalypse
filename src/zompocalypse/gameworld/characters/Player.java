@@ -104,7 +104,6 @@ public final class Player extends MovingCharacter{
 
 			ImageUtils imu = ImageUtils.getImageUtilsObject();
 			currentImage = imu.getCurrentImageForOrientation(orientation, images);
-			System.out.println(this.xCoord + ": " + this.yCoord);
 		}
 	}
 
