@@ -44,6 +44,23 @@ public class SinglePlayer extends GameListener {
 			frame.processKeyPress(code, "clockwise");
 		} else if (code == KeyEvent.VK_PERIOD) {
 			frame.processKeyPress(code, "anticlockwise");
+		// TODO this is just something for me to work with to be able to start editing screens
+		} else if (code == KeyEvent.VK_Y) { // expand north
+			game.expandMap("north");
+		} else if (code == KeyEvent.VK_H) { // shrink north
+
+		} else if (code == KeyEvent.VK_U) { // expand east
+			game.expandMap("east");
+		} else if (code == KeyEvent.VK_J) { // shrink east
+
+		} else if (code == KeyEvent.VK_I) { // expand south
+			game.expandMap("south");
+		} else if (code == KeyEvent.VK_K) { // shrink south
+
+		} else if (code == KeyEvent.VK_O) { // expand west
+			game.expandMap("west");
+		} else if (code == KeyEvent.VK_L) { // shrink west
+
 		}
 	}
 

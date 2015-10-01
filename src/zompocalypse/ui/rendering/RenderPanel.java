@@ -174,11 +174,11 @@ public class RenderPanel extends JPanel {
 					//System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
 
-					Drawable dd = objects[i][j];
-					if(dd != null){
-						//System.out.println("draw wall");
-						dd.draw(x, y, g);
-					}
+//					Drawable dd = objects[i][j];
+//					if(dd != null){
+//						//System.out.println("draw wall");
+//						dd.draw(x, y, g);
+//					}
 
 				}
 			}

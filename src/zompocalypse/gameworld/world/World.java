@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import zompocalypse.datastorage.*;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
@@ -20,8 +21,8 @@ import zompocalypse.gameworld.characters.Player;
  * @author Kieran Mckay, 300276166
  */
 public class World implements Serializable {
-	private final int width;
-	private final int height;
+	private int width;
+	private int height;
 
 	private static int id;
 
@@ -29,7 +30,7 @@ public class World implements Serializable {
 	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
 	 */
-	private final Map<Integer,Actor> idToActor = new HashMap<Integer,Actor>();
+	private final Map<Integer, Actor> idToActor = new HashMap<Integer, Actor>();
 
 	/**
 	 * This represents the entire world as 2D array of Tiles. Tiles can either
@@ -43,7 +44,8 @@ public class World implements Serializable {
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
 
-	public World(int width, int height, Tile[][] map, GameObject[][] objects, Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
+	public World(int width, int height, Tile[][] map, GameObject[][] objects,
+			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
@@ -61,13 +63,14 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (Actor actor : idToActor.values()){
+		for (Actor actor : idToActor.values()) {
 			actor.tick(this);
 		}
 	}
 
 	/**
 	 * Get the board width.
+	 *
 	 * @return
 	 */
 	public int width() {
@@ -76,6 +79,7 @@ public class World implements Serializable {
 
 	/**
 	 * Get the board height.
+	 *
 	 * @return
 	 */
 	public int height() {
@@ -84,7 +88,7 @@ public class World implements Serializable {
 
 	public boolean isWall(int x, int y) {
 		GameObject obj = objects[x][y];
-		if (obj != null && obj instanceof Wall){
+		if (obj != null && obj instanceof Wall) {
 			return true;
 		}
 
@@ -108,17 +112,19 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * Gets the character based on the id - if it doesn't exist then
-	 * something has gone wrong
-	 * @param id The ID of the character
+	 * Gets the character based on the id - if it doesn't exist then something
+	 * has gone wrong
+	 *
+	 * @param id
+	 *            The ID of the character
 	 * @return The character itself
 	 */
 	public Actor getCharacterByID(int id) {
-		if(idToActor.containsKey(id)){
+		if (idToActor.containsKey(id)) {
 			return idToActor.get(id);
-		}
-		else {
-			throw new IllegalStateException("Character with this code does not exist");
+		} else {
+			throw new IllegalStateException(
+					"Character with this code does not exist");
 		}
 	}
 
@@ -135,8 +141,10 @@ public class World implements Serializable {
 	 * Gets a Tile[][] which represents the area which a Character can currently
 	 * see in their view.
 	 *
-	 * @param character - The Character object whose perspective is being requested
-	 * @param size - The size of the perspective to return
+	 * @param character
+	 *            - The Character object whose perspective is being requested
+	 * @param size
+	 *            - The size of the perspective to return
 	 * @return A 2D array of Tiles - edge cases are null objects
 	 */
 	public Tile[][] getCharacterPerspective(Actor character, int size) {
@@ -148,11 +156,11 @@ public class World implements Serializable {
 		int charY = character.getY();
 
 		int perspX = 0;
-		for(int x = charX - offset; x <= charX + offset; x++) {
+		for (int x = charX - offset; x <= charX + offset; x++) {
 			int perspY = 0;
 
-			for(int y = charY - offset; y <= charY + offset; y++) {
-				if(x >=0 || x < height || y >= 0 || y < height) {
+			for (int y = charY - offset; y <= charY + offset; y++) {
+				if (x >= 0 || x < height || y >= 0 || y < height) {
 					perspective[perspX][perspY] = map[x][y];
 				} else {
 					// Careful!
@@ -174,14 +182,16 @@ public class World implements Serializable {
 	public synchronized int registerPlayer() {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0, "Bibbly Bob", "file");
+		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0,
+				"Bibbly Bob", "file");
 		idToActor.put(id, player);
 		objects[1][1] = player;
 		return id;
 	}
 
 	/**
-	 * This method takes an x and y co-ordinate for a click and does shit with it.
+	 * This method takes an x and y co-ordinate for a click and does shit with
+	 * it.
 	 *
 	 * @param id
 	 * @param x
@@ -202,32 +212,32 @@ public class World implements Serializable {
 		Player player = (Player) idToActor.get(id);
 
 		switch (key) {
-			case "North":
-				player.moveNorth();
-				return true;
-			case "South":
-				player.moveSouth();
-				return true;
-			case "East":
-				player.moveEast();
-				return true;
-			case "West":
-				player.moveWest();
-				return true;
-			case "ItemOne":
-				return true;
-			case "ItemTwo":
-				return true;
-			case "ItemThree":
-				return true;
-			case "Use":
-				return true;
-			case "RotateClockwise":
-				return true;
-			case "RotateAnticlockwise":
-				return true;
-			default:
-				break;
+		case "North":
+			player.moveNorth();
+			return true;
+		case "South":
+			player.moveSouth();
+			return true;
+		case "East":
+			player.moveEast();
+			return true;
+		case "West":
+			player.moveWest();
+			return true;
+		case "ItemOne":
+			return true;
+		case "ItemTwo":
+			return true;
+		case "ItemThree":
+			return true;
+		case "Use":
+			return true;
+		case "RotateClockwise":
+			return true;
+		case "RotateAnticlockwise":
+			return true;
+		default:
+			break;
 		}
 		return false;
 	}
@@ -246,5 +256,20 @@ public class World implements Serializable {
 
 	public GameObject[][] getObjects() {
 		return objects;
+	}
+
+	public void expandMap(String direction) {
+		switch (direction) {
+		case "north":
+		case "south":
+			height++;
+			break;
+		case "east":
+		case "west":
+			width++;
+			break;
+		}
+		System.out.println("(" + width + ", "+ height +")");
+		map = WorldBuilder.expandMap(map, direction);
 	}
 }
