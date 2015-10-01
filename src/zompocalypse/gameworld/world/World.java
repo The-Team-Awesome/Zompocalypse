@@ -176,6 +176,7 @@ public class World implements Serializable {
 		// map of actors here.
 		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0, "Bibbly Bob", "file");
 		idToActor.put(id, player);
+		objects[1][1] = player;
 		return id;
 	}
 

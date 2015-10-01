@@ -118,7 +118,8 @@ public final class Player extends MovingCharacter{
 	 */
 	@Override
 	public void draw(int x, int y, Graphics g) {
-		// TODO Auto-generated method stub
+		g.setColor(Color.MAGENTA);
+		g.fillRect(x, y, 30, 30);
 
 	}
 
