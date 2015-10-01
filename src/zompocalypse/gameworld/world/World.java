@@ -125,6 +125,14 @@ public class World implements Serializable {
 			throw new IllegalStateException("Character with this code does not exist");
 		}
 	}
+	
+	public Tile[][] getMap() {
+		return map;
+	}
+	
+	public GameObject[][] getObjects() {
+		return objects;
+	}
 
 	// ***********************************************
 	// Networking Methods
@@ -171,13 +179,18 @@ public class World implements Serializable {
 		return perspective;
 	}
 
-	public Tile[][] getMap() {
-		return map;
-	}
-
+	/**
+	 * This method creates a new player on the game and returns the
+	 * id value which they were registered with. It is synchronized because
+	 * it can be called in a networked game by multiple Client/Server connections.
+	 * 
+	 * @return integer ID value
+	 */
 	public synchronized int registerPlayer() {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
+		// TODO: This should really get valid information for name and file,
+		// as well as select their x, y co-ordinates based on a valid portal
 		Player player = new Player(1, 1, Orientation.SOUTH, id, 0, "Bibbly Bob", "file");
 		idToActor.put(id, player);
 		id++;
@@ -242,9 +255,5 @@ public class World implements Serializable {
 				+ idToActor + ", orientation=" + orientation + ", map="
 				+ Arrays.toString(map) + ", objects="
 				+ Arrays.toString(objects) + "]";
-	}
-
-	public GameObject[][] getObjects() {
-		return objects;
 	}
 }
