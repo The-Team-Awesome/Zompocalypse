@@ -1,5 +1,6 @@
 package zompocalypse.gameworld.characters;
 
+import java.util.PriorityQueue;
 import java.awt.Graphics;
 
 import zompocalypse.gameworld.GameObject;
@@ -102,11 +103,11 @@ public abstract class MovingCharacter extends Actor {
 			// we've bumped into a wall ... so we have to stop!!
 		} else {
 			// we can update our position ...
-			GameObject objects[][] = game.getObjects();
+			PriorityQueue<GameObject> objects[][] = game.getObjects();
 			xCoord = newX;
 			yCoord = newY;
-			objects[oldX][oldY] = null;
-			objects[newX][newY] = this;
+			objects[oldX][oldY].remove(this);
+			objects[newX][newY].add(this);
 		}
 	}
 
