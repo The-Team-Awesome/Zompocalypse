@@ -106,8 +106,8 @@ public abstract class MovingCharacter extends Actor {
 			GameObject objects[][] = game.getObjects();
 			xCoord = newX;
 			yCoord = newY;
-			//objects[oldX][oldY] = null;
-			//objects[newX][newY] = this;
+			objects[oldX][oldY] = null;
+			objects[newX][newY] = this;
 		}
 	}
 
