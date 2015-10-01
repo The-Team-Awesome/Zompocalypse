@@ -1,5 +1,7 @@
 package zompocalypse.gameworld.characters;
 
+import java.awt.Graphics;
+
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
@@ -112,4 +114,9 @@ public abstract class MovingCharacter extends Actor {
 	 * Determine the speed at which this character moves
 	 */
 	abstract public int speed();
+
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
 }
