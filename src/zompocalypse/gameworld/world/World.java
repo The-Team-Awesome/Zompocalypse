@@ -178,7 +178,15 @@ public class World implements Serializable {
 	public synchronized int registerPlayer() {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		Player player = new Player(1, 1, Orientation.SOUTH, id, 0, "Bibbly Bob", "file");
+
+		String[]filenames = {
+				"character_gina_empty_n.png",
+				"character_gina_empty_s.png",
+				"character_gina_empty_e.png",
+				"character_gina_empty_w.png"
+		};
+
+		Player player = new Player(1, 1, Orientation.NORTH, id, 0, "Bibbly Bob", filenames);
 		idToActor.put(id, player);
 		id++;
 		objects[player.getX()][player.getY()] = player;

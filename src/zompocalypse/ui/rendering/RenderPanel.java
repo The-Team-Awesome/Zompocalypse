@@ -162,8 +162,8 @@ public class RenderPanel extends JPanel {
 		//Draws from the top right of the board, goes across
 		//http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 
-		int offsetX = 0;
-		int offsetY = 50;
+		int offsetX = 300;
+		int offsetY = 300;
 
 		//tiles[0][0].draw(offsetX, offsetY, g);
 
@@ -183,7 +183,6 @@ public class RenderPanel extends JPanel {
 						//System.out.println("draw wall");
 						dd.draw(x, y, g);
 					}
-
 				}
 			}
 		}

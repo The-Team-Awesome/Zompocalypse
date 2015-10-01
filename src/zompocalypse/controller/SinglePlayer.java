@@ -35,14 +35,19 @@ public class SinglePlayer extends GameListener {
 
 		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
 			game.processCommand(id, UICommand.WEST.getValue());
+
 		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
 			game.processCommand(id, UICommand.NORTH.getValue());
+
 		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
 			game.processCommand(id, UICommand.EAST.getValue());
+
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 			game.processCommand(id, UICommand.SOUTH.getValue());
+
 		} else if(code == KeyEvent.VK_COMMA) {
 			frame.processKeyPress(code, UICommand.ROTATECLOCKWISE.getValue());
+
 		} else if (code == KeyEvent.VK_PERIOD) {
 			frame.processKeyPress(code, UICommand.ROTATEANTICLOCKWISE.getValue());
 		}

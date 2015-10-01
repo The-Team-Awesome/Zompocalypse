@@ -47,7 +47,7 @@ public class ImageUtils {
 	 * If the orientation has changed, or if the player has changed direction,
 	 * then change the current image for the tile or game object.
 	 */
-	public Image getCurrentImageForOrientation(Orientation orientation, Image[] images){
+	public ImageIcon getCurrentImageForOrientation(Orientation orientation, ImageIcon[] images){
 		switch(orientation){
 		case NORTH:
 			return images[0];
@@ -66,7 +66,7 @@ public class ImageUtils {
 	 * Get the orientation for the image when viewed from the South.
 	 * @return
 	 */
-	public Image getSouthOrientationImage(Image[] images) {
+	public ImageIcon getSouthOrientationImage(ImageIcon[] images) {
 		switch(images.length){
 		case 1:
 			return images[0];  //same for all
@@ -83,7 +83,7 @@ public class ImageUtils {
 	 * Get the orientation for the image when viewed from the East.
 	 * @return
 	 */
-	public Image getEastOrientationImage(Image[]images) {
+	public ImageIcon getEastOrientationImage(ImageIcon[]images) {
 		switch(images.length){
 		case 1:
 			return images[0];  //same for all
@@ -100,7 +100,7 @@ public class ImageUtils {
 	 * Get the orientation for the image when viewed from the West.
 	 * @return Image as viewed from the west
 	 */
-	public Image getWestOrientationImage(Image[]images) {
+	public ImageIcon getWestOrientationImage(ImageIcon[]images) {
 		switch(images.length){
 		case 1:
 			return images[0];  //same for all

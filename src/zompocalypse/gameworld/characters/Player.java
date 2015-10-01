@@ -2,8 +2,13 @@ package zompocalypse.gameworld.characters;
 
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
+import com.sun.imageio.plugins.common.ImageUtil;
+
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 /**
  * Player is a human played character in the game.
@@ -21,17 +26,24 @@ public final class Player extends MovingCharacter{
 	private int speed;
 	private int strength;
 
-	private String filename;
+	private String [] filenames;
+	private ImageIcon[] images;
+	private String imageName;
+	private ImageIcon currentImage;
 
-
-	public Player(int xCoord, int yCoord, Orientation orientation, int uid, int score, String playerName, String filename) {
+	public Player(int xCoord, int yCoord, Orientation orientation, int uid, int score, String playerName, String [] filenames) {
 		super(xCoord, yCoord, orientation);
 		this.score = score;
 		this.uid = uid;
-		this.filename = filename;
+		this.filenames = filenames;
 		this.health = PLAYER_HEALTH;
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
+
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		this.images = imu.setupImages(filenames);
+		this.currentImage = images[0];
+		this.imageName = filenames[0];
 	}
 
 	/**
@@ -88,7 +100,8 @@ public final class Player extends MovingCharacter{
 	public void tick(World game) {
 		if(!isDead()){
 			super.tick(game);
-
+			ImageUtils imu = ImageUtils.getImageUtilsObject();
+			currentImage = imu.getCurrentImageForOrientation(orientation, images);
 			System.out.println(this.xCoord + ": " + this.yCoord);
 		}
 	}
@@ -102,32 +115,25 @@ public final class Player extends MovingCharacter{
 
 	@Override
 	public String getFileName() {
-		return filename;
+		return this.imageName;
 	}
 
-	public Orientation getOrientation() {
-		return orientation;
-	}
-
-	public void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
-	}
-
+	//draw
 	/**
 	 * Draw the player to the screen
 	 */
-	@Override
 	public void draw(int realx, int realy, Graphics g) {
-		g.setColor(Color.MAGENTA);
-		g.fillRect(realx, realy, 30, 30);
+		//g.setColor(Color.MAGENTA);
+		//g.fillRect(realx, realy, 30, 30);
 
+		g.drawImage(currentImage.getImage(), realx, realy - 20, null);
 	}
 
 	@Override
 	public String toString() {
 		return "Player [uid=" + uid + ", orientation=" + orientation
 				+ ", score=" + score + ", health=" + health + ", speed="
-				+ speed + ", strength=" + strength + ", filename=" + filename
+				+ speed + ", strength=" + strength + ", filename=" + filenames
 				+ "]";
 	}
 }
