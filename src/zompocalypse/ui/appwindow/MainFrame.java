@@ -120,6 +120,8 @@ public class MainFrame extends JFrame {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
 		} else if (key == UICommand.ROTATEANTICLOCKWISE.getValue()) {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
+		} else if (key == UICommand.OPTIONS.getValue()) {
+			saveGame();
 		}
 		return true;
 	}
