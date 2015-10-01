@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.EventListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import zompocalypse.datastorage.Loader;
@@ -119,6 +120,8 @@ public class MainFrame extends JFrame {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
 		} else if (key == UICommand.ROTATEANTICLOCKWISE.getValue()) {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
+		} else if (key == UICommand.OPTIONS.getValue()) {
+			saveGame();
 		}
 		return true;
 	}
@@ -134,9 +137,33 @@ public class MainFrame extends JFrame {
 				|| command == UICommand.ROTATECLOCKWISE.getValue()) {
 			gameCard.rotateView(command);
 			return true;
-		} else if (command == UICommand.OPTIONS.getValue()) {
+		} else if(command == UICommand.OPTIONS.getValue()) {
+			saveGame();
 			return true;
 		}
 		return false;
+	}
+
+	private void saveGame() {
+		Object[] options = {"Yes, please",
+		                    "No way!"};
+
+		int option = JOptionPane.showOptionDialog(this,
+		    "Are you sure you wanna save the game?",
+		    "Save Game",
+		    JOptionPane.YES_NO_OPTION,
+		    JOptionPane.QUESTION_MESSAGE,
+		    null,     //do not use a custom Icon
+		    options,  //the titles of buttons
+		    options[0]); //default button title
+
+		if(option == 0) {
+			gameCard.saveGame();
+		}
+	}
+
+	private void openOptions() {
+		new JOptionPane();
+
 	}
  }

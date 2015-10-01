@@ -1,8 +1,11 @@
 package zompocalypse.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
+import javax.swing.KeyStroke;
 
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
@@ -45,6 +48,9 @@ public class SinglePlayer extends GameListener {
 				|| code == KeyEvent.VK_KP_RIGHT) {
 			game.processCommand(id, UICommand.EAST.getValue());
 
+		} else if ((code == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			frame.processKeyPress(code, UICommand.OPTIONS.getValue());
+
 		} else if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN
 				|| code == KeyEvent.VK_KP_DOWN) {
 			game.processCommand(id, UICommand.SOUTH.getValue());
@@ -55,10 +61,12 @@ public class SinglePlayer extends GameListener {
 		} else if (code == KeyEvent.VK_PERIOD) {
 			frame.processKeyPress(code,
 					UICommand.ROTATEANTICLOCKWISE.getValue());
+
 			// TODO this is just something for me to work with to be able to
 			// start editing screens
 		} else if (code == KeyEvent.VK_F8) { // expand north
 			game.setEditMode();
+
 		} else if (code == KeyEvent.VK_Y) { // expand north
 			game.expandMap("north");
 		} else if (code == KeyEvent.VK_H) { // shrink north
