@@ -7,13 +7,17 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import com.sun.javafx.scene.paint.GradientUtils.Parser;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
@@ -146,7 +150,8 @@ public class GamePanel extends JPanel {
 		menuPanel.add(lblItem, c);
 
 		// OPTIONS
-		btnOptions = new JButton("Options");
+		btnOptions = new JButton("Save Game");
+		btnOptions.setActionCommand(UICommand.OPTIONS.getValue());
 		btnOptions.addActionListener(action);
 		c.gridx = 1;
 		c.gridy = positionY++;
@@ -155,6 +160,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnOptions, c);
 
 		btnBackpack = new JButton("Backpack");
+		btnBackpack.setActionCommand(UICommand.BACKPACK.getValue());
 		btnBackpack.addActionListener(action);
 		c.gridx = 1;
 		c.gridy = positionY++;
@@ -163,6 +169,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnBackpack, c);
 
 		btnUse = new JButton("Use");
+		btnUse.setActionCommand(UICommand.USE.getValue());
 		btnUse.addActionListener(action);
 		c.gridx = 1;
 		c.gridy = positionY++;
@@ -178,8 +185,8 @@ public class GamePanel extends JPanel {
 
 		ImageIcon iconItemOne = new ImageIcon(ITEM);
 		btnItemOne = new JButton(iconItemOne);
+		btnItemOne.setActionCommand(UICommand.ITEMONE.getValue());
 		btnItemOne.addActionListener(action);
-		btnItemOne.setActionCommand("ItemOne");
 		btnItemOne.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
 		c.gridy = positionY++;
@@ -187,8 +194,8 @@ public class GamePanel extends JPanel {
 
 		ImageIcon iconItemTwo = new ImageIcon(ITEM);
 		btnItemTwo = new JButton(iconItemTwo);
+		btnItemTwo.setActionCommand(UICommand.ITEMTWO.getValue());
 		btnItemTwo.addActionListener(action);
-		btnItemTwo.setActionCommand("ItemTwo");
 		btnItemTwo.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
 		c.gridy = positionY++;
@@ -196,7 +203,7 @@ public class GamePanel extends JPanel {
 
 		ImageIcon iconItemThree = new ImageIcon(ITEM);
 		btnItemThree = new JButton(iconItemThree);
-		btnItemThree.setActionCommand("ItemThree");
+		btnItemThree.setActionCommand(UICommand.ITEMTHREE.getValue());
 		btnItemThree.addActionListener(action);
 		btnItemThree.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
@@ -302,6 +309,15 @@ public class GamePanel extends JPanel {
 			renderingPanel.rotate(Direction.CLOCKWISE);
 		} else {
 			renderingPanel.rotate(Direction.ANTICLOCKWISE);
+		}
+	}
+
+	public void saveGame() {
+		try {
+			zompocalypse.datastorage.Parser.SaveMap(this.game);
+		} catch (IOException e) {
+			new JOptionPane("Something happened and we couldn't save your game :(", JOptionPane.ERROR_MESSAGE);
+			System.out.println("Unexpected problem. Couldn't save the game. :(");
 		}
 	}
 }
