@@ -17,6 +17,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
@@ -42,7 +44,8 @@ public class Parser {
 	public static World ParseMap(String mapFile) throws IOException {
 
 		Tile[][] map = new Tile[1][1];
-		GameObject[][] objects = new GameObject[1][1];
+		// GameObject[][] objects = new GameObject[1][1];
+		PriorityQueue<GameObject>[][] objects = null;
 		Set<Point> zombieSpawnPoints = new HashSet<Point>();
 		Set<Point> playerSpawnPoints = new HashSet<Point>();
 		int x = 0, y = 0;
@@ -88,7 +91,13 @@ public class Parser {
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
 			map = new Tile[x][y];
-			objects = new GameObject[x][y];
+
+			objects = new PriorityQueue[x][y];
+			for (int j = 0; j < y; j++) {
+				for (int i = 0; i < x; i++) {
+					objects[i][j] = new PriorityQueue<GameObject>();
+				}
+			}
 
 			NodeList rows = nodeMap.getElementsByTagName("row");
 
@@ -126,11 +135,11 @@ public class Parser {
 	 * Parses a Wall from a String and places it on 2D array of GameObjects at
 	 * (i,j) with the offset it is to be drawn at
 	 */
-	private static void parseWall(GameObject[][] objects,
+	private static void parseWall(PriorityQueue<GameObject>[][] objectz,
 			Map<String, String> textTileMap, String string, String offset, int i,
 			int j) {
 		String[] wall = expandCode(textTileMap, string);
-		objects[i][j] = new Wall(wall, Integer.parseInt(offset));
+		objectz[i][j].add(new Wall(wall, Integer.parseInt(offset)));
 	}
 
 	/**
@@ -233,7 +242,7 @@ public class Parser {
 	private static String getXMLMap(World world) throws IOException {
 
 		Tile[][] map = world.getMap();
-		GameObject[][] objects = world.getObjects();
+		PriorityQueue<GameObject>[][] objects = world.getObjects();
 		int x = world.width();
 		int y = world.height();
 		Set<Point> zombieSpawnPoints = world.getZombieSpawnPoints();
@@ -288,8 +297,8 @@ public class Parser {
 							getCode(map[row][col].getFileName(), textTileMap));
 					xmlRow.appendChild(xmlCell);
 					if (objects[row][col] != null) {
-						if (objects[row][col] instanceof zompocalypse.gameworld.world.Wall) {
-							Wall wall = (Wall) objects[row][col];
+						if (objects[row][col].poll() instanceof zompocalypse.gameworld.world.Wall) {
+							Wall wall = (Wall) objects[row][col].poll();
 							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
 						}

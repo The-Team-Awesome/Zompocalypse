@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 import zompocalypse.datastorage.*;
@@ -14,6 +15,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * The World class representing the world in which Zompocolypse takes place.
@@ -40,12 +42,12 @@ public class World implements Serializable {
 
 	private Orientation orientation;
 	private Tile[][] map;
-	private GameObject[][] objects;
+	private PriorityQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
 
-	public World(int width, int height, Tile[][] map, GameObject[][] objects,
-			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
+
+	public World(int width, int height, Tile[][] map, PriorityQueue<GameObject>[][] objects, Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
@@ -87,11 +89,17 @@ public class World implements Serializable {
 	}
 
 	public boolean isWall(int x, int y) {
-		GameObject obj = objects[x][y];
-		if (obj != null && obj instanceof Wall) {
+
+		//everything off the map is treated as a wall
+		if(x < 0 || y < 0 || x >= width || y >= height){
 			return true;
 		}
-
+		PriorityQueue<GameObject> obj = objects[x][y];
+		for (GameObject o : obj){
+			if (o != null && o instanceof Wall){
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -180,13 +188,27 @@ public class World implements Serializable {
 	}
 
 	public synchronized int registerPlayer() {
+		// A new player has been added
+		int x, y;
+
+		for(Point p : playerSpawnPoints){
+			x = p.x;
+			y = p.y;
+		}
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0,
-				"Bibbly Bob", "file");
+
+		String[]filenames = {
+				"character_gina_empty_n.png",
+				"character_gina_empty_s.png",
+				"character_gina_empty_e.png",
+				"character_gina_empty_w.png"
+		};
+
+		Player player = new Player(1, 1, Orientation.NORTH, id, 0, "Bibbly Bob", filenames);
 		idToActor.put(id, player);
-		objects[1][1] = player;
-		return id;
+		objects[player.getX()][player.getY()].add(player);
+		return player.getUID();
 	}
 
 	/**
@@ -211,35 +233,29 @@ public class World implements Serializable {
 		System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
 
-		switch (key) {
-		case "North":
+		if(key == UICommand.NORTH.getValue()) {
 			player.moveNorth();
 			return true;
-		case "South":
+		} else if (key == UICommand.SOUTH.getValue()) {
 			player.moveSouth();
 			return true;
-		case "East":
+		} else if (key == UICommand.EAST.getValue()) {
 			player.moveEast();
 			return true;
-		case "West":
+		} else if(key == UICommand.WEST.getValue()) {
 			player.moveWest();
 			return true;
-		case "ItemOne":
+		} else if (key == UICommand.ITEMONE.getValue()) {
 			return true;
-		case "ItemTwo":
+		} else if(key == UICommand.ITEMTWO.getValue()) {
 			return true;
-		case "ItemThree":
+		} else if(key == UICommand.ITEMTHREE.getValue()){
 			return true;
-		case "Use":
+		} else if (key == UICommand.USE.getValue()){
 			return true;
-		case "RotateClockwise":
-			return true;
-		case "RotateAnticlockwise":
-			return true;
-		default:
-			break;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	// ***********************************************
@@ -254,7 +270,7 @@ public class World implements Serializable {
 				+ Arrays.toString(objects) + "]";
 	}
 
-	public GameObject[][] getObjects() {
+	public PriorityQueue<GameObject>[][] getObjects() {
 		return objects;
 	}
 

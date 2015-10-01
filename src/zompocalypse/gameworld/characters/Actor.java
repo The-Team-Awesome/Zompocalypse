@@ -11,8 +11,8 @@ import zompocalypse.gameworld.world.World;
  * @author Kieran Mckay, 300276166
  */
 public abstract class Actor implements GameObject {
-	protected int xCoord; // real x-position
-	protected int yCoord; // real y-position
+	protected int xCoord; //  x-position
+	protected int yCoord; //  y-position
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character

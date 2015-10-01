@@ -1,5 +1,9 @@
 package zompocalypse.gameworld.characters;
 
+import java.util.PriorityQueue;
+import java.awt.Graphics;
+
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 
@@ -91,9 +95,6 @@ public abstract class MovingCharacter extends Actor {
 			return;
 		}
 
-		// TODO: Hey Kieran, just debugging the going off the edge of the map stuff. The
-		// 0 case here seems to stop going off the North or West side, but the width and height
-		// values aren't working as expected and are giving us the Out of Bounds Exception.
 		if(newX < 0 || newY < 0 || newX >= width || newY >= height) {
 			return;
 		}
@@ -102,8 +103,11 @@ public abstract class MovingCharacter extends Actor {
 			// we've bumped into a wall ... so we have to stop!!
 		} else {
 			// we can update our position ...
+			PriorityQueue<GameObject> objects[][] = game.getObjects();
 			xCoord = newX;
 			yCoord = newY;
+			objects[oldX][oldY].remove(this);
+			objects[newX][newY].add(this);
 		}
 	}
 
@@ -111,4 +115,9 @@ public abstract class MovingCharacter extends Actor {
 	 * Determine the speed at which this character moves
 	 */
 	abstract public int speed();
+
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
 }

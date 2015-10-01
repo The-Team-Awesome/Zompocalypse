@@ -78,6 +78,7 @@ public class MainFrame extends JFrame {
 		setIconImage(img);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 1000);
+		setResizable(false);
 		setLocationRelativeTo(null); // center the screen
 
 		pack();
@@ -87,6 +88,10 @@ public class MainFrame extends JFrame {
 		//this.requestFocus();
 	}
 
+	/**
+	 * Updates the World for this frame.
+	 * @param game - updated instance of World.
+	 */
 	public void updateGame(World game) {
 		gameCard.updateGame(game);
 	}
@@ -110,9 +115,9 @@ public class MainFrame extends JFrame {
 	 * @param key
 	 */
 	public synchronized boolean processKeyPress(int id, String key) {
-		if(key == "clockwise") {
+		if(key == UICommand.ROTATECLOCKWISE.getValue()) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
-		} else if (key == "anticlockwise") {
+		} else if (key == UICommand.ROTATEANTICLOCKWISE.getValue()) {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
 		}
 		return true;
@@ -125,11 +130,13 @@ public class MainFrame extends JFrame {
 	 * @param command
 	 */
 	public synchronized boolean processAction(int id, String command) {
-		System.out.println(id + ", " + command);
 		if(command == UICommand.ROTATEANTICLOCKWISE.getValue()
 				|| command == UICommand.ROTATECLOCKWISE.getValue()) {
 			gameCard.rotateView(command);
+			return true;
+		} else if (command == UICommand.OPTIONS.getValue()) {
+			return true;
 		}
-		return true;
+		return false;
 	}
  }

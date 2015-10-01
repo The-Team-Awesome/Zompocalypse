@@ -148,7 +148,13 @@ public class PlayerTests {
 	 * @return
 	 */
 	private Player generatePlayer(int x, int y) {
-		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob", "file");
+		String[] filenames = {
+				"character_gina_empty_n.png",
+				"character_gina_empty_s.png",
+				"character_gina_empty_e.png",
+				"character_gina_empty_w.png"
+		};
+		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob", filenames);
 
 		return p;
 	}

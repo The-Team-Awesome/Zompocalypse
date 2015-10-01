@@ -61,8 +61,6 @@ public class WorldBuilder {
 			}
 			break;
 		}
-
-
 		return returnMap;
 	}
 

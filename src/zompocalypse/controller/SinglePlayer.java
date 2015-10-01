@@ -6,10 +6,11 @@ import java.awt.event.MouseEvent;
 
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
+import zompocalypse.ui.appwindow.UICommand;
 
 /**
- * This is the Single Player Event Listener which passes input from the user
- * to the game.
+ * This is the Single Player Event Listener which passes input from the user to
+ * the game.
  *
  * @author Sam Costigan
  */
@@ -32,19 +33,30 @@ public class SinglePlayer extends GameListener {
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 
-		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
-			game.processCommand(id, "West");
-		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
-			game.processCommand(id, "North");
-		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-			game.processCommand(id, "East");
-		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
-			game.processCommand(id, "South");
-		} else if(code == KeyEvent.VK_COMMA) {
-			frame.processKeyPress(code, "clockwise");
+		if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT
+				|| code == KeyEvent.VK_KP_LEFT) {
+			game.processCommand(id, UICommand.WEST.getValue());
+
+		} else if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP
+				|| code == KeyEvent.VK_KP_UP) {
+			game.processCommand(id, UICommand.NORTH.getValue());
+
+		} else if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT
+				|| code == KeyEvent.VK_KP_RIGHT) {
+			game.processCommand(id, UICommand.EAST.getValue());
+
+		} else if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN
+				|| code == KeyEvent.VK_KP_DOWN) {
+			game.processCommand(id, UICommand.SOUTH.getValue());
+
+		} else if (code == KeyEvent.VK_COMMA) {
+			frame.processKeyPress(code, UICommand.ROTATECLOCKWISE.getValue());
+
 		} else if (code == KeyEvent.VK_PERIOD) {
-			frame.processKeyPress(code, "anticlockwise");
-		// TODO this is just something for me to work with to be able to start editing screens
+			frame.processKeyPress(code,
+					UICommand.ROTATEANTICLOCKWISE.getValue());
+			// TODO this is just something for me to work with to be able to
+			// start editing screens
 		} else if (code == KeyEvent.VK_Y) { // expand north
 			game.expandMap("north");
 		} else if (code == KeyEvent.VK_H) { // shrink north
@@ -82,7 +94,7 @@ public class SinglePlayer extends GameListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		if(!game.processCommand(id, command)) {
+		if (!game.processCommand(id, command)) {
 			frame.processAction(id, command);
 		}
 
