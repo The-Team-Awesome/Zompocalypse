@@ -83,6 +83,9 @@ public class World implements Serializable {
 	}
 
 	public boolean isWall(int x, int y) {
+		if(x < 0 || y < 0 || x >= width || y >= height){
+			return true;
+		}
 		GameObject obj = objects[x][y];
 		if (obj != null && obj instanceof Wall){
 			return true;
@@ -174,10 +177,11 @@ public class World implements Serializable {
 	public synchronized int registerPlayer() {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0, "Bibbly Bob", "file");
+		Player player = new Player(1, 1, Orientation.SOUTH, id, 0, "Bibbly Bob", "file");
 		idToActor.put(id, player);
-		objects[1][1] = player;
-		return id;
+		id++;
+		objects[player.getX()][player.getY()] = player;
+		return player.getUID();
 	}
 
 	/**
