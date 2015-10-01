@@ -1,6 +1,7 @@
 package zompocalypse.ui.rendering;
 
 import java.awt.Graphics;
+import java.util.PriorityQueue;
 
 import javax.swing.JPanel;
 
@@ -134,17 +135,18 @@ public class RenderPanel extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 
-		zompocalypse.gameworld.world.Tile[][] tiles;
-		zompocalypse.gameworld.GameObject[][] objects = new GameObject[1][1];
+		Tile[][] tiles;
+		PriorityQueue<GameObject>[][] objects;
 
+		/*
 		// Just change testing to true to use these dummy methods
 		if(testing){
 			 tiles = getDummyTiles(5,5);
 			 objects = getDummyObjects(5, 5);
-		} else {
+		} else { */
 			tiles = game.getMap();
 			objects = game.getObjects();
-		}
+		//S}
 
 		int wd = tiles.length;
 		int ht = tiles[0].length;
@@ -174,19 +176,20 @@ public class RenderPanel extends JPanel {
 					//System.out.println(String.format("At i:%d j:%d, x: %d, y: %d", i,j,x,y));
 					d.draw(x,y,g);
 
-					Drawable dd = objects[i][j];
-					if(dd != null){
-						//System.out.println("draw wall");
-						dd.draw(x, y, g);
+					for (Drawable dd : objects[i][j]){
+						//Drawable dd = objects[i][j];
+						if(dd != null){
+							//System.out.println("draw wall");
+							dd.draw(x, y, g);
+						}
 					}
-
 				}
 			}
 		}
 	}
-
+	/*
 	private GameObject[][] getDummyObjects(int wd, int ht) {
-		zompocalypse.gameworld.GameObject[][] objects = new GameObject[wd][ht];
+		GameObject[][] objects = new GameObject[wd][ht];
 		//Create a wall
 		Wall w = new Wall(new String[] {
 				"wall_grey_3_t_n.png",
@@ -200,7 +203,7 @@ public class RenderPanel extends JPanel {
 
 		return objects;
 	}
-
+	*/
 	/**
 	 * Dummy world for testing
 	 * @return

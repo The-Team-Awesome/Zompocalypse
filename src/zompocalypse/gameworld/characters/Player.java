@@ -89,7 +89,7 @@ public final class Player extends MovingCharacter{
 		if(!isDead()){
 			super.tick(game);
 
-			System.out.println(this.xCoord + ": " + this.yCoord);
+			System.out.println(this.xCoord + "," + this.yCoord);
 		}
 	}
 
