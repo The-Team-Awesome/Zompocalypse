@@ -84,7 +84,7 @@ public class RenderPanel extends JPanel {
 
 		Actor c = game.getCharacterByID(id);
 
-		//use this to find neighbouring tiles
+		//use this to find neighboring tiles
 		int actorX = c.getX();
 		int actorY = c.getY();
 
@@ -95,15 +95,21 @@ public class RenderPanel extends JPanel {
 		int xTilesPerPanel = WIDTH / TILE_WIDTH;  //800 / 64/ Truncates
 		int yTilesPerPanel = HEIGHT / FLOOR_TILE_HEIGHT; //600 / 44
 
+		//Should just have a defined viewport?
+
 		//Make a new tileset with the correct numbers of tiles
 		Tile[][] tiles = new Tile[xTilesPerPanel][yTilesPerPanel];
+
+		//get top, left, right, bottom points to know how many tiles
+		//to render
+		
+		
 
 		//iterate through the game world.
 		int topLeftX = actorX - xTilesPerPanel;
 		int topLeftY = actorY - yTilesPerPanel;
 
 		return tiles;
-
 	}
 
 	public void updateGame(World game) {
