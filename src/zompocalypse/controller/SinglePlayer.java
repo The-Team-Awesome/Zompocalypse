@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
+import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * This is the Single Player Event Listener which passes input from the user
@@ -33,17 +34,17 @@ public class SinglePlayer extends GameListener {
 		int code = e.getKeyCode();
 
 		if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
-			game.processCommand(id, "West");
+			game.processCommand(id, UICommand.WEST.getValue());
 		} else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP) {
-			game.processCommand(id, "North");
+			game.processCommand(id, UICommand.NORTH.getValue());
 		} else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {
-			game.processCommand(id, "East");
+			game.processCommand(id, UICommand.EAST.getValue());
 		} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
-			game.processCommand(id, "South");
+			game.processCommand(id, UICommand.SOUTH.getValue());
 		} else if(code == KeyEvent.VK_COMMA) {
-			frame.processKeyPress(code, "clockwise");
+			frame.processKeyPress(code, UICommand.ROTATECLOCKWISE.getValue());
 		} else if (code == KeyEvent.VK_PERIOD) {
-			frame.processKeyPress(code, "anticlockwise");
+			frame.processKeyPress(code, UICommand.ROTATEANTICLOCKWISE.getValue());
 		}
 	}
 

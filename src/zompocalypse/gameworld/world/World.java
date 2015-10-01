@@ -13,6 +13,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * The World class representing the world in which Zompocolypse takes place.
@@ -83,6 +84,9 @@ public class World implements Serializable {
 	}
 
 	public boolean isWall(int x, int y) {
+		if(x < 0 || y < 0 || x >= width || y >= height){
+			return true;
+		}
 		GameObject obj = objects[x][y];
 		if (obj != null && obj instanceof Wall){
 			return true;
@@ -174,10 +178,11 @@ public class World implements Serializable {
 	public synchronized int registerPlayer() {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		Player player = new Player(1, 1, Orientation.SOUTH, ++id, 0, "Bibbly Bob", "file");
+		Player player = new Player(1, 1, Orientation.SOUTH, id, 0, "Bibbly Bob", "file");
 		idToActor.put(id, player);
-		objects[1][1] = player;
-		return id;
+		id++;
+		objects[player.getX()][player.getY()] = player;
+		return player.getUID();
 	}
 
 	/**
@@ -201,35 +206,30 @@ public class World implements Serializable {
 		System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
 
-		switch (key) {
-			case "North":
-				player.moveNorth();
-				return true;
-			case "South":
-				player.moveSouth();
-				return true;
-			case "East":
-				player.moveEast();
-				return true;
-			case "West":
-				player.moveWest();
-				return true;
-			case "ItemOne":
-				return true;
-			case "ItemTwo":
-				return true;
-			case "ItemThree":
-				return true;
-			case "Use":
-				return true;
-			case "RotateClockwise":
-				return true;
-			case "RotateAnticlockwise":
-				return true;
-			default:
-				break;
+		if(key == UICommand.NORTH.getValue()) {
+			player.moveNorth();
+			return true;
+		} else if (key == UICommand.SOUTH.getValue()) {
+			player.moveSouth();
+			return true;
+		} else if (key == UICommand.EAST.getValue()) {
+			player.moveEast();
+			return true;
+		} else if(key == UICommand.WEST.getValue()) {
+			player.moveWest();
+			return true;
+		} else if (key == UICommand.ITEMONE.getValue()) {
+			return true;
+		} else if(key == UICommand.ITEMTWO.getValue()) {
+			return true;
+		} else if(key == UICommand.ITEMTHREE.getValue()){
+			return true;
+		} else if (key == UICommand.USE.getValue()){
+			return true;
+		} else {
+			return false;
 		}
-		return false;
+
 	}
 
 	// ***********************************************

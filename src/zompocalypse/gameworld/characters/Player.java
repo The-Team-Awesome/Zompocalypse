@@ -117,9 +117,9 @@ public final class Player extends MovingCharacter{
 	 * Draw the player to the screen
 	 */
 	@Override
-	public void draw(int x, int y, Graphics g) {
+	public void draw(int realx, int realy, Graphics g) {
 		g.setColor(Color.MAGENTA);
-		g.fillRect(x, y, 30, 30);
+		g.fillRect(realx, realy, 30, 30);
 
 	}
 
