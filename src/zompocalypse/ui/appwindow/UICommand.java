@@ -12,10 +12,15 @@ public enum UICommand {
 	SOUTH("South"),
 	WEST("West"),
 	EAST("East"),
+	ITEMONE("ItemOne"),
+	ITEMTWO("ItemTwo"),
+	ITEMTHREE("ItemThree"),
+	USE("Use"),
 	SINGLEPLAYER("SinglePlayer"),
 	MULTIPLAYER("Multiplayer"),
 	LOADGAME("LoadGame"),
-	ENTERIP("EnterIP");
+	ENTERIP("EnterIP"),
+	OPTIONS("Options");
 
 	private String value;
 
