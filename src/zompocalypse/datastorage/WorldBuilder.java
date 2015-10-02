@@ -416,6 +416,7 @@ public class WorldBuilder {
 				"Pliz choice a wall", "Choice a wall",
 				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
 				"wall_brown_1_corner_e.png");
+		if (fileName == null) return null;
 		String beginning = fileName.substring(0, fileName.length() - 6);
 		String end = fileName.substring(fileName.length() - 4,
 				fileName.length());

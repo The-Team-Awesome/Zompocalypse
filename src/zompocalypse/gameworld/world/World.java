@@ -413,6 +413,7 @@ public class World implements Serializable {
 		if (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
 		String[] wallName = WorldBuilder.getWallFileName();
+		if (wallName == null) return;
 		int offset = 55;
 		if (wallName[0].contains("brown_1") || wallName[0].contains("grey_2")
 				|| wallName[0].contains("grey_3"))
