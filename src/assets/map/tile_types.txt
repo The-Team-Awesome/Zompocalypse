@@ -2,6 +2,10 @@
 2,2
 3,3
 4,4
+5,5
+6,6
+7,7
+8,8
 n,n
 s,s
 e,e
@@ -20,6 +24,7 @@ sd,side
 ss,sides
 gv,gravel
 gn,green
+gs,greenish
 gl,gold
 ky,key
 rd,red
