@@ -431,4 +431,11 @@ public class World implements Serializable {
 	public void pasteLocation() {
 		map[editor.x][editor.y] = clipboard.cloneMe();
 		}
+
+	public void rotateObject() {
+		GameObject x = objects[editor.x][editor.y].peek();
+		if (x instanceof Wall) {
+			((Wall) x).rotate();
+		}
+		}
 }

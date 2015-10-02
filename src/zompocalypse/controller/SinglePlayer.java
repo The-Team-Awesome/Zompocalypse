@@ -35,6 +35,7 @@ public class SinglePlayer extends GameListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
+		boolean editable = game.getEditMode();
 
 		if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT
 				|| code == KeyEvent.VK_KP_LEFT) {
@@ -66,39 +67,41 @@ public class SinglePlayer extends GameListener {
 			// start editing screens
 		} else if (code == KeyEvent.VK_F8) { // expand north
 			game.setEditMode();
-		} else if (code == KeyEvent.VK_P) { // expand north
+		} else if (code == KeyEvent.VK_P && editable) { // expand north
 			game.toggleWalls();
-		} else if (code == KeyEvent.VK_Y) { // expand north
+		} else if (code == KeyEvent.VK_Y && editable) { // expand north
 			game.expandMap("north");
-		} else if (code == KeyEvent.VK_H) { // shrink north
+		} else if (code == KeyEvent.VK_H && editable) { // shrink north
 			game.shrinkMap("north");
-		} else if (code == KeyEvent.VK_U) { // expand east
+		} else if (code == KeyEvent.VK_U && editable) { // expand east
 			game.expandMap("east");
-		} else if (code == KeyEvent.VK_J) { // shrink east
+		} else if (code == KeyEvent.VK_J && editable) { // shrink east
 			game.shrinkMap("east");
-		} else if (code == KeyEvent.VK_I) { // expand south
+		} else if (code == KeyEvent.VK_I && editable) { // expand south
 			game.expandMap("south");
-		} else if (code == KeyEvent.VK_K) { // shrink south
+		} else if (code == KeyEvent.VK_K && editable) { // shrink south
 			game.shrinkMap("south");
-		} else if (code == KeyEvent.VK_O) { // expand west
+		} else if (code == KeyEvent.VK_O && editable) { // expand west
 			game.expandMap("west");
-		} else if (code == KeyEvent.VK_L) { // shrink west
+		} else if (code == KeyEvent.VK_L && editable) { // shrink west
 			game.shrinkMap("west");
-		} else if (code == KeyEvent.VK_Z) { // toggle zombie spawn point
+		} else if (code == KeyEvent.VK_Z && editable) { // toggle zombie spawn point
 			game.toggleZombieSpawnPoint();
-		} else if (code == KeyEvent.VK_X) { // toggle zombie spawn point
+		} else if (code == KeyEvent.VK_X && editable) { // toggle zombie spawn point
 			game.togglePlayerSpawnPoint();
-		} else if (code == KeyEvent.VK_T) { // edit tile
+		} else if (code == KeyEvent.VK_T && editable) { // edit tile
 			game.editTile();
-		} else if (code == KeyEvent.VK_R) { // rotate tile
+		} else if (code == KeyEvent.VK_R && editable) { // rotate tile
 			game.rotateTile();
-		} else if (code == KeyEvent.VK_G) { // edit wall
+		} else if (code == KeyEvent.VK_G && editable) { // edit wall
 			game.editWall();
-		} else if (code == KeyEvent.VK_B) { // edit object
+		} else if (code == KeyEvent.VK_F && editable) { // rotate Wall or Object
+			game.rotateObject();
+		} else if (code == KeyEvent.VK_B && editable) { // edit object
 			game.editObject();
-		} else if (code == KeyEvent.VK_C) { // copy location
+		} else if (code == KeyEvent.VK_C && editable) { // copy location
 			game.copyLocation();
-		} else if (code == KeyEvent.VK_V) { // paste location
+		} else if (code == KeyEvent.VK_V && editable) { // paste location
 			game.pasteLocation();
 		}
 	}

@@ -20,6 +20,7 @@ public class Wall implements GameObject {
 
 	protected String imageName;
 	protected int offset;
+	private String[] filenames;
 
 
 	public Wall(String[] filenames, int offset){
@@ -29,6 +30,7 @@ public class Wall implements GameObject {
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
 		this.offset = offset;
+		this.filenames = filenames;
 	}
 
 	@Override
@@ -44,5 +46,21 @@ public class Wall implements GameObject {
 
 	public int getOffset() {
 		return offset;
+	}
+
+	public void rotate() {
+
+		String[] rotate = new String[filenames.length];
+		for (int x = 0; x < rotate.length - 1; x ++) {
+			rotate[x] = filenames[x + 1];
+		}
+		rotate[rotate.length - 1] = filenames[0];
+
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+		this.filenames = rotate;
+		this.images = imu.setupImages(rotate);
+		this.currentImage = images[0];
+		this.imageName = rotate[0];
 	}
 }
