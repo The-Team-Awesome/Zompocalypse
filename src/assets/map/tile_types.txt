@@ -12,6 +12,7 @@ t,t
 x,x
 wa,water
 g,ground
+ti,tile
 c,corner
 on,one
 tw,two
