@@ -27,7 +27,8 @@ public class World implements Serializable {
 	private int height;
 
 	private static int id;
-	private Floor clipboard;
+	private Floor clipboardFloor;
+	private Wall clipboardWall;
 
 	/**
 	 * The following is a map of ID's and characters in the game. This includes
@@ -247,7 +248,7 @@ public class World implements Serializable {
 	 */
 	public synchronized boolean processCommand(int id, String key) {
 		System.out.println(id + ", " + key);
-		//System.out.println(objects);
+		// System.out.println(objects);
 		Player player = (Player) idToActor.get(id);
 
 		// Remember that key is a String, so call .equals() instead of ==
@@ -293,13 +294,12 @@ public class World implements Serializable {
 	// End of Networking Methods
 	// ***********************************************
 
-	/*@Override
-	public String toString() {
-		return "World [width=" + width + ", height=" + height + ", charToID="
-				+ idToActor + ", orientation=" + orientation + ", map="
-				+ Arrays.toString(map) + ", objects="
-				+ Arrays.toString(objects) + "]";
-	}*/
+	/*
+	 * @Override public String toString() { return "World [width=" + width +
+	 * ", height=" + height + ", charToID=" + idToActor + ", orientation=" +
+	 * orientation + ", map=" + Arrays.toString(map) + ", objects=" +
+	 * Arrays.toString(objects) + "]"; }
+	 */
 
 	// ***********************************************
 	// Everything below here is used for editing mode
@@ -383,8 +383,7 @@ public class World implements Serializable {
 				break;
 			}
 		}
-		System.out.println("New width: " + width + ", new height: "
-				+ height);
+		System.out.println("New width: " + width + ", new height: " + height);
 		map = WorldBuilder.shrinkMap(map, direction);
 		objects = WorldBuilder.shrinkObjects(objects, direction);
 	}
@@ -404,15 +403,22 @@ public class World implements Serializable {
 	}
 
 	public void editTile() {
-		String[] tileName = WorldBuilder.getFileName();
+		String[] tileName = WorldBuilder.getFloorFileName();
 		System.out.println(tileName[0]);
 		map[editor.x][editor.y] = new Floor(editor.x, editor.y, tileName);
 
 	}
 
 	public void editWall() {
-		// TODO Auto-generated method stub
-
+		if (!objects[editor.x][editor.y].isEmpty())
+			objects[editor.x][editor.y].poll();
+		String[] wallName = WorldBuilder.getWallFileName();
+		int offset = 55;
+		if (wallName[0].contains("brown_1") || wallName[0].contains("grey_2")
+				|| wallName[0].contains("grey_3"))
+			offset = 48;
+		if (wallName != null)
+			objects[editor.x][editor.y].add(new Wall(wallName, offset));
 	}
 
 	public void editObject() {
@@ -425,17 +431,22 @@ public class World implements Serializable {
 	}
 
 	public void copyLocation() {
-		clipboard = map[editor.x][editor.y];
+		clipboardFloor = map[editor.x][editor.y];
+		clipboardWall = ((Wall) objects[editor.x][editor.y].peek());
 	}
 
 	public void pasteLocation() {
-		map[editor.x][editor.y] = clipboard.cloneMe();
-		}
+		map[editor.x][editor.y] = clipboardFloor.cloneMe();
+		if (!objects[editor.x][editor.y].isEmpty())
+			objects[editor.x][editor.y].poll();
+		if (clipboardWall != null)
+			objects[editor.x][editor.y].add(clipboardWall.cloneMe());
+	}
 
 	public void rotateObject() {
 		GameObject x = objects[editor.x][editor.y].peek();
 		if (x instanceof Wall) {
 			((Wall) x).rotate();
 		}
-		}
+	}
 }

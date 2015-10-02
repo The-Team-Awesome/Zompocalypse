@@ -24,6 +24,7 @@ ky,key
 rd,red
 tr,trash
 gr,grey
+br,brown
 i,island
 rc,rock
 l,loose

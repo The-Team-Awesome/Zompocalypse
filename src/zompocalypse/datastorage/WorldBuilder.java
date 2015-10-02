@@ -9,8 +9,23 @@ import javax.swing.JOptionPane;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.world.*;
 
+/**
+ * Static tools for editing the World maps and other tiles. Currently contains a
+ * lot of redundancy, will heavily refactor this if I have time
+ *
+ * @author thomsedavi
+ *
+ */
 public class WorldBuilder {
 
+	/**
+	 * Expand the Map in a particular Direction and return it
+	 *
+	 * @param map
+	 * @param direction
+	 *            - north, south, east or west
+	 * @return
+	 */
 	public static Floor[][] expandMap(Floor[][] map, String direction) {
 		Floor[][] returnMap = new Floor[1][1];
 
@@ -70,6 +85,14 @@ public class WorldBuilder {
 		return returnMap;
 	}
 
+	/**
+	 * Expand the Map Objects in a particular Direction and return it
+	 *
+	 * @param map
+	 * @param direction
+	 *            - north, south, east or west
+	 * @return
+	 */
 	public static PriorityQueue<GameObject>[][] expandObjects(
 			PriorityQueue<GameObject>[][] objects, String direction) {
 		// TODO Auto-generated method stub
@@ -134,6 +157,14 @@ public class WorldBuilder {
 		return returnObjects;
 	}
 
+	/**
+	 * Shrink the Map in a particular Direction and return it
+	 *
+	 * @param map
+	 * @param direction
+	 *            - north, south, east or west
+	 * @return
+	 */
 	public static Floor[][] shrinkMap(Floor[][] map, String direction) {
 		Floor[][] returnMap = new Floor[1][1];
 
@@ -175,6 +206,15 @@ public class WorldBuilder {
 		}
 		return returnMap;
 	}
+
+	/**
+	 * Shrink the Map Objects in a particular Direction and return it
+	 *
+	 * @param map
+	 * @param direction
+	 *            - north, south, east or west
+	 * @return
+	 */
 
 	public static PriorityQueue<GameObject>[][] shrinkObjects(
 			PriorityQueue<GameObject>[][] objects, String direction) {
@@ -240,7 +280,13 @@ public class WorldBuilder {
 		return returnObjects;
 	}
 
-	public static String[] getFileName() {
+	/**
+	 * Gives a pop up box with all of the available floor names, TODO put file
+	 * names in a separate file
+	 *
+	 * @return
+	 */
+	public static String[] getFloorFileName() {
 		String[] result = { "null" };
 		// this is ugly but would need to be stored in a file and parsed from it
 		// anyway
@@ -342,4 +388,86 @@ public class WorldBuilder {
 		return result;
 	}
 
+	/**
+	 * Gives a pop up box with all of the available wall names, TODO put file
+	 * names in a separate file, also TODO combine with previous method
+	 *
+	 * @return
+	 */
+	public static String[] getWallFileName() {
+		String[] result = { "null" };
+		// this is ugly but would need to be stored in a file and parsed from it
+		// anyway
+		Object[] possibilities = { "wall_brown_1_corner_e.png",
+				"wall_brown_1_straight_ew.png", "wall_brown_1_t_e.png",
+				"wall_brown_1_x.png", "wall_grey_1_corner_e.png",
+				"wall_grey_1_straight_ew.png", "wall_grey_1_t_e.png",
+				"wall_grey_1_x.png", "wall_grey_2_corner_e.png",
+				"wall_grey_2_straight_ew.png", "wall_grey_2_t_e.png",
+				"wall_grey_2_x.png", "wall_grey_3_corner_e.png",
+				"wall_grey_3_straight_ew.png", "wall_grey_3_t_e.png",
+				"wall_grey_3_x.png", "wall_grey_4_corner_e.png",
+				"wall_grey_4_straight_ew.png", "wall_grey_4_t_e.png",
+				"wall_grey_4_x.png" };
+		// TODO this works, but I am uncomfortable with these null values!
+		Component frame = null;
+		Icon icon = null;
+		String fileName = (String) JOptionPane.showInputDialog(frame,
+				"Pliz choice a wall", "Choice a wall",
+				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
+				"wall_brown_1_corner_e.png");
+		String beginning = fileName.substring(0, fileName.length() - 6);
+		String end = fileName.substring(fileName.length() - 4,
+				fileName.length());
+		String direction = fileName.substring(fileName.length() - 6,
+				fileName.length() - 4);
+		System.out.println(beginning + direction + end);
+
+		// ha ha this is so ugly but it is very late :(
+		switch (direction) {
+		case "_n":
+			result = new String[4];
+			result[0] = beginning + "_n" + end;
+			result[1] = beginning + "_e" + end;
+			result[2] = beginning + "_s" + end;
+			result[3] = beginning + "_w" + end;
+			break;
+		case "_e":
+			result = new String[4];
+			result[0] = beginning + "_e" + end;
+			result[1] = beginning + "_s" + end;
+			result[2] = beginning + "_w" + end;
+			result[3] = beginning + "_n" + end;
+			break;
+		case "_s":
+			result = new String[4];
+			result[0] = beginning + "_s" + end;
+			result[1] = beginning + "_w" + end;
+			result[2] = beginning + "_n" + end;
+			result[3] = beginning + "_e" + end;
+			break;
+		case "_w":
+			result = new String[4];
+			result[0] = beginning + "_w" + end;
+			result[1] = beginning + "_n" + end;
+			result[2] = beginning + "_e" + end;
+			result[3] = beginning + "_s" + end;
+			break;
+		case "ns":
+			result = new String[2];
+			result[0] = beginning + "ns" + end;
+			result[1] = beginning + "ew" + end;
+			break;
+		case "ew":
+			result = new String[2];
+			result[0] = beginning + "ew" + end;
+			result[1] = beginning + "ns" + end;
+			break;
+		default:
+			result = new String[1];
+			result[0] = fileName;
+			break;
+		}
+		return result;
+	}
 }

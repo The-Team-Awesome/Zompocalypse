@@ -63,4 +63,8 @@ public class Wall implements GameObject {
 		this.currentImage = images[0];
 		this.imageName = rotate[0];
 	}
+
+	public Wall cloneMe() {
+		return new Wall(filenames, offset);
+	}
 }
