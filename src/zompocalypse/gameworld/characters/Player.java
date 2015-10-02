@@ -100,7 +100,7 @@ public final class Player extends MovingCharacter{
 	public void tick(World game) {
 		if(!isDead()){
 			super.tick(game);
-			System.out.println(this.xCoord + "," + this.yCoord);
+			//System.out.println(this.xCoord + "," + this.yCoord);
 
 			ImageUtils imu = ImageUtils.getImageUtilsObject();
 			currentImage = imu.getCurrentImageForOrientation(orientation, images);

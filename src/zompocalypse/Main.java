@@ -30,8 +30,8 @@ public class Main {
 		int numClients = 0;
 		String url = null;
 		int port = 32768;
-		int gameClock = 200;
-		int networkClock = 50;
+		int gameClock = 1000;
+		int networkClock = 1000;
 
 		// Run through the arguments, processing each type of command individually
 		for(int i = 0; i < args.length; i++) {
@@ -174,7 +174,7 @@ public class Main {
 		Clock clock = new Clock(frame, game, gameClock);
 
 		clock.start();
-		
+
 		// Make sure the frame is in focus, so key presses are processed
 		frame.requestFocus();
 

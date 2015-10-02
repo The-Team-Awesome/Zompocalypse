@@ -247,39 +247,42 @@ public class World implements Serializable {
 	 */
 	public synchronized boolean processCommand(int id, String key) {
 		System.out.println(id + ", " + key);
+		//System.out.println(objects);
 		Player player = (Player) idToActor.get(id);
 
-		if (key == UICommand.NORTH.getValue()) {
+		// Remember that key is a String, so call .equals() instead of ==
+
+		if (key.equals(UICommand.NORTH.getValue())) {
 			if (editMode)
 				editor.y--;
 			else
 				player.moveNorth();
 			return true;
-		} else if (key == UICommand.SOUTH.getValue()) {
+		} else if (key.equals(UICommand.SOUTH.getValue())) {
 			if (editMode)
 				editor.y++;
 			else
 				player.moveSouth();
 			return true;
-		} else if (key == UICommand.EAST.getValue()) {
+		} else if (key.equals(UICommand.EAST.getValue())) {
 			if (editMode)
 				editor.x++;
 			else
 				player.moveEast();
 			return true;
-		} else if (key == UICommand.WEST.getValue()) {
+		} else if (key.equals(UICommand.WEST.getValue())) {
 			if (editMode)
 				editor.x--;
 			else
 				player.moveWest();
 			return true;
-		} else if (key == UICommand.ITEMONE.getValue()) {
+		} else if (key.equals(UICommand.ITEMONE.getValue())) {
 			return true;
-		} else if (key == UICommand.ITEMTWO.getValue()) {
+		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
 			return true;
-		} else if (key == UICommand.ITEMTHREE.getValue()) {
+		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
 			return true;
-		} else if (key == UICommand.USE.getValue()) {
+		} else if (key.equals(UICommand.USE.getValue())) {
 			return true;
 		} else {
 			return false;
@@ -290,13 +293,13 @@ public class World implements Serializable {
 	// End of Networking Methods
 	// ***********************************************
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "World [width=" + width + ", height=" + height + ", charToID="
 				+ idToActor + ", orientation=" + orientation + ", map="
 				+ Arrays.toString(map) + ", objects="
 				+ Arrays.toString(objects) + "]";
-	}
+	}*/
 
 	// ***********************************************
 	// Everything below here is used for editing mode

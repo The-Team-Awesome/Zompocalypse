@@ -1,5 +1,8 @@
 package zompocalypse.controller;
 
+import java.util.PriorityQueue;
+
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
 
@@ -8,7 +11,7 @@ import zompocalypse.ui.appwindow.MainFrame;
  * by the delay integer, the Clock Thread will cause the World to tick over and redisplay
  * the application window if one exists. If one doesn't, then this just ticks the game
  * world and the game is running through a Client/Server connection.
- * 
+ *
  * @author Sam Costigan
  */
 public class Clock extends Thread {
@@ -16,7 +19,7 @@ public class Clock extends Thread {
 	private MainFrame frame;
 	private final World game;
 	private final int delay; // delay between pulses
-	
+
 	public Clock(MainFrame frame, World game, int delay) {
 		this.frame = frame;
 		this.game = game;
@@ -28,14 +31,15 @@ public class Clock extends Thread {
 		while(true) {
 			try {
 				Thread.sleep(delay);
+
 				// trigger the ticking of the game world here
 				game.clockTick();
-				
+
 				// and repaint if it is this clocks responsibility
 				if(frame != null) {
 					frame.repaint();
 				}
-				
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

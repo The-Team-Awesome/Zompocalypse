@@ -64,6 +64,7 @@ public abstract class MovingCharacter extends Actor {
 		if(!moving){
 			return;
 		}
+
 		moving = false;
 
 		// Attempt to update the character's position. This is done by
@@ -95,6 +96,8 @@ public abstract class MovingCharacter extends Actor {
 			return;
 		}
 
+
+
 		if(newX < 0 || newY < 0 || newX >= width || newY >= height) {
 			return;
 		}
@@ -104,6 +107,16 @@ public abstract class MovingCharacter extends Actor {
 		} else {
 			// we can update our position ...
 			PriorityQueue<GameObject> objects[][] = game.getObjects();
+
+			System.out.println(objects);
+
+			/*for(int x = 0; x < objects.length; x++) {
+				for(int y = 0; y < objects[0].length; y++) {
+					System.out.print(objects[x][y] + ", ");
+				}
+				System.out.print("\n");
+			}*/
+
 			xCoord = newX;
 			yCoord = newY;
 			objects[oldX][oldY].remove(this);
