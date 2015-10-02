@@ -169,21 +169,21 @@ public class RenderPanel extends JPanel {
 		// Draws from the top right of the board, goes across
 		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 
-		int offsetX = 300;
-		int offsetY = 300;
+		int offsetX = 200;
+		int offsetY = 400;
 		boolean editMode = game.getEditMode();
 		boolean showWalls = game.getShowWalls();
 
 		// tiles[0][0].draw(offsetX, offsetY, g);
 
 		for (int i = 0; i < tiles.length; ++i) {
-			for (int j = tiles[i].length - 1; j >= 0; j--) {
+			for (int j = 0; j < tiles[i].length; j++) {
 				if (tiles[i][j] instanceof Drawable) {
 					Drawable d = tiles[i][j];
 					// System.out.println("is drawable");
-					x = (j * TILE_WIDTH / 2) + (i * TILE_WIDTH / 2) + offsetX;
-					y = (i * FLOOR_TILE_HEIGHT / 2)
-							- (j * FLOOR_TILE_HEIGHT / 2) + offsetY;
+					y = (j * FLOOR_TILE_HEIGHT / 2) + (i * FLOOR_TILE_HEIGHT / 2) + offsetX;
+					x = (i * TILE_WIDTH / 2)
+							- (j * TILE_WIDTH / 2) + offsetY;
 
 					// System.out.println(String.format("At i:%d j:%d, x: %d, y: %d",
 					// i,j,x,y));
