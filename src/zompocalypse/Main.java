@@ -30,8 +30,8 @@ public class Main {
 		int numClients = 0;
 		String url = null;
 		int port = 32768;
-		int gameClock = 1000;
-		int networkClock = 1000;
+		int gameClock = 200;
+		int networkClock = 50;
 
 		// Run through the arguments, processing each type of command individually
 		for(int i = 0; i < args.length; i++) {
