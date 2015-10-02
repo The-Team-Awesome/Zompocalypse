@@ -1,9 +1,12 @@
 package zompocalypse.gameworld.world;
 
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import zompocalypse.gameworld.Drawable;
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
@@ -16,13 +19,10 @@ import zompocalypse.ui.rendering.ImageUtils;
  * @author Kieran Mckay, 300276166 & Pauline
  *
  */
-public class Floor extends Tile{
+public class Floor implements Drawable{
 
 	private int x;
 	private int y;
-
-	//Floor tiles can contain
-	private boolean occupiable;
 
 	protected ImageIcon[] images;
 	protected ImageIcon currentImage;
@@ -30,10 +30,9 @@ public class Floor extends Tile{
 	protected String[] filenames;
 
 	public Floor(int x, int y, String[] filenames) {
+		System.out.println(filenames[0]);
 		this.x = x;
 		this.y = y;
-
-		occupiable = true;
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 
@@ -43,33 +42,100 @@ public class Floor extends Tile{
 		this.imageName = filenames[0];
 	}
 
-	@Override
+	/**
+	 * If the orientation has changed, or if the player has changed direction,
+	 * then change the current image.
+	 */
+	public void setCurrentImage(Orientation orientation){
+		//Changes the current image if the board is rotated
+		switch(orientation){
+		case NORTH:
+			currentImage = images[0];  //Will always be the first image
+			return;
+		case SOUTH:
+			currentImage =
+			getSouthOrientationImage();
+			return;
+		case EAST:
+			currentImage =
+			getEastOrientationImage();
+			return;
+		case WEST:
+			currentImage =
+			getWestOrientationImage();
+			return;
+		}
+	}
+	/**
+	 * Get the orientation for the image when viewed from the South.
+	 * @return
+	 */
+	private ImageIcon getSouthOrientationImage() {
+		switch(images.length){
+		case 1:
+			return images[0];  //same for all
+		case 2:
+			return images[0];
+		case 4:
+			return images[1];  //get the 2nd image
+		default:
+			throw new IllegalStateException("Shouldn't get this far - SOUTH");
+		}
+	}
+
+	/**
+	 * Get the orientation for the image when viewed from the East.
+	 * @return
+	 */
+	private ImageIcon getEastOrientationImage() {
+		switch(images.length){
+		case 1:
+			return images[0];  //same for all
+		case 2:
+			return images[1];
+		case 4:
+			return images[2];  //get the 3rd image
+		default:
+			throw new IllegalStateException("Shouldn't get this far - EAST");
+		}
+	}
+
+	/**
+	 * Get the orientation for the image when viewed from the West.
+	 * @return
+	 */
+	private ImageIcon getWestOrientationImage() {
+		switch(images.length){
+		case 1:
+			return images[0];  //same for all
+		case 2:
+			return images[1];
+		case 4:
+			return images[3];  //get the 4th image
+		default:
+			throw new IllegalStateException("Shouldn't get this far - WEST");
+		}
+	}
+
+	/**
+	 * Returns the X co-ordinate of this tile's position in the 2D map of the world
+	 */
 	public int getX() {
 		return x;
 	}
 
-	@Override
+	/**
+	 * Returns the Y co-ordinate of this tile's position in the 2D map of the world
+	 */
 	public int getY() {
 		return y;
 	}
 
-	@Override
-	public boolean occupiable() {
-		return occupiable;
-	}
-
-	@Override
-	public void setOccupiable(boolean bool) {
-		occupiable = bool;
-	}
-
-	@Override
 	public void draw(int x, int y, Graphics g) {
 		//System.out.println("drawing floor");
 		g.drawImage(currentImage.getImage(), x, y, null);
 	}
 
-	@Override
 	public String getFileName() {
 		return imageName;
 	}

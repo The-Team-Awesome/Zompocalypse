@@ -241,19 +241,19 @@ public class WorldBuilder {
 	}
 
 	public static String[] getFileName() {
-		String[] result = {"null"};
-		// this is ugly but would need to be stored in a file and parsed from it anyway
+		String[] result = { "null" };
+		// this is ugly but would need to be stored in a file and parsed from it
+		// anyway
 		Object[] possibilities = { "ground_grey_1.png", "ground_grey_2.png",
-				"ground_grey_dark_circle_1.png",
-				"ground_grey_dark_dots_1.png", "ground_grey_green_dots_1.png",
-				"ground_grey_greenish_1.png", "ground_grey_greenish_2.png",
-				"ground_grey_mushrooms_1.png", "ground_grey_mushrooms_2.png",
-				"ground_grey_mushrooms_3.png", "ground_grey_mushrooms_4.png",
-				"ground_grey_mushrooms_5.png", "ground_grey_mushrooms_6.png",
-				"ground_grey_mushrooms_7.png", "ground_grey_mushrooms_8.png",
-				"ground_grey_patch_1.png", "ground_grey_pool_1.png",
-				"ground_grey_pools_1.png", "ground_grey_pools_2.png",
-				"ground_grey_red_dots_1.png",
+				"ground_grey_dark_circle_1.png", "ground_grey_dark_dots_1.png",
+				"ground_grey_green_dots_1.png", "ground_grey_greenish_1.png",
+				"ground_grey_greenish_2.png", "ground_grey_mushrooms_1.png",
+				"ground_grey_mushrooms_2.png", "ground_grey_mushrooms_3.png",
+				"ground_grey_mushrooms_4.png", "ground_grey_mushrooms_5.png",
+				"ground_grey_mushrooms_6.png", "ground_grey_mushrooms_7.png",
+				"ground_grey_mushrooms_8.png", "ground_grey_patch_1.png",
+				"ground_grey_pool_1.png", "ground_grey_pools_1.png",
+				"ground_grey_pools_2.png", "ground_grey_red_dots_1.png",
 				"ground_grey_road_corner_1_e.png",
 				"ground_grey_road_end_1_e.png",
 				"ground_grey_road_straight_1_ew.png",
@@ -261,7 +261,25 @@ public class WorldBuilder {
 				"ground_grey_stones_1.png",
 				"ground_grey_tile_1_corner_1_e.png",
 				"ground_grey_tile_1_one_side_1_e.png",
-				"ground_grey_tile_1_two_sides_1_e.png", "ground_grey_tile_2_corner_e.png", "ground_grey_tile_2_loose_1.png", "ground_grey_tile_2_loose_2.png", "ground_grey_tile_2_one_side_e.png", "ground_grey_tile_2_two_sides_e.png", "ground_grey_trash_1.png", "ground_grey_water_corner_e.png", "ground_grey_water_island_1.png", "ground_grey_water_one_side_e.png", "ground_grey_water_rock_1.png", "ground_grey_water_two_sides_e.png", "ground_tile_1.png", "ground_tile_1_greenish_1.png", "ground_tile_1_tile_2_corner_e.png", "ground_tile_1_tile_2_one_side_e.png", "ground_tile_1_tile_2_two_sides_e.png", "ground_tile_2.png", "ground_tile_2_2.png", "ground_tile_2_gravel_2.png", "ground_tile_2_green_dots_1.png", "ground_tile_2_greenish_1.png", "ground_tile_2_red_dots_1.png", "ground_tile_2_trash_1.png" };
+				"ground_grey_tile_1_two_sides_1_e.png",
+				"ground_grey_tile_2_corner_e.png",
+				"ground_grey_tile_2_loose_1.png",
+				"ground_grey_tile_2_loose_2.png",
+				"ground_grey_tile_2_one_side_e.png",
+				"ground_grey_tile_2_two_sides_e.png",
+				"ground_grey_trash_1.png", "ground_grey_water_corner_e.png",
+				"ground_grey_water_island_1.png",
+				"ground_grey_water_one_side_e.png",
+				"ground_grey_water_rock_1.png",
+				"ground_grey_water_two_sides_e.png", "ground_tile_1.png",
+				"ground_tile_1_greenish_1.png",
+				"ground_tile_1_tile_2_corner_e.png",
+				"ground_tile_1_tile_2_one_side_e.png",
+				"ground_tile_1_tile_2_two_sides_e.png", "ground_tile_2.png",
+				"ground_tile_2_2.png", "ground_tile_2_gravel_2.png",
+				"ground_tile_2_green_dots_1.png",
+				"ground_tile_2_greenish_1.png", "ground_tile_2_red_dots_1.png",
+				"ground_tile_2_trash_1.png" };
 		// TODO this works, but I am uncomfortable with these null values!
 		Component frame = null;
 		Icon icon = null;
@@ -269,9 +287,11 @@ public class WorldBuilder {
 				"Pliz choice a floor", "Choice a floor",
 				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
 				"ground_grey_1.png");
-		String beginning = fileName.substring(0, fileName.length()-6);
-		String end = fileName.substring(fileName.length()-4, fileName.length());
-		String direction = fileName.substring(fileName.length()-6, fileName.length()-4);
+		String beginning = fileName.substring(0, fileName.length() - 6);
+		String end = fileName.substring(fileName.length() - 4,
+				fileName.length());
+		String direction = fileName.substring(fileName.length() - 6,
+				fileName.length() - 4);
 		System.out.println(beginning + direction + end);
 
 		// ha ha this is so ugly but it is very late :(

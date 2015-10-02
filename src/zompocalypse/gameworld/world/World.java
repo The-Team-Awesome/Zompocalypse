@@ -141,7 +141,7 @@ public class World implements Serializable {
 		}
 	}
 
-	public Tile[][] getMap() {
+	public Floor[][] getMap() {
 		return map;
 	}
 
@@ -168,8 +168,8 @@ public class World implements Serializable {
 	 *            - The size of the perspective to return
 	 * @return A 2D array of Tiles - edge cases are null objects
 	 */
-	public Tile[][] getCharacterPerspective(Actor character, int size) {
-		Tile[][] perspective = new Tile[size][size];
+	public Floor[][] getCharacterPerspective(Actor character, int size) {
+		Floor[][] perspective = new Floor[size][size];
 
 		int offset = (size - 1) / 2;
 

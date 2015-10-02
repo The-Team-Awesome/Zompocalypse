@@ -26,13 +26,13 @@ public class RenderPanel extends JPanel {
 	/*
 	 * Application Canvas is a field - need one in the constructor for the
 	 * Renderer.
-	 *
+	 * 
 	 * Need the location passed in - make a new renderer per location or use
 	 * setLocation()?
-	 *
+	 * 
 	 * Need the 4 orientations - NSEW. A location that is entered from the north
 	 * is shown with the view facing south.
-	 *
+	 * 
 	 * Locations in the distance are shown in the background.
 	 */
 
@@ -56,8 +56,8 @@ public class RenderPanel extends JPanel {
 	// Remember the tiles and objects for next time you render - in case the
 	// orientation hasn't changed.
 	// Will need to update each tme.
-	private zompocalypse.gameworld.world.Tile[][] tiles;
-	private zompocalypse.gameworld.GameObject[][] objects;
+	private Floor[][] tiles;
+	private GameObject[][] objects;
 
 	// The panel to be rendered on
 
@@ -83,7 +83,7 @@ public class RenderPanel extends JPanel {
 	 * The clipping is a smaller version of the complete game board that will be
 	 * displayed on the screen.
 	 */
-	public Tile[][] clip() {
+	public Floor[][] clip() {
 
 		Actor c = game.getCharacterByID(id);
 
@@ -101,7 +101,7 @@ public class RenderPanel extends JPanel {
 		// Should just have a defined viewport?
 
 		// Make a new tileset with the correct numbers of tiles
-		Tile[][] tiles = new Tile[xTilesPerPanel][yTilesPerPanel];
+		Floor[][] tiles = new Floor[xTilesPerPanel][yTilesPerPanel];
 
 		// get top, left, right, bottom points to know how many tiles
 		// to render
@@ -121,9 +121,8 @@ public class RenderPanel extends JPanel {
 	 * The rotation method takes in: -the current orientation of the board -the
 	 * new orientation of the player
 	 */
-	private void rotate(Orientation oldO, int direction,
-			zompocalypse.gameworld.world.Tile[][] tiles,
-			zompocalypse.gameworld.GameObject[][] objects) {
+	private void rotate(Orientation oldO, int direction, Floor[][] tiles,
+			GameObject[][] objects) {
 
 	}
 
@@ -145,7 +144,7 @@ public class RenderPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		Tile[][] tiles;
+		Floor[][] tiles;
 		PriorityQueue<GameObject>[][] objects;
 
 		/*
@@ -181,9 +180,9 @@ public class RenderPanel extends JPanel {
 				if (tiles[i][j] instanceof Drawable) {
 					Drawable d = tiles[i][j];
 					// System.out.println("is drawable");
-					y = (j * FLOOR_TILE_HEIGHT / 2) + (i * FLOOR_TILE_HEIGHT / 2) + offsetX;
-					x = (i * TILE_WIDTH / 2)
-							- (j * TILE_WIDTH / 2) + offsetY;
+					y = (j * FLOOR_TILE_HEIGHT / 2)
+							+ (i * FLOOR_TILE_HEIGHT / 2) + offsetX;
+					x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2) + offsetY;
 
 					// System.out.println(String.format("At i:%d j:%d, x: %d, y: %d",
 					// i,j,x,y));
@@ -208,20 +207,21 @@ public class RenderPanel extends JPanel {
 			Point editor = game.getEditor();
 			g.setColor(Color.GREEN);
 			for (Point p : playerSpawnPoints) {
-				g.drawOval((p.y * TILE_WIDTH / 2) + (p.x * TILE_WIDTH / 2)
-						+ offsetX + 30, (p.x * FLOOR_TILE_HEIGHT / 2)
-						- (p.y * FLOOR_TILE_HEIGHT / 2) + offsetY + 15, 5, 5);
+				g.drawOval((p.x * TILE_WIDTH / 2) - (p.y * TILE_WIDTH / 2)
+						+ offsetY + 30, (p.y * FLOOR_TILE_HEIGHT / 2)
+						+ (p.x * FLOOR_TILE_HEIGHT / 2) + offsetX + 15, 5, 5);
 			}
 			g.setColor(Color.RED);
 			for (Point p : zombieSpawnPoints) {
-				g.drawOval((p.y * TILE_WIDTH / 2) + (p.x * TILE_WIDTH / 2)
-						+ offsetX + 29, (p.x * FLOOR_TILE_HEIGHT / 2)
-						- (p.y * FLOOR_TILE_HEIGHT / 2) + offsetY + 14, 7, 7);
+				g.drawOval((p.x * TILE_WIDTH / 2) - (p.y * TILE_WIDTH / 2)
+						+ offsetY + 29, (p.y * FLOOR_TILE_HEIGHT / 2)
+						+ (p.x * FLOOR_TILE_HEIGHT / 2) + offsetX + 14, 7, 7);
 			}
 			g.setColor(Color.BLUE);
-			g.drawOval((editor.y * TILE_WIDTH / 2) + (editor.x * TILE_WIDTH / 2)
-					+ offsetX + 28, (editor.x * FLOOR_TILE_HEIGHT / 2)
-					- (editor.y * FLOOR_TILE_HEIGHT / 2) + offsetY + 13, 9, 9);
+			g.drawOval((editor.x * TILE_WIDTH / 2)
+					- (editor.y * TILE_WIDTH / 2) + offsetY + 28, (editor.y
+					* FLOOR_TILE_HEIGHT / 2)
+					+ (editor.x * FLOOR_TILE_HEIGHT / 2) + offsetX + 13, 9, 9);
 		}
 	}
 
@@ -230,9 +230,9 @@ public class RenderPanel extends JPanel {
 	 * objects = new GameObject[wd][ht]; //Create a wall Wall w = new Wall(new
 	 * String[] { "wall_grey_3_t_n.png", "wall_grey_3_t_s.png",
 	 * "wall_grey_3_t_e.png", "wall_grey_3_t_w.png" }, 50);
-	 *
+	 * 
 	 * //put the wall at the items position objects[2][2] = w;
-	 *
+	 * 
 	 * return objects; }
 	 */
 	/**
@@ -240,8 +240,8 @@ public class RenderPanel extends JPanel {
 	 *
 	 * @return
 	 */
-	private zompocalypse.gameworld.world.Tile[][] getDummyTiles(int wd, int ht) {
-		zompocalypse.gameworld.world.Tile[][] tiles = new Tile[wd][ht];
+	private Floor[][] getDummyTiles(int wd, int ht) {
+		Floor[][] tiles = new Floor[wd][ht];
 
 		String[] filenames = new String[] { "ground_grey_1.png" };
 		// System.out.println("making the floor");

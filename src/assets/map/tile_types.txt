@@ -8,6 +8,7 @@ e,e
 w,w
 ns,ns
 ew,ew
+t,t
 x,x
 wa,water
 g,ground

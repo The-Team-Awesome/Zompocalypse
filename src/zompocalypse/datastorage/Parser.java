@@ -240,7 +240,7 @@ public class Parser {
 	 */
 	private static String getXMLMap(World world) throws IOException {
 
-		Tile[][] map = world.getMap();
+		Floor[][] map = world.getMap();
 		PriorityQueue<GameObject>[][] objects = world.getObjects();
 		int x = world.width();
 		int y = world.height();
