@@ -16,8 +16,6 @@ import zompocalypse.gameworld.world.*;
  * Provides a 3D view of the world, with locations that are presented from a
  * side on perspective.
  *
- *
- *
  * @author Pauline Kelly
  *
  */
@@ -36,6 +34,7 @@ public class RenderPanel extends JPanel {
 	 * Locations in the distance are shown in the background.
 	 */
 
+	private static final long serialVersionUID = 1L;
 	// For scaling, knowing how big the window is
 	private int WIDTH;
 	private int HEIGHT;
@@ -118,23 +117,66 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * The rotation method takes in: -the current orientation of the board -the
-	 * new orientation of the player
-	 */
-	private void rotate(Orientation oldO, int direction, Floor[][] tiles,
-			GameObject[][] objects) {
-
-	}
-
-	/**
 	 * Rotates the rendering in the given direction.
+	 * Updates the current orientation in the rendering panel
 	 *
 	 * @param clockwise
 	 */
-	public void rotate(Direction clockwise) {
-		// and call the private method from here - it was taking
-		// too many methods to be public directly:
-		// rotate(oldO, direction, tiles, objects);
+	public void rotate(Direction dir) {
+		switch(dir){
+		case CLOCKWISE:
+			updateCurrentOrientationClockwise();
+			return;
+		case ANTICLOCKWISE:
+			updateCurrentOrientationAntiClockwise();
+			return;
+		default:
+			throw new IllegalArgumentException("Direction wasn't clockwise or anticlockwise");
+		}
+	}
+
+	/**
+	 * Updates the current orientation of the viewer to its clockwise counterpart.
+	 */
+	private void updateCurrentOrientationClockwise() {
+		switch(currentOrientation){
+		case NORTH:
+			currentOrientation = Orientation.EAST;
+			return;
+		case SOUTH:
+			currentOrientation = Orientation.WEST;
+			return;
+		case EAST:
+			currentOrientation = Orientation.SOUTH;
+			return;
+		case WEST:
+			currentOrientation = Orientation.NORTH;
+			return;
+		default:
+			throw new IllegalArgumentException("Current orientation is incorrect");
+		}
+	}
+
+	/**
+	 * Updates the current orientation of the viewer to its anticlockwise counterpart.
+	 */
+	private void updateCurrentOrientationAntiClockwise() {
+		switch(currentOrientation){
+		case NORTH:
+			currentOrientation = Orientation.WEST;
+			return;
+		case SOUTH:
+			currentOrientation = Orientation.EAST;
+			return;
+		case EAST:
+			currentOrientation = Orientation.NORTH;
+			return;
+		case WEST:
+			currentOrientation = Orientation.SOUTH;
+			return;
+		default:
+			throw new IllegalArgumentException("Current orientation is incorrect");
+		}
 	}
 
 	/**
@@ -159,8 +201,6 @@ public class RenderPanel extends JPanel {
 		int wd = tiles.length;
 		int ht = tiles[0].length;
 
-		Orientation o = Orientation.NORTH;
-
 		// start from the top center
 		int x;
 		int y;
@@ -173,26 +213,21 @@ public class RenderPanel extends JPanel {
 		boolean editMode = game.getEditMode();
 		boolean showWalls = game.getShowWalls();
 
-		// tiles[0][0].draw(offsetX, offsetY, g);
-
 		for (int i = 0; i < tiles.length; ++i) {
 			for (int j = 0; j < tiles[i].length; j++) {
+				
 				if (tiles[i][j] instanceof Drawable) {
 					Drawable d = tiles[i][j];
-					// System.out.println("is drawable");
 					y = (j * FLOOR_TILE_HEIGHT / 2)
-							+ (i * FLOOR_TILE_HEIGHT / 2) + offsetX;
-					x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2) + offsetY;
+							+ (i * FLOOR_TILE_HEIGHT / 2) + offsetY;
+					x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2) + offsetX;
 
 					// System.out.println(String.format("At i:%d j:%d, x: %d, y: %d",
-					// i,j,x,y));
 					d.draw(x, y, g);
 
 					if (showWalls) {
 						for (Drawable dd : objects[i][j]) {
-							// Drawable dd = objects[i][j];
 							if (dd != null) {
-								// System.out.println("draw wall");
 								dd.draw(x, y, g);
 							}
 						}
@@ -235,25 +270,6 @@ public class RenderPanel extends JPanel {
 	 * 
 	 * return objects; }
 	 */
-	/**
-	 * Dummy world for testing
-	 *
-	 * @return
-	 */
-	private Floor[][] getDummyTiles(int wd, int ht) {
-		Floor[][] tiles = new Floor[wd][ht];
-
-		String[] filenames = new String[] { "ground_grey_1.png" };
-		// System.out.println("making the floor");
-
-		// Do all the floor tiles first
-		for (int i = 0; i < wd; ++i) {
-			for (int j = 0; j < ht; ++j) {
-				tiles[i][j] = new Floor(i, j, filenames);
-			}
-		}
-		return tiles;
-	}
 
 	public Orientation getCurrentOrientation() {
 		return currentOrientation;
