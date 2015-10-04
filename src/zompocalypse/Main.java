@@ -31,7 +31,8 @@ public class Main {
 		String url = null;
 		int port = 32768;
 		int gameClock = 200;
-		int networkClock = 50;
+		int clientClock = 100;
+		int serverClock = 50;
 
 		// Run through the arguments, processing each type of command individually
 		for(int i = 0; i < args.length; i++) {
@@ -60,9 +61,9 @@ public class Main {
 		try {
 			if(server) {
 				World game = Parser.ParseMap(Loader.mapFile);
-				runServer(port, numClients, gameClock, networkClock, game);
+				runServer(port, numClients, gameClock, serverClock, game);
 			} else if(url != null) {
-				runClient(url, port);
+				runClient(url, port, clientClock);
 			} else {
 				World game = Parser.ParseMap(Loader.mapFile);
 				singlePlayerGame(gameClock, game);
@@ -150,10 +151,10 @@ public class Main {
 	 * @param port - The port number for the application
 	 * @throws IOException
 	 */
-	private static void runClient(String url, int port) throws IOException {
+	private static void runClient(String url, int port, int gameClock) throws IOException {
 		Socket socket = new Socket(url, port);
 		System.out.println("Client successfully connected to URL: " + url + ", port: " + port);
-		new Client(socket).run();
+		new Client(socket, gameClock).run();
 	}
 
 	/**
