@@ -5,9 +5,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.world.Wall;
 import zompocalypse.gameworld.world.World;
 
 /**
@@ -76,7 +79,11 @@ public class Server extends Thread {
 								break;
 						}
 					}
-
+					
+					// The objOut stream needs to be reset in order to send the correct data.
+					// By default, serialized objects are cached for the duration of the output
+					// stream. Resetting the streams means the correctly updated info is sent!
+					objOut.reset();
 					objOut.writeObject(game);
 
 					output.flush();

@@ -108,7 +108,7 @@ public abstract class MovingCharacter extends Actor {
 			// we can update our position ...
 			PriorityQueue<GameObject> objects[][] = game.getObjects();
 
-			System.out.println(objects);
+			//System.out.println(objects);
 
 			/*for(int x = 0; x < objects.length; x++) {
 				for(int y = 0; y < objects[0].length; y++) {

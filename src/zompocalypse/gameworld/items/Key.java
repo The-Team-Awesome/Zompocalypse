@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.util.Map;
 
 import zompocalypse.datastorage.Loader;
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 
 /**
@@ -54,5 +55,11 @@ public class Key implements Item{
 	@Override
 	public int getUniqueID() {
 		return uid;
+	}
+
+	@Override
+	public int compareTo(GameObject o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
