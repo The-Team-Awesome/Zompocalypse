@@ -9,6 +9,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import zompocalypse.gameworld.GameObject;
@@ -54,18 +57,9 @@ public class Client extends GameListenerThread {
 			while(running) {
 				// Make sure the frame is in focus, so key presses are processed
 				frame.requestFocus();
-
+				
+				// Read in the new world and update the frame and render panel with it
 				game = (World) objIn.readObject();
-
-				//PriorityQueue<GameObject>[][] objects = game.getObjects();
-
-				/*for(int x = 0; x < objects.length; x++) {
-					for(int y = 0; y < objects[0].length; y++) {
-						System.out.print(objects[x][y]);
-					}
-					System.out.print("\n");
-				}*/
-
 				frame.updateGame(game);
 
 				frame.repaint();

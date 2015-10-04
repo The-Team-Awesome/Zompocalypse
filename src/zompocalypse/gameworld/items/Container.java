@@ -160,4 +160,10 @@ public class Container implements GameObject, Drawable{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int compareTo(GameObject o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

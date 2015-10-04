@@ -3,6 +3,7 @@ package zompocalypse.gameworld.world;
 import java.awt.Graphics;
 import java.util.Map;
 
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Item;
 
@@ -95,5 +96,11 @@ public class Door implements Item{
 	@Override
 	public int getUniqueID() {
 		return uid;
+	}
+
+	@Override
+	public int compareTo(GameObject o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

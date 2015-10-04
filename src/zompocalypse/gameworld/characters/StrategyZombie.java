@@ -2,6 +2,7 @@ package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
 
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 
@@ -39,5 +40,11 @@ public class StrategyZombie extends MovingCharacter {
 	public void draw(int x, int y, Graphics g) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int compareTo(GameObject o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -67,4 +67,10 @@ public class Wall implements GameObject {
 	public Wall cloneMe() {
 		return new Wall(filenames, offset);
 	}
+
+	@Override
+	public int compareTo(GameObject o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

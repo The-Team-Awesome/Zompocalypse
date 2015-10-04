@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 
 import com.sun.imageio.plugins.common.ImageUtil;
 
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
@@ -100,7 +101,6 @@ public final class Player extends MovingCharacter{
 	public void tick(World game) {
 		if(!isDead()){
 			super.tick(game);
-			//System.out.println(this.xCoord + "," + this.yCoord);
 
 			ImageUtils imu = ImageUtils.getImageUtilsObject();
 			currentImage = imu.getCurrentImageForOrientation(orientation, images);
@@ -136,5 +136,11 @@ public final class Player extends MovingCharacter{
 				+ ", score=" + score + ", health=" + health + ", speed="
 				+ speed + ", strength=" + strength + ", filename=" + filenames
 				+ "]";
+	}
+
+	@Override
+	public int compareTo(GameObject o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
