@@ -1,8 +1,9 @@
 package zompocalypse.gameworld.animation;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 
 /**
  * Animates the sprite.
@@ -23,7 +24,7 @@ public class Animation {
 
 	private List<Frame> frames = new ArrayList<Frame>();
 
-	public Animation(BufferedImage[] frames, int frameDelay){
+	public Animation(ImageIcon[] frames, int frameDelay){
 		this.frameDelay = frameDelay;
 		this.stopped = true;
 
@@ -74,7 +75,7 @@ public class Animation {
 	}
 
 	/** Adds the frame onto the frame */
-	private void addFrame(BufferedImage frame, int duration) {
+	private void addFrame(ImageIcon frame, int duration) {
 		if(duration <= 0){
 			System.err.println("Duration can't be this number:" + duration);
 			throw new RuntimeException();
@@ -84,7 +85,7 @@ public class Animation {
 	}
 
 	/** Retrieves the sprite from the frame */
-	public BufferedImage getSprite(){
+	public ImageIcon getSprite(){
 		return frames.get(currentFrame).getFrame();
 	}
 

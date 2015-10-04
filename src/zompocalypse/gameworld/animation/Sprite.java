@@ -31,7 +31,7 @@ public class Sprite {
 	 * @param file
 	 * @return
 	 */
-	private static ImageIcon loadSprite(String file){
+	private static BufferedImage loadSprite(String file){
 		BufferedImage sprite = null;
 		try {
 			sprite = ImageIO.read(new File("images/" + file + "_sheet.png"));
@@ -40,7 +40,7 @@ public class Sprite {
 			e.printStackTrace();
 		}
 		
-		return new ImageIcon(sprite);
+		return sprite;
 	}
 
 	/**
@@ -49,13 +49,13 @@ public class Sprite {
 	 * @param yPos
 	 * @return
 	 */
-	public BufferedImage getSprite(int xPos, int yPos){
+	public ImageIcon getSprite(int xPos, int yPos){
 		if(spriteSheet == null){
 			spriteSheet = loadSprite(filePrefix);
 		}
-		return spriteSheet.getSubimage(xPos * TILE_SIZE,
+		return new ImageIcon(spriteSheet.getSubimage(xPos * TILE_SIZE,
 				yPos * TILE_SIZE,
 				TILE_SIZE,
-				TILE_SIZE);
+				TILE_SIZE));
 	}
 }

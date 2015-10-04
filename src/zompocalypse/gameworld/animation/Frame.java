@@ -1,6 +1,6 @@
 package zompocalypse.gameworld.animation;
 
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 /**
  * This small class contains the image, and how long to display that image for.
@@ -9,19 +9,19 @@ import java.awt.image.BufferedImage;
  */
 public class Frame {
 
-	private BufferedImage frame;
+	private ImageIcon frame;
 	private int duration;
 
-	public Frame(BufferedImage frame, int duration) {
+	public Frame(ImageIcon frame, int duration) {
 		this.frame = frame;
 		this.duration = duration;
 	}
 
-	public BufferedImage getFrame() {
+	public ImageIcon getFrame() {
 		return frame;
 	}
 
-	public void setFrame(BufferedImage frame) {
+	public void setFrame(ImageIcon frame) {
 		this.frame = frame;
 	}
 
