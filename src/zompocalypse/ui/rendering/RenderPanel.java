@@ -184,52 +184,46 @@ public class RenderPanel extends JPanel {
 
 		Floor[][] tiles;
 		PriorityQueue<GameObject>[][] objects;
-
-		/*
-		 * // Just change testing to true to use these dummy methods
-		 * if(testing){ tiles = getDummyTiles(5,5); objects = getDummyObjects(5,
-		 * 5); } else {
-		 */
+		
 		tiles = game.getMap();
 		objects = game.getObjects();
-		// S}
-
 		int wd = tiles.length;
 		int ht = tiles[0].length;
-
-		// start from the top center
-		int x;
-		int y;
 		
+		//get the board coordinates of the player
 		Actor c = game.getCharacterByID(id);
 		int actorX = c.getX();
 		int actorY = c.getY();
 
-		// Draws from the top right of the board, goes across
 		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 		int[] playerCoords = convertFromGameToScreen(actorX,actorY);  //players coords
 		
+		//convert these to the players coordinates
 		int offsetX = -playerCoords[0] + getWidth()/2;  
 		int offsetY = -playerCoords[1] + getHeight()/2;
 		
 		boolean editMode = game.getEditMode();
 		boolean showWalls = game.getShowWalls();
 
+		//how many tiles across from the player should be displayed
 		int drawDistance = 10;
 		
 		//should be calculating the draw distance instead of using a constant
 		
+		//can't draw a square that is a negative number, or bigger than the window
+		int minI = Math.max(0,actorX-drawDistance);
+		int minJ = Math.max(0,actorY-drawDistance);	
 		int maxI = Math.min(wd, actorX+drawDistance);
 		int maxJ = Math.min(ht, actorY+drawDistance);
 		
-		//to draw everything its the height and width of the screen
+		//Initialise draw values
+		int x;
+		int y;
 		
-		//also make minI,J
-		
-		for (int i = Math.max(0,actorX-drawDistance); i < maxI; ++i) {
-			for (int j = Math.max(0,actorY-drawDistance); j < maxJ; j++) {
+		//to draw everything its the height and width of the screen		
+		for (int i = minI; i < maxI; ++i) {
+			for (int j = minJ; j < maxJ; j++) {
 				//System.out.print("(" + i + "," + j + ")");
-								
 				if (tiles[i][j] instanceof Drawable) {
 					Drawable d = tiles[i][j];
 					
@@ -237,7 +231,6 @@ public class RenderPanel extends JPanel {
 					x = coords[0] + offsetX;
 					y = coords[1] + offsetY;
 
-					// System.out.println(String.format("At i:%d j:%d, x: %d, y: %d",
 					d.draw(x, y, g);
 
 					if (showWalls) {
@@ -249,9 +242,19 @@ public class RenderPanel extends JPanel {
 					}
 				}
 			}
-			System.out.println();
+			//System.out.println();
 		}
-
+		editOptions(offsetX, offsetY, editMode, g);
+	}
+	
+	/**
+	 * Davids options for using the editor
+	 * @param offsetX
+	 * @param offsetY
+	 * @param editMode
+	 * @param g
+	 */
+	private void editOptions(int offsetX, int offsetY, boolean editMode, Graphics g){
 		if (editMode) {
 			Set<Point> playerSpawnPoints = game.getPlayerSpawnPoints();
 			Set<Point> zombieSpawnPoints = game.getZombieSpawnPoints();
@@ -276,6 +279,13 @@ public class RenderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Returns the screen coordinates, translated using an isometric formula from the
+	 * game coordinates.
+	 * @param i Gamess x value
+	 * @param j Games y value
+	 * @return
+	 */
 	private int[] convertFromGameToScreen(int i, int j) {	
 		int x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2);
 		int y = (j * FLOOR_TILE_HEIGHT / 2)
@@ -284,17 +294,10 @@ public class RenderPanel extends JPanel {
 		return new int[] {x,y};
 	}
 
-	/*
-	 * private GameObject[][] getDummyObjects(int wd, int ht) { GameObject[][]
-	 * objects = new GameObject[wd][ht]; //Create a wall Wall w = new Wall(new
-	 * String[] { "wall_grey_3_t_n.png", "wall_grey_3_t_s.png",
-	 * "wall_grey_3_t_e.png", "wall_grey_3_t_w.png" }, 50);
-	 * 
-	 * //put the wall at the items position objects[2][2] = w;
-	 * 
-	 * return objects; }
+	/**
+	 * Get the current orientation for this view - critical for rotating the board.
+	 * @return The current orientation
 	 */
-
 	public Orientation getCurrentOrientation() {
 		return currentOrientation;
 	}
