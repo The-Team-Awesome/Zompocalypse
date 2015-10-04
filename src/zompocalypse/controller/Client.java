@@ -30,6 +30,8 @@ import zompocalypse.ui.appwindow.UICommand;
 public class Client extends GameListenerThread {
 
 	private final Socket socket;
+	private final int gameClock;
+	private int currentTime;
 	private int id;
 	private MainFrame frame;
 	private World game;
@@ -37,8 +39,9 @@ public class Client extends GameListenerThread {
 	private DataInputStream input;
 	private DataOutputStream output;
 
-	public Client(Socket socket) {
+	public Client(Socket socket, int gameClock) {
 		this.socket = socket;
+		this.gameClock = gameClock;
 	}
 
 	@Override
@@ -53,16 +56,24 @@ public class Client extends GameListenerThread {
 			ObjectInputStream objIn = new ObjectInputStream(input);
 			game = (World) objIn.readObject();
 			frame = new MainFrame(id, game, this);
+			currentTime = (int) System.currentTimeMillis();
 
 			while(running) {
-				// Make sure the frame is in focus, so key presses are processed
-				frame.requestFocus();
+				int nextTime = (int) System.currentTimeMillis();
+				int change = (nextTime - currentTime);
 				
-				// Read in the new world and update the frame and render panel with it
-				game = (World) objIn.readObject();
-				frame.updateGame(game);
-
-				frame.repaint();
+				if(change > gameClock) {
+					System.out.println(change);
+					// Make sure the frame is in focus, so key presses are processed
+					frame.requestFocus();
+					
+					// Read in the new world and update the frame and render panel with it
+					game = (World) objIn.readObject();
+					frame.updateGame(game);
+	
+					frame.repaint();
+					currentTime = (int) System.currentTimeMillis();
+				}
 			}
 
 			objIn.close();
