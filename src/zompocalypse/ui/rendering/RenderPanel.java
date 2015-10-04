@@ -36,11 +36,11 @@ public class RenderPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	// For scaling, knowing how big the window is
-	private int WIDTH;
-	private int HEIGHT;
+	//private final int WIDTH;
+	//private final int HEIGHT;
 
 	private World game;
-	private int id;
+	private final int id;
 
 	private static final int TILE_WIDTH = 64;
 	// private static final int FLOOR_TILE_HEIGHT = 42; //NOT 32? Height changes
@@ -70,9 +70,9 @@ public class RenderPanel extends JPanel {
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
-
-		WIDTH = this.getWidth();
-		HEIGHT = this.getHeight();
+		this.id = id;
+		//WIDTH = this.getWidth();
+		//HEIGHT = this.getHeight();
 	}
 
 	/**
@@ -82,35 +82,31 @@ public class RenderPanel extends JPanel {
 	 * The clipping is a smaller version of the complete game board that will be
 	 * displayed on the screen.
 	 */
-	public Floor[][] clip() {
-
-		Actor c = game.getCharacterByID(id);
-
-		// use this to find neighboring tiles
-		int actorX = c.getX();
-		int actorY = c.getY();
-
-		// find the position to render the character at
-		int renderActorX = WIDTH / 2;
-		int renderActorY = HEIGHT / 2;
-
-		int xTilesPerPanel = WIDTH / TILE_WIDTH; // 800 / 64/ Truncates
-		int yTilesPerPanel = HEIGHT / FLOOR_TILE_HEIGHT; // 600 / 44
-
-		// Should just have a defined viewport?
-
-		// Make a new tileset with the correct numbers of tiles
-		Floor[][] tiles = new Floor[xTilesPerPanel][yTilesPerPanel];
-
-		// get top, left, right, bottom points to know how many tiles
-		// to render
-
-		// iterate through the game world.
-		int topLeftX = actorX - xTilesPerPanel;
-		int topLeftY = actorY - yTilesPerPanel;
-
-		return tiles;
-	}
+	//public Floor[][] clip() {
+//
+//		
+//
+//		// find the position to render the character at
+//		int renderActorX = WIDTH / 2;
+//		int renderActorY = HEIGHT / 2;
+//
+//		int xTilesPerPanel = WIDTH / TILE_WIDTH; // 800 / 64/ Truncates
+//		int yTilesPerPanel = HEIGHT / FLOOR_TILE_HEIGHT; // 600 / 44
+//
+//		// Should just have a defined viewport?
+//
+//		// Make a new tileset with the correct numbers of tiles
+//		Floor[][] tiles = new Floor[xTilesPerPanel][yTilesPerPanel];
+//
+//		// get top, left, right, bottom points to know how many tiles
+//		// to render
+//
+//		// iterate through the game world.
+//		int topLeftX = actorX - xTilesPerPanel;
+//		int topLeftY = actorY - yTilesPerPanel;
+//
+//		return tiles;
+	//}
 
 	public void updateGame(World game) {
 		this.game = game;
@@ -204,23 +200,42 @@ public class RenderPanel extends JPanel {
 		// start from the top center
 		int x;
 		int y;
+		
+		Actor c = game.getCharacterByID(id);
+		int actorX = c.getX();
+		int actorY = c.getY();
 
 		// Draws from the top right of the board, goes across
 		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
-
-		int offsetX = 200;
-		int offsetY = 400;
+		int[] playerCoords = convertFromGameToScreen(actorX,actorY);  //players coords
+		
+		int offsetX = -playerCoords[0] + getWidth()/2;  
+		int offsetY = -playerCoords[1] + getHeight()/2;
+		
 		boolean editMode = game.getEditMode();
 		boolean showWalls = game.getShowWalls();
 
-		for (int i = 0; i < tiles.length; ++i) {
-			for (int j = 0; j < tiles[i].length; j++) {
-				
+		int drawDistance = 10;
+		
+		//should be calculating the draw distance instead of using a constant
+		
+		int maxI = Math.min(wd, actorX+drawDistance);
+		int maxJ = Math.min(ht, actorY+drawDistance);
+		
+		//to draw everything its the height and width of the screen
+		
+		//also make minI,J
+		
+		for (int i = Math.max(0,actorX-drawDistance); i < maxI; ++i) {
+			for (int j = Math.max(0,actorY-drawDistance); j < maxJ; j++) {
+				//System.out.print("(" + i + "," + j + ")");
+								
 				if (tiles[i][j] instanceof Drawable) {
 					Drawable d = tiles[i][j];
-					y = (j * FLOOR_TILE_HEIGHT / 2)
-							+ (i * FLOOR_TILE_HEIGHT / 2) + offsetY;
-					x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2) + offsetX;
+					
+					int[] coords = convertFromGameToScreen(i,j);
+					x = coords[0] + offsetX;
+					y = coords[1] + offsetY;
 
 					// System.out.println(String.format("At i:%d j:%d, x: %d, y: %d",
 					d.draw(x, y, g);
@@ -234,6 +249,7 @@ public class RenderPanel extends JPanel {
 					}
 				}
 			}
+			System.out.println();
 		}
 
 		if (editMode) {
@@ -258,6 +274,14 @@ public class RenderPanel extends JPanel {
 					* FLOOR_TILE_HEIGHT / 2)
 					+ (editor.x * FLOOR_TILE_HEIGHT / 2) + offsetX + 13, 9, 9);
 		}
+	}
+
+	private int[] convertFromGameToScreen(int i, int j) {	
+		int x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2);
+		int y = (j * FLOOR_TILE_HEIGHT / 2)
+				+ (i * FLOOR_TILE_HEIGHT / 2);
+		
+		return new int[] {x,y};
 	}
 
 	/*

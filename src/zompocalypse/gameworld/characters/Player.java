@@ -119,14 +119,10 @@ public final class Player extends MovingCharacter{
 		return this.imageName;
 	}
 
-	//draw
 	/**
 	 * Draw the player to the screen
 	 */
 	public void draw(int realx, int realy, Graphics g) {
-		//g.setColor(Color.MAGENTA);
-		//g.fillRect(realx, realy, 30, 30);
-
 		g.drawImage(currentImage.getImage(), realx, realy - 20, null);
 	}
 
