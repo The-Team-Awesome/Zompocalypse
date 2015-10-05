@@ -154,7 +154,7 @@ public class PlayerTests {
 				"character_gina_empty_e.png",
 				"character_gina_empty_w.png"
 		};
-		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob", filenames);
+		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob", filenames, game);
 
 		return p;
 	}

@@ -222,7 +222,7 @@ public class World implements Serializable {
 		// TODO: This should really get valid information for name,
 		// as well as select their x, y co-ordinates based on a valid portal
 		Player player = new Player(1, 1, Orientation.NORTH, ++id, 0,
-				"Bibbly Bob", filenames);
+				"Bibbly Bob", filenames, this);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 		return player.getUID();

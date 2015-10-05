@@ -19,6 +19,7 @@ import zompocalypse.ui.rendering.ImageUtils;
 public final class Player extends MovingCharacter{
 	
 	//private static final long serialVersionUID = -3257369460305701226L;
+	private World game;
 	
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
@@ -35,7 +36,7 @@ public final class Player extends MovingCharacter{
 	private String imageName;
 	private ImageIcon currentImage;
 
-	public Player(int xCoord, int yCoord, Orientation orientation, int uid, int score, String playerName, String [] filenames) {
+	public Player(int xCoord, int yCoord, Orientation orientation, int uid, int score, String playerName, String [] filenames, World game) {
 		super(xCoord, yCoord, orientation);
 		this.score = score;
 		this.uid = uid;
@@ -43,6 +44,8 @@ public final class Player extends MovingCharacter{
 		this.health = PLAYER_HEALTH;
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
+		
+		this.game = game;
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
