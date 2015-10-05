@@ -203,6 +203,9 @@ public class MainFrame extends JFrame {
 		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
 			singlePlayer();
 			return true;
+		} else if(command.equals(UICommand.BACKPACK.getValue())) {
+			showBackpack();
+			return true;
 		}
 		return false;
 	}
@@ -255,6 +258,11 @@ public class MainFrame extends JFrame {
 		if(listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
+	}
+
+	private void showBackpack() {
+		InventoryPanel inventory = new InventoryPanel(action, game, 0);
+		inventory.showInputDialog("test");
 	}
 
 	/**

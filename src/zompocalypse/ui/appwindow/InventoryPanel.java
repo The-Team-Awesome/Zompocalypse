@@ -2,11 +2,12 @@ package zompocalypse.ui.appwindow;
 
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import zompocalypse.gameworld.world.World;
 
-public class InventoryPanel extends JPanel {
+public class InventoryPanel extends JOptionPane {
 	private ActionListener action;
 	private World game;
 	private int id;
