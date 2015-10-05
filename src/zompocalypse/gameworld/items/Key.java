@@ -6,6 +6,7 @@ import java.util.Map;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 
 /**
@@ -47,7 +48,7 @@ public class Key implements Item{
 	}
 
 	@Override
-	public void draw(int x, int y, Graphics g) {
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		g.drawImage(currentImage, x, y-18, null);
 
 	}

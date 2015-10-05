@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
@@ -39,8 +40,10 @@ public class Wall implements GameObject {
 	}
 
 	@Override
-	public void draw(int x, int y, Graphics g) {
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		//System.out.println("drew current image" + currentImage.toString());
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
 		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}
 
