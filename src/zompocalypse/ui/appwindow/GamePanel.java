@@ -62,20 +62,21 @@ public class GamePanel extends JPanel {
 	private static final Image CLOCKWISE = Loader.LoadIcon("turnLeft.png");
 	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnRight.png");
 
-
-	private World game;
-
 	/**
 	 * This will be the listener for all action events which are triggered,
 	 * such as button clicks or field entries. For example, when creating a button,
 	 * it should be added using button.addActionListener(action);
 	 */
 	private ActionListener action;
+	private World game;
+	private int id;
+
 
 	public GamePanel(int id, World game, ActionListener action) {
 		this.setSize(1000, 1000);
 		this.game = game;
 		this.action = action;
+		this.id = id;
 
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
