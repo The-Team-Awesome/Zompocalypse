@@ -1,6 +1,7 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.*;
+import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
 
@@ -148,6 +149,33 @@ public final class Player extends MovingCharacter{
 				+ ", score=" + score + ", health=" + health + ", speed="
 				+ speed + ", strength=" + strength + ", filename=" + filenames
 				+ "]";
+	}
+	
+	public PriorityQueue<GameObject> objectsHere(){
+		int myX = getX();
+		int myY = getY();
+		World game = getWorld();
+		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+		
+		return worldObs[myX][myY];
+	}
+	
+	public PriorityQueue<GameObject> objectsInfront(){
+		int frontX = getX();
+		int frontY = getY();
+		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+		
+		if(orientation == Orientation.NORTH && frontY > 0){
+			return worldObs[frontX][frontY-1];
+		} else if (orientation == Orientation.EAST && frontX < game.width()-1){
+			return worldObs[frontX+1][frontY];			
+		} else if (orientation == Orientation.SOUTH && frontY < game.height()-1){
+			return worldObs[frontX][frontY+1];			
+		} else if (orientation == Orientation.EAST && frontX > 0){
+			return worldObs[frontX-1][frontY];			
+		}
+		//if we are facing the edge of the world return an empty queue of objects
+		return new PriorityQueue<GameObject>();		
 	}
 
 	@Override

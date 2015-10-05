@@ -3,11 +3,13 @@ package zompocalypse.gameworld.items;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.world.World;
 
 /**
  * A key used to open a locked item such as a door or chest etc.
@@ -29,7 +31,7 @@ public class Key implements Item{
 
 	@Override
 	public void use(Player player){
-
+		
 	}
 
 	@Override
