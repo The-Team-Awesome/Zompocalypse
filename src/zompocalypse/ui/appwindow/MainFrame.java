@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
 	 * is where it will now be relevant, since we are essentially changing
 	 * the functionality over from Main to MainFrame
 	 */
-	private int numClients = 2;
+	private int numClients = 1;
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;
