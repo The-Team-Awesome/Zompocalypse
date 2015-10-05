@@ -138,7 +138,7 @@ public class RenderPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		//how many tiles across from the player should be displayed
+		// how many tiles across from the player should be displayed
 		int drawDistance = 10;
 		boolean editMode = game.getEditMode();
 		boolean showWalls = game.getShowWalls();
@@ -147,7 +147,6 @@ public class RenderPanel extends JPanel {
 		PriorityQueue<GameObject>[][] objects;
 
 		int actorX = 0, actorY = 0;
-
 
 		tiles = game.getMap();
 		objects = game.getObjects();
@@ -166,38 +165,63 @@ public class RenderPanel extends JPanel {
 		}
 
 		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
-		int[] playerCoords = convertFromGameToScreen(actorX,actorY);  //players coords
+		int[] playerCoords = convertFromGameToScreen(actorX, actorY); // players
+																		// coords
 
-		//convert these to the players coordinates
-		int offsetX = -playerCoords[0] + getWidth()/2;
-		int offsetY = -playerCoords[1] + getHeight()/2;
+		// convert these to the players coordinates
+		int offsetX = 0;
+		int offsetY = 0;
+		//
+		// offsetX -= getWidth()/2;;
+		// offsetY -= getHeight()/2;;
 
+		switch (currentOrientation) {
+		case NORTH:
+			offsetX = -playerCoords[0] + getWidth() / 2;
+			offsetY = -playerCoords[1] + getHeight() / 2;
+			break;
+		case EAST:
+			offsetX = -playerCoords[0] + getWidth();
+			offsetY = -playerCoords[1] + getHeight() / 4;
+			break;
+		case SOUTH:
+			offsetX = -playerCoords[0] + getWidth() / 2;
+			offsetY = -playerCoords[1];
+			break;
+		case WEST:
+			offsetX = -playerCoords[0];
+			offsetY = -playerCoords[1] + getHeight() / 4;
+			break;
+		}
 
-		//should be calculating the draw distance instead of using a constant
+		// should be calculating the draw distance instead of using a constant
 
-		//can't draw a square that is a negative number, or bigger than the window
-		int minI = Math.max(0,actorX-drawDistance);
-		int minJ = Math.max(0,actorY-drawDistance);
-		int maxI = Math.min(wd, actorX+drawDistance);
-		int maxJ = Math.min(ht, actorY+drawDistance);
+		// can't draw a square that is a negative number, or bigger than the
+		// window
+		int minI = Math.max(0, actorX - drawDistance);
+		int minJ = Math.max(0, actorY - drawDistance);
+		int maxI = Math.min(wd, actorX + drawDistance);
+		int maxJ = Math.min(ht, actorY + drawDistance);
 
 		int x;
 		int y;
-		/// trial
+		// / trial
 
-		Floor[][] tempFloor = getDrawAreaFloor(minI,maxI,minJ,maxJ,currentOrientation,tiles);
-		PriorityQueue<GameObject>[][] tempObjects = getDrawAreaObjects(minI,maxI,minJ,maxJ,currentOrientation,objects);
+		Floor[][] tempFloor = getDrawAreaFloor(minI, maxI, minJ, maxJ,
+				currentOrientation, tiles);
+		PriorityQueue<GameObject>[][] tempObjects = getDrawAreaObjects(minI,
+				maxI, minJ, maxJ, currentOrientation, objects);
 
-		//		//Initialise draw values  --WORKS
+		// //Initialise draw values --WORKS
 
-		//to draw everything its the height and width of the screen
+		// to draw everything its the height and width of the screen
 		for (int i = 0; i < tempFloor.length; ++i) {
 			for (int j = 0; j < tempFloor[0].length; j++) {
-				//System.out.print("(" + i + "," + j + ")");
+				// System.out.print("(" + i + "," + j + ")");
 				if (tiles[i][j] instanceof Drawable) {
 					Drawable d = tempFloor[i][j];
 
-					int[] coords = convertFromGameToScreen(i,j);
+					int[] coords = convertFromGameToScreen(i, j);
 					x = coords[0] + offsetX;
 					y = coords[1] + offsetY;
 
@@ -217,38 +241,36 @@ public class RenderPanel extends JPanel {
 
 		editOptions(offsetX, offsetY, editMode, g);
 
+		// / end trial
 
-		/// end trial
-
-
-		//		//Initialise draw values  --WORKS
+		// //Initialise draw values --WORKS
 
 		//
-		//		//to draw everything its the height and width of the screen
-		//		for (int i = minI; i < maxI; ++i) {
-		//			for (int j = minJ; j < maxJ; j++) {
-		//				//System.out.print("(" + i + "," + j + ")");
-		//				if (tiles[i][j] instanceof Drawable) {
-		//					Drawable d = tiles[i][j];
+		// //to draw everything its the height and width of the screen
+		// for (int i = minI; i < maxI; ++i) {
+		// for (int j = minJ; j < maxJ; j++) {
+		// //System.out.print("(" + i + "," + j + ")");
+		// if (tiles[i][j] instanceof Drawable) {
+		// Drawable d = tiles[i][j];
 		//
-		//					int[] coords = convertFromGameToScreen(i,j);
-		//					x = coords[0] + offsetX;
-		//					y = coords[1] + offsetY;
+		// int[] coords = convertFromGameToScreen(i,j);
+		// x = coords[0] + offsetX;
+		// y = coords[1] + offsetY;
 		//
-		//					d.draw(x, y, g);
+		// d.draw(x, y, g);
 		//
-		//					if (showWalls) {
-		//						for (Drawable dd : objects[i][j]) {
-		//							if (dd != null) {
-		//								dd.draw(x, y, g);
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//			//System.out.println();
-		//		}
-		//		editOptions(offsetX, offsetY, editMode, g);
+		// if (showWalls) {
+		// for (Drawable dd : objects[i][j]) {
+		// if (dd != null) {
+		// dd.draw(x, y, g);
+		// }
+		// }
+		// }
+		// }
+		// }
+		// //System.out.println();
+		// }
+		// editOptions(offsetX, offsetY, editMode, g);
 	}
 
 	private PriorityQueue[][] getDrawAreaObjects(int minI, int maxI, int minJ,
@@ -257,55 +279,64 @@ public class RenderPanel extends JPanel {
 
 		PriorityQueue<GameObject>[][] temp = objects;
 
-		switch(currentOrientation){
+		switch (currentOrientation) {
 		case NORTH:
-			break;//do nothing
+			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			break;// do nothing
 		case EAST:
-			temp = rotateObject90(minI, maxI, minJ,maxJ, objects);
+			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
 			break;
 		case SOUTH:
-			temp = rotateObject90(minI, maxI, minJ,maxJ, objects);
-			temp = rotateObject90(minI, maxI, minJ,maxJ, temp);
+			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1, temp);
 			break;
 		case WEST:
-			temp = rotateObject90(minI, maxI, minJ,maxJ, objects);
-			temp = rotateObject90(minI, maxI, minJ,maxJ, temp);
-			temp = rotateObject90(minI, maxI, minJ,maxJ, temp);
+			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1, temp);
 			break;
 		}
 
 		return temp;
 	}
 
-	private PriorityQueue[][] rotateObject90(int minI, int maxI, int minJ, int maxJ,
-			PriorityQueue<GameObject>[][] objects) {
-		PriorityQueue<GameObject>[][] temp = new PriorityQueue[maxI-minI+1][maxJ-minJ+1];
+	private PriorityQueue[][] rotateObject90(int minI, int maxI, int minJ,
+			int maxJ, PriorityQueue<GameObject>[][] objects) {
+		PriorityQueue<GameObject>[][] temp = new PriorityQueue[maxI - minI + 1][maxJ
+				- minJ + 1];
 		for (int i = minI; i <= maxI; ++i) {
 			for (int j = minJ; j <= maxJ; j++) {
-				temp[i-minI][j-minJ] = objects[maxJ-j][i];
+				temp[i - minI][j - minJ] = objects[maxJ - j][i];
 			}
 		}
 		return temp;
 	}
 
 	private Floor[][] getDrawAreaFloor(int minI, int maxI, int minJ, int maxJ,
-			Orientation currentOrientation, Floor[][]tiles) {
+			Orientation currentOrientation, Floor[][] tiles) {
 		Floor[][] temp = tiles;
 
-		switch(currentOrientation){
+		switch (currentOrientation) {
 		case NORTH:
-			break;//do nothing
+			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			break;// do nothing
 		case EAST:
-			temp = rotateFloor90(minI, maxI, minJ,maxJ, tiles);
+			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
 			break;
 		case SOUTH:
-			temp = rotateFloor90(minI, maxI, minJ,maxJ, tiles);
-			temp = rotateFloor90(minI, maxI, minJ,maxJ, temp);
+			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1, temp);
 			break;
 		case WEST:
-			temp = rotateFloor90(minI, maxI, minJ,maxJ, tiles);
-			temp = rotateFloor90(minI, maxI, minJ,maxJ, temp);
-			temp = rotateFloor90(minI, maxI, minJ,maxJ, temp);
+			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1, temp);
+			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1, temp);
 			break;
 		}
 		return temp;
@@ -313,10 +344,12 @@ public class RenderPanel extends JPanel {
 
 	private Floor[][] rotateFloor90(int minI, int maxI, int minJ, int maxJ,
 			Floor[][] tiles) {
-		Floor [][] temp = new Floor[maxI-minI+1][maxJ-minJ+1];
+		Floor[][] temp = new Floor[maxI - minI + 1][maxJ - minJ + 1];
 		for (int i = minI; i <= maxI; ++i) {
 			for (int j = minJ; j <= maxJ; j++) {
-				temp[i-minI][j-minJ] = tiles[maxJ-j][i];
+				System.out.println((i - minI) + ", " + (j - minJ) + ", " + temp.length + ", " + temp[0].length);
+				temp[i - minI][j - minJ]
+						= tiles[maxJ - j][i];
 			}
 		}
 
@@ -366,10 +399,9 @@ public class RenderPanel extends JPanel {
 	private int[] convertFromGameToScreen(int i, int j) {
 		int x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2);
 
-		int y = (j * FLOOR_TILE_HEIGHT / 2)
-				+ (i * FLOOR_TILE_HEIGHT / 2);
+		int y = (j * FLOOR_TILE_HEIGHT / 2) + (i * FLOOR_TILE_HEIGHT / 2);
 
-		return new int[] {x,y};
+		return new int[] { x, y };
 	}
 
 	/**
