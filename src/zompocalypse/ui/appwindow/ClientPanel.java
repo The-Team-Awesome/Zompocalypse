@@ -26,7 +26,7 @@ import zompocalypse.gameworld.world.World;
  * @author Danielle Emygdio
  *
  */
-public class InsertServerPanel extends JPanel {
+public class ClientPanel extends JPanel {
 	private JTextField txtServerIp;
 	private JButton btnEnter;
 	private JLabel lblInformation;
@@ -39,7 +39,7 @@ public class InsertServerPanel extends JPanel {
             "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
             "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
 
-	public InsertServerPanel(ActionListener action) {
+	public ClientPanel(ActionListener action) {
 		super();
 		this.action = action;
 

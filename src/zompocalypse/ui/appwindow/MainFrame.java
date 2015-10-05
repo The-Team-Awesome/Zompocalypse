@@ -35,7 +35,9 @@ public class MainFrame extends JFrame {
 	private CardLayout layout;
 	private GamePanel gameCard;
 	private StartPanel startCard;
-	private InsertServerPanel insertServer;
+	private MultiplayerPanel multiplayerCard;
+	private ClientPanel clientCard;
+	private ServerPanel serverCard;
 	private JPanel cards;
 	//private SinglePlayer player;
 	private World game;
@@ -53,7 +55,7 @@ public class MainFrame extends JFrame {
 	 * the functionality over from Main to MainFrame
 	 */
 	private boolean server = false;
-	private int numClients = 0;
+	private int numClients = 1;
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;
@@ -72,10 +74,14 @@ public class MainFrame extends JFrame {
 
 		// start menu and server menu
 		startCard = new StartPanel(action);
-		insertServer = new InsertServerPanel(action);
+		multiplayerCard = new MultiplayerPanel(action);
+		clientCard = new ClientPanel(action);
+		serverCard = new ServerPanel(port, numClients, gameClock, serverClock);
 
 		cards.add(startCard, "2");
-		cards.add(insertServer, "3");
+		cards.add(multiplayerCard, "3");
+		cards.add(clientCard, "4");
+		cards.add(serverCard, "5");
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
@@ -114,10 +120,10 @@ public class MainFrame extends JFrame {
 		// adding GameScreen to content
 		gameCard = new GamePanel(id, game, action);
 		startCard = new StartPanel(action);
-		insertServer = new InsertServerPanel(action);
+		clientCard = new ClientPanel(action);
 		cards.add(gameCard, "1");
 		cards.add(startCard, "2");
-		cards.add(insertServer, "3");
+		cards.add(clientCard, "3");
 
 		// setting GameScreen to be the first thing to show up
 		layout.show(cards, "2");
@@ -204,7 +210,13 @@ public class MainFrame extends JFrame {
 			singlePlayer();
 			return true;
 		} else if(command.equals(UICommand.MULTIPLAYER.getValue())) {
-			showInsertServer();
+			showMultiplayer();
+			return true;
+		} else if(command.equals(UICommand.SERVER.getValue())) {
+			startServer();
+			return true;
+		} else if(command.equals(UICommand.CLIENT.getValue())) {
+			showClient();
 			return true;
 		} else if(command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
@@ -217,15 +229,44 @@ public class MainFrame extends JFrame {
 		return false;
 	}
 
-	private void showInsertServer() {
+	/**
+	 * This method shows the selection screen for a networked game.
+	 */
+	private void showMultiplayer() {
 		layout.show(cards, "3");
 	}
 	
 	/**
-	 * Gets the entered url, creates a Client and connects it to the server at that url
+	 * This method shows the Client connection screen for a networked game.
+	 */
+	private void showClient() {
+		layout.show(cards, "4");
+	}
+	
+	/**
+	 * This method shows the Server screen for a networked game and starts that server running.
+	 */
+	private void startServer() {
+		
+		if(game == null) {
+			try {
+				game = Parser.ParseMap(Loader.mapFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		layout.show(cards, "5");
+		
+		serverCard.runServer(game);
+	}
+	
+	/**
+	 * This gets the entered url, creates a Client and connects it to the server at that url.
+	 * It then starts the Clients game running!
 	 */
 	private void multiPlayer() {
-		String ip = insertServer.getIp();
+		String ip = clientCard.getIp();
 		
 		try {
 			Socket socket = new Socket(ip, port);

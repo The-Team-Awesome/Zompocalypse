@@ -55,6 +55,11 @@ public class Client extends GameListenerThread {
 		return game;
 	}
 	
+	/**
+	 * This method is required to set up the Client without running it initially.
+	 * It populates the required fields with information from the server so
+	 * that the Clients frame can be updated with that information too.
+	 */
 	public void setup() {
 		try {
 			input = new DataInputStream(socket.getInputStream());
@@ -81,7 +86,6 @@ public class Client extends GameListenerThread {
 				int change = (nextTime - currentTime);
 				
 				if(change > gameClock) {
-					//System.out.println(change);
 					// Make sure the frame is in focus, so key presses are processed
 					frame.requestFocus();
 					

@@ -19,6 +19,8 @@ public enum UICommand {
 	BACKPACK("Backpack"),
 	SINGLEPLAYER("SinglePlayer"),
 	MULTIPLAYER("Multiplayer"),
+	SERVER("Server"),
+	CLIENT("Client"),
 	LOADGAME("LoadGame"),
 	ENTERIP("EnterIP"),
 	OPTIONS("Options");
