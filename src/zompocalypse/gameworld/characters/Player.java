@@ -17,6 +17,9 @@ import zompocalypse.ui.rendering.ImageUtils;
  * @author Kieran Mckay, 300276166
  */
 public final class Player extends MovingCharacter{
+	
+	//private static final long serialVersionUID = -3257369460305701226L;
+	
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;

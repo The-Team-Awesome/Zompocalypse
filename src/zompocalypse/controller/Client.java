@@ -38,24 +38,42 @@ public class Client extends GameListenerThread {
 
 	private DataInputStream input;
 	private DataOutputStream output;
+	private ObjectInputStream objectInput;
 
-	public Client(Socket socket, int gameClock) {
+	public Client(Socket socket, int gameClock, MainFrame frame) {
 		this.socket = socket;
 		this.gameClock = gameClock;
+		this.frame = frame;
+	}
+	
+	public int id() {
+		return id;
+	}
+	
+	public World game() {
+		
+		return game;
+	}
+	
+	public void setup() {
+		try {
+			input = new DataInputStream(socket.getInputStream());
+			output = new DataOutputStream(socket.getOutputStream());
+	
+			id = input.readInt();
+	
+			objectInput = new ObjectInputStream(input);
+			game = (World) objectInput.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Problem connect to Server, closing down Client");
+			System.exit(-1);
+		}
 	}
 
 	@Override
 	public void run() {
 		try {
-			input = new DataInputStream(socket.getInputStream());
-			output = new DataOutputStream(socket.getOutputStream());
 			boolean running = true;
-
-			id = input.readInt();
-
-			ObjectInputStream objIn = new ObjectInputStream(input);
-			game = (World) objIn.readObject();
-			frame = new MainFrame(id, game, this);
 			currentTime = (int) System.currentTimeMillis();
 
 			while(running) {
@@ -63,20 +81,21 @@ public class Client extends GameListenerThread {
 				int change = (nextTime - currentTime);
 				
 				if(change > gameClock) {
-					System.out.println(change);
+					//System.out.println(change);
 					// Make sure the frame is in focus, so key presses are processed
 					frame.requestFocus();
 					
 					// Read in the new world and update the frame and render panel with it
-					game = (World) objIn.readObject();
+					game = (World) objectInput.readObject();
 					frame.updateGame(game);
 	
 					frame.repaint();
+					
 					currentTime = (int) System.currentTimeMillis();
 				}
 			}
 
-			objIn.close();
+			objectInput.close();
 			socket.close();
 
 		} catch (IOException | ClassNotFoundException e) {

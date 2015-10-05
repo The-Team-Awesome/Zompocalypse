@@ -119,6 +119,10 @@ public class InsertServerPanel extends JPanel {
 		constraints.gridy = positionY++;
 		this.add(btnEnter, constraints);
 	}
+	
+	public String getIp() {
+		return txtServerIp.getText();
+	}
 
 	/**
 	 * Verifies the in put string matches IPv4 pattern.

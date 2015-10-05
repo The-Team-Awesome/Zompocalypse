@@ -347,7 +347,7 @@ public class RenderPanel extends JPanel {
 		Floor[][] temp = new Floor[maxI - minI + 1][maxJ - minJ + 1];
 		for (int i = minI; i <= maxI; ++i) {
 			for (int j = minJ; j <= maxJ; j++) {
-				System.out.println((i - minI) + ", " + (j - minJ) + ", " + temp.length + ", " + temp[0].length);
+				//System.out.println((i - minI) + ", " + (j - minJ) + ", " + temp.length + ", " + temp[0].length);
 				temp[i - minI][j - minJ]
 						= tiles[maxJ - j][i];
 			}

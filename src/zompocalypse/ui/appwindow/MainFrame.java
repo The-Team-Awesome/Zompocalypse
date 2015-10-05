@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.EventListener;
 
 import javax.swing.JFileChooser;
@@ -15,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
@@ -52,7 +54,6 @@ public class MainFrame extends JFrame {
 	 */
 	private boolean server = false;
 	private int numClients = 0;
-	private String url = null;
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;
@@ -85,7 +86,6 @@ public class MainFrame extends JFrame {
 		customizeWindow();
 
 		setLocationRelativeTo(null); // center the screen
-
 	}
 
 	public MainFrame(int id, World game, EventListener listener) {
@@ -203,11 +203,51 @@ public class MainFrame extends JFrame {
 		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
 			singlePlayer();
 			return true;
+		} else if(command.equals(UICommand.MULTIPLAYER.getValue())) {
+			showInsertServer();
+			return true;
+		} else if(command.equals(UICommand.ENTERIP.getValue())) {
+			multiPlayer();
+			return true;
 		} else if(command.equals(UICommand.BACKPACK.getValue())) {
 			showBackpack();
 			return true;
 		}
+		
 		return false;
+	}
+
+	private void showInsertServer() {
+		layout.show(cards, "3");
+	}
+	
+	/**
+	 * Gets the entered url, creates a Client and connects it to the server at that url
+	 */
+	private void multiPlayer() {
+		String ip = insertServer.getIp();
+		
+		try {
+			Socket socket = new Socket(ip, port);
+			System.out.println("Client successfully connected to URL: " + ip + ", port: " + port);
+			
+			Client client = new Client(socket, clientClock, this);
+			
+			client.setup();
+			updateListeners(client);
+			
+			gameCard = new GamePanel(client.id(), client.game(), client);
+
+			cards.add(gameCard, "1");
+
+			layout.show(cards, "1");
+			
+			client.start();
+			
+		} catch (IOException e) {
+			System.out.println("I/O error: " + e.getMessage());
+			System.exit(1);
+		}
 	}
 
 	/**
@@ -243,6 +283,13 @@ public class MainFrame extends JFrame {
 		clock.start();
 	}
 
+	/**
+	 * This method updates the current listeners of the game with the provided
+	 * EventListener. This allows a simple listener to be used initially, but a
+	 * more complicated one to be substituted in as needed.
+	 * 
+	 * @param listener
+	 */
 	private void updateListeners(EventListener listener) {
 		if(listener instanceof KeyListener) {
 			KeyListener key = (KeyListener) listener;
@@ -251,7 +298,6 @@ public class MainFrame extends JFrame {
 
 		if(listener instanceof MouseListener) {
 			MouseListener mouse = (MouseListener) listener;
-			System.out.println(mouse);
 			addMouseListener(mouse);
 		}
 

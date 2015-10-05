@@ -248,7 +248,6 @@ public class World implements Serializable {
 	 */
 	public synchronized boolean processCommand(int id, String key) {
 		System.out.println(id + ", " + key);
-		// System.out.println(objects);
 		Player player = (Player) idToActor.get(id);
 
 		// Remember that key is a String, so call .equals() instead of ==

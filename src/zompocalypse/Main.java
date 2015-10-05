@@ -33,7 +33,6 @@ public class Main {
 		String url = null;
 		int port = 32768;
 		int gameClock = 200;
-		int clientClock = 100;
 		int serverClock = 50;
 
 		// Run through the arguments, processing each type of command individually
@@ -64,14 +63,11 @@ public class Main {
 			if(server) {
 				World game = Parser.ParseMap(Loader.mapFile);
 				runServer(port, numClients, gameClock, serverClock, game);
-			} else if(url != null) {
-				runClient(url, port, clientClock);
 			} else {
 				start();
 			}
 		} catch(IOException e) {
 			System.out.println("I/O error: " + e.getMessage());
-
 			System.exit(1);
 		}
 	}
@@ -143,20 +139,6 @@ public class Main {
 			System.err.println("I/O error: " + e.getMessage());
 			System.exit(1);
 		}
-	}
-
-	/**
-	 * Creates a Client and connects it to the server at the given url.
-	 *
-	 * @param url - The url for the client to connect to
-	 * @param port - The port number for the application
-	 * @throws IOException
-	 */
-	// TODO: Move this stuff over to the MainFrame
-	private static void runClient(String url, int port, int gameClock) throws IOException {
-		Socket socket = new Socket(url, port);
-		System.out.println("Client successfully connected to URL: " + url + ", port: " + port);
-		new Client(socket, gameClock).run();
 	}
 
 	/**
