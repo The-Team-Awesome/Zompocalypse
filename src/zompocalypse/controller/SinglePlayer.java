@@ -19,13 +19,25 @@ import zompocalypse.ui.appwindow.UICommand;
  */
 public class SinglePlayer extends GameListener {
 
-	private final int id;
-	private final World game;
+	private int id;
+	private World game;
 	private MainFrame frame;
+
+	public SinglePlayer() {
+
+	}
 
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
+	}
+
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	public void setGame(World game) {
+		this.game = game;
 	}
 
 	public void setFrame(MainFrame frame) {
@@ -124,7 +136,7 @@ public class SinglePlayer extends GameListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		if (!game.processCommand(id, command)) {
+		if (game == null || !game.processCommand(id, command)) {
 			frame.processAction(id, command);
 		}
 

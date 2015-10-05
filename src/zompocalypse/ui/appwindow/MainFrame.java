@@ -1,17 +1,24 @@
 package zompocalypse.ui.appwindow;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.EventListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import zompocalypse.controller.Clock;
+import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
+import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.world.World;
 
 /**
@@ -28,6 +35,8 @@ public class MainFrame extends JFrame {
 	private StartPanel startCard;
 	private InsertServerPanel insertServer;
 	private JPanel cards;
+	//private SinglePlayer player;
+	private World game;
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -35,6 +44,49 @@ public class MainFrame extends JFrame {
 	 * it should be added using button.addActionListener(action);
 	 */
 	private ActionListener action;
+
+	/**
+	 * TODO: This info has just been copied over from the Main class. This
+	 * is where it will now be relevant, since we are essentially changing
+	 * the functionality over from Main to MainFrame
+	 */
+	private boolean server = false;
+	private int numClients = 0;
+	private String url = null;
+	private int port = 32768;
+	private int gameClock = 200;
+	private int clientClock = 100;
+	private int serverClock = 50;
+
+	public MainFrame(ActionListener listener) {
+		super("Zompocalypse");
+
+		if(listener instanceof ActionListener) {
+			action = (ActionListener) listener;
+		}
+
+		// creating default panel which uses cards
+		layout = new CardLayout();
+		cards = new JPanel(layout);
+
+		// start menu and server menu
+		startCard = new StartPanel(action);
+		insertServer = new InsertServerPanel(action);
+
+		cards.add(startCard, "2");
+		cards.add(insertServer, "3");
+
+		// setting Start menu to be the first thing to show up
+		layout.show(cards, "2");
+
+		// setting content as default content for this frame
+		setContentPane(cards);
+
+		customizeWindow();
+
+		setLocationRelativeTo(null); // center the screen
+
+	}
 
 	public MainFrame(int id, World game, EventListener listener) {
 		super("Zompocalypse");
@@ -61,32 +113,37 @@ public class MainFrame extends JFrame {
 
 		// adding GameScreen to content
 		gameCard = new GamePanel(id, game, action);
-		startCard = new StartPanel(id, game, action);
-		insertServer = new InsertServerPanel(id, game, action);
+		startCard = new StartPanel(action);
+		insertServer = new InsertServerPanel(action);
 		cards.add(gameCard, "1");
 		cards.add(startCard, "2");
 		cards.add(insertServer, "3");
 
 		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "1");
+		layout.show(cards, "2");
 
 		// setting content as default content for this frame
 
 		setContentPane(cards);
 
+		customizeWindow();
+
+		setLocationRelativeTo(null); // center the screen
+
+		// TODO: From Sam. This is not always called successfully...
+		//this.requestFocus();
+	}
+
+	private void customizeWindow() {
 		// window customization
 		Image img = Loader.LoadImage("zombie-icon.png");
 		setIconImage(img);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 1000);
+		setPreferredSize(new Dimension(1000, 800));
 		setResizable(false);
-		setLocationRelativeTo(null); // center the screen
 
 		pack();
 		setVisible(true);
-
-		// TODO: From Sam. This is not always called successfully...
-		//this.requestFocus();
 	}
 
 	/**
@@ -133,15 +190,99 @@ public class MainFrame extends JFrame {
 	 * @param command
 	 */
 	public synchronized boolean processAction(int id, String command) {
-		if(command == UICommand.ROTATEANTICLOCKWISE.getValue()
-				|| command == UICommand.ROTATECLOCKWISE.getValue()) {
+		if(command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())
+				|| command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(command);
 			return true;
-		} else if(command == UICommand.OPTIONS.getValue()) {
+		} else if(command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
+			return true;
+		} else if(command.equals(UICommand.LOADGAME.getValue())) {
+			loadGame();
+			return true;
+		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
+			singlePlayer();
+			return true;
+		} else if(command.equals(UICommand.BACKPACK.getValue())) {
+			showBackpack();
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * This method starts up a single player game. If a map has been loaded
+	 * in, it will use that, otherwise it will load the default map file.
+	 */
+	private void singlePlayer() {
+		if(game == null) {
+			try {
+				game = Parser.ParseMap(Loader.mapFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		int id = game.registerPlayer();
+
+		SinglePlayer player = new SinglePlayer(game, id);
+
+		player.setID(id);
+		player.setFrame(this);
+		player.setGame(game);
+		updateListeners(player);
+
+		gameCard = new GamePanel(id, game, player);
+
+		cards.add(gameCard, "1");
+
+		layout.show(cards, "1");
+
+		Clock clock = new Clock(this, game, gameClock);
+
+		clock.start();
+	}
+
+	private void updateListeners(EventListener listener) {
+		if(listener instanceof KeyListener) {
+			KeyListener key = (KeyListener) listener;
+			addKeyListener(key);
+		}
+
+		if(listener instanceof MouseListener) {
+			MouseListener mouse = (MouseListener) listener;
+			System.out.println(mouse);
+			addMouseListener(mouse);
+		}
+
+		if(listener instanceof ActionListener) {
+			action = (ActionListener) listener;
+		}
+	}
+
+	private void showBackpack() {
+		InventoryPanel inventory = new InventoryPanel(action, game, 0);
+		inventory.showInputDialog("test");
+	}
+
+	/**
+	 * This method gives the user a file chooser to pick an xml file to load
+	 * into the game, replacing whatever world existed there beforehand.
+	 * The player can destroy worlds with this method!
+	 */
+	private void loadGame() {
+		JFileChooser chooser = new JFileChooser();
+		int value = chooser.showOpenDialog(this);
+
+		if(value == JFileChooser.APPROVE_OPTION) {
+			String filename = chooser.getSelectedFile().getName();
+
+			try {
+				game = Parser.ParseMap(filename);
+			} catch (IOException e) {
+				System.out.println("Invalid game file! Try again");
+			}
+		}
 	}
 
 	private void saveGame() {

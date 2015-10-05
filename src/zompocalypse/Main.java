@@ -8,12 +8,14 @@ import java.net.Socket;
 
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
+import zompocalypse.controller.MenuListener;
 import zompocalypse.controller.Server;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
+import zompocalypse.ui.appwindow.StartFrame;
 
 /**
  * This is the entry point for playing the networked zompocalypse. It processes commands
@@ -65,8 +67,7 @@ public class Main {
 			} else if(url != null) {
 				runClient(url, port, clientClock);
 			} else {
-				World game = Parser.ParseMap(Loader.mapFile);
-				singlePlayerGame(gameClock, game);
+				start();
 			}
 		} catch(IOException e) {
 			System.out.println("I/O error: " + e.getMessage());
@@ -151,6 +152,7 @@ public class Main {
 	 * @param port - The port number for the application
 	 * @throws IOException
 	 */
+	// TODO: Move this stuff over to the MainFrame
 	private static void runClient(String url, int port, int gameClock) throws IOException {
 		Socket socket = new Socket(url, port);
 		System.out.println("Client successfully connected to URL: " + url + ", port: " + port);
@@ -164,24 +166,10 @@ public class Main {
 	 * @param gameClock
 	 * @param game
 	 */
-	private static void singlePlayerGame(int gameClock, World game) {
-
-		int id = game.registerPlayer();
-
-		SinglePlayer player = new SinglePlayer(game, id);
-		MainFrame frame = new MainFrame(id, game, player);
-		player.setFrame(frame);
-
-		Clock clock = new Clock(frame, game, gameClock);
-
-		clock.start();
-
-		// Make sure the frame is in focus, so key presses are processed
-		frame.requestFocus();
-
-		while(true) {
-			Thread.yield();
-		}
+	private static void start() {
+		MenuListener user = new MenuListener();
+		MainFrame frame = new MainFrame(user);
+		user.setFrame(frame);
 	}
 
 	/**

@@ -27,16 +27,12 @@ public class StartPanel extends JPanel {
 	private JButton newGameButton;
 
 	private ActionListener action;
-	private World game;
-	private int id;
 
 	private static final Image BACKGROUND = Loader.LoadImage("background02.jpg");
 
-	public StartPanel(int id, World game, ActionListener action) {
+	public StartPanel(ActionListener action) {
 		this.setSize(1000, 1000);
-		this.game = game;
 		this.action = action;
-		this.id = id;
 
 		arrangeComponents();
 	}
