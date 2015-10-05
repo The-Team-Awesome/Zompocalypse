@@ -131,8 +131,10 @@ public class Floor implements Drawable{
 		return y;
 	}
 
-	public void draw(int x, int y, Graphics g) {
-		//System.out.println("drawing floor");
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
+
 		g.drawImage(currentImage.getImage(), x, y, null);
 	}
 

@@ -37,7 +37,7 @@ public class StrategyZombie extends MovingCharacter {
 	}
 
 	@Override
-	public void draw(int x, int y, Graphics g) {
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		// TODO Auto-generated method stub
 
 	}

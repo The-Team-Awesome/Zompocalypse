@@ -21,6 +21,7 @@ public interface Drawable extends Serializable {
 	 * @param x - X coordinate to draw this item at
 	 * @param y - Y coordinate to draw this item at
 	 * @param g - Graphics object upon which to draw this item
+	 * @param worldOrientation
 	 */
-	public void draw(int x, int y, Graphics g);
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation);
 }

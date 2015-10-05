@@ -9,11 +9,15 @@ import zompocalypse.gameworld.Orientation;
 
 /**
  * Uses the Singleton design pattern.
+ * Loads in an image
  *
- * @author Pauline
+ * @author Pauline Kelly
  *
  */
 public class ImageUtils {
+
+	//private ClockwiseMap;
+	//private AnticlockWiseMap;
 
 	private static ImageUtils utils = new ImageUtils();
 
@@ -29,7 +33,7 @@ public class ImageUtils {
 	 *
 	 * [N]
 	 * [NS,EW]
-	 * [N,S,E,W]
+	 * [N,E,S,W]
 	 *
 	 * @param filenames
 	 */
@@ -73,7 +77,7 @@ public class ImageUtils {
 		case 2:
 			return images[0];
 		case 4:
-			return images[1];  //get the 2nd image
+			return images[2];  //get the 2nd image
 		default:
 			throw new IllegalStateException("Shouldn't get this far - SOUTH");
 		}
@@ -90,7 +94,7 @@ public class ImageUtils {
 		case 2:
 			return images[1];
 		case 4:
-			return images[2];  //get the 3rd image
+			return images[3];  //get the 3rd image
 		default:
 			throw new IllegalStateException("Shouldn't get this far - EAST");
 		}
@@ -107,7 +111,7 @@ public class ImageUtils {
 		case 2:
 			return images[1];
 		case 4:
-			return images[3];  //get the 4th image
+			return images[1];  //get the 4th image
 		default:
 			throw new IllegalStateException("Shouldn't get this far - WEST");
 		}

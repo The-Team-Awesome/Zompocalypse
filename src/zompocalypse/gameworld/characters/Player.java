@@ -102,9 +102,7 @@ public final class Player extends MovingCharacter{
 		if(!isDead()){
 			super.tick(game);
 
-			ImageUtils imu = ImageUtils.getImageUtilsObject();
-			currentImage = imu.getCurrentImageForOrientation(orientation, images);
-		}
+	}
 	}
 
 	/**
@@ -122,7 +120,10 @@ public final class Player extends MovingCharacter{
 	/**
 	 * Draw the player to the screen
 	 */
-	public void draw(int realx, int realy, Graphics g) {
+	public void draw(int realx, int realy, Graphics g, Orientation worldOrientation) {
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
+
 		g.drawImage(currentImage.getImage(), realx, realy - 20, null);
 	}
 

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.Map;
 
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Item;
 
@@ -88,7 +89,7 @@ public class Door implements Item{
 	}
 
 	@Override
-	public void draw(int x, int y, Graphics g) {
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		// TODO Auto-generated method stub
 
 	}

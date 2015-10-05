@@ -8,6 +8,7 @@ import java.util.Map;
 
 import zompocalypse.gameworld.Drawable;
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 
 /**
@@ -151,7 +152,7 @@ public class Container implements GameObject, Drawable{
 	}
 
 	@Override
-	public void draw(int x, int y, Graphics g) {
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		// TODO Auto-generated method stub
 
 	}
