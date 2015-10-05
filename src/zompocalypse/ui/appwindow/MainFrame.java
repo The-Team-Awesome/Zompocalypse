@@ -1,6 +1,7 @@
 package zompocalypse.ui.appwindow;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
@@ -33,7 +35,8 @@ public class MainFrame extends JFrame {
 	private StartPanel startCard;
 	private InsertServerPanel insertServer;
 	private JPanel cards;
-	private SinglePlayer player;
+	//private SinglePlayer player;
+	private World game;
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -42,22 +45,21 @@ public class MainFrame extends JFrame {
 	 */
 	private ActionListener action;
 
-	public MainFrame(SinglePlayer listener) {
+	/**
+	 * TODO: This info has just been copied over from the Main class. This
+	 * is where it will now be relevant, since we are essentially changing
+	 * the functionality over from Main to MainFrame
+	 */
+	private boolean server = false;
+	private int numClients = 0;
+	private String url = null;
+	private int port = 32768;
+	private int gameClock = 200;
+	private int clientClock = 100;
+	private int serverClock = 50;
+
+	public MainFrame(ActionListener listener) {
 		super("Zompocalypse");
-
-		player = listener;
-
-		// Set up the given EventListener to process Key, Mouse and Action events
-		if(listener instanceof KeyListener) {
-			KeyListener key = (KeyListener) listener;
-			addKeyListener(key);
-		}
-
-		if(listener instanceof MouseListener) {
-			MouseListener mouse = (MouseListener) listener;
-			System.out.println(mouse);
-			addMouseListener(mouse);
-		}
 
 		if(listener instanceof ActionListener) {
 			action = (ActionListener) listener;
@@ -67,32 +69,23 @@ public class MainFrame extends JFrame {
 		layout = new CardLayout();
 		cards = new JPanel(layout);
 
-		// adding GameScreen to content
-		//gameCard = null;
+		// start menu and server menu
 		startCard = new StartPanel(action);
 		insertServer = new InsertServerPanel(action);
 
-		//cards.add(gameCard, "1");
 		cards.add(startCard, "2");
 		cards.add(insertServer, "3");
 
-		// setting GameScreen to be the first thing to show up
+		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
 
 		// setting content as default content for this frame
-
 		setContentPane(cards);
 
-		// window customization
-		Image img = Loader.LoadImage("zombie-icon.png");
-		setIconImage(img);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 1000);
-		setResizable(false);
+		customizeWindow();
+
 		setLocationRelativeTo(null); // center the screen
 
-		pack();
-		setVisible(true);
 	}
 
 	public MainFrame(int id, World game, EventListener listener) {
@@ -133,19 +126,24 @@ public class MainFrame extends JFrame {
 
 		setContentPane(cards);
 
+		customizeWindow();
+
+		setLocationRelativeTo(null); // center the screen
+
+		// TODO: From Sam. This is not always called successfully...
+		//this.requestFocus();
+	}
+
+	private void customizeWindow() {
 		// window customization
 		Image img = Loader.LoadImage("zombie-icon.png");
 		setIconImage(img);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 1000);
+		setPreferredSize(new Dimension(1000, 800));
 		setResizable(false);
-		setLocationRelativeTo(null); // center the screen
 
 		pack();
 		setVisible(true);
-
-		// TODO: From Sam. This is not always called successfully...
-		//this.requestFocus();
 	}
 
 	/**
@@ -209,32 +207,54 @@ public class MainFrame extends JFrame {
 		return false;
 	}
 
+	/**
+	 * This method starts up a single player game. If a map has been loaded
+	 * in, it will use that, otherwise it will load the default map file.
+	 */
 	private void singlePlayer() {
-		// TODO: We want to register the player at this stage of the game,
-		// when they first begin play. Initialising the SinglePlayer object
-		// should wait until this stage as well!
-
-		if(gameCard == null) {
+		if(game == null) {
 			try {
-				World game = Parser.ParseMap(Loader.mapFile);
-
-				int id = game.registerPlayer();
-
-				SinglePlayer player = new SinglePlayer(game, id);
-				player.setFrame(this);
-
-				gameCard = new GamePanel(id, game, player);
-
+				game = Parser.ParseMap(Loader.mapFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
+		int id = game.registerPlayer();
+
+		SinglePlayer player = new SinglePlayer(game, id);
+
+		player.setID(id);
+		player.setFrame(this);
+		player.setGame(game);
+		updateListeners(player);
+
+		gameCard = new GamePanel(id, game, player);
 
 		cards.add(gameCard, "1");
 
-
 		layout.show(cards, "1");
+
+		Clock clock = new Clock(this, game, gameClock);
+
+		clock.start();
+	}
+
+	private void updateListeners(EventListener listener) {
+		if(listener instanceof KeyListener) {
+			KeyListener key = (KeyListener) listener;
+			addKeyListener(key);
+		}
+
+		if(listener instanceof MouseListener) {
+			MouseListener mouse = (MouseListener) listener;
+			System.out.println(mouse);
+			addMouseListener(mouse);
+		}
+
+		if(listener instanceof ActionListener) {
+			action = (ActionListener) listener;
+		}
 	}
 
 	/**
@@ -249,17 +269,8 @@ public class MainFrame extends JFrame {
 		if(value == JFileChooser.APPROVE_OPTION) {
 			String filename = chooser.getSelectedFile().getName();
 
-			//System.out.println(filename);
-
 			try {
-				World game = Parser.ParseMap(filename);
-
-				int id = game.registerPlayer();
-				player.setID(id);
-				player.setGame(game);
-				gameCard = new GamePanel(id, game, player);
-
-				updateGame(game);
+				game = Parser.ParseMap(filename);
 			} catch (IOException e) {
 				System.out.println("Invalid game file! Try again");
 			}
