@@ -59,6 +59,15 @@ public final class Player extends MovingCharacter{
 	public int getUID() {
 		return uid;
 	}
+	
+	/**
+	 * Returns a reference to this players game world
+	 * 
+	 * @return the World object this player is acting on
+	 */
+	public World getWorld(){
+		return game;
+	}
 
 	/**
 	 * Get this players score.
