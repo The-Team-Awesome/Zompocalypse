@@ -14,6 +14,7 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
+import zompocalypse.ui.appwindow.StartFrame;
 
 /**
  * This is the entry point for playing the networked zompocalypse. It processes commands
@@ -168,8 +169,10 @@ public class Main {
 
 		int id = game.registerPlayer();
 
-		SinglePlayer player = new SinglePlayer(game, id);
-		MainFrame frame = new MainFrame(id, game, player);
+		//SinglePlayer player = new SinglePlayer(game, id);
+		//MainFrame frame = new MainFrame(id, game, player);
+		SinglePlayer player = new SinglePlayer();
+		MainFrame frame = new MainFrame(player);
 		player.setFrame(frame);
 
 		Clock clock = new Clock(frame, game, gameClock);

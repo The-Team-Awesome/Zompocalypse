@@ -32,8 +32,6 @@ public class InsertServerPanel extends JPanel {
 	private JLabel lblInformation;
 
 	private ActionListener action;
-	private World game;
-	private int id;
 
 	// IPv4 pattern for JTextField
 	static final Pattern pat = Pattern.compile("\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
@@ -41,11 +39,9 @@ public class InsertServerPanel extends JPanel {
             "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
             "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
 
-	public InsertServerPanel(int id, World game, ActionListener action) {
+	public InsertServerPanel(ActionListener action) {
 		super();
 		this.action = action;
-		this.game = game;
-		this.id = id;
 
 		arrangeComponents();
 	}

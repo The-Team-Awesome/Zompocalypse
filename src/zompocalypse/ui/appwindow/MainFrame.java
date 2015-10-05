@@ -5,13 +5,18 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.EventListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
+import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.world.World;
 
 /**
@@ -28,6 +33,7 @@ public class MainFrame extends JFrame {
 	private StartPanel startCard;
 	private InsertServerPanel insertServer;
 	private JPanel cards;
+	private SinglePlayer player;
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -35,6 +41,59 @@ public class MainFrame extends JFrame {
 	 * it should be added using button.addActionListener(action);
 	 */
 	private ActionListener action;
+
+	public MainFrame(SinglePlayer listener) {
+		super("Zompocalypse");
+
+		player = listener;
+
+		// Set up the given EventListener to process Key, Mouse and Action events
+		if(listener instanceof KeyListener) {
+			KeyListener key = (KeyListener) listener;
+			addKeyListener(key);
+		}
+
+		if(listener instanceof MouseListener) {
+			MouseListener mouse = (MouseListener) listener;
+			System.out.println(mouse);
+			addMouseListener(mouse);
+		}
+
+		if(listener instanceof ActionListener) {
+			action = (ActionListener) listener;
+		}
+
+		// creating default panel which uses cards
+		layout = new CardLayout();
+		cards = new JPanel(layout);
+
+		// adding GameScreen to content
+		//gameCard = null;
+		startCard = new StartPanel(action);
+		insertServer = new InsertServerPanel(action);
+
+		//cards.add(gameCard, "1");
+		cards.add(startCard, "2");
+		cards.add(insertServer, "3");
+
+		// setting GameScreen to be the first thing to show up
+		layout.show(cards, "2");
+
+		// setting content as default content for this frame
+
+		setContentPane(cards);
+
+		// window customization
+		Image img = Loader.LoadImage("zombie-icon.png");
+		setIconImage(img);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(1000, 1000);
+		setResizable(false);
+		setLocationRelativeTo(null); // center the screen
+
+		pack();
+		setVisible(true);
+	}
 
 	public MainFrame(int id, World game, EventListener listener) {
 		super("Zompocalypse");
@@ -61,14 +120,14 @@ public class MainFrame extends JFrame {
 
 		// adding GameScreen to content
 		gameCard = new GamePanel(id, game, action);
-		startCard = new StartPanel(id, game, action);
-		insertServer = new InsertServerPanel(id, game, action);
+		startCard = new StartPanel(action);
+		insertServer = new InsertServerPanel(action);
 		cards.add(gameCard, "1");
 		cards.add(startCard, "2");
 		cards.add(insertServer, "3");
 
 		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "1");
+		layout.show(cards, "2");
 
 		// setting content as default content for this frame
 
@@ -133,15 +192,78 @@ public class MainFrame extends JFrame {
 	 * @param command
 	 */
 	public synchronized boolean processAction(int id, String command) {
-		if(command == UICommand.ROTATEANTICLOCKWISE.getValue()
-				|| command == UICommand.ROTATECLOCKWISE.getValue()) {
+		if(command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())
+				|| command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(command);
 			return true;
-		} else if(command == UICommand.OPTIONS.getValue()) {
+		} else if(command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
+			return true;
+		} else if(command.equals(UICommand.LOADGAME.getValue())) {
+			loadGame();
+			return true;
+		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
+			singlePlayer();
 			return true;
 		}
 		return false;
+	}
+
+	private void singlePlayer() {
+		// TODO: We want to register the player at this stage of the game,
+		// when they first begin play. Initialising the SinglePlayer object
+		// should wait until this stage as well!
+
+		if(gameCard == null) {
+			try {
+				World game = Parser.ParseMap(Loader.mapFile);
+
+				int id = game.registerPlayer();
+
+				SinglePlayer player = new SinglePlayer(game, id);
+				player.setFrame(this);
+
+				gameCard = new GamePanel(id, game, player);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+		cards.add(gameCard, "1");
+
+
+		layout.show(cards, "1");
+	}
+
+	/**
+	 * This method gives the user a file chooser to pick an xml file to load
+	 * into the game, replacing whatever world existed there beforehand.
+	 * The player can destroy worlds with this method!
+	 */
+	private void loadGame() {
+		JFileChooser chooser = new JFileChooser();
+		int value = chooser.showOpenDialog(this);
+
+		if(value == JFileChooser.APPROVE_OPTION) {
+			String filename = chooser.getSelectedFile().getName();
+
+			//System.out.println(filename);
+
+			try {
+				World game = Parser.ParseMap(filename);
+
+				int id = game.registerPlayer();
+				player.setID(id);
+				player.setGame(game);
+				gameCard = new GamePanel(id, game, player);
+
+				updateGame(game);
+			} catch (IOException e) {
+				System.out.println("Invalid game file! Try again");
+			}
+		}
 	}
 
 	private void saveGame() {
