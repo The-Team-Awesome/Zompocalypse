@@ -259,9 +259,6 @@ public class MainFrame extends JFrame {
 		layout.show(cards, "5");
 
 		serverCard.startServer(game);
-		//serverCard.requestFocus();
-
-		//serverCard.runServer();
 	}
 
 	/**

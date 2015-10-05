@@ -11,10 +11,25 @@ import java.net.URLConnection;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.ServerPanel;
 
+/**
+ * The RunningServer thread manages the running of a server with
+ * all the client connections associated with it. It talks to the
+ * ServerPanel GUI element to let the Server creator know about
+ * connections and interactions with the Server.
+ *
+ * @author Sam Costigan
+ */
 public class RunningServer extends Thread {
 
+	// The URL to fetch the servers public IP address from
+	private final String ipUrl = "http://curlmyip.com";
+
+	// The running server uses this GUI element to display information about itself
 	private ServerPanel panel;
+	// This game is shared with all server threads, which update their connected client
+	// threads with it when appropriate
 	private World game;
+
 	private int port;
 	private int numClients;
 	private int gameClock;
@@ -35,7 +50,6 @@ public class RunningServer extends Thread {
 
 	}
 
-
 	/**
 	 * This method gets the public IP address for a Server creator so that
 	 * they can pass that information on the Client connections.
@@ -43,31 +57,44 @@ public class RunningServer extends Thread {
 	 * @return
 	 */
 	public String getPublicIp() {
-
 		try {
-			URL getIp = new URL("http://curlmyip.com");
+			URL getIp = new URL(ipUrl);
 
 			URLConnection connection = getIp.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-			String ip = in.readLine(); //you get the IP as a String
+			String ip = in.readLine();
 
 			in.close();
 
 			return ip;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		return null;
 	}
 
+	/**
+	 * This method sets up the Server threads and the Socket server
+	 * to which all clients will be connecting to.
+	 *
+	 * @param game
+	 */
 	public void startServer(World game) {
 		this.game = game;
 
 		clock = new Clock(null, game, gameClock);
 
+		// TODO: the getPublicIp() method currently fails because it can't reach
+		// the url to get a public IP from. Not sure how to fix this, it seems
+		// like it is being blocked by a firewall. Will test at home!
+		String ip = getPublicIp();
+
+		if(ip != null) {
+			panel.updateContent("Server running on IP: " + ip);
+		}
 		panel.updateContent("Server listening on port " + port);
 		panel.updateContent("Server awaiting " + numClients + " clients");
 
@@ -84,7 +111,7 @@ public class RunningServer extends Thread {
 
 
 	/**
-	 * Starts up a game for multiple players. Includes starting the clock,
+	 * Starts running a game for multiple players. Includes starting the clock,
 	 * which runs the game loop and then yielding control to that clock.
 	 *
 	 * @param clock
@@ -138,7 +165,7 @@ public class RunningServer extends Thread {
 	}
 
 	/**
-	 * This checks the given Server connections to see if they are still alive
+	 * This checks the Server connections to see if they are still alive
 	 * returning a boolean for the connections state.
 	 *
 	 * @param connections

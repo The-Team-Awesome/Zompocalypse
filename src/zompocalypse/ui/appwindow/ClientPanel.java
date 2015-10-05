@@ -19,9 +19,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
-import zompocalypse.gameworld.world.World;
 /**
- * InsertServerPanel contains components to the server input screen.
+ * ClientPanel contains components to the server input screen.
  *
  * @author Danielle Emygdio
  *
@@ -119,7 +118,7 @@ public class ClientPanel extends JPanel {
 		constraints.gridy = positionY++;
 		this.add(btnEnter, constraints);
 	}
-	
+
 	public String getIp() {
 		return txtServerIp.getText();
 	}

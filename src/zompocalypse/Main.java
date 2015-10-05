@@ -1,21 +1,7 @@
 package zompocalypse;
 
-
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import zompocalypse.controller.Client;
-import zompocalypse.controller.Clock;
 import zompocalypse.controller.MenuListener;
-import zompocalypse.controller.Server;
-import zompocalypse.controller.SinglePlayer;
-import zompocalypse.datastorage.Loader;
-import zompocalypse.datastorage.Parser;
-import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
-import zompocalypse.ui.appwindow.StartFrame;
 
 /**
  * This is the entry point for playing the zompocalypse game.

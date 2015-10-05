@@ -1,8 +1,5 @@
 package zompocalypse.controller;
 
-import java.util.PriorityQueue;
-
-import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
 

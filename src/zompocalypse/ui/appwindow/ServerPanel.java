@@ -3,24 +3,20 @@ package zompocalypse.ui.appwindow;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URL;
-import java.net.URLConnection;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import zompocalypse.controller.Clock;
 import zompocalypse.controller.RunningServer;
-import zompocalypse.controller.Server;
 import zompocalypse.gameworld.world.World;
 
+/**
+ * The ServerPanel is what a user sees when they start a server running.
+ * It creates the server and starts it when appropriate, and relays information
+ * to the user from the server when it is received.
+ *
+ * @author Sam Costigan
+ */
 public class ServerPanel extends JPanel {
 
 	private JTextArea field;
@@ -54,7 +50,7 @@ public class ServerPanel extends JPanel {
 	}
 
 	public void updateContent(String text) {
-		content += "\n" + text;
+		content += text + "\n";
 		field.setText(content);
 	}
 
