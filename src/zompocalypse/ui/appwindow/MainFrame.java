@@ -22,6 +22,9 @@ import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
+import zompocalypse.ui.appwindow.multiplayer.MultiplayerPanel;
+import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
 
 /**
  * MainFrame is the main window of the application. It holds the other panels containing
@@ -54,8 +57,7 @@ public class MainFrame extends JFrame {
 	 * is where it will now be relevant, since we are essentially changing
 	 * the functionality over from Main to MainFrame
 	 */
-	private boolean server = false;
-	private int numClients = 1;
+	private int numClients = 2;
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;

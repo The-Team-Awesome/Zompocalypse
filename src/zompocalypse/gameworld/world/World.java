@@ -229,6 +229,20 @@ public class World implements Serializable {
 	}
 
 	/**
+	 * This method takes the id of a player and removes them from the game.
+	 *
+	 * @param id
+	 */
+	public synchronized void disconnectPlayer(int id) {
+
+		Player player = (Player) idToActor.get(id);
+
+		objects[player.getX()][player.getY()].remove(player);
+
+		idToActor.remove(id);
+	}
+
+	/**
 	 * This method takes an x and y co-ordinate for a click and does shit with
 	 * it.
 	 *

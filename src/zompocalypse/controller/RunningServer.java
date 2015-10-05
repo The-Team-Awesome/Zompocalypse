@@ -9,7 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import zompocalypse.gameworld.world.World;
-import zompocalypse.ui.appwindow.ServerPanel;
+import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
 
 /**
  * The RunningServer thread manages the running of a server with

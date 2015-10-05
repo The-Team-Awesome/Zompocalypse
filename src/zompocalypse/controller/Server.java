@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import zompocalypse.gameworld.world.World;
-import zompocalypse.ui.appwindow.ServerPanel;
+import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
 
 /**
  * This is the Server-side Thread which receives input from Clients via
@@ -102,7 +102,8 @@ public class Server extends Thread {
 			socket.close();
 
 		} catch (IOException e) {
-			System.out.println("Player " + id + " has disconnected");
+			panel.updateContent("Player " + id + " has disconnected");
+			game.disconnectPlayer(id);
 			// TODO: handle removal of Player from game
 		}
 

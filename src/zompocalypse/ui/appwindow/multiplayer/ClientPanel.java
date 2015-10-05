@@ -1,4 +1,4 @@
-package zompocalypse.ui.appwindow;
+package zompocalypse.ui.appwindow.multiplayer;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+
+import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * ClientPanel contains components to the server input screen.
