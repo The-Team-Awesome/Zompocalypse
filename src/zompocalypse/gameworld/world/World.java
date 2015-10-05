@@ -237,7 +237,7 @@ public class World implements Serializable {
 	 * @param y
 	 */
 	public synchronized boolean processMouseClick(int id, int x, int y) {
-		System.out.println(id + ", " + x + ":" + y);
+		//System.out.println(id + ", " + x + ":" + y);
 		return true;
 	}
 
@@ -247,7 +247,7 @@ public class World implements Serializable {
 	 * @param key
 	 */
 	public synchronized boolean processCommand(int id, String key) {
-		System.out.println(id + ", " + key);
+		//System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
 
 		// Remember that key is a String, so call .equals() instead of ==

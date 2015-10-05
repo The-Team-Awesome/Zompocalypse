@@ -225,7 +225,7 @@ public class MainFrame extends JFrame {
 			showBackpack();
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -235,19 +235,19 @@ public class MainFrame extends JFrame {
 	private void showMultiplayer() {
 		layout.show(cards, "3");
 	}
-	
+
 	/**
 	 * This method shows the Client connection screen for a networked game.
 	 */
 	private void showClient() {
 		layout.show(cards, "4");
 	}
-	
+
 	/**
 	 * This method shows the Server screen for a networked game and starts that server running.
 	 */
 	private void startServer() {
-		
+
 		if(game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);
@@ -255,36 +255,39 @@ public class MainFrame extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
+
 		layout.show(cards, "5");
-		
-		serverCard.runServer(game);
+
+		serverCard.startServer(game);
+		//serverCard.requestFocus();
+
+		//serverCard.runServer();
 	}
-	
+
 	/**
 	 * This gets the entered url, creates a Client and connects it to the server at that url.
 	 * It then starts the Clients game running!
 	 */
 	private void multiPlayer() {
 		String ip = clientCard.getIp();
-		
+
 		try {
 			Socket socket = new Socket(ip, port);
 			System.out.println("Client successfully connected to URL: " + ip + ", port: " + port);
-			
+
 			Client client = new Client(socket, clientClock, this);
-			
+
 			client.setup();
 			updateListeners(client);
-			
+
 			gameCard = new GamePanel(client.id(), client.game(), client);
 
 			cards.add(gameCard, "1");
 
 			layout.show(cards, "1");
-			
+
 			client.start();
-			
+
 		} catch (IOException e) {
 			System.out.println("I/O error: " + e.getMessage());
 			System.exit(1);
@@ -328,7 +331,7 @@ public class MainFrame extends JFrame {
 	 * This method updates the current listeners of the game with the provided
 	 * EventListener. This allows a simple listener to be used initially, but a
 	 * more complicated one to be substituted in as needed.
-	 * 
+	 *
 	 * @param listener
 	 */
 	private void updateListeners(EventListener listener) {

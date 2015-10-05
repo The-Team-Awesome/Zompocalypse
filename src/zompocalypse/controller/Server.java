@@ -4,14 +4,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.net.Socket;
 
-import zompocalypse.gameworld.GameObject;
-import zompocalypse.gameworld.world.Wall;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.ServerPanel;
 
 /**
  * This is the Server-side Thread which receives input from Clients via
@@ -27,9 +23,11 @@ public class Server extends Thread {
 	private final int id;
 	private final int networkClock;
 	private final World game;
+	private final ServerPanel panel;
 
-	public Server(World game, Socket socket, int id, int networkClock) {
+	public Server(World game, ServerPanel panel, Socket socket, int id, int networkClock) {
 		this.game = game;
+		this.panel = panel;
 		this.socket = socket;
 		this.id = id;
 		this.networkClock = networkClock;
@@ -56,6 +54,8 @@ public class Server extends Thread {
 								// In this case, a key was pressed
 								String key = readInputString(input);
 
+								panel.updateContent("Player " + id + " sent command " + key);
+
 								game.processCommand(id, key);
 
 								break;
@@ -64,6 +64,8 @@ public class Server extends Thread {
 								// mouse click somewhere on the screen
 								int x = input.readInt();
 								int y = input.readInt();
+
+								panel.updateContent("Player " + id + " sent pressed at x: " + x + ", y: " + y);
 
 								game.processMouseClick(id, x, y);
 
@@ -74,12 +76,14 @@ public class Server extends Thread {
 								// The command is given and will be passed on
 								String command = readInputString(input);
 
+								panel.updateContent("Player " + id + " sent command " + command);
+
 								game.processCommand(id, command);
 
 								break;
 						}
 					}
-					
+
 					// The objOut stream needs to be reset in order to send the correct data.
 					// By default, serialized objects are cached for the duration of the output
 					// stream. Resetting the streams means the correctly updated info is sent!
