@@ -184,4 +184,8 @@ public class Container implements Item, Lockable{
 		}
 		return false;
 	}
+	
+	public String examine(){
+		return "It apears to be some sort of container for holding items";
+	}
 }

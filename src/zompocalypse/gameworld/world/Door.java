@@ -108,4 +108,17 @@ public class Door implements Item, Lockable{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public String examine(){
+		if (locked){
+			return "A locked door. Maybe a key could open it";
+		} else if (!open){
+			return "A closed door that can be opened";
+		} else if (open){
+			return "An open door.";
+		} else {
+			//not currently reachable
+			return "A door of some sort";
+		}
+	}
 }

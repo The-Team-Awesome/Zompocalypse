@@ -85,4 +85,8 @@ public class Key implements Item{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public String examine(){
+		return "A key. Perhaps this could unlock something....";
+	}
 }

@@ -36,4 +36,9 @@ public interface Item extends GameObject {
 	 * @return an integer which is this items unique identifier
 	 */
 	public int getUniqueID();
+	
+	/**
+	 * Returns a String description of the item
+	 */
+	public String examine();
 }
