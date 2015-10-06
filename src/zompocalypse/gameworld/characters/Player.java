@@ -18,12 +18,12 @@ import zompocalypse.ui.rendering.ImageUtils;
  *
  * @author Kieran Mckay, 300276166
  */
-public final class Player extends MovingCharacter{
-	
-	//private static final long serialVersionUID = -3257369460305701226L;
+public final class Player extends MovingCharacter {
+
+	// private static final long serialVersionUID = -3257369460305701226L;
 	private World game;
 	private ArrayList<GameObject> inventory;
-	
+
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;
@@ -34,12 +34,13 @@ public final class Player extends MovingCharacter{
 	private int speed;
 	private int strength;
 
-	private String [] filenames;
+	private String[] filenames;
 	private ImageIcon[] images;
 	private String imageName;
 	private ImageIcon currentImage;
 
-	public Player(int xCoord, int yCoord, Orientation orientation, int uid, int score, String playerName, String [] filenames, World game) {
+	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
+			int score, String playerName, String[] filenames, World game) {
 		super(xCoord, yCoord, orientation);
 		this.score = score;
 		this.uid = uid;
@@ -47,7 +48,7 @@ public final class Player extends MovingCharacter{
 		this.health = PLAYER_HEALTH;
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
-		
+
 		this.game = game;
 		inventory = new ArrayList<GameObject>();
 
@@ -63,13 +64,13 @@ public final class Player extends MovingCharacter{
 	public int getUID() {
 		return uid;
 	}
-	
+
 	/**
 	 * Returns a reference to this players game world
-	 * 
+	 *
 	 * @return the World object this player is acting on
 	 */
-	public World getWorld(){
+	public World getWorld() {
 		return game;
 	}
 
@@ -118,14 +119,15 @@ public final class Player extends MovingCharacter{
 
 	@Override
 	public void tick(World game) {
-		if(!isDead()){
+		if (!isDead()) {
 			super.tick(game);
 
-	}
+		}
 	}
 
 	/**
-	 * Draw the player that is yours to the screen different so you know which one is you
+	 * Draw the player that is yours to the screen different so you know which
+	 * one is you
 	 */
 	public void drawOwn(Graphics g) {
 
@@ -139,9 +141,12 @@ public final class Player extends MovingCharacter{
 	/**
 	 * Draw the player to the screen
 	 */
-	public void draw(int realx, int realy, Graphics g, Orientation worldOrientation) {
+	public void draw(int realx, int realy, Graphics g,
+			Orientation worldOrientation) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
+		Orientation ord = Orientation.getCharacterOrientation(queued, worldOrientation);
+		currentImage = imu.getCurrentImageForOrientation(ord,
+				images);
 
 		g.drawImage(currentImage.getImage(), realx, realy - 20, null);
 	}
@@ -153,32 +158,34 @@ public final class Player extends MovingCharacter{
 				+ speed + ", strength=" + strength + ", filename=" + filenames
 				+ "]";
 	}
-	
-	public PriorityQueue<GameObject> getObjectsHere(){
+
+	public PriorityQueue<GameObject> getObjectsHere() {
 		int myX = getX();
 		int myY = getY();
 		World game = getWorld();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
-		
+
 		return worldObs[myX][myY];
 	}
-	
-	public PriorityQueue<GameObject> getObjectsInfront(){
+
+	public PriorityQueue<GameObject> getObjectsInfront() {
 		int frontX = getX();
 		int frontY = getY();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
-		
-		if(orientation == Orientation.NORTH && frontY > 0){
-			return worldObs[frontX][frontY-1];
-		} else if (orientation == Orientation.EAST && frontX < game.width()-1){
-			return worldObs[frontX+1][frontY];			
-		} else if (orientation == Orientation.SOUTH && frontY < game.height()-1){
-			return worldObs[frontX][frontY+1];			
-		} else if (orientation == Orientation.EAST && frontX > 0){
-			return worldObs[frontX-1][frontY];			
+
+		if (orientation == Orientation.NORTH && frontY > 0) {
+			return worldObs[frontX][frontY - 1];
+		} else if (orientation == Orientation.EAST && frontX < game.width() - 1) {
+			return worldObs[frontX + 1][frontY];
+		} else if (orientation == Orientation.SOUTH
+				&& frontY < game.height() - 1) {
+			return worldObs[frontX][frontY + 1];
+		} else if (orientation == Orientation.EAST && frontX > 0) {
+			return worldObs[frontX - 1][frontY];
 		}
-		//if we are facing the edge of the world return an empty queue of objects
-		return new PriorityQueue<GameObject>();		
+		// if we are facing the edge of the world return an empty queue of
+		// objects
+		return new PriorityQueue<GameObject>();
 	}
 
 	@Override
@@ -186,16 +193,16 @@ public final class Player extends MovingCharacter{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	public boolean pickUp(GameObject item){
+
+	public boolean pickUp(GameObject item) {
 		return inventory.add(item);
 	}
-	
-	//TODO add drop item
+
+	// TODO add drop item
 
 	/**
 	 * This players inventory items
-	 * 
+	 *
 	 * @return An Arraylist containing this players inventory
 	 */
 	public ArrayList<GameObject> getInventory() {

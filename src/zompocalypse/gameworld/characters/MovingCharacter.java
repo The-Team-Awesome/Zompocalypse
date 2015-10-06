@@ -25,6 +25,7 @@ public abstract class MovingCharacter extends Actor {
 		super(xCoord,yCoord);
 		this.orientation = direction;
 		this.moving = false;
+		queued = Orientation.NORTH;
 	}
 
 	/**

@@ -216,7 +216,7 @@ public class World implements Serializable {
 		// map of actors here.
 
 		String[] filenames = { "character_gina_empty_n.png",
-				"character_gina_empty_s.png", "character_gina_empty_e.png",
+				"character_gina_empty_e.png", "character_gina_empty_s.png",
 				"character_gina_empty_w.png" };
 
 		// TODO: This should really get valid information for name,

@@ -492,7 +492,6 @@ public class RenderPanel extends JPanel {
 			}
 			g.setColor(Color.BLUE);
 			g.drawOval(428, 313, 9, 9);
-
 		}
 	}
 
