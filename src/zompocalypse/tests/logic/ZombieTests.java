@@ -22,7 +22,7 @@ public class ZombieTests {
 			 * TODO: Ideally, we should create a Test map file that can be loaded in here. That
 			 * file would have an instance of each object to test within the smallest possible space.
 			 */
-			game = Parser.ParseMap(Loader.mapFile);
+			game = Parser.ParseMap(Loader.testFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,13 +45,16 @@ public class ZombieTests {
 
 	@Test public void zombieValidMove2() {
 		StrategyZombie z = new StrategyZombie(4, 4, new HomerStrategy());
-		// This sequence should leave the zombie at 3, 3
+		// This sequence should leave the zombie at 3, 5
+
+		//cannot move here because wall 
 		z.moveNorth();
 		z.tick(game);
 
 		z.moveWest();
 		z.tick(game);
 
+		//cannot move here because wall 
 		z.moveNorth();
 		z.tick(game);
 
@@ -59,7 +62,7 @@ public class ZombieTests {
 		z.tick(game);
 
 		assertTrue(z.getX() == 3);
-		assertTrue(z.getY() == 3);
+		assertTrue(z.getY() == 5);
 	}
 
 	/**

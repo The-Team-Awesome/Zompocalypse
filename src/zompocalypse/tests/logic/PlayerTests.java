@@ -24,7 +24,7 @@ public class PlayerTests {
 			 * TODO: Ideally, we should create a Test map file that can be loaded in here. That
 			 * file would have an instance of each object to test within the smallest possible space.
 			 */
-			game = Parser.ParseMap(Loader.mapFile);
+			game = Parser.ParseMap(Loader.testFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
