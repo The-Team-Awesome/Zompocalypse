@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.EventListener;
@@ -23,6 +22,7 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
+import zompocalypse.ui.appwindow.multiplayer.CustomServerPanel;
 import zompocalypse.ui.appwindow.multiplayer.MultiplayerPanel;
 import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
 
@@ -41,8 +41,8 @@ public class MainFrame extends JFrame {
 	private MultiplayerPanel multiplayerCard;
 	private ClientPanel clientCard;
 	private ServerPanel serverCard;
+	private CustomServerPanel customServerCard;
 	private JPanel cards;
-	//private SinglePlayer player;
 	private World game;
 
 	/**
@@ -63,7 +63,7 @@ public class MainFrame extends JFrame {
 	private int clientClock = 100;
 	private int serverClock = 50;
 
-	public MainFrame(ActionListener listener) {
+	public MainFrame(EventListener listener) {
 		super("Zompocalypse");
 
 		if(listener instanceof ActionListener) {
@@ -78,12 +78,14 @@ public class MainFrame extends JFrame {
 		startCard = new StartPanel(action);
 		multiplayerCard = new MultiplayerPanel(action);
 		clientCard = new ClientPanel(action);
-		serverCard = new ServerPanel(port, numClients, gameClock, serverClock);
+		serverCard = new ServerPanel(port, gameClock, serverClock);
+		customServerCard = new CustomServerPanel(action);
 
 		cards.add(startCard, "2");
 		cards.add(multiplayerCard, "3");
 		cards.add(clientCard, "4");
-		cards.add(serverCard, "5");
+		cards.add(customServerCard, "5");
+		cards.add(serverCard, "6");
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
@@ -215,8 +217,10 @@ public class MainFrame extends JFrame {
 			showMultiplayer();
 			return true;
 		} else if(command.equals(UICommand.SERVER.getValue())) {
-			startServer();
+			customiseServer();
 			return true;
+		} else if(command.equals(UICommand.STARTSERVER.getValue())) {
+			startServer();
 		} else if(command.equals(UICommand.CLIENT.getValue())) {
 			showClient();
 			return true;
@@ -244,12 +248,19 @@ public class MainFrame extends JFrame {
 	private void showClient() {
 		layout.show(cards, "4");
 	}
+	
+	private void customiseServer() {
+		layout.show(cards, "5");
+	}
 
 	/**
 	 * This method shows the Server screen for a networked game and starts that server running.
 	 */
 	private void startServer() {
-
+		
+		int numClients = customServerCard.getNumClients();
+		serverCard.setNumClients(numClients);
+		
 		if(game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);
@@ -258,7 +269,7 @@ public class MainFrame extends JFrame {
 			}
 		}
 
-		layout.show(cards, "5");
+		layout.show(cards, "6");
 
 		serverCard.startServer(game);
 	}
