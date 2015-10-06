@@ -278,7 +278,7 @@ public class RenderPanel extends JPanel {
 			}
 		}
 
-		editOptions(offsetX, offsetY, editMode, g);
+		editOptions(offsetX, offsetY + drawDistance * FLOOR_TILE_HEIGHT, editMode, g);
 
 		// / end trial
 
@@ -481,12 +481,13 @@ public class RenderPanel extends JPanel {
 			Point editor = game.getEditor();
 			g.setColor(Color.GREEN);
 			for (Point p : playerSpawnPoints) {
-				int[] q = convertFromGameToScreen(p.x, p.y);
+				int[] q = convertFromGameToScreen(p.x - editor.x, p.y - editor.y);
 				g.drawOval(q[0] + offsetX + 30, q[1] + offsetY + 15, 5, 5);
 			}
 			g.setColor(Color.RED);
 			for (Point p : zombieSpawnPoints) {
-				int[] q = convertFromGameToScreen(p.x, p.y);
+				int[] q = convertFromGameToScreen(p.x - editor.x, p.y
+						- editor.y);
 				g.drawOval(q[0] + offsetX + 29, q[1] + offsetY + 14, 7, 7);
 			}
 			g.setColor(Color.BLUE);
