@@ -6,22 +6,13 @@ While you defend the town and traverse the maze you will find treasures and item
 
 ## Running the game
 
-To play, download the .jar file, navigate to the directory where you put the file and type into the command line:
+If you are running on Windows, you can simply double click the downloaded .jar file and the game will start up. Otherwise, navigate to the directory where you put the file and type into the command line:
 
-`java -jar zompocalypse.jar <commands>`
+`java -jar zompocalypse.jar`
 
-Commands:
-* -help/-h			Prints out a list of commands and their function
-* -server/-s <n>		Start a server, expecting n clients to connect
-* -client/-c <url>	Create a client connection to the server at url
+To jump right into the game, just click the "Single Player" button and away you go! If you want to start up a Multiplayer game, one player will have to start running a Server. This is as easy as clicking on the "Multiplayer" button, entering in the details and then clicking "Start Server". Once you have started the Server, you should share your public IP address with all players who you want to join. You can find your public IP address here: http://checkip.amazonaws.com/
 
-For example, to start up a locally running client/server connection, in one window you would type:
-
-`java -jar zompocalypse.jar -server 1`
-
-You would then type in another window:
-
-`java -jar zompocalypse.jar -client 127.0.0.1`
+Once the players have your IP address, they can connect to the game by clicking "Multiplayer", going "Connect to Server" and then entering in the IP address. Once all the players have joined the game, it will start!
 
 ## Credits
 
