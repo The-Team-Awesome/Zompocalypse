@@ -15,6 +15,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Item;
 import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.rendering.RenderPanel;
 
@@ -305,7 +306,19 @@ public class World implements Serializable {
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
 			return true;
 		} else if (key.equals(UICommand.USE.getValue())) {
-			return true;
+			for( GameObject o : player.getObjectsHere()){
+				if(o instanceof Item){
+					((Item) o).use(player);
+					return true;
+				}
+			}
+			for( GameObject o : player.getObjectsInfront()){
+				if(o instanceof Item){
+					((Item) o).use(player);
+					return true;
+				}
+			}
+			return false;
 		} else {
 			return false;
 		}
