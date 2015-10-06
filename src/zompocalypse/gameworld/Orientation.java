@@ -22,6 +22,7 @@ public enum Orientation {
 			return EAST;
 		}
 
+		// Cannot possibly ever get here!
 		return NORTH;
 	}
 }

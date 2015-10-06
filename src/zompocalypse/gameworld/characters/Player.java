@@ -208,4 +208,22 @@ public final class Player extends MovingCharacter {
 	public ArrayList<GameObject> getInventory() {
 		return inventory;
 	}
+
+	public void move(Orientation north, Orientation cameraDirection) {
+		Orientation ori = Orientation.getCharacterOrientation(north, cameraDirection);
+		switch (ori) {
+		case NORTH:
+			this.moveNorth();
+			break;
+		case EAST:
+			this.moveEast();
+			break;
+		case SOUTH:
+			this.moveSouth();
+			break;
+		case WEST:
+			this.moveWest();
+			break;
+		}
+	}
 }

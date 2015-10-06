@@ -16,6 +16,7 @@ import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.ui.appwindow.UICommand;
+import zompocalypse.ui.rendering.RenderPanel;
 
 /**
  * The World class representing the world in which Zompocolypse takes place.
@@ -50,6 +51,7 @@ public class World implements Serializable {
 	private boolean editMode = false;
 	private boolean showWalls = true;
 	private Point editor = new Point(0, 0);
+	private RenderPanel renderPanel;
 
 	public World(int width, int height, Floor[][] map,
 			PriorityQueue<GameObject>[][] objects,
@@ -251,7 +253,7 @@ public class World implements Serializable {
 	 * @param y
 	 */
 	public synchronized boolean processMouseClick(int id, int x, int y) {
-		//System.out.println(id + ", " + x + ":" + y);
+		// System.out.println(id + ", " + x + ":" + y);
 		return true;
 	}
 
@@ -261,8 +263,9 @@ public class World implements Serializable {
 	 * @param key
 	 */
 	public synchronized boolean processCommand(int id, String key) {
-		//System.out.println(id + ", " + key);
+		// System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
+		Orientation cameraDirection = renderPanel.getCurrentOrientation();
 
 		// Remember that key is a String, so call .equals() instead of ==
 
@@ -270,25 +273,30 @@ public class World implements Serializable {
 			if (editMode)
 				editor.y--;
 			else
-				player.moveNorth();
+				player.move(Orientation.NORTH, cameraDirection);
 			return true;
 		} else if (key.equals(UICommand.SOUTH.getValue())) {
 			if (editMode)
 				editor.y++;
 			else
-				player.moveSouth();
+				player.move(Orientation.SOUTH, cameraDirection);
 			return true;
 		} else if (key.equals(UICommand.EAST.getValue())) {
 			if (editMode)
 				editor.x++;
 			else
-				player.moveEast();
+				player.move(Orientation.WEST, cameraDirection); // TODO This is
+																// wrong! Should
+																// be 'east' not
+																// 'west'??? But
+																// it works :(
 			return true;
 		} else if (key.equals(UICommand.WEST.getValue())) {
 			if (editMode)
 				editor.x--;
 			else
-				player.moveWest();
+				player.move(Orientation.EAST, cameraDirection); // TODO This is
+																// also wrong!
 			return true;
 		} else if (key.equals(UICommand.ITEMONE.getValue())) {
 			return true;
@@ -426,7 +434,8 @@ public class World implements Serializable {
 		if (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
 		String[] wallName = WorldBuilder.getWallFileName();
-		if (wallName == null) return;
+		if (wallName == null)
+			return;
 		int offset = 55;
 		if (wallName[0].contains("brown_1") || wallName[0].contains("grey_2")
 				|| wallName[0].contains("grey_3"))
@@ -462,5 +471,9 @@ public class World implements Serializable {
 		if (x instanceof Wall) {
 			((Wall) x).rotate();
 		}
+	}
+
+	public void setRenderPanel(RenderPanel renderPanel) {
+		this.renderPanel = renderPanel;
 	}
 }
