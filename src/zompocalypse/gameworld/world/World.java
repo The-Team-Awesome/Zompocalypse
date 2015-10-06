@@ -266,6 +266,15 @@ public class World implements Serializable {
 	public synchronized boolean processCommand(int id, String key) {
 		// System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
+
+		/**
+		 * TODO: From Sam. This breaks the networked element of the game. The reason it
+		 * breaks is because the world and the renderer are supposed to be decoupled from
+		 * each other, since the world is persistent across all clients but each client has
+		 * a unique renderer and view of the world. A better solution to this problem would
+		 * be to store the orientation on each unique player and get it from them. Until this
+		 * is solved, my beautiful networking won't be able to work :(
+		 */
 		Orientation cameraDirection = renderPanel.getCurrentOrientation();
 
 		// Remember that key is a String, so call .equals() instead of ==
