@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.Map;
 
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Item;
@@ -17,7 +18,7 @@ import zompocalypse.gameworld.items.Item;
  *
  * @author Kieran Mckay, 300276166
  */
-public class Door implements Item{
+public class Door implements Item, Lockable{
 
 	private int x;
 	private int y;
@@ -39,12 +40,15 @@ public class Door implements Item{
 		this.uid = uid;
 	}
 
-	@Override
 	public void use(Player player) {
-		if(locked){
+		if(locked || open){
 			return;
 		}
-		open = !open;
+		open = true;
+	}
+
+	public boolean isLocked() {
+		return locked;
 	}
 
 	public boolean unlock(boolean hasKey){

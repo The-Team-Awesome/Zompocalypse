@@ -177,8 +177,8 @@ public class Container implements Item, Lockable{
 	}
 
 	@Override
-	public boolean unlock() {
-		if(locked){
+	public boolean unlock(boolean hasKey) {
+		if(locked && hasKey){
 			locked = false;
 			return true;
 		}
