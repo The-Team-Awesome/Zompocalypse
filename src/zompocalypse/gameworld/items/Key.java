@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
@@ -31,7 +32,26 @@ public class Key implements Item{
 
 	@Override
 	public void use(Player player){
-		
+		PriorityQueue<GameObject> obs = player.getObjectsHere();
+		for(GameObject o : obs){
+			if(o instanceof Lockable){
+				boolean keyUsed = ((Lockable) o).unlock(true);
+				if (keyUsed){
+					player.getInventory().remove(o);
+					return;
+				}
+			}
+		}
+		obs = player.getObjectsInfront();
+		for(GameObject o : obs){
+			if(o instanceof Lockable){
+				boolean keyUsed = ((Lockable) o).unlock(true);
+				if (keyUsed){
+					player.getInventory().remove(o);
+					return;
+				}
+			}
+		}
 	}
 
 	@Override

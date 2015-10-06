@@ -1,6 +1,7 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
@@ -21,6 +22,7 @@ public final class Player extends MovingCharacter{
 	
 	//private static final long serialVersionUID = -3257369460305701226L;
 	private World game;
+	private ArrayList<GameObject> inventory;
 	
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
@@ -47,6 +49,7 @@ public final class Player extends MovingCharacter{
 		this.strength = PLAYER_STRENGTH;
 		
 		this.game = game;
+		inventory = new ArrayList<GameObject>();
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
@@ -151,7 +154,7 @@ public final class Player extends MovingCharacter{
 				+ "]";
 	}
 	
-	public PriorityQueue<GameObject> objectsHere(){
+	public PriorityQueue<GameObject> getObjectsHere(){
 		int myX = getX();
 		int myY = getY();
 		World game = getWorld();
@@ -160,7 +163,7 @@ public final class Player extends MovingCharacter{
 		return worldObs[myX][myY];
 	}
 	
-	public PriorityQueue<GameObject> objectsInfront(){
+	public PriorityQueue<GameObject> getObjectsInfront(){
 		int frontX = getX();
 		int frontY = getY();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
@@ -182,5 +185,20 @@ public final class Player extends MovingCharacter{
 	public int compareTo(GameObject o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public boolean pickUp(GameObject item){
+		return inventory.add(item);
+	}
+	
+	//TODO add drop item
+
+	/**
+	 * This players inventory items
+	 * 
+	 * @return An Arraylist containing this players inventory
+	 */
+	public ArrayList<GameObject> getInventory() {
+		return inventory;
 	}
 }
