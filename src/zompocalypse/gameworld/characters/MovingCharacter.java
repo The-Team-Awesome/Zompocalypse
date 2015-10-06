@@ -86,11 +86,11 @@ public abstract class MovingCharacter extends Actor {
 			newY = yCoord +1;
 			orientation = queued;
 		} else if(queued == Orientation.EAST) {
-			newX = xCoord +1;
+			newX = xCoord + 1;
 			newY = yCoord;
 			orientation = queued;
 		} else if(queued == Orientation.WEST) {
-			newX = xCoord -1;
+			newX = xCoord - 1;
 			newY = yCoord;
 			orientation = queued;
 		} else {
