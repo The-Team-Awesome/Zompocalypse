@@ -8,6 +8,7 @@ import java.util.Map;
 
 import zompocalypse.gameworld.Drawable;
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 
@@ -17,9 +18,10 @@ import zompocalypse.gameworld.characters.Player;
  *
  * @author Kieran Mckay, 300276166
  */
-public class Container implements GameObject, Drawable{
+public class Container implements Item, Lockable{
 	private int size;
 	private boolean movable;
+	private boolean locked;
 	private String filename;
 	private List<Item> heldItems;
 
@@ -28,9 +30,10 @@ public class Container implements GameObject, Drawable{
 	 * Requires a size for the amount of items it can hold.
 	 * Requires a boolean to determine if the container is movable or not.
 	 */
-	public Container(int size, boolean movable, String filename){
+	public Container(int size, boolean movable, boolean locked, String filename){
 		this.size = size;
 		this.movable = movable;
+		this.locked = locked;
 		this.filename = filename;
 		this.heldItems = new ArrayList<Item>();
 	}
@@ -166,5 +169,19 @@ public class Container implements GameObject, Drawable{
 	public int compareTo(GameObject o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean isLocked() {
+		return locked;
+	}
+
+	@Override
+	public boolean unlock() {
+		if(locked){
+			locked = false;
+			return true;
+		}
+		return false;
 	}
 }
