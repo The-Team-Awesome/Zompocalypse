@@ -20,6 +20,7 @@ public enum UICommand {
 	SINGLEPLAYER("SinglePlayer"),
 	MULTIPLAYER("Multiplayer"),
 	SERVER("Server"),
+	STARTSERVER("StartServer"),
 	CLIENT("Client"),
 	LOADGAME("LoadGame"),
 	ENTERIP("EnterIP"),

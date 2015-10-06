@@ -24,10 +24,10 @@ public class ServerPanel extends JPanel {
 
 	private RunningServer server;
 
-	public ServerPanel(int port, int numClients, int gameClock, int serverClock) {
+	public ServerPanel(int port, int gameClock, int serverClock) {
 		super();
 
-		server = new RunningServer(this, port, numClients, gameClock, serverClock);
+		server = new RunningServer(this, port, gameClock, serverClock);
 
 		arrangeComponents();
 	}
@@ -35,7 +35,6 @@ public class ServerPanel extends JPanel {
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		//Insets topInset = new Insets(400, 0, 0, 0);
 		Insets buttonsInset = new Insets(20, 0, 0, 0);
 		int positionY = 0;
 
@@ -47,6 +46,10 @@ public class ServerPanel extends JPanel {
 		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
 		this.add(field, constraints);
+	}
+	
+	public void setNumClients(int numClients) {
+		server.updateNumClients(numClients);
 	}
 
 	public void updateContent(String text) {

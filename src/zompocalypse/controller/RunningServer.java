@@ -39,15 +39,17 @@ public class RunningServer extends Thread {
 	private ServerSocket socketServer;
 	private Clock clock;
 
-	public RunningServer(ServerPanel panel, int port, int numClients, int gameClock, int serverClock) {
+	public RunningServer(ServerPanel panel, int port, int gameClock, int serverClock) {
 		super();
 
 		this.panel = panel;
 		this.port = port;
-		this.numClients = numClients;
 		this.gameClock = gameClock;
 		this.serverClock = serverClock;
-
+	}
+	
+	public void updateNumClients(int numClients) {
+		this.numClients = numClients;
 	}
 
 	/**
@@ -90,11 +92,11 @@ public class RunningServer extends Thread {
 		// TODO: the getPublicIp() method currently fails because it can't reach
 		// the url to get a public IP from. Not sure how to fix this, it seems
 		// like it is being blocked by a firewall. Will test at home!
-		String ip = getPublicIp();
-
-		if(ip != null) {
+		//String ip = getPublicIp();
+		
+		/*if(ip != null) {
 			panel.updateContent("Server running on IP: " + ip);
-		}
+		}*/
 		panel.updateContent("Server listening on port " + port);
 		panel.updateContent("Server awaiting " + numClients + " clients");
 
