@@ -13,9 +13,9 @@ import zompocalypse.gameworld.items.Item;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
- * A door in the game world.
- * Doors can be locked or unlocked, if they are locked, they require a key to open.
- * A door must be open for a character to walk through it.
+ * A door in the game world. Doors can be locked or unlocked, if they are
+ * locked, they require a key to open. A door must be open for a character to
+ * walk through it.
  *
  * Implements item, and represents a leaf in the composite pattern.
  *
@@ -26,9 +26,11 @@ public class Door implements Item, Lockable {
 	private int x;
 	private int y;
 
-	protected ImageIcon[] images;
+	protected ImageIcon[] imagesOpen;
+	protected ImageIcon[] imagesClosed;
 	protected ImageIcon currentImage;
-	private String[] fileNames;
+	private String[] fileNamesOpen;
+	private String[] fileNamesClosed;
 	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
 
 	private boolean open;
@@ -37,34 +39,61 @@ public class Door implements Item, Lockable {
 	private int uid;
 	protected String imageName;
 	protected int offset;
+	protected int nesw;
 
-	public Door(int x, int y, String[] fileNames, int offset, boolean locked, int uid) {
+	public Door(int x, int y, String[] fileNames, int offset, boolean locked,
+			int uid) {
 		imu = ImageUtils.getImageUtilsObject();
-		images = imu.setupImages(fileNames);
+		imagesOpen = imu.setupImages(fileNames);
+
+		String[] tempFiles = new String[2];
+		tempFiles[0] = fileNames[0].substring(0, fileNames[0].length() - 13)
+				+ "open"
+				+ fileNames[0].substring(fileNames[0].length() - 7,
+						fileNames[0].length());
+		tempFiles[1] = fileNames[1].substring(0, fileNames[1].length() - 13)
+				+ "open"
+				+ fileNames[1].substring(fileNames[1].length() - 7,
+						fileNames[1].length());
+
+		imu = ImageUtils.getImageUtilsObject();
+		imagesClosed = imu.setupImages(tempFiles);
 
 		this.x = x;
 		this.y = y;
-		this.fileNames = fileNames;
-		this.imageName = fileNames[0];
+		this.fileNamesOpen = fileNames;
+		this.fileNamesClosed = tempFiles;
+		this.imageName = fileNamesOpen[0];
 		this.open = false;
 		this.offset = offset;
 		this.occupiable = false;
 		this.locked = locked;
 		this.uid = uid;
+
+		nesw = 0;
 	}
 
 	public void use(Player player) {
-		if(locked || open){
+		if (locked && !open) {
 			return;
 		}
-		open = true;
+		open = !open;
+		if (open)
+			imageName = fileNamesOpen[nesw];
+		else
+			imageName = fileNamesClosed[nesw];
 	}
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		//System.out.println("drew current image" + currentImage.toString());
+		// System.out.println("drew current image" + currentImage.toString());
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
+		if (open)
+			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+					imagesOpen);
+		else
+			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+					imagesClosed);
 		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}
 
@@ -72,8 +101,8 @@ public class Door implements Item, Lockable {
 		return locked;
 	}
 
-	public boolean unlock(boolean hasKey){
-		if (hasKey){
+	public boolean unlock(boolean hasKey) {
+		if (hasKey) {
 			locked = false;
 			return true;
 		}
@@ -94,7 +123,7 @@ public class Door implements Item, Lockable {
 	}
 
 	public boolean occupiable() {
-		//TODO
+		// TODO
 		return open;
 	}
 
@@ -124,21 +153,21 @@ public class Door implements Item, Lockable {
 		return 0;
 	}
 
-	public String examine(){
-		if (locked){
+	public String examine() {
+		if (locked) {
 			return "A locked door. Maybe a key could open it";
-		} else if (!open){
+		} else if (!open) {
 			return "A closed door that can be opened";
-		} else if (open){
+		} else if (open) {
 			return "An open door.";
 		} else {
-			//not currently reachable
+			// not currently reachable
 			return "A door of some sort";
 		}
 	}
 
 	public Door cloneMe(int uid) {
-		return new Door(x, y, fileNames, offset, locked, uid);
+		return new Door(x, y, fileNamesClosed, offset, locked, uid);
 	}
 
 	public int getOffset() {
@@ -147,17 +176,29 @@ public class Door implements Item, Lockable {
 
 	public void rotate() {
 
-		String[] rotate = new String[fileNames.length];
-		for (int x = 0; x < rotate.length - 1; x ++) {
-			rotate[x] = fileNames[x + 1];
+		nesw = (nesw + 1) % 2;
+
+		String[] rotateOpen = new String[fileNamesOpen.length];
+		String[] rotateClosed = new String[fileNamesClosed.length];
+		for (int x = 0; x < rotateOpen.length - 1; x++) {
+			rotateOpen[x] = fileNamesOpen[x + 1];
+			rotateClosed[x] = fileNamesClosed[x + 1];
 		}
-		rotate[rotate.length - 1] = fileNames[0];
+		rotateOpen[rotateOpen.length - 1] = fileNamesOpen[0];
+		rotateClosed[rotateClosed.length - 1] = fileNamesClosed[0];
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 
-		this.fileNames = rotate;
-		this.images = imu.setupImages(rotate);
-		this.currentImage = images[0];
-		this.imageName = rotate[0];
+		this.fileNamesOpen = rotateOpen;
+		this.fileNamesClosed = rotateClosed;
+		this.imagesOpen = imu.setupImages(rotateOpen);
+		this.imagesClosed = imu.setupImages(rotateClosed);
+		if (open) {
+			this.currentImage = imagesOpen[0];
+			this.imageName = rotateOpen[0];
+		} else {
+			this.currentImage = imagesClosed[0];
+			this.imageName = rotateClosed[0];
+		}
 	}
 }

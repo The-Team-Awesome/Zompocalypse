@@ -480,20 +480,16 @@ public class WorldBuilder {
 		// this is ugly but would need to be stored in a file and parsed from it
 		// anyway
 		Object[] possibilities = { "wall_brown_1_door_closed_ew.png",
-				"wall_brown_1_door_open_ew.png",
 				"wall_grey_1_door_closed_ew.png",
-				"wall_grey_1_door_open_ew.png",
 				"wall_grey_2_door_closed_ew.png",
-				"wall_grey_2_door_open_ew.png",
 				"wall_grey_3_door_closed_ew.png",
-				"wall_grey_3_door_open_ew.png" };
+				"wall_grey_4_door_closed_ew.png" };
 		// TODO this works, but I am uncomfortable with these null values!
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a dur", "Choice a dur",
-				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
-				"wall_brown_1_door_closed_ew.png");
+				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "wall_brown_1_door_closed_ew.png");
 		if (fileName == null)
 			return null;
 		String beginning = fileName.substring(0, fileName.length() - 6);

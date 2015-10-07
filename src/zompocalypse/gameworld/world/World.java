@@ -268,12 +268,13 @@ public class World implements Serializable {
 		Player player = (Player) idToActor.get(id);
 
 		/**
-		 * TODO: From Sam. This breaks the networked element of the game. The reason it
-		 * breaks is because the world and the renderer are supposed to be decoupled from
-		 * each other, since the world is persistent across all clients but each client has
-		 * a unique renderer and view of the world. A better solution to this problem would
-		 * be to store the orientation on each unique player and get it from them. Until this
-		 * is solved, my beautiful networking won't be able to work :(
+		 * TODO: From Sam. This breaks the networked element of the game. The
+		 * reason it breaks is because the world and the renderer are supposed
+		 * to be decoupled from each other, since the world is persistent across
+		 * all clients but each client has a unique renderer and view of the
+		 * world. A better solution to this problem would be to store the
+		 * orientation on each unique player and get it from them. Until this is
+		 * solved, my beautiful networking won't be able to work :(
 		 */
 		Orientation cameraDirection = player.getCurrentOrientation();
 
@@ -315,25 +316,25 @@ public class World implements Serializable {
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
 			return true;
 		} else if (key.equals(UICommand.USE.getValue())) {
-			for( GameObject o : player.getObjectsHere()){
-				if(o instanceof Item){
+			for (GameObject o : player.getObjectsHere()) {
+				if (o instanceof Item) {
 					((Item) o).use(player);
 					return true;
 				}
 			}
-			for( GameObject o : player.getObjectsInfront()){
-				if(o instanceof Item){
+			for (GameObject o : player.getObjectsInfront()) {
+				if (o instanceof Item) {
 					((Item) o).use(player);
 					return true;
 				}
 			}
 			return false;
-		} else if(key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
+		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 			return true;
 		}
 
-		else if(key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
+		else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
 			return true;
 		} else {
@@ -500,6 +501,8 @@ public class World implements Serializable {
 		GameObject x = objects[editor.x][editor.y].peek();
 		if (x instanceof Wall) {
 			((Wall) x).rotate();
+		} else if (x instanceof Door) {
+			((Door) x).rotate();
 		}
 	}
 
@@ -523,6 +526,14 @@ public class World implements Serializable {
 				|| doorName[0].contains("grey_3"))
 			offset = 48;
 		if (doorName != null)
-			objects[editor.x][editor.y].add(new Door(editor.x, editor.y, doorName, offset, false, id++));
+			objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
+					doorName, offset, false, id++));
+	}
+
+	public void toggleDoor() {
+		GameObject x = objects[editor.x][editor.y].peek();
+		if (x instanceof Door) {
+			((Door) x).use(null);
+		}
 	}
 }

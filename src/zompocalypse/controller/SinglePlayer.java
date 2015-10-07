@@ -103,8 +103,10 @@ public class SinglePlayer extends GameListener {
 			game.editTile();
 		} else if (code == KeyEvent.VK_R && editable) { // rotate tile
 			game.rotateTile();
-		} else if (code == KeyEvent.VK_B && editable) { // rotate tile
+		} else if (code == KeyEvent.VK_B && editable) { // edit door
 			game.editDoor();
+		} else if (code == KeyEvent.VK_N && editable) { // open/close door
+			game.toggleDoor();
 		} else if (code == KeyEvent.VK_G && editable) { // edit wall
 			game.editWall();
 		} else if (code == KeyEvent.VK_F && editable) { // rotate Wall or Object
