@@ -39,8 +39,11 @@ public class RenderPanel extends JPanel {
 	private World game;
 	private final int id;
 
-	private static final int TILE_WIDTH = 64;
-	private static final int FLOOR_TILE_HEIGHT = 42;
+	private int centreX, centreY;
+	private int MAX_MOVES_RESET = 6;
+	private final int DRAW_DISTANCE = 12;
+	private final int TILE_WIDTH = 64;
+	private final int FLOOR_TILE_HEIGHT = 42;
 	Floor blankTile;
 
 	private Orientation currentOrientation = Orientation.NORTH;
@@ -56,6 +59,8 @@ public class RenderPanel extends JPanel {
 	public RenderPanel(int id, World game) {
 		this.game = game;
 		this.id = id;
+		centreX = game.getPlayer(id).getX();
+		centreY = game.getPlayer(id).getY();
 		String[] blank = { "blank_tile.png" };
 		blankTile = new Floor(0, 0, blank);
 	}
@@ -141,7 +146,6 @@ public class RenderPanel extends JPanel {
 		super.paintComponent(g);
 
 		// how many tiles across from the player should be displayed
-		int drawDistance = 10;
 		boolean editMode = game.getEditMode();
 		boolean showWalls = game.getShowWalls();
 
@@ -166,12 +170,20 @@ public class RenderPanel extends JPanel {
 			actorY = p.y;
 		}
 
+		if (actorX - centreX > MAX_MOVES_RESET
+				|| centreX - actorX > MAX_MOVES_RESET
+			|| actorY - centreY > MAX_MOVES_RESET
+				|| centreY - actorY > MAX_MOVES_RESET) {
+			centreX = actorX;
+			centreY = actorY;
+		}
+
 		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 		// coords
 
 		// convert these to the players coordinates
 		int offsetX = getWidth() / 2;
-		int offsetY = getHeight() / 2 - drawDistance * FLOOR_TILE_HEIGHT;
+		int offsetY = getHeight() / 2 - DRAW_DISTANCE * FLOOR_TILE_HEIGHT;
 		//
 		// offsetX -= getWidth()/2;;
 		// offsetY -= getHeight()/2;;
@@ -205,10 +217,10 @@ public class RenderPanel extends JPanel {
 
 		// can't draw a square that is a negative number, or bigger than the
 		// window
-		int minI = Math.max(0, actorX - drawDistance);
-		int minJ = Math.max(0, actorY - drawDistance);
-		int maxI = Math.min(ht - 1, actorX + drawDistance);
-		int maxJ = Math.min(wd - 1, actorY + drawDistance);
+		int minI = Math.max(0, centreX - DRAW_DISTANCE);
+		int minJ = Math.max(0, centreY - DRAW_DISTANCE);
+		int maxI = Math.min(ht - 1, centreX + DRAW_DISTANCE);
+		int maxJ = Math.min(wd - 1, centreY + DRAW_DISTANCE);
 
 		int x;
 		int y;
@@ -220,9 +232,9 @@ public class RenderPanel extends JPanel {
 		Floor[][] tempFloor = tiles;
 		PriorityQueue<GameObject>[][] tempObjects = objects;
 
-		tempFloor = daveEnsmallenFloor(tiles, drawDistance, actorX, actorY);
-		tempObjects = daveEnsmallenObjects(objects, drawDistance, actorX,
-				actorY);
+		tempFloor = daveEnsmallenFloor(tiles, DRAW_DISTANCE, centreX, centreY);
+		tempObjects = daveEnsmallenObjects(objects, DRAW_DISTANCE, centreX,
+				centreY);
 
 		switch (currentOrientation) {
 		case NORTH:
@@ -278,7 +290,8 @@ public class RenderPanel extends JPanel {
 			}
 		}
 
-		editOptions(offsetX, offsetY + drawDistance * FLOOR_TILE_HEIGHT, editMode, g);
+		editOptions(offsetX, offsetY + DRAW_DISTANCE * FLOOR_TILE_HEIGHT,
+				editMode, g);
 
 		// / end trial
 
@@ -481,7 +494,8 @@ public class RenderPanel extends JPanel {
 			Point editor = game.getEditor();
 			g.setColor(Color.GREEN);
 			for (Point p : playerSpawnPoints) {
-				int[] q = convertFromGameToScreen(p.x - editor.x, p.y - editor.y);
+				int[] q = convertFromGameToScreen(p.x - editor.x, p.y
+						- editor.y);
 				g.drawOval(q[0] + offsetX + 30, q[1] + offsetY + 15, 5, 5);
 			}
 			g.setColor(Color.RED);

@@ -507,4 +507,8 @@ public class World implements Serializable {
 		Player player = (Player) idToActor.get(id);
 		player.rotatePerspective(value);
 	}
+
+	public Player getPlayer(int id) {
+		return (Player) idToActor.get(id);
+	}
 }
