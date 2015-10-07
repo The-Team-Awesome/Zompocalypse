@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><world><map dimensions="4,1"><row><cell door="wl-br-1-do-cl-ew" img="g-gr-1" offset="48" open="false"/><cell door="wl-gr-1-do-cl-ew" img="g-gr-1" offset="55" open="true"/><cell door="wl-gr-2-do-cl-ns" img="g-gr-1" offset="48" open="false"/><cell door="wl-gr-3-do-cl-ns" img="g-gr-1" offset="48" open="true"/></row></map></world>

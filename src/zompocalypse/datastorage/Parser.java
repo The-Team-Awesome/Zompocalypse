@@ -301,6 +301,12 @@ public class Parser {
 							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
 						}
+						else if (objects[row][col].peek() instanceof zompocalypse.gameworld.world.Door) {
+							Door door = (Door) objects[row][col].peek();
+							xmlCell.setAttribute("door", getCode(door.getFileName(), textTileMap));
+							xmlCell.setAttribute("offset", String.valueOf(door.getOffset()));
+							xmlCell.setAttribute("open", door.isOpenToString());
+						}
 					}
 					if (zombieSpawnPoints.contains(new Point(row,col))) {
 						xmlCell.setAttribute("zombieSpawnPoint", "");
