@@ -56,7 +56,7 @@ public class World implements Serializable {
 
 	public World(int width, int height, Floor[][] map,
 			PriorityQueue<GameObject>[][] objects,
-			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
+			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints, int id) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
@@ -64,6 +64,7 @@ public class World implements Serializable {
 		this.orientation = Orientation.NORTH;
 		this.zombieSpawnPoints = zombieSpawnPoints;
 		this.playerSpawnPoints = playerSpawnPoints;
+		this.id = id;
 	}
 
 	/**
@@ -97,7 +98,7 @@ public class World implements Serializable {
 		return height;
 	}
 
-	public boolean isWall(int x, int y) {
+	public boolean isBlocked(int x, int y) {
 
 		// everything off the map is treated as a wall
 		if (x < 0 || y < 0 || x >= width || y >= height) {
@@ -105,9 +106,13 @@ public class World implements Serializable {
 		}
 		PriorityQueue<GameObject> obj = objects[x][y];
 		for (GameObject o : obj) {
-			if (o != null && o instanceof Wall) {
+			if (o != null && o instanceof Wall)
 				return true;
-			}
+			else if (o instanceof Wall)
+				return true;
+			else if (o instanceof Door)
+				return !((Door)o).occupiable();
+
 		}
 		return false;
 	}

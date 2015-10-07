@@ -66,7 +66,7 @@ public class Door implements Item, Lockable {
 		this.open = false;
 		this.offset = offset;
 		this.occupiable = false;
-		this.locked = true;
+		this.locked = locked;
 		this.uid = uid;
 
 	}
@@ -169,11 +169,8 @@ public class Door implements Item, Lockable {
 		return offset;
 	}
 
-	public String isOpenToString() {
-		if (open)
-			return "true";
-		else
-			return "false";
+	public boolean isOpen() {
+		return open;
 	}
 
 	public void rotate() {

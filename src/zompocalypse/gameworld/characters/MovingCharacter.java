@@ -103,7 +103,7 @@ public abstract class MovingCharacter extends Actor {
 			return;
 		}
 
-		if(game.isWall(newX,newY)) {
+		if(game.isBlocked(newX,newY)) {
 			// we've bumped into a wall ... so we have to stop!!
 		} else {
 			// we can update our position ...
