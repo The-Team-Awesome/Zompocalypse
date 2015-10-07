@@ -182,7 +182,7 @@ public class MainFrame extends JFrame {
 	 * @param id
 	 * @param key
 	 */
-	public synchronized boolean processKeyPress(int id, String key) {
+	/*public synchronized boolean processCommand(int id, String key) {
 		if(key == UICommand.ROTATECLOCKWISE.getValue()) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
 		} else if (key == UICommand.ROTATEANTICLOCKWISE.getValue()) {
@@ -191,15 +191,15 @@ public class MainFrame extends JFrame {
 			saveGame();
 		}
 		return true;
-	}
+	}*/
 
 	/**
-	 * Processes action received.
+	 * Processes action received or key press.
 	 *
 	 * @param id
 	 * @param command
 	 */
-	public synchronized boolean processAction(int id, String command) {
+	public synchronized boolean processCommand(int id, String command) {
 //		if(command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())
 //				|| command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 //			gameCard.rotateView(command);
@@ -230,6 +230,12 @@ public class MainFrame extends JFrame {
 		} else if(command.equals(UICommand.BACKPACK.getValue())) {
 			showBackpack();
 			return true;
+		} else if(command == UICommand.ROTATECLOCKWISE.getValue()) {
+			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
+		} else if (command == UICommand.ROTATEANTICLOCKWISE.getValue()) {
+			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
+		} else if (command == UICommand.OPTIONS.getValue()) {
+			saveGame();
 		}
 
 		return false;

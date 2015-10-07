@@ -18,7 +18,7 @@ public class MenuListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		frame.processAction(0, command);
+		frame.processCommand(0, command);
 
 		frame.requestFocus();
 	}
