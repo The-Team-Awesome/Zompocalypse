@@ -40,7 +40,8 @@ public class RenderPanel extends JPanel {
 	private final int id;
 
 	private int centreX, centreY;
-	private int MAX_MOVES_RESET = 6;
+	private int MAX_MOVES_RESET = 6; // player will move this many tiles from
+										// centre before centre is reset
 	private final int DRAW_DISTANCE = 12;
 	private final int TILE_WIDTH = 64;
 	private final int FLOOR_TILE_HEIGHT = 42;
@@ -164,19 +165,19 @@ public class RenderPanel extends JPanel {
 			Actor c = game.getCharacterByID(id);
 			actorX = c.getX();
 			actorY = c.getY();
+			if (actorX - centreX > MAX_MOVES_RESET
+					|| centreX - actorX > MAX_MOVES_RESET
+					|| actorY - centreY > MAX_MOVES_RESET
+					|| centreY - actorY > MAX_MOVES_RESET) {
+				centreX = actorX;
+				centreY = actorY;
+			}
 		} else {
 			Point p = game.getEditor();
-			actorX = p.x;
-			actorY = p.y;
+			centreX = p.x;
+			centreY = p.y;
 		}
 
-		if (actorX - centreX > MAX_MOVES_RESET
-				|| centreX - actorX > MAX_MOVES_RESET
-			|| actorY - centreY > MAX_MOVES_RESET
-				|| centreY - actorY > MAX_MOVES_RESET) {
-			centreX = actorX;
-			centreY = actorY;
-		}
 
 		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 		// coords
@@ -282,6 +283,7 @@ public class RenderPanel extends JPanel {
 					if (showWalls) {
 						for (Drawable dd : tempObjects[i][j]) {
 							if (dd != null) {
+								System.out.println(dd.getFileName());
 								dd.draw(x, y, g, currentOrientation);
 							}
 						}

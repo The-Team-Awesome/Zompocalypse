@@ -3,11 +3,14 @@ package zompocalypse.gameworld.world;
 import java.awt.Graphics;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.ui.rendering.ImageUtils;
 
 /**
  * A door in the game world.
@@ -18,23 +21,33 @@ import zompocalypse.gameworld.items.Item;
  *
  * @author Kieran Mckay, 300276166
  */
-public class Door implements Item, Lockable{
+public class Door implements Item, Lockable {
 
 	private int x;
 	private int y;
 
-	private String fileName;
+	protected ImageIcon[] images;
+	protected ImageIcon currentImage;
+	private String[] fileNames;
+	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
 
 	private boolean open;
 	private boolean locked;
 	private boolean occupiable;
 	private int uid;
+	protected String imageName;
+	protected int offset;
 
-	public Door(int x, int y, String fileName, boolean locked, int uid) {
+	public Door(int x, int y, String[] fileNames, int offset, boolean locked, int uid) {
+		imu = ImageUtils.getImageUtilsObject();
+		images = imu.setupImages(fileNames);
+
 		this.x = x;
 		this.y = y;
-		this.fileName = fileName;
+		this.fileNames = fileNames;
+		this.imageName = fileNames[0];
 		this.open = false;
+		this.offset = offset;
 		this.occupiable = false;
 		this.locked = locked;
 		this.uid = uid;
@@ -45,6 +58,14 @@ public class Door implements Item, Lockable{
 			return;
 		}
 		open = true;
+	}
+
+	@Override
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		//System.out.println("drew current image" + currentImage.toString());
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
+		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}
 
 	public boolean isLocked() {
@@ -79,7 +100,7 @@ public class Door implements Item, Lockable{
 
 	@Override
 	public String getFileName() {
-		return fileName;
+		return imageName;
 	}
 
 	@Override
@@ -93,12 +114,6 @@ public class Door implements Item, Lockable{
 	}
 
 	@Override
-	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public int getUniqueID() {
 		return uid;
 	}
@@ -108,7 +123,7 @@ public class Door implements Item, Lockable{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	public String examine(){
 		if (locked){
 			return "A locked door. Maybe a key could open it";
@@ -120,5 +135,29 @@ public class Door implements Item, Lockable{
 			//not currently reachable
 			return "A door of some sort";
 		}
+	}
+
+	public Door cloneMe(int uid) {
+		return new Door(x, y, fileNames, offset, locked, uid);
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void rotate() {
+
+		String[] rotate = new String[fileNames.length];
+		for (int x = 0; x < rotate.length - 1; x ++) {
+			rotate[x] = fileNames[x + 1];
+		}
+		rotate[rotate.length - 1] = fileNames[0];
+
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+		this.fileNames = rotate;
+		this.images = imu.setupImages(rotate);
+		this.currentImage = images[0];
+		this.imageName = rotate[0];
 	}
 }

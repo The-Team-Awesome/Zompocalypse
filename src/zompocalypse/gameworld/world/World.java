@@ -461,7 +461,7 @@ public class World implements Serializable {
 	}
 
 	public void editWall() {
-		if (!objects[editor.x][editor.y].isEmpty())
+		while (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
 		String[] wallName = WorldBuilder.getWallFileName();
 		if (wallName == null)
@@ -510,5 +510,19 @@ public class World implements Serializable {
 
 	public Player getPlayer(int id) {
 		return (Player) idToActor.get(id);
+	}
+
+	public void editDoor() {
+		while (!objects[editor.x][editor.y].isEmpty())
+			objects[editor.x][editor.y].poll();
+		String[] doorName = WorldBuilder.getDoorFileName();
+		if (doorName == null)
+			return;
+		int offset = 55;
+		if (doorName[0].contains("brown_1") || doorName[0].contains("grey_2")
+				|| doorName[0].contains("grey_3"))
+			offset = 48;
+		if (doorName != null)
+			objects[editor.x][editor.y].add(new Door(editor.x, editor.y, doorName, offset, false, id++));
 	}
 }

@@ -17,6 +17,7 @@ import zompocalypse.gameworld.world.World;
 public class PlayerTests {
 
 	World game;
+	String[] test = {"wall_grey_1_door_closed_ew.png", "wall_grey_1_door_closed_ns.png"};
 
 	public PlayerTests() {
 		try {
@@ -105,7 +106,7 @@ public class PlayerTests {
 
 	@Test public void playerValidDoorTest1() {
 		Player p = generatePlayer(0, 0);
-		Door d = new Door(0, 0, "test", false, 0);
+		Door d = new Door(0, 0, test, 55, false, 0);
 
 		d.use(p);
 
@@ -114,7 +115,7 @@ public class PlayerTests {
 
 	@Test public void playerValidDoorTest2() {
 		Player p = generatePlayer(0, 0);
-		Door d = new Door(0, 0, "test", true, 0);
+		Door d = new Door(0, 0, test, 55, true, 0);
 
 		d.unlock(true);
 		d.use(p);
@@ -124,7 +125,7 @@ public class PlayerTests {
 
 	@Test public void playerInvalidDoorTest1() {
 		Player p = generatePlayer(0, 0);
-		Door d = new Door(0, 0, "test", true, 0);
+		Door d = new Door(0, 0, test, 55, true, 0);
 
 		d.use(p);
 
@@ -133,7 +134,7 @@ public class PlayerTests {
 
 	@Test public void playerInvalidDoorTest2() {
 		Player p = generatePlayer(0, 0);
-		Door d = new Door(0, 0, "test", true, 0);
+		Door d = new Door(0, 0, test, 55, true, 0);
 
 		assertFalse(d.occupiable());
 	}
