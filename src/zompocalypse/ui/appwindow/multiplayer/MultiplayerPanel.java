@@ -5,12 +5,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import zompocalypse.ui.appwindow.UICommand;
+import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
  * This panel presents the options for Multiplayer games to the user.
@@ -24,8 +22,8 @@ import zompocalypse.ui.appwindow.UICommand;
  */
 public class MultiplayerPanel extends JPanel {
 
-	private JButton btnServer;
-	private JButton btnClient;
+	private ZButton btnServer;
+	private ZButton btnClient;
 
 	private ActionListener action;
 
@@ -42,11 +40,11 @@ public class MultiplayerPanel extends JPanel {
 		Insets buttonsInset = new Insets(20, 0, 0, 0);
 		int positionY = 0;
 
-		btnServer = new JButton("Start Server");
+		btnServer = new ZButton("Start Server");
 		btnServer.setActionCommand(UICommand.SERVER.getValue());
 		btnServer.addActionListener(action);
 
-		btnClient = new JButton("Connect to Server");
+		btnClient = new ZButton("Connect to Server");
 		btnClient.setActionCommand(UICommand.CLIENT.getValue());
 		btnClient.addActionListener(action);
 

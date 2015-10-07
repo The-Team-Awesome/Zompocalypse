@@ -1,6 +1,7 @@
 package zompocalypse.ui.appwindow;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -8,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.EventListener;
 
 import javax.swing.JFileChooser;
@@ -20,6 +22,8 @@ import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
+import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
 import zompocalypse.ui.appwindow.multiplayer.CustomServerPanel;
@@ -57,6 +61,7 @@ public class MainFrame extends JFrame {
 	 * is where it will now be relevant, since we are essentially changing
 	 * the functionality over from Main to MainFrame
 	 */
+	private static final String icon = "zombie-icon.png";
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;
@@ -145,7 +150,7 @@ public class MainFrame extends JFrame {
 
 	private void customizeWindow() {
 		// window customization
-		Image img = Loader.LoadImage("zombie-icon.png");
+		Image img = Loader.LoadImage(icon);
 		setIconImage(img);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(1000, 800));
@@ -206,7 +211,7 @@ public class MainFrame extends JFrame {
 			multiPlayer();
 			return true;
 		} else if(command.equals(UICommand.BACKPACK.getValue())) {
-			showBackpack();
+			showBackpack(id);
 			return true;
 		} else if(command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
@@ -344,9 +349,14 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	private void showBackpack() {
-		ContainerPane inventory = new ContainerPane(action, game, 0);
-		inventory.showInputDialog("test");
+	private void showBackpack(int id) {
+
+		Player p = (Player) game.getCharacterByID(id);
+		ArrayList<GameObject> objects = p.getInventory();
+
+		ContainerPane inventory = new ContainerPane(id, objects, action);
+		JOptionPane container = new JOptionPane();
+		container.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**

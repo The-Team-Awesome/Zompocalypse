@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,6 +19,7 @@ import javax.swing.JTextArea;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.custom.ZButton;
 import zompocalypse.ui.rendering.RenderPanel;
 
 /**
@@ -37,18 +37,18 @@ public class GamePanel extends JPanel {
 	// menuPanel components
 	private JLabel lblItem;
 	private JLabel lblBackpack;
-	private JButton btnBackpack;
-	private JButton btnUse;
-	private JButton btnItemOne;
-	private JButton btnItemTwo;
-	private JButton btnItemThree;
-	private JButton btnNorth;
-	private JButton btnSouth;
-	private JButton btnEast;
-	private JButton btnWest;
-	private JButton btnRotateClockwise;
-	private JButton btnRotateAnticlockwise;
-	private JButton btnOptions;
+	private ZButton btnBackpack;
+	private ZButton btnUse;
+	private ZButton btnItemOne;
+	private ZButton btnItemTwo;
+	private ZButton btnItemThree;
+	private ZButton btnNorth;
+	private ZButton btnSouth;
+	private ZButton btnEast;
+	private ZButton btnWest;
+	private ZButton btnRotateClockwise;
+	private ZButton btnRotateAnticlockwise;
+	private ZButton btnOptions;
 
 	// dialogPanel components
 	private JTextArea txtDialog;
@@ -149,7 +149,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(lblItem, c);
 
 		// OPTIONS
-		btnOptions = new JButton("Save Game");
+		btnOptions = new ZButton("Save Game");
 		btnOptions.setActionCommand(UICommand.OPTIONS.getValue());
 		btnOptions.addActionListener(action);
 		c.gridx = 1;
@@ -158,7 +158,7 @@ public class GamePanel extends JPanel {
 		c.insets = generalInset;
 		menuPanel.add(btnOptions, c);
 
-		btnBackpack = new JButton("Backpack");
+		btnBackpack = new ZButton("Backpack");
 		btnBackpack.setActionCommand(UICommand.BACKPACK.getValue());
 		btnBackpack.addActionListener(action);
 		c.gridx = 1;
@@ -167,7 +167,7 @@ public class GamePanel extends JPanel {
 		c.insets = generalInset;
 		menuPanel.add(btnBackpack, c);
 
-		btnUse = new JButton("Use");
+		btnUse = new ZButton("Use");
 		btnUse.setActionCommand(UICommand.USE.getValue());
 		btnUse.addActionListener(action);
 		c.gridx = 1;
@@ -183,7 +183,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(lblItem, c);
 
 		ImageIcon iconItemOne = new ImageIcon(ITEM);
-		btnItemOne = new JButton(iconItemOne);
+		btnItemOne = new ZButton(iconItemOne);
 		btnItemOne.setActionCommand(UICommand.ITEMONE.getValue());
 		btnItemOne.addActionListener(action);
 		btnItemOne.setBorder(BorderFactory.createEmptyBorder());
@@ -192,7 +192,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnItemOne, c);
 
 		ImageIcon iconItemTwo = new ImageIcon(ITEM);
-		btnItemTwo = new JButton(iconItemTwo);
+		btnItemTwo = new ZButton(iconItemTwo);
 		btnItemTwo.setActionCommand(UICommand.ITEMTWO.getValue());
 		btnItemTwo.addActionListener(action);
 		btnItemTwo.setBorder(BorderFactory.createEmptyBorder());
@@ -201,7 +201,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnItemTwo, c);
 
 		ImageIcon iconItemThree = new ImageIcon(ITEM);
-		btnItemThree = new JButton(iconItemThree);
+		btnItemThree = new ZButton(iconItemThree);
 		btnItemThree.setActionCommand(UICommand.ITEMTHREE.getValue());
 		btnItemThree.addActionListener(action);
 		btnItemThree.setBorder(BorderFactory.createEmptyBorder());
@@ -214,7 +214,7 @@ public class GamePanel extends JPanel {
 
 		// DIRECTIONS
 		ImageIcon iconNorth = new ImageIcon(NORTH);
-		btnNorth = new JButton(iconNorth);
+		btnNorth = new ZButton(iconNorth);
 		btnNorth.setActionCommand(UICommand.NORTH.getValue());
 		btnNorth.addActionListener(action);
 		btnNorth.setBorder(BorderFactory.createEmptyBorder());
@@ -223,7 +223,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnNorth, c);
 
 		ImageIcon iconClockwise = new ImageIcon(CLOCKWISE);
-		btnRotateClockwise = new JButton(iconClockwise);
+		btnRotateClockwise = new ZButton(iconClockwise);
 		btnRotateClockwise.setActionCommand(UICommand.ROTATECLOCKWISE.getValue());
 		btnRotateClockwise.addActionListener(action);
 		btnRotateClockwise.setBorder(BorderFactory.createEmptyBorder());
@@ -234,7 +234,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnRotateClockwise, c);
 
 		ImageIcon iconAnticlockwise = new ImageIcon(ANTICLOCKWISE);
-		btnRotateAnticlockwise = new JButton(iconAnticlockwise);
+		btnRotateAnticlockwise = new ZButton(iconAnticlockwise);
 		btnRotateAnticlockwise.setActionCommand(UICommand.ROTATEANTICLOCKWISE.getValue());
 		btnRotateAnticlockwise.addActionListener(action);
 		btnRotateAnticlockwise.setBorder(BorderFactory.createEmptyBorder());
@@ -245,7 +245,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnRotateAnticlockwise, c);
 
 		ImageIcon iconWest = new ImageIcon(WEST);
-		btnWest = new JButton(iconWest);
+		btnWest = new ZButton(iconWest);
 		btnWest.setActionCommand(UICommand.WEST.getValue());;
 		btnWest.addActionListener(action);
 		btnWest.setBorder(BorderFactory.createEmptyBorder());
@@ -258,7 +258,7 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnWest, c);
 
 		ImageIcon iconEast = new ImageIcon(EAST);
-		btnEast = new JButton(iconEast);
+		btnEast = new ZButton(iconEast);
 		btnEast.setActionCommand(UICommand.EAST.getValue());
 		btnEast.addActionListener(action);
 		btnEast.setBorder(BorderFactory.createEmptyBorder());
@@ -270,7 +270,7 @@ public class GamePanel extends JPanel {
 
 		c.insets = generalInset;
 		ImageIcon iconSouth = new ImageIcon(SOUTH);
-		btnSouth = new JButton(iconSouth);
+		btnSouth = new ZButton(iconSouth);
 		btnSouth.setActionCommand(UICommand.SOUTH.getValue());
 		btnSouth.addActionListener(action);
 		btnSouth.setBorder(BorderFactory.createEmptyBorder());

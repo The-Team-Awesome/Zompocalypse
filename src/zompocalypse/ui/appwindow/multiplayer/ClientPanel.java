@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.InputVerifier;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -20,6 +19,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import zompocalypse.ui.appwindow.UICommand;
+import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
  * ClientPanel contains components to the server input screen.
@@ -29,7 +29,7 @@ import zompocalypse.ui.appwindow.UICommand;
  */
 public class ClientPanel extends JPanel {
 	private JTextField txtServerIp;
-	private JButton btnEnter;
+	private ZButton btnEnter;
 	private JLabel lblInformation;
 
 	private ActionListener action;
@@ -57,7 +57,7 @@ public class ClientPanel extends JPanel {
 		// creating and setting components
 		lblInformation = new JLabel("Insert IP address of the server:");
 
-		btnEnter = new JButton("Enter");
+		btnEnter = new ZButton("Enter");
 		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
 		btnEnter.addActionListener(action);
 		btnEnter.setEnabled(false);

@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import zompocalypse.datastorage.Loader;
-import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
  * StartPanel contains the components for the start
@@ -21,10 +21,10 @@ import zompocalypse.gameworld.world.World;
  *
  */
 public class StartPanel extends JPanel {
-	private JButton singlePlayerButton;
-	private JButton multiplayerButton;
-	private JButton loadGameButton;
-	private JButton newGameButton;
+	private ZButton singlePlayerButton;
+	private ZButton multiplayerButton;
+	private ZButton loadGameButton;
+	private ZButton newGameButton;
 
 	private ActionListener action;
 
@@ -45,7 +45,7 @@ public class StartPanel extends JPanel {
 		int positionY = 0;
 
 		// SINGLE PLAYER BUTTON
-		singlePlayerButton = new JButton("Single Player");
+		singlePlayerButton = new ZButton("Single Player");
 		singlePlayerButton.setActionCommand(UICommand.SINGLEPLAYER.getValue());
 		singlePlayerButton.addActionListener(action);
 		c.insets = topInset;
@@ -53,7 +53,7 @@ public class StartPanel extends JPanel {
 		this.add(singlePlayerButton, c);
 
 		// MULTIPLAYER PLAYER BUTTON
-		multiplayerButton = new JButton("Multiplayer");
+		multiplayerButton = new ZButton("Multiplayer");
 		multiplayerButton.setActionCommand(UICommand.MULTIPLAYER.getValue());
 		c.insets = buttonsInset;
 		c.gridy = positionY++;
@@ -61,7 +61,7 @@ public class StartPanel extends JPanel {
 		this.add(multiplayerButton, c);
 
 		// LOAD GAME BUTTON
-		loadGameButton = new JButton("Load game");
+		loadGameButton = new ZButton("Load game");
 		loadGameButton.setActionCommand(UICommand.LOADGAME.getValue());
 		loadGameButton.addActionListener(action);
 		c.gridy = positionY++;

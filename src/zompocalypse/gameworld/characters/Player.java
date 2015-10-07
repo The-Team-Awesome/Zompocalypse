@@ -11,6 +11,7 @@ import com.sun.imageio.plugins.common.ImageUtil;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
 import zompocalypse.ui.appwindow.UICommand;
