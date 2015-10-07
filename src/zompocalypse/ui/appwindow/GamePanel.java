@@ -60,8 +60,8 @@ public class GamePanel extends JPanel {
 	private static final Image SOUTH = Loader.LoadIcon("south.png");
 	private static final Image WEST = Loader.LoadIcon("west.png");
 	private static final Image EAST = Loader.LoadIcon("east.png");
-	private static final Image CLOCKWISE = Loader.LoadIcon("turnLeft.png");
-	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnRight.png");
+	private static final Image CLOCKWISE = Loader.LoadIcon("turnClockwise.png");
+	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnAnticlockwise.png");
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -79,6 +79,7 @@ public class GamePanel extends JPanel {
 		this.action = action;
 		this.id = id;
 
+		this.setBackground(CustomUtils.frameBackground);
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 

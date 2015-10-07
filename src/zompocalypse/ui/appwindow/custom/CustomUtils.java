@@ -21,4 +21,6 @@ public class CustomUtils {
 	public static final Color menuPanelBackground = new Color(0x967F2D);
 
 	public static final Color buttonUnabled =  new Color(0x7E78B4);
+
+	public static final Color frameBackground =  new Color(0x706335);
 }
