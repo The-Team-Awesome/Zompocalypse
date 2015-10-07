@@ -39,12 +39,11 @@ public class Door implements Item, Lockable {
 	private int uid;
 	protected String imageName;
 	protected int offset;
-	protected int nesw;
 
 	public Door(int x, int y, String[] fileNames, int offset, boolean locked,
 			int uid) {
 		imu = ImageUtils.getImageUtilsObject();
-		imagesOpen = imu.setupImages(fileNames);
+		imagesClosed = imu.setupImages(fileNames);
 
 		String[] tempFiles = new String[2];
 		tempFiles[0] = fileNames[0].substring(0, fileNames[0].length() - 13)
@@ -57,31 +56,28 @@ public class Door implements Item, Lockable {
 						fileNames[1].length());
 
 		imu = ImageUtils.getImageUtilsObject();
-		imagesClosed = imu.setupImages(tempFiles);
+		imagesOpen = imu.setupImages(tempFiles);
 
 		this.x = x;
 		this.y = y;
-		this.fileNamesOpen = fileNames;
-		this.fileNamesClosed = tempFiles;
-		this.imageName = fileNamesOpen[0];
+		this.fileNamesClosed = fileNames;
+		this.fileNamesOpen = tempFiles;
+		this.imageName = fileNamesClosed[0];
 		this.open = false;
 		this.offset = offset;
 		this.occupiable = false;
-		this.locked = locked;
+		this.locked = true;
 		this.uid = uid;
 
-		nesw = 0;
 	}
 
 	public void use(Player player) {
-		if (locked && !open) {
+		if (locked && !open && player != null) {
 			return;
 		}
 		open = !open;
-		if (open)
-			imageName = fileNamesOpen[nesw];
-		else
-			imageName = fileNamesClosed[nesw];
+		occupiable = !occupiable;
+		imageName = fileNamesClosed[0];
 	}
 
 	@Override
@@ -124,7 +120,7 @@ public class Door implements Item, Lockable {
 
 	public boolean occupiable() {
 		// TODO
-		return open;
+		return occupiable;
 	}
 
 	@Override
@@ -135,7 +131,6 @@ public class Door implements Item, Lockable {
 	@Override
 	public String getCSVCode(Map<String, String> textTileMap) {
 		return "2";
-
 	}
 
 	public void setOccupiable(boolean bool) {
@@ -174,9 +169,14 @@ public class Door implements Item, Lockable {
 		return offset;
 	}
 
-	public void rotate() {
+	public String isOpenToString() {
+		if (open)
+			return "true";
+		else
+			return "false";
+	}
 
-		nesw = (nesw + 1) % 2;
+	public void rotate() {
 
 		String[] rotateOpen = new String[fileNamesOpen.length];
 		String[] rotateClosed = new String[fileNamesClosed.length];
@@ -195,7 +195,7 @@ public class Door implements Item, Lockable {
 		this.imagesClosed = imu.setupImages(rotateClosed);
 		if (open) {
 			this.currentImage = imagesOpen[0];
-			this.imageName = rotateOpen[0];
+			this.imageName = rotateClosed[0];
 		} else {
 			this.currentImage = imagesClosed[0];
 			this.imageName = rotateClosed[0];

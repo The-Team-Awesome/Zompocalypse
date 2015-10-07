@@ -283,7 +283,7 @@ public class RenderPanel extends JPanel {
 					if (showWalls) {
 						for (Drawable dd : tempObjects[i][j]) {
 							if (dd != null) {
-								System.out.println(dd.getFileName());
+//								System.out.println(dd.getFileName());
 								dd.draw(x, y, g, currentOrientation);
 							}
 						}
