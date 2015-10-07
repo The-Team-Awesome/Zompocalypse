@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
  * @author Danielle Emygdio
  *
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements WindowListener {
 
 	private CardLayout layout;
 	private GamePanel gameCard;
@@ -150,13 +152,17 @@ public class MainFrame extends JFrame {
 		//this.requestFocus();
 	}
 
+	/**
+	 * Apply settings to this frame.
+	 */
 	private void customizeWindow() {
-		// window customization
 		Image img = Loader.LoadImage(icon);
 		setIconImage(img);
+		// TODO: bring DO_NOTHING_ON_EXIT back when we finish testing
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(1000, 800));
 		setResizable(false);
+		addWindowListener(this);
 
 		pack();
 		setVisible(true);
@@ -401,9 +407,12 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * This method shows a dialog to ask the client if he wants to save the game.
+	 * In case the client chooses yes, it saves the game. Otherwise, it does nothing.
+	 */
 	private void saveGame() {
-		Object[] options = {"Yes, please",
-		                    "No way!"};
+		Object[] options = {"Yes, please", "No way!"};
 
 		int option = JOptionPane.showOptionDialog(this,
 		    "Are you sure you wanna save the game?",
@@ -419,8 +428,58 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * This method shows a dialog to ask the client if he wants to quit the game.
+	 * It disposes the window and exit the application when the player chooses yes,
+	 * otherwise it does nothing.
+	 */
+	private void quitGame() {
+		Object[] options = {"Yes, please", "No way!"};
+
+		int option = JOptionPane.showOptionDialog(this,
+		"Are you sure you quit the game?",
+		"Quit Game",
+		JOptionPane.YES_NO_OPTION,
+		JOptionPane.QUESTION_MESSAGE,
+		null,     //do not use a custom Icon
+		options,  //the titles of buttons
+		options[0]); //default button title
+
+		if(option == 0) {
+			dispose();
+			System.exit(0);
+			// TODO: Sam, is there anything to do with the server whenever the windows close?
+		}
+	}
+
+	/**
+	 * Dialog prompts with options panel displayed.
+	 */
 	private void openOptions() {
 		new JOptionPane();
-
 	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO: bring this method back when we finish testing
+		// quitGame();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
  }
