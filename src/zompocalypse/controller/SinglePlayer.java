@@ -24,10 +24,6 @@ public class SinglePlayer extends GameListener {
 	private World game;
 	private MainFrame frame;
 
-	public SinglePlayer() {
-
-	}
-
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
@@ -67,13 +63,13 @@ public class SinglePlayer extends GameListener {
 			game.processCommand(id, UICommand.SOUTH.getValue());
 
 		} else if ((code == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-			frame.processCommand(code, UICommand.OPTIONS.getValue());
+			frame.processCommand(id, UICommand.OPTIONS.getValue());
 
 		} else if (code == KeyEvent.VK_COMMA) {
-			frame.processCommand(code, UICommand.ROTATECLOCKWISE.getValue());
+			frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
 			game.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
 		} else if (code == KeyEvent.VK_PERIOD) {
-			frame.processCommand(code, UICommand.ROTATEANTICLOCKWISE.getValue());
+			frame.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
 			// Hi. I did this because processCommand/KeyPress/MouseClick should
 			// be the only interactions between players and the World/Frame
 			game.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
@@ -118,20 +114,6 @@ public class SinglePlayer extends GameListener {
 		} else if (code == KeyEvent.VK_V && editable) { // paste location
 			game.pasteLocation();
 		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-		int x = e.getX();
-		int y = e.getY();
-
-		if (game.processMouseClick(id, x, y)) {
-
-		} else {
-
-		}
-
 	}
 
 	@Override

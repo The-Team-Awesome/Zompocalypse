@@ -114,7 +114,6 @@ public class Client extends GameListenerThread {
 		try {
 			int code = e.getKeyCode();
 
-
 			String key = "";
 
 			if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
@@ -125,6 +124,12 @@ public class Client extends GameListenerThread {
 				key = UICommand.EAST.getValue();
 			} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 				key = UICommand.SOUTH.getValue();
+			} else if (code == KeyEvent.VK_COMMA) {
+				frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
+				key = UICommand.ROTATECLOCKWISE.getValue();
+			} else if (code == KeyEvent.VK_PERIOD) {
+				frame.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
+				key = UICommand.ROTATEANTICLOCKWISE.getValue();
 			}
 
 			if(key.length() > 0) {
@@ -140,29 +145,13 @@ public class Client extends GameListenerThread {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		try {
-			int x = e.getX();
-			int y = e.getY();
-
-			output.writeInt(2);
-			output.writeInt(x);
-			output.writeInt(y);
-
-			output.flush();
-		} catch (IOException exception) {
-			// Problem sending information to the Server, just ignore this
-		}
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			String command = e.getActionCommand();
 
 			frame.processCommand(id, command);
 
-			output.writeInt(3);
+			output.writeInt(2);
 			output.writeInt(command.length());
 			output.writeChars(command);
 

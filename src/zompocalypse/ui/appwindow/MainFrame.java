@@ -57,7 +57,6 @@ public class MainFrame extends JFrame {
 	 * is where it will now be relevant, since we are essentially changing
 	 * the functionality over from Main to MainFrame
 	 */
-	private int numClients = 1;
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;
@@ -346,7 +345,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void showBackpack() {
-		InventoryPanel inventory = new InventoryPanel(action, game, 0);
+		ContainerPane inventory = new ContainerPane(action, game, 0);
 		inventory.showInputDialog("test");
 	}
 
