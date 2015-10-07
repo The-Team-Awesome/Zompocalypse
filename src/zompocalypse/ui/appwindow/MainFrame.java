@@ -1,7 +1,6 @@
 package zompocalypse.ui.appwindow;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,6 +24,8 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Container;
+import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
 import zompocalypse.ui.appwindow.multiplayer.CustomServerPanel;
@@ -349,14 +351,34 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * This method displays the contents of the backpack for the
+	 * Player which belongs to the given id.
+	 *
+	 * @param id - The unique ID of the Player
+	 */
 	private void showBackpack(int id) {
 
-		Player p = (Player) game.getCharacterByID(id);
-		ArrayList<GameObject> objects = p.getInventory();
+		Player player = (Player) game.getCharacterByID(id);
+		ArrayList<GameObject> objects = player.getInventory();
 
-		ContainerPane inventory = new ContainerPane(id, objects, action);
+		ContainerPane inventory = new ContainerPane(objects, action);
 		JOptionPane container = new JOptionPane();
 		container.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+	}
+
+
+	/**
+	 * This method opens up a new message dialog, just like the
+	 * showBackpack method, for a unique container with the given id.
+	 *
+	 * @param id - The unique ID of the Container
+	 */
+	private void showContainer(int id) {
+		Container container = null; // get something from the game world here?
+
+		List<Item> object = container.getHeldItems();
+
 	}
 
 	/**

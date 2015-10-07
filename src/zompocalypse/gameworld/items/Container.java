@@ -66,6 +66,10 @@ public class Container implements Item, Lockable{
 		//TODO open and display contents to user probably through a new window
 	}
 
+	public List<Item> getHeldItems() {
+		return heldItems;
+	}
+
 	/**
 	 * Whether or not there is any more room available in this container.
 	 *
@@ -184,7 +188,7 @@ public class Container implements Item, Lockable{
 		}
 		return false;
 	}
-	
+
 	public String examine(){
 		return "It apears to be some sort of container for holding items";
 	}

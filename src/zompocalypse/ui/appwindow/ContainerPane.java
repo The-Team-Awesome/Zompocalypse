@@ -13,17 +13,12 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.ui.appwindow.custom.ZRadioButton;
 
-public class ContainerPane extends JOptionPane {
+public class ContainerPane {
 	private ActionListener action;
-	private int id;
 	private ArrayList<GameObject> objects;
 
-	private JPanel choosingContainer;
-	private JPanel hubContainer;
-
-	public ContainerPane(int id, ArrayList<GameObject> objects, ActionListener action) {
+	public ContainerPane(ArrayList<GameObject> objects, ActionListener action) {
 		super();
-		this.id = id;
 		this.objects = objects;
 		this.action = action;
 	}

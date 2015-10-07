@@ -57,6 +57,11 @@ public final class Player extends MovingCharacter {
 		inventory = new ArrayList<GameObject>();
 		this.orientation = Orientation.NORTH;
 
+		// TODO: This is just temporary, adding objects to the Players
+		// inventory so something is visible when viewing their backpack
+		inventory.add(new Key("gold_key_inv.png", 0));
+		inventory.add(new Key("gold_key_inv.png", 0));
+
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
 		this.currentImage = images[0];
