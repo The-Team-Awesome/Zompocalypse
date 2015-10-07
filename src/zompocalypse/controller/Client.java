@@ -45,16 +45,16 @@ public class Client extends GameListenerThread {
 		this.gameClock = gameClock;
 		this.frame = frame;
 	}
-	
+
 	public int id() {
 		return id;
 	}
-	
+
 	public World game() {
-		
+
 		return game;
 	}
-	
+
 	/**
 	 * This method is required to set up the Client without running it initially.
 	 * It populates the required fields with information from the server so
@@ -64,9 +64,9 @@ public class Client extends GameListenerThread {
 		try {
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
-	
+
 			id = input.readInt();
-	
+
 			objectInput = new ObjectInputStream(input);
 			game = (World) objectInput.readObject();
 		} catch (IOException | ClassNotFoundException e) {
@@ -84,17 +84,17 @@ public class Client extends GameListenerThread {
 			while(running) {
 				int nextTime = (int) System.currentTimeMillis();
 				int change = (nextTime - currentTime);
-				
+
 				if(change > gameClock) {
 					// Make sure the frame is in focus, so key presses are processed
 					frame.requestFocus();
-					
+
 					// Read in the new world and update the frame and render panel with it
 					game = (World) objectInput.readObject();
 					frame.updateGame(game);
-	
+
 					frame.repaint();
-					
+
 					currentTime = (int) System.currentTimeMillis();
 				}
 			}
@@ -114,7 +114,6 @@ public class Client extends GameListenerThread {
 		try {
 			int code = e.getKeyCode();
 
-
 			String key = "";
 
 			if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {
@@ -125,6 +124,12 @@ public class Client extends GameListenerThread {
 				key = UICommand.EAST.getValue();
 			} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 				key = UICommand.SOUTH.getValue();
+			} else if (code == KeyEvent.VK_COMMA) {
+				frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
+				key = UICommand.ROTATECLOCKWISE.getValue();
+			} else if (code == KeyEvent.VK_PERIOD) {
+				frame.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
+				key = UICommand.ROTATEANTICLOCKWISE.getValue();
 			}
 
 			if(key.length() > 0) {
@@ -140,27 +145,13 @@ public class Client extends GameListenerThread {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		try {
-			int x = e.getX();
-			int y = e.getY();
-
-			output.writeInt(2);
-			output.writeInt(x);
-			output.writeInt(y);
-
-			output.flush();
-		} catch (IOException exception) {
-			// Problem sending information to the Server, just ignore this
-		}
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			String command = e.getActionCommand();
 
-			output.writeInt(3);
+			frame.processCommand(id, command);
+
+			output.writeInt(2);
 			output.writeInt(command.length());
 			output.writeChars(command);
 

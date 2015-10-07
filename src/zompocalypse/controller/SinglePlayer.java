@@ -24,10 +24,6 @@ public class SinglePlayer extends GameListener {
 	private World game;
 	private MainFrame frame;
 
-	public SinglePlayer() {
-
-	}
-
 	public SinglePlayer(World game, int id) {
 		this.game = game;
 		this.id = id;
@@ -67,21 +63,16 @@ public class SinglePlayer extends GameListener {
 			game.processCommand(id, UICommand.SOUTH.getValue());
 
 		} else if ((code == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-			frame.processCommand(code, UICommand.OPTIONS.getValue());
+			frame.processCommand(id, UICommand.OPTIONS.getValue());
 
 		} else if (code == KeyEvent.VK_COMMA) {
-			frame.processCommand(code, UICommand.ROTATECLOCKWISE.getValue());
+			frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
 			game.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
-			//game.rotatePlayerPerspective(id, Direction.CLOCKWISE);
 		} else if (code == KeyEvent.VK_PERIOD) {
-			frame.processCommand(code,
-					UICommand.ROTATEANTICLOCKWISE.getValue());
-
+			frame.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
 			// Hi. I did this because processCommand/KeyPress/MouseClick should
 			// be the only interactions between players and the World/Frame
 			game.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
-
-			//game.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 			// TODO this is just something for me to work with to be able to
 			// start editing screens
 		} else if (code == KeyEvent.VK_F8) { // expand north
@@ -128,43 +119,11 @@ public class SinglePlayer extends GameListener {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-
-		int x = e.getX();
-		int y = e.getY();
-
-		if (game.processMouseClick(id, x, y)) {
-
-		} else {
-
-		}
-
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		if (command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-			frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
-			game.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
-			//game.rotatePlayerPerspective(id, Direction.CLOCKWISE);
-		} else if (command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
-			frame.processCommand(id,
-					UICommand.ROTATEANTICLOCKWISE.getValue());
-
-			// Hi. I did this because processCommand/KeyPress/MouseClick should
-			// be the only interactions between players and the World/Frame
-			game.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
-
-			//game.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
-			// TODO this is just something for me to work with to be able to
-			// start editing screens
-		}
-
-		if (game == null || !game.processCommand(id, command)) {
-			frame.processCommand(id, command);
-		}
+		frame.processCommand(id, command);
+		game.processCommand(id, command);
 
 		// After processing an action, give control back to the frame
 		frame.requestFocus();

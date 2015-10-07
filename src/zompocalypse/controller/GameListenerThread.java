@@ -14,25 +14,14 @@ import java.awt.event.MouseListener;
  *
  * @author Sam Costigan
  */
-public abstract class GameListenerThread extends Thread implements KeyListener, MouseListener, ActionListener {
+public abstract class GameListenerThread extends Thread implements KeyListener, ActionListener {
 
 	@Override
 	public abstract void keyPressed(KeyEvent e);
 
 	@Override
-	public abstract void mousePressed(MouseEvent e);
-
-	@Override
 	public abstract void actionPerformed(ActionEvent e);
 
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	@Override
-	public void mouseExited(MouseEvent e) {}
 	@Override
 	public void keyTyped(KeyEvent e) {}
 	@Override

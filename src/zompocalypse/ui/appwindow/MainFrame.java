@@ -57,7 +57,6 @@ public class MainFrame extends JFrame {
 	 * is where it will now be relevant, since we are essentially changing
 	 * the functionality over from Main to MainFrame
 	 */
-	private int numClients = 1;
 	private int port = 32768;
 	private int gameClock = 200;
 	private int clientClock = 100;
@@ -177,33 +176,12 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * Processes the given key press event.
-	 *
-	 * @param id
-	 * @param key
-	 */
-	/*public synchronized boolean processCommand(int id, String key) {
-		if(key == UICommand.ROTATECLOCKWISE.getValue()) {
-			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
-		} else if (key == UICommand.ROTATEANTICLOCKWISE.getValue()) {
-			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
-		} else if (key == UICommand.OPTIONS.getValue()) {
-			saveGame();
-		}
-		return true;
-	}*/
-
-	/**
 	 * Processes action received or key press.
 	 *
 	 * @param id
 	 * @param command
 	 */
 	public synchronized boolean processCommand(int id, String command) {
-//		if(command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())
-//				|| command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-//			gameCard.rotateView(command);
-//			return true;
 		 if(command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
 			return true;
@@ -230,11 +208,11 @@ public class MainFrame extends JFrame {
 		} else if(command.equals(UICommand.BACKPACK.getValue())) {
 			showBackpack();
 			return true;
-		} else if(command == UICommand.ROTATECLOCKWISE.getValue()) {
+		} else if(command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
-		} else if (command == UICommand.ROTATEANTICLOCKWISE.getValue()) {
+		} else if (command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
-		} else if (command == UICommand.OPTIONS.getValue()) {
+		} else if (command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
 		}
 
@@ -367,7 +345,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void showBackpack() {
-		InventoryPanel inventory = new InventoryPanel(action, game, 0);
+		ContainerPane inventory = new ContainerPane(action, game, 0);
 		inventory.showInputDialog("test");
 	}
 

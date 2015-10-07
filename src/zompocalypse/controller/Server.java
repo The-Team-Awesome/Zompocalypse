@@ -60,17 +60,6 @@ public class Server extends Thread {
 
 								break;
 							case 2:
-								// In this case, the event passed was a
-								// mouse click somewhere on the screen
-								int x = input.readInt();
-								int y = input.readInt();
-
-								panel.updateContent("Player " + id + " sent pressed at x: " + x + ", y: " + y);
-
-								game.processMouseClick(id, x, y);
-
-								break;
-							case 3:
 								// In this case, a Swing component was
 								// triggered, such as a button press.
 								// The command is given and will be passed on

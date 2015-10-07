@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import zompocalypse.gameworld.world.World;
 
-public class InventoryPanel extends JOptionPane {
+public class ContainerPane extends JOptionPane {
 	private ActionListener action;
 	private World game;
 	private int id;
@@ -15,7 +15,7 @@ public class InventoryPanel extends JOptionPane {
 	private JPanel choosingContainer;
 	private JPanel hubContainer;
 
-	public InventoryPanel(ActionListener action, World game, int id) {
+	public ContainerPane(ActionListener action, World game, int id) {
 		super();
 		this.action = action;
 		this.game = game;
