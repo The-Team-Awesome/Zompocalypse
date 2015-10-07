@@ -200,11 +200,11 @@ public class MainFrame extends JFrame {
 	 * @param command
 	 */
 	public synchronized boolean processAction(int id, String command) {
-		if(command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())
-				|| command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-			gameCard.rotateView(command);
-			return true;
-		} else if(command.equals(UICommand.OPTIONS.getValue())) {
+//		if(command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())
+//				|| command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
+//			gameCard.rotateView(command);
+//			return true;
+		 if(command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
 			return true;
 		} else if(command.equals(UICommand.LOADGAME.getValue())) {
@@ -248,7 +248,7 @@ public class MainFrame extends JFrame {
 	private void showClient() {
 		layout.show(cards, "4");
 	}
-	
+
 	private void customiseServer() {
 		layout.show(cards, "5");
 	}
@@ -257,10 +257,10 @@ public class MainFrame extends JFrame {
 	 * This method shows the Server screen for a networked game and starts that server running.
 	 */
 	private void startServer() {
-		
+
 		int numClients = customServerCard.getNumClients();
 		serverCard.setNumClients(numClients);
-		
+
 		if(game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);

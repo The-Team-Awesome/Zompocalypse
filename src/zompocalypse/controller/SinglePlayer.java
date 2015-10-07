@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.KeyStroke;
 
+import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
 import zompocalypse.ui.appwindow.UICommand;
@@ -70,11 +71,11 @@ public class SinglePlayer extends GameListener {
 
 		} else if (code == KeyEvent.VK_COMMA) {
 			frame.processKeyPress(code, UICommand.ROTATECLOCKWISE.getValue());
-
+			game.rotatePlayerPerspective(id, Direction.CLOCKWISE);
 		} else if (code == KeyEvent.VK_PERIOD) {
 			frame.processKeyPress(code,
 					UICommand.ROTATEANTICLOCKWISE.getValue());
-
+			game.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 			// TODO this is just something for me to work with to be able to
 			// start editing screens
 		} else if (code == KeyEvent.VK_F8) { // expand north

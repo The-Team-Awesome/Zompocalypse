@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import zompocalypse.datastorage.*;
+import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
@@ -52,7 +53,6 @@ public class World implements Serializable {
 	private boolean editMode = false;
 	private boolean showWalls = true;
 	private Point editor = new Point(0, 0);
-	private RenderPanel renderPanel;
 
 	public World(int width, int height, Floor[][] map,
 			PriorityQueue<GameObject>[][] objects,
@@ -275,7 +275,7 @@ public class World implements Serializable {
 		 * be to store the orientation on each unique player and get it from them. Until this
 		 * is solved, my beautiful networking won't be able to work :(
 		 */
-		Orientation cameraDirection = renderPanel.getCurrentOrientation();
+		Orientation cameraDirection = player.getCurrentOrientation();
 
 		// Remember that key is a String, so call .equals() instead of ==
 
@@ -495,7 +495,8 @@ public class World implements Serializable {
 		}
 	}
 
-	public void setRenderPanel(RenderPanel renderPanel) {
-		this.renderPanel = renderPanel;
+	public void rotatePlayerPerspective(int id, Direction value) {
+		Player player = (Player) idToActor.get(id);
+		player.rotatePerspective(value);
 	}
 }

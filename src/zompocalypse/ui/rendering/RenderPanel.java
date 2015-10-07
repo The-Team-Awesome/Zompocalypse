@@ -55,7 +55,6 @@ public class RenderPanel extends JPanel {
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
-		game.setRenderPanel(this); // game needs to know which orientation of world
 		this.id = id;
 		String[] blank = { "blank_tile.png" };
 		blankTile = new Floor(0, 0, blank);

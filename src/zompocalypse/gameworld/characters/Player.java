@@ -8,10 +8,12 @@ import javax.swing.ImageIcon;
 
 import com.sun.imageio.plugins.common.ImageUtil;
 
+import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
+import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * Player is a human played character in the game.
@@ -38,6 +40,7 @@ public final class Player extends MovingCharacter {
 	private ImageIcon[] images;
 	private String imageName;
 	private ImageIcon currentImage;
+	private Orientation orientation;
 
 	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
 			int score, String playerName, String[] filenames, World game) {
@@ -51,6 +54,7 @@ public final class Player extends MovingCharacter {
 
 		this.game = game;
 		inventory = new ArrayList<GameObject>();
+		this.orientation = Orientation.NORTH;
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
@@ -226,4 +230,71 @@ public final class Player extends MovingCharacter {
 			break;
 		}
 	}
+
+	public Orientation getCurrentOrientation() {
+		return orientation;
+	}
+
+	public void rotatePerspective(Direction value) {
+		switch (value) {
+
+		case CLOCKWISE:
+			updateCurrentOrientationClockwise();
+			return;
+		case ANTICLOCKWISE:
+			updateCurrentOrientationAntiClockwise();
+			return;
+		default:
+			throw new IllegalArgumentException(
+					"Direction wasn't clockwise or anticlockwise");
+		}
+	}
+	/**
+	 * Updates the current orientation of the viewer to its clockwise
+	 * counterpart.
+	 */
+	private void updateCurrentOrientationClockwise() {
+		switch (orientation) {
+		case NORTH:
+			orientation = Orientation.EAST;
+			return;
+		case SOUTH:
+			orientation = Orientation.WEST;
+			return;
+		case EAST:
+			orientation = Orientation.SOUTH;
+			return;
+		case WEST:
+			orientation = Orientation.NORTH;
+			return;
+		default:
+			throw new IllegalArgumentException(
+					"Current orientation is incorrect");
+		}
+	}
+
+	/**
+	 * Updates the current orientation of the viewer to its anticlockwise
+	 * counterpart.
+	 */
+	private void updateCurrentOrientationAntiClockwise() {
+		switch (orientation) {
+		case NORTH:
+			orientation = Orientation.WEST;
+			return;
+		case SOUTH:
+			orientation = Orientation.EAST;
+			return;
+		case EAST:
+			orientation = Orientation.NORTH;
+			return;
+		case WEST:
+			orientation = Orientation.SOUTH;
+			return;
+		default:
+			throw new IllegalArgumentException(
+					"Current orientation is incorrect");
+		}
+	}
+
 }
