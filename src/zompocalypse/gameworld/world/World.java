@@ -328,6 +328,14 @@ public class World implements Serializable {
 				}
 			}
 			return false;
+		} else if(key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
+			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
+			return true;
+		}
+
+		else if(key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
+			this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
+			return true;
 		} else {
 			return false;
 		}
