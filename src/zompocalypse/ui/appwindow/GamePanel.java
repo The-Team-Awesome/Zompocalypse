@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 import zompocalypse.ui.rendering.RenderPanel;
 
@@ -91,7 +92,7 @@ public class GamePanel extends JPanel {
 
 		menuPanel = new JPanel();
 		menuPanel.setPreferredSize(new Dimension(150, 700));
-		menuPanel.setBackground(Color.lightGray);
+		menuPanel.setBackground(CustomUtils.menuPanelBackground);
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 2;
 		c.gridx = 1;
@@ -279,13 +280,13 @@ public class GamePanel extends JPanel {
 		c.ipadx = 2;
 		menuPanel.add(btnSouth, c);
 
-		minimapPanel = new JPanel();
+		/*minimapPanel = new JPanel();
 		minimapPanel.setSize(100, 100);
 		minimapPanel.setBackground(Color.cyan);
 		c.gridx = 1;
 		c.gridy = positionY++;
 		c.insets = generalInset;
-		menuPanel.add(minimapPanel, c);
+		menuPanel.add(minimapPanel, c);*/
 	}
 
 	/**
