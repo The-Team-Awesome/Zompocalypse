@@ -72,16 +72,11 @@ public class SinglePlayer extends GameListener {
 		} else if (code == KeyEvent.VK_COMMA) {
 			frame.processCommand(code, UICommand.ROTATECLOCKWISE.getValue());
 			game.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
-			//game.rotatePlayerPerspective(id, Direction.CLOCKWISE);
 		} else if (code == KeyEvent.VK_PERIOD) {
-			frame.processCommand(code,
-					UICommand.ROTATEANTICLOCKWISE.getValue());
-
+			frame.processCommand(code, UICommand.ROTATEANTICLOCKWISE.getValue());
 			// Hi. I did this because processCommand/KeyPress/MouseClick should
 			// be the only interactions between players and the World/Frame
 			game.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
-
-			//game.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 			// TODO this is just something for me to work with to be able to
 			// start editing screens
 		} else if (code == KeyEvent.VK_F8) { // expand north
@@ -143,26 +138,8 @@ public class SinglePlayer extends GameListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 
-		if (command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-			frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
-			game.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
-			//game.rotatePlayerPerspective(id, Direction.CLOCKWISE);
-		} else if (command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
-			frame.processCommand(id,
-					UICommand.ROTATEANTICLOCKWISE.getValue());
-
-			// Hi. I did this because processCommand/KeyPress/MouseClick should
-			// be the only interactions between players and the World/Frame
-			game.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
-
-			//game.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
-			// TODO this is just something for me to work with to be able to
-			// start editing screens
-		}
-
-		if (game == null || !game.processCommand(id, command)) {
-			frame.processCommand(id, command);
-		}
+		frame.processCommand(id, command);
+		game.processCommand(id, command);
 
 		// After processing an action, give control back to the frame
 		frame.requestFocus();

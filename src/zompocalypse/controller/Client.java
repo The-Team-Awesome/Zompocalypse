@@ -45,16 +45,16 @@ public class Client extends GameListenerThread {
 		this.gameClock = gameClock;
 		this.frame = frame;
 	}
-	
+
 	public int id() {
 		return id;
 	}
-	
+
 	public World game() {
-		
+
 		return game;
 	}
-	
+
 	/**
 	 * This method is required to set up the Client without running it initially.
 	 * It populates the required fields with information from the server so
@@ -64,9 +64,9 @@ public class Client extends GameListenerThread {
 		try {
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
-	
+
 			id = input.readInt();
-	
+
 			objectInput = new ObjectInputStream(input);
 			game = (World) objectInput.readObject();
 		} catch (IOException | ClassNotFoundException e) {
@@ -84,17 +84,17 @@ public class Client extends GameListenerThread {
 			while(running) {
 				int nextTime = (int) System.currentTimeMillis();
 				int change = (nextTime - currentTime);
-				
+
 				if(change > gameClock) {
 					// Make sure the frame is in focus, so key presses are processed
 					frame.requestFocus();
-					
+
 					// Read in the new world and update the frame and render panel with it
 					game = (World) objectInput.readObject();
 					frame.updateGame(game);
-	
+
 					frame.repaint();
-					
+
 					currentTime = (int) System.currentTimeMillis();
 				}
 			}
@@ -159,6 +159,8 @@ public class Client extends GameListenerThread {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			String command = e.getActionCommand();
+
+			frame.processCommand(id, command);
 
 			output.writeInt(3);
 			output.writeInt(command.length());
