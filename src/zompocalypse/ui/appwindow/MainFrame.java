@@ -18,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.text.DefaultEditorKit.CutAction;
 
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
@@ -29,6 +30,7 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
 import zompocalypse.ui.appwindow.multiplayer.CustomServerPanel;
 import zompocalypse.ui.appwindow.multiplayer.MultiplayerPanel;
@@ -163,7 +165,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		setPreferredSize(new Dimension(1000, 800));
 		setResizable(false);
 		addWindowListener(this);
-
+		setBackground(CustomUtils.frameBackground);
 		pack();
 		setVisible(true);
 	}

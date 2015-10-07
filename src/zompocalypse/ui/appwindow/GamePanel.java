@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import zompocalypse.datastorage.Loader;
@@ -60,8 +61,8 @@ public class GamePanel extends JPanel {
 	private static final Image SOUTH = Loader.LoadIcon("south.png");
 	private static final Image WEST = Loader.LoadIcon("west.png");
 	private static final Image EAST = Loader.LoadIcon("east.png");
-	private static final Image CLOCKWISE = Loader.LoadIcon("turnLeft.png");
-	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnRight.png");
+	private static final Image CLOCKWISE = Loader.LoadIcon("turnClockwise.png");
+	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnAnticlockwise.png");
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -79,6 +80,7 @@ public class GamePanel extends JPanel {
 		this.action = action;
 		this.id = id;
 
+		this.setBackground(CustomUtils.frameBackground);
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -102,7 +104,7 @@ public class GamePanel extends JPanel {
 
 		dialoguePanel = new JPanel();
 		dialoguePanel.setPreferredSize(new Dimension(800, 100));
-		dialoguePanel.setBackground(Color.gray);
+		dialoguePanel.setBackground(CustomUtils.blueBackground);
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -114,11 +116,14 @@ public class GamePanel extends JPanel {
 	 * Add components to the dialogPanel.
 	 */
 	private void addDialogPanelComponents() {
-		txtDialog = new JTextArea(4, 50);
+		txtDialog = new JTextArea(5, 65);
+		txtDialog.setFont(CustomUtils.textAreaFont);
+		txtDialog.setText("Welcome to Zompocalypse!\n");
 		txtDialog.setEditable(false);
-		txtDialog.setBackground(Color.LIGHT_GRAY);
+		txtDialog.setBackground(CustomUtils.lightYellow);
 		txtDialog.setVisible(true);
-		dialoguePanel.add(txtDialog);
+		JScrollPane dialog = new JScrollPane(txtDialog);
+		dialoguePanel.add(dialog);
 	}
 
 	/**
@@ -312,6 +317,9 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Saves the current state of the game in its file.
+	 */
 	public void saveGame() {
 		try {
 			zompocalypse.datastorage.Parser.SaveMap(this.game);
