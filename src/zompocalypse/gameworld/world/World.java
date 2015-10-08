@@ -478,6 +478,12 @@ public class World implements Serializable {
 		if (objectName[0].contains("chest")) {
 			objects[editor.x][editor.y].add(new Container(editor.x, editor.y,
 					objectName, 5, false, false, id++));
+		} else if(objectName[0].contains("ground_grey")) {
+			offset = 48;
+			objects[editor.x][editor.y].add(new Wall(objectName, offset));
+		} else if(objectName[0].contains("plant")) {
+			offset = 12;
+			objects[editor.x][editor.y].add(new Wall(objectName, offset));
 		}
 			/*objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
 					objectName, offset, false, id++));*/
