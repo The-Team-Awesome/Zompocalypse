@@ -458,6 +458,11 @@ public class World implements Serializable {
 			objects[editor.x][editor.y].add(new Wall(wallName, offset));
 	}
 
+	/**
+	 * This method adds objects into the game at the given position.
+	 * It gives the user a selector for a range of different objects
+	 * which they can add into the game.
+	 */
 	public void editObject() {
 		while (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
@@ -466,6 +471,7 @@ public class World implements Serializable {
 		if(objectName == null)
 			return;
 
+		// TODO: Really need to change this to create objects based on their string
 		int offset = 0;
 		if (objectName != null)
 			objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
