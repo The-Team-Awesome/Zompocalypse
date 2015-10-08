@@ -255,7 +255,7 @@ public class World implements Serializable {
 	 * @param id
 	 * @param key
 	 */
-	public synchronized boolean processCommand(int id, String key) {
+	public synchronized void processCommand(int id, String key) {
 		// System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
 
@@ -273,65 +273,52 @@ public class World implements Serializable {
 		// Remember that key is a String, so call .equals() instead of ==
 
 		if (key.equals(UICommand.NORTH.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.y--;
-			else
+			} else {
 				player.move(Orientation.NORTH, cameraDirection);
-			return true;
+			}
 		} else if (key.equals(UICommand.SOUTH.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.y++;
-			else
+			} else {
 				player.move(Orientation.SOUTH, cameraDirection);
-			return true;
+			}
 		} else if (key.equals(UICommand.EAST.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.x++;
-			else
-				player.move(Orientation.WEST, cameraDirection); // TODO This is
-																// wrong! Should
-																// be 'east' not
-																// 'west'??? But
-																// it works :(
-			return true;
+			} else {
+				player.move(Orientation.WEST, cameraDirection); // TODO This is wrong! Should be 'east' not
+			}													// 'west'??? But it works :(
 		} else if (key.equals(UICommand.WEST.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.x--;
-			else
+			} else {
 				player.move(Orientation.EAST, cameraDirection); // TODO This is
-																// also wrong!
-			return true;
+			}													// also wrong!
 		} else if (key.equals(UICommand.ITEMONE.getValue())) {
-			return true;
+			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
-			return true;
+			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
-			return true;
+			// TODO: Make this do something!
 		} else if (key.equals(UICommand.USE.getValue())) {
 			for (GameObject o : player.getObjectsHere()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);
-					return true;
+					return;
 				}
 			}
 
 			for (GameObject o : player.getObjectsInfront()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);
-					return true;
 				}
 			}
-			return false;
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
-			return true;
-		}
-
-		else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
+		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
-			return true;
-		} else {
-			return false;
 		}
 	}
 

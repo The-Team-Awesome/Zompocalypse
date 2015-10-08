@@ -63,9 +63,8 @@ public class MainFrame extends JFrame implements WindowListener {
 	private ActionListener action;
 
 	/**
-	 * TODO: This info has just been copied over from the Main class. This
-	 * is where it will now be relevant, since we are essentially changing
-	 * the functionality over from Main to MainFrame
+	 * This information is used for setting up a Networked games' update speed
+	 * and any games clock speed, as well as a central place for networking details.
 	 */
 	private static final String icon = "zombie-icon.png";
 	private int port = 32768;
@@ -185,33 +184,25 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * @param id
 	 * @param command
 	 */
-	public synchronized boolean processCommand(int id, String command) {
+	public synchronized void processCommand(int id, String command) {
 		 if(command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
-			return true;
 		} else if(command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
-			return true;
 		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
 			singlePlayer();
-			return true;
 		} else if(command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
-			return true;
 		} else if(command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();
-			return true;
 		} else if(command.equals(UICommand.STARTSERVER.getValue())) {
 			startServer();
 		} else if(command.equals(UICommand.CLIENT.getValue())) {
 			showClient();
-			return true;
 		} else if(command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
-			return true;
 		} else if(command.equals(UICommand.BACKPACK.getValue())) {
 			showBackpack(id);
-			return true;
 		} else if(command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
 		} else if (command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
@@ -219,8 +210,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
 		}
-
-		return false;
 	}
 
 	/**
