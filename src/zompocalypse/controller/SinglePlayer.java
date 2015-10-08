@@ -113,7 +113,7 @@ public class SinglePlayer extends GameListener {
 			game.editWall();
 		} else if (code == KeyEvent.VK_F && editable) { // rotate Wall or Object
 			game.rotateObject();
-		} else if (code == KeyEvent.VK_B && editable) { // edit object
+		} else if (code == KeyEvent.VK_9 && editable) { // edit object
 			game.editObject();
 		} else if (code == KeyEvent.VK_C && editable) { // copy location
 			game.copyLocation();

@@ -550,7 +550,7 @@ public class WorldBuilder {
 	// TODO copied and pasted this AGAIN, I really need to refactor this
 	// properly some time!
 	// TODO: From Sam. I decided to have a go at getting objects in the game :)
-	public static String[] getFurnitureFileName() {
+	public static String[] getObjectFileName() {
 		String[] result = { "null" };
 		// this is ugly but would need to be stored in a file and parsed from it
 		// anyway
@@ -573,8 +573,8 @@ public class WorldBuilder {
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
-				icon, possibilities, "wall_brown_1_door_closed_ew.png");
+				"Pliz choice a thing", "Choice a thing", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "chest_1_closed_ew.png");
 		if (fileName == null)
 			return null;
 		String beginning = fileName.substring(0, fileName.length() - 6);

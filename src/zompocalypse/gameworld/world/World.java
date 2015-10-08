@@ -459,7 +459,17 @@ public class World implements Serializable {
 	}
 
 	public void editObject() {
-		// TODO Auto-generated method stub
+		while (!objects[editor.x][editor.y].isEmpty())
+			objects[editor.x][editor.y].poll();
+
+		String[] objectName = WorldBuilder.getObjectFileName();
+		if(objectName == null)
+			return;
+
+		int offset = 0;
+		if (objectName != null)
+			objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
+					objectName, offset, false, id++));
 
 	}
 
