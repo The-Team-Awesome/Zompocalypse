@@ -22,7 +22,7 @@ import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
 public class RunningServer extends Thread {
 
 	// The URL to fetch the servers public IP address from
-	private final String ipUrl = "http://curlmyip.com";
+	private final String ipUrl = "http://184.106.112.172";
 
 	// The running server uses this GUI element to display information about itself
 	private ServerPanel panel;
@@ -47,7 +47,7 @@ public class RunningServer extends Thread {
 		this.gameClock = gameClock;
 		this.serverClock = serverClock;
 	}
-	
+
 	public void updateNumClients(int numClients) {
 		this.numClients = numClients;
 	}
@@ -72,7 +72,7 @@ public class RunningServer extends Thread {
 			return ip;
 
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 
 		return null;
@@ -92,11 +92,11 @@ public class RunningServer extends Thread {
 		// TODO: the getPublicIp() method currently fails because it can't reach
 		// the url to get a public IP from. Not sure how to fix this, it seems
 		// like it is being blocked by a firewall. Will test at home!
-		//String ip = getPublicIp();
-		
-		/*if(ip != null) {
+		String ip = getPublicIp();
+
+		if(ip != null) {
 			panel.updateContent("Server running on IP: " + ip);
-		}*/
+		}
 		panel.updateContent("Server listening on port " + port);
 		panel.updateContent("Server awaiting " + numClients + " clients");
 
@@ -135,9 +135,8 @@ public class RunningServer extends Thread {
 				if(numClients == 0) {
 					panel.updateContent("Accepted all client connections, no longer accepting.");
 					multiplePlayerGame();
-					panel.updateContent("All clients disconnected, closing server");
+					panel.updateContent("All clients disconnected, the server has been closed.");
 					socketServer.close();
-					System.exit(1);
 					return;
 				}
 
