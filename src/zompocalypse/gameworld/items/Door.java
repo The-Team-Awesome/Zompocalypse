@@ -41,7 +41,6 @@ public class Door implements Item, Lockable {
 
 	public Door(int x, int y, String[] fileNames, int offset, boolean locked,
 			int uid) {
-		imu = ImageUtils.getImageUtilsObject();
 		imagesClosed = imu.setupImages(fileNames);
 
 		String[] tempFiles = new String[2];
@@ -54,7 +53,6 @@ public class Door implements Item, Lockable {
 				+ fileNames[1].substring(fileNames[1].length() - 7,
 						fileNames[1].length());
 
-		imu = ImageUtils.getImageUtilsObject();
 		imagesOpen = imu.setupImages(tempFiles);
 
 		this.x = x;
@@ -83,7 +81,6 @@ public class Door implements Item, Lockable {
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		// System.out.println("drew current image" + currentImage.toString());
-		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		if (open)
 			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
 					imagesOpen);

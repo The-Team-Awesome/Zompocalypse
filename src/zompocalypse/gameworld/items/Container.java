@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 import zompocalypse.gameworld.Drawable;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.ui.rendering.ImageUtils;
 
 /**
  * A container is a type of item which can hold other items, including other containers.
@@ -22,8 +25,19 @@ public class Container implements Item, Lockable{
 	private int size;
 	private boolean movable;
 	private boolean locked;
+	private boolean open;
 	private String filename;
+
+	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+	protected ImageIcon[] imagesOpen;
+	protected ImageIcon[] imagesClosed;
+	protected ImageIcon currentImage;
+	private String[] fileNamesOpen;
+	private String[] fileNamesClosed;
+
 	private List<Item> heldItems;
+	private int uid;
 
 	/**
 	 * Constructor for container with no items in it.
@@ -52,6 +66,38 @@ public class Container implements Item, Lockable{
 		if (this.size < heldItems.size()){
 			this.size = heldItems.size();
 		}
+	}
+
+	/**
+	 * Woah, this has way too many parameters!
+	 * @param x
+	 * @param y
+	 * @param fileNames
+	 * @param offset
+	 * @param size
+	 * @param movable
+	 * @param locked
+	 * @param uid
+	 */
+	public Container(int x, int y, String[] fileNames, int size,
+			boolean movable, boolean locked, int uid) {
+		fileNamesClosed = fileNames;
+		imagesClosed = imu.setupImages(fileNames);
+
+		fileNamesOpen = new String[fileNames.length];
+
+		for(int i = 0; i < fileNames.length; i++) {
+			fileNamesOpen[i] = fileNames[i].replace("closed", "open");
+		}
+
+		imagesOpen = imu.setupImages(fileNamesOpen);
+
+		this.size = size;
+		this.movable = movable;
+		this.locked = locked;
+		this.open = false;
+		this.heldItems = new ArrayList<Item>();
+		this.uid = uid;
 	}
 
 	public void use(Player player){
@@ -161,12 +207,18 @@ public class Container implements Item, Lockable{
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		// TODO Auto-generated method stub
-
+		if (open) {
+			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+					imagesOpen);
+		} else {
+			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+				imagesClosed);
+		}
+		g.drawImage(currentImage.getImage(), x, y, null);
 	}
 
 	public int getUniqueID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return uid;
 	}
 
 	@Override
@@ -191,5 +243,31 @@ public class Container implements Item, Lockable{
 
 	public String examine(){
 		return "It apears to be some sort of container for holding items";
+	}
+
+	public void rotate() {
+
+		String[] rotateOpen = new String[fileNamesOpen.length];
+		String[] rotateClosed = new String[fileNamesClosed.length];
+		for (int x = 0; x < rotateOpen.length - 1; x++) {
+			rotateOpen[x] = fileNamesOpen[x + 1];
+			rotateClosed[x] = fileNamesClosed[x + 1];
+		}
+		rotateOpen[rotateOpen.length - 1] = fileNamesOpen[0];
+		rotateClosed[rotateClosed.length - 1] = fileNamesClosed[0];
+
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+
+		this.fileNamesOpen = rotateOpen;
+		this.fileNamesClosed = rotateClosed;
+		this.imagesOpen = imu.setupImages(rotateOpen);
+		this.imagesClosed = imu.setupImages(rotateClosed);
+		if (open) {
+			this.currentImage = imagesOpen[0];
+			this.filename = rotateClosed[0];
+		} else {
+			this.currentImage = imagesClosed[0];
+			this.filename = rotateClosed[0];
+		}
 	}
 }

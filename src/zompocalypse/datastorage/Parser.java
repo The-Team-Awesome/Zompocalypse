@@ -317,13 +317,13 @@ public class Parser {
 							getCode(map[row][col].getFileName(), textTileMap));
 					xmlRow.appendChild(xmlCell);
 					if (objects[row][col] != null) {
-						if (objects[row][col].peek() instanceof zompocalypse.gameworld.world.Wall) {
+						if (objects[row][col].peek() instanceof Wall) {
 							Wall wall = (Wall) objects[row][col].peek();
 							xmlCell.setAttribute("wall",
 									getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset",
 									String.valueOf(wall.getOffset()));
-						} else if (objects[row][col].peek() instanceof zompocalypse.gameworld.items.Door) {
+						} else if (objects[row][col].peek() instanceof Door) {
 							Door door = (Door) objects[row][col].peek();
 							xmlCell.setAttribute("door",
 									getCode(door.getFileName(), textTileMap));
@@ -331,6 +331,9 @@ public class Parser {
 									String.valueOf(door.getOffset()));
 							xmlCell.setAttribute("open", String.valueOf(door.isOpen()));
 							xmlCell.setAttribute("locked", String.valueOf(door.isLocked()));
+						} else if(objects[row][col].peek() instanceof Container) {
+							Container door = (Container) objects[row][col].peek();
+							// TODO: I don't know what I'm doing here! I'll leave this to David :)
 						}
 					}
 					if (zombieSpawnPoints.contains(new Point(row, col))) {
