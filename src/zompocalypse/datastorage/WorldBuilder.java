@@ -546,4 +546,89 @@ public class WorldBuilder {
 		}
 		return result;
 	}
+
+	// TODO copied and pasted this AGAIN, I really need to refactor this
+	// properly some time!
+	// TODO: From Sam. I decided to have a go at getting objects in the game :)
+	public static String[] getFurnitureFileName() {
+		String[] result = { "null" };
+		// this is ugly but would need to be stored in a file and parsed from it
+		// anyway
+		Object[] possibilities = { "chest_1_closed_ew.png",
+				"chest_2_closed.png",
+				"chest_3_closed_ew.png",
+				"cupboard_1_closed_ew.png",
+				"ground_grey_tree_1.png",
+				"ground_grey_tree_2.png",
+				"ground_grey_tree_3.png",
+				"ground_grey_tree_4.png",
+				"ground_grey_tree_5.png",
+				"ground_grey_obelisk_1.png",
+				"ground_grey_obelisk_1.png",
+				"barrel_1_closed.png",
+				"barrel_2.png",
+				"barrel_3_ew.png"
+		};
+		// TODO this works, but I am uncomfortable with these null values!
+		Component frame = null;
+		Icon icon = null;
+		String fileName = (String) JOptionPane.showInputDialog(frame,
+				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "wall_brown_1_door_closed_ew.png");
+		if (fileName == null)
+			return null;
+		String beginning = fileName.substring(0, fileName.length() - 6);
+		String end = fileName.substring(fileName.length() - 4,
+				fileName.length());
+		String direction = fileName.substring(fileName.length() - 6,
+				fileName.length() - 4);
+		System.out.println(beginning + direction + end);
+
+		// ha ha this is so ugly but it is very late :(
+		switch (direction) {
+		case "_n":
+			result = new String[4];
+			result[0] = beginning + "_n" + end;
+			result[1] = beginning + "_e" + end;
+			result[2] = beginning + "_s" + end;
+			result[3] = beginning + "_w" + end;
+			break;
+		case "_e":
+			result = new String[4];
+			result[0] = beginning + "_e" + end;
+			result[1] = beginning + "_s" + end;
+			result[2] = beginning + "_w" + end;
+			result[3] = beginning + "_n" + end;
+			break;
+		case "_s":
+			result = new String[4];
+			result[0] = beginning + "_s" + end;
+			result[1] = beginning + "_w" + end;
+			result[2] = beginning + "_n" + end;
+			result[3] = beginning + "_e" + end;
+			break;
+		case "_w":
+			result = new String[4];
+			result[0] = beginning + "_w" + end;
+			result[1] = beginning + "_n" + end;
+			result[2] = beginning + "_e" + end;
+			result[3] = beginning + "_s" + end;
+			break;
+		case "ns":
+			result = new String[2];
+			result[0] = beginning + "ns" + end;
+			result[1] = beginning + "ew" + end;
+			break;
+		case "ew":
+			result = new String[2];
+			result[0] = beginning + "ew" + end;
+			result[1] = beginning + "ns" + end;
+			break;
+		default:
+			result = new String[1];
+			result[0] = fileName;
+			break;
+		}
+		return result;
+	}
 }
