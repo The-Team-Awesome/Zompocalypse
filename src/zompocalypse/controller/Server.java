@@ -45,8 +45,11 @@ public class Server extends Thread {
 			ObjectOutputStream objOut = new ObjectOutputStream(output);
 			objOut.writeObject(game);
 
+			int time = (int) System.currentTimeMillis();
+			int gap = time - (int) System.currentTimeMillis();
+
 			while(running) {
-				try {
+				//try {
 					if(input.available() != 0) {
 						int code = input.readInt();
 						switch(code) {
@@ -54,7 +57,7 @@ public class Server extends Thread {
 								// In this case, a key was pressed
 								String key = readInputString(input);
 
-								panel.updateContent("Player " + id + " sent command " + key);
+								//panel.updateContent("Player " + id + " sent command " + key);
 
 								game.processCommand(id, key);
 
@@ -65,7 +68,7 @@ public class Server extends Thread {
 								// The command is given and will be passed on
 								String command = readInputString(input);
 
-								panel.updateContent("Player " + id + " sent command " + command);
+								//panel.updateContent("Player " + id + " sent command " + command);
 
 								game.processCommand(id, command);
 
@@ -73,18 +76,25 @@ public class Server extends Thread {
 						}
 					}
 
-					// The objOut stream needs to be reset in order to send the correct data.
-					// By default, serialized objects are cached for the duration of the output
-					// stream. Resetting the streams means the correctly updated info is sent!
-					objOut.reset();
-					objOut.writeObject(game);
+					// This makes sure the game state is only broadcast every
+					// time the time passed has exceeded the value of networkClock.
+					gap = (int) System.currentTimeMillis() - time;
+					if(gap > networkClock) {
+
+						// The objOut stream needs to be reset in order to send the correct data.
+						// By default, serialized objects are cached for the duration of the output
+						// stream. Resetting the streams means the correctly updated info is sent!
+						objOut.reset();
+						objOut.writeObject(game);
+						time = (int) System.currentTimeMillis();
+					}
 
 					output.flush();
 
-					Thread.sleep(networkClock);
-				} catch (InterruptedException e) {
+					//Thread.sleep(networkClock);
+				/*} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				}*/
 			}
 
 			objOut.close();
