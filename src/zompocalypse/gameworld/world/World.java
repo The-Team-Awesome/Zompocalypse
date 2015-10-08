@@ -303,6 +303,7 @@ public class World implements Serializable {
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
 			// TODO: Make this do something!
 		} else if (key.equals(UICommand.USE.getValue())) {
+			// Process any objects the player is standing on first
 			for (GameObject o : player.getObjectsHere()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);
@@ -310,9 +311,11 @@ public class World implements Serializable {
 				}
 			}
 
+			// Then, if no objects were used before, process any in front of the player
 			for (GameObject o : player.getObjectsInfront()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);
+					return;
 				}
 			}
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {

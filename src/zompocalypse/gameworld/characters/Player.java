@@ -172,6 +172,7 @@ public final class Player extends MovingCharacter {
 	public PriorityQueue<GameObject> getObjectsHere() {
 		int myX = getX();
 		int myY = getY();
+
 		World game = getWorld();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
@@ -183,14 +184,20 @@ public final class Player extends MovingCharacter {
 		int frontY = getY();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
-		if (orientation == Orientation.NORTH && frontY > 0) {
+		// Hi, I'm Sam. I changed orientation to queued here because that
+		// represents the players actual direction. It may be that orientation
+		// was added as a double up, because MovingCharacter also has an
+		// orientation field. I'd like to suggest queued is renamed to direction,
+		// because it represents what it is more accurately :)
+
+		if (queued == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
-		} else if (orientation == Orientation.EAST && frontX < game.width() - 1) {
+		} else if (queued == Orientation.EAST && frontX < game.width() - 1) {
 			return worldObs[frontX + 1][frontY];
-		} else if (orientation == Orientation.SOUTH
+		} else if (queued == Orientation.SOUTH
 				&& frontY < game.height() - 1) {
 			return worldObs[frontX][frontY + 1];
-		} else if (orientation == Orientation.EAST && frontX > 0) {
+		} else if (queued == Orientation.WEST && frontX > 0) {
 			return worldObs[frontX - 1][frontY];
 		}
 		// if we are facing the edge of the world return an empty queue of
