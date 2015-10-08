@@ -72,7 +72,7 @@ public class RunningServer extends Thread {
 			return ip;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		return null;
