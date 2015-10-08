@@ -13,6 +13,6 @@
  * player game, the {@link SinglePlayer} class fills the role of the client and server. It receives user events
  * when they happen and also passes them to the model at the same time.
  *
- * @author Sam Costigan
+ * @author Sam Costigan, much obliged to Dave Pearce's Pacman: https://github.com/DavePearce/Pacman
  */
 package zompocalypse.controller;

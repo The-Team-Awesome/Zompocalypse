@@ -75,6 +75,7 @@ public class Door implements Item, Lockable {
 		if (locked && !open && player != null) {
 			return;
 		}
+
 		open = !open;
 		occupiable = !occupiable;
 		imageName = fileNamesClosed[0];

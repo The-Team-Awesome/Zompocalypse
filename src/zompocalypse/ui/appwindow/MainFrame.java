@@ -180,18 +180,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 * This method takes an x and y co-ordinate for a click and does shit with it.
-	 *
-	 * @param id
-	 * @param x
-	 * @param y
-	 */
-	public synchronized boolean processMouseClick(int id, int x, int y) {
-
-		return true;
-	}
-
-	/**
 	 * Processes action received or key press.
 	 *
 	 * @param id

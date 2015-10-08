@@ -251,19 +251,6 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * This method takes an x and y co-ordinate for a click and does shit with
-	 * it.
-	 *
-	 * @param id
-	 * @param x
-	 * @param y
-	 */
-	public synchronized boolean processMouseClick(int id, int x, int y) {
-		// System.out.println(id + ", " + x + ":" + y);
-		return true;
-	}
-
-	/**
 	 *
 	 * @param id
 	 * @param key
@@ -327,6 +314,7 @@ public class World implements Serializable {
 					return true;
 				}
 			}
+
 			for (GameObject o : player.getObjectsInfront()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);

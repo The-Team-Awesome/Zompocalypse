@@ -35,7 +35,7 @@ public class Loader {
 	public static final String iconsDir = "icons";
 	public static final String mapDir = "map";
 
-	public static final String mapFile = "SamsMapWithDoors.xml";
+	public static final String mapFile = "map.xml";
 	public static final String testFile = "Test_Suite_Map.xml";
 	public static final char separator = '/';
 
