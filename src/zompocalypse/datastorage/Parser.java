@@ -323,7 +323,7 @@ public class Parser {
 									getCode(wall.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset",
 									String.valueOf(wall.getOffset()));
-						} else if (objects[row][col].peek() instanceof zompocalypse.gameworld.world.Door) {
+						} else if (objects[row][col].peek() instanceof zompocalypse.gameworld.items.Door) {
 							Door door = (Door) objects[row][col].peek();
 							xmlCell.setAttribute("door",
 									getCode(door.getFileName(), textTileMap));

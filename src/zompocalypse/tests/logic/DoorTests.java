@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import zompocalypse.gameworld.world.Door;
+import zompocalypse.gameworld.items.Door;
 
 public class DoorTests {
 

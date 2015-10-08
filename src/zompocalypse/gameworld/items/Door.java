@@ -1,4 +1,4 @@
-package zompocalypse.gameworld.world;
+package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
 import java.util.Map;
@@ -9,7 +9,6 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
-import zompocalypse.gameworld.items.Item;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**

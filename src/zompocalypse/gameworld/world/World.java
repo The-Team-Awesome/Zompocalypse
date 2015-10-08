@@ -16,6 +16,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.rendering.RenderPanel;
@@ -473,9 +474,12 @@ public class World implements Serializable {
 
 		// TODO: Really need to change this to create objects based on their string
 		int offset = 0;
-		if (objectName != null)
-			objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
-					objectName, offset, false, id++));
+		if (objectName[0].contains("chest")) {
+			/*objects[editor.x][editor.y].add(new Container(editor.x, editor.y,
+					objectName, offset, false, id++));*/
+		}
+			/*objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
+					objectName, offset, false, id++));*/
 
 	}
 
