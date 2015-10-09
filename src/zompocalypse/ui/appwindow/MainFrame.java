@@ -21,11 +21,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.text.DefaultEditorKit.CutAction;
 
+import javafx.scene.media.MediaPlayer;
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
+import zompocalypse.datastorage.SoundManager;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
@@ -100,8 +102,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
 		
-		Clip theme = Loader.LoadSound("theme.wav");
-		theme.loop(10);
+		SoundManager.playTheme();
 
 		// setting content as default content for this frame
 		setContentPane(cards);

@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,8 +18,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
-
-import zompocalypse.Main;
 
 /**
  * This class is a central place for loading all images, text, sound, font
@@ -151,6 +153,16 @@ public class Loader {
 		}
 
 		return null;
+	}
+	
+	public static MediaPlayer LoadMP3(String filename) {
+		JFXPanel fxPanel = new JFXPanel();
+		String name = soundDir + separator + filename;
+		File soundFile = LoadFile(name);
+		Media hit = new Media(soundFile.toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(hit);
+		
+		return mediaPlayer;
 	}
 
 }
