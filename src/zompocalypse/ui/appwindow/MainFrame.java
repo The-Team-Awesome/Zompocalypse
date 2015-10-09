@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -98,6 +99,9 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
+		
+		Clip theme = Loader.LoadSound("theme.wav");
+		theme.loop(10);
 
 		// setting content as default content for this frame
 		setContentPane(cards);

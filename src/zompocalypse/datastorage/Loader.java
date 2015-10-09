@@ -34,6 +34,7 @@ public class Loader {
 	public static final String spritesDir = "sprites";
 	public static final String iconsDir = "icons";
 	public static final String mapDir = "map";
+	public static final String soundDir = "sounds";
 
 	public static final String mapFile = "map.xml";
 	public static final String testFile = "Test_Suite_Map.xml";
@@ -70,7 +71,7 @@ public class Loader {
 
 			OutputStream out = new FileOutputStream(file);
 
-			//System.out.println(name);
+			System.out.println(name);
 
 			while ((read = stream.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
@@ -133,8 +134,9 @@ public class Loader {
 	 */
 	public static Clip LoadSound(String filename) {
 		try {
+			String name = soundDir + separator + filename;
 			Clip clip = AudioSystem.getClip();
-			File soundFile = LoadFile(filename);
+			File soundFile = LoadFile(name);
 	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(soundFile);
 			clip.open(inputStream);
 
