@@ -1,10 +1,12 @@
 package zompocalypse.ui.appwindow.multiplayer;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import zompocalypse.controller.RunningServer;
@@ -39,15 +41,18 @@ public class ServerPanel extends JPanel {
 		int positionY = 0;
 
 		field = new JTextArea();
-		field.setText(content);
 		field.setEditable(false);
 		field.setText(content);
 
+		JScrollPane scroller = new JScrollPane(field);
+		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setPreferredSize(new Dimension(800, 600));
+
 		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
-		this.add(field, constraints);
+		this.add(scroller, constraints);
 	}
-	
+
 	public void setNumClients(int numClients) {
 		server.updateNumClients(numClients);
 	}

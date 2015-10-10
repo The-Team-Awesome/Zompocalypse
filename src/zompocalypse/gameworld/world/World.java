@@ -1,24 +1,24 @@
 package zompocalypse.gameworld.world;
 
 import java.awt.Point;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import zompocalypse.datastorage.*;
+import zompocalypse.datastorage.WorldBuilder;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Container;
+import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Torch;
+import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
-import zompocalypse.ui.rendering.RenderPanel;
 
 /**
  * The World class representing the world in which Zompocolypse takes place.
@@ -56,7 +56,7 @@ public class World implements Serializable {
 
 	public World(int width, int height, Floor[][] map,
 			PriorityQueue<GameObject>[][] objects,
-			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints) {
+			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints, int id) {
 		this.width = width;
 		this.height = height;
 		this.map = map;
@@ -64,6 +64,7 @@ public class World implements Serializable {
 		this.orientation = Orientation.NORTH;
 		this.zombieSpawnPoints = zombieSpawnPoints;
 		this.playerSpawnPoints = playerSpawnPoints;
+		this.id = id;
 	}
 
 	/**
@@ -97,7 +98,7 @@ public class World implements Serializable {
 		return height;
 	}
 
-	public boolean isWall(int x, int y) {
+	public boolean isBlocked(int x, int y) {
 
 		// everything off the map is treated as a wall
 		if (x < 0 || y < 0 || x >= width || y >= height) {
@@ -105,9 +106,13 @@ public class World implements Serializable {
 		}
 		PriorityQueue<GameObject> obj = objects[x][y];
 		for (GameObject o : obj) {
-			if (o != null && o instanceof Wall) {
+			if (o != null && o instanceof Wall)
 				return true;
-			}
+			else if (o instanceof Wall)
+				return true;
+			else if (o instanceof Door)
+				return !((Door)o).occupiable();
+
 		}
 		return false;
 	}
@@ -246,24 +251,11 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * This method takes an x and y co-ordinate for a click and does shit with
-	 * it.
-	 *
-	 * @param id
-	 * @param x
-	 * @param y
-	 */
-	public synchronized boolean processMouseClick(int id, int x, int y) {
-		// System.out.println(id + ", " + x + ":" + y);
-		return true;
-	}
-
-	/**
 	 *
 	 * @param id
 	 * @param key
 	 */
-	public synchronized boolean processCommand(int id, String key) {
+	public synchronized void processCommand(int id, String key) {
 		// System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
 
@@ -281,64 +273,55 @@ public class World implements Serializable {
 		// Remember that key is a String, so call .equals() instead of ==
 
 		if (key.equals(UICommand.NORTH.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.y--;
-			else
+			} else {
 				player.move(Orientation.NORTH, cameraDirection);
-			return true;
+			}
 		} else if (key.equals(UICommand.SOUTH.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.y++;
-			else
+			} else {
 				player.move(Orientation.SOUTH, cameraDirection);
-			return true;
+			}
 		} else if (key.equals(UICommand.EAST.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.x++;
-			else
-				player.move(Orientation.WEST, cameraDirection); // TODO This is
-																// wrong! Should
-																// be 'east' not
-																// 'west'??? But
-																// it works :(
-			return true;
+			} else {
+				player.move(Orientation.WEST, cameraDirection); // TODO This is wrong! Should be 'east' not
+			}													// 'west'??? But it works :(
 		} else if (key.equals(UICommand.WEST.getValue())) {
-			if (editMode)
+			if (editMode) {
 				editor.x--;
-			else
+			} else {
 				player.move(Orientation.EAST, cameraDirection); // TODO This is
-																// also wrong!
-			return true;
+			}													// also wrong!
 		} else if (key.equals(UICommand.ITEMONE.getValue())) {
-			return true;
+			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
-			return true;
+			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
-			return true;
+			// TODO: Make this do something!
 		} else if (key.equals(UICommand.USE.getValue())) {
+			// Process any objects the player is standing on first
 			for (GameObject o : player.getObjectsHere()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);
-					return true;
+					return;
 				}
 			}
+
+			// Then, if no objects were used before, process any in front of the player
 			for (GameObject o : player.getObjectsInfront()) {
 				if (o instanceof Item) {
 					((Item) o).use(player);
-					return true;
+					return;
 				}
 			}
-			return false;
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
-			return true;
-		}
-
-		else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
+		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -475,8 +458,41 @@ public class World implements Serializable {
 			objects[editor.x][editor.y].add(new Wall(wallName, offset));
 	}
 
+	/**
+	 * This method adds objects into the game at the given position.
+	 * It gives the user a selector for a range of different objects
+	 * which they can add into the game.
+	 */
 	public void editObject() {
-		// TODO Auto-generated method stub
+		while (!objects[editor.x][editor.y].isEmpty())
+			objects[editor.x][editor.y].poll();
+
+		String[] objectName = WorldBuilder.getObjectFileName();
+		if(objectName == null)
+			return;
+
+		int offset = 0;
+		if (objectName[0].contains("chest")) {
+			objects[editor.x][editor.y].add(new Container(editor.x, editor.y,
+					objectName, 5, false, false, id++));
+		} else if(objectName[0].contains("ground_grey")) {
+			// This is a decorative object, but functions just the same as a wall
+			offset = 48;
+			objects[editor.x][editor.y].add(new Wall(objectName, offset));
+		} else if(objectName[0].contains("plant")) {
+			// Plants function basically the same as a Wall, they just look slightly different
+			offset = 12;
+			objects[editor.x][editor.y].add(new Wall(objectName, offset));
+		} else if(objectName[0].contains("sword")) {
+			// This is a Sword! They need a specific description and strength rating,
+			// to give the game different kinds of swords with different qualities.
+			String description = WorldBuilder.getString("Pliz do a description");
+			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
+			objects[editor.x][editor.y].add(new Weapon(objectName[0], description, id++, strength));
+		} else if(objectName[0].contains("torch")) {
+			// This is a torch, pretty torch gives the player light :)
+			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
+		}
 
 	}
 
@@ -503,6 +519,8 @@ public class World implements Serializable {
 			((Wall) x).rotate();
 		} else if (x instanceof Door) {
 			((Door) x).rotate();
+		} else if(x instanceof Container) {
+			((Container) x).rotate();
 		}
 	}
 

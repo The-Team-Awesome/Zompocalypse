@@ -14,17 +14,20 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.text.DefaultEditorKit.CutAction;
 
+import javafx.scene.media.MediaPlayer;
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
+import zompocalypse.datastorage.SoundManager;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
@@ -63,9 +66,8 @@ public class MainFrame extends JFrame implements WindowListener {
 	private ActionListener action;
 
 	/**
-	 * TODO: This info has just been copied over from the Main class. This
-	 * is where it will now be relevant, since we are essentially changing
-	 * the functionality over from Main to MainFrame
+	 * This information is used for setting up a Networked games' update speed
+	 * and any games clock speed, as well as a central place for networking details.
 	 */
 	private static final String icon = "zombie-icon.png";
 	private int port = 32768;
@@ -99,6 +101,8 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
+
+		//SoundManager.playTheme();
 
 		// setting content as default content for this frame
 		setContentPane(cards);
@@ -175,19 +179,8 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * @param game - updated instance of World.
 	 */
 	public void updateGame(World game) {
+		this.game = game;
 		gameCard.updateGame(game);
-	}
-
-	/**
-	 * This method takes an x and y co-ordinate for a click and does shit with it.
-	 *
-	 * @param id
-	 * @param x
-	 * @param y
-	 */
-	public synchronized boolean processMouseClick(int id, int x, int y) {
-
-		return true;
 	}
 
 	/**
@@ -196,33 +189,25 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * @param id
 	 * @param command
 	 */
-	public synchronized boolean processCommand(int id, String command) {
+	public synchronized void processCommand(int id, String command) {
 		 if(command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
-			return true;
 		} else if(command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
-			return true;
 		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
 			singlePlayer();
-			return true;
 		} else if(command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
-			return true;
 		} else if(command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();
-			return true;
 		} else if(command.equals(UICommand.STARTSERVER.getValue())) {
 			startServer();
 		} else if(command.equals(UICommand.CLIENT.getValue())) {
 			showClient();
-			return true;
 		} else if(command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
-			return true;
 		} else if(command.equals(UICommand.BACKPACK.getValue())) {
 			showBackpack(id);
-			return true;
 		} else if(command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
 		} else if (command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
@@ -230,8 +215,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
 		}
-
-		return false;
 	}
 
 	/**
@@ -370,9 +353,10 @@ public class MainFrame extends JFrame implements WindowListener {
 		Player player = (Player) game.getCharacterByID(id);
 		ArrayList<GameObject> objects = player.getInventory();
 
-		ContainerPane inventory = new ContainerPane(objects, action);
-		JOptionPane container = new JOptionPane();
-		container.showMessageDialog(this, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		ContainerPanel inventory = new ContainerPanel(objects, action);
+
+		JOptionPane.showMessageDialog(null, inventory,
+				"Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 

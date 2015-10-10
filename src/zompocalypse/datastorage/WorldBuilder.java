@@ -290,21 +290,39 @@ public class WorldBuilder {
 		String[] result = { "null" };
 		// this is ugly but would need to be stored in a file and parsed from it
 		// anyway
-		Object[] possibilities = { "ground_grey_1.png", "ground_grey_2.png",
-				"ground_grey_dark_circle_1.png", "ground_grey_dark_dots_1.png",
-				"ground_grey_green_dots_1.png", "ground_grey_greenish_1.png",
-				"ground_grey_greenish_2.png", "ground_grey_mushrooms_1.png",
-				"ground_grey_mushrooms_2.png", "ground_grey_mushrooms_3.png",
-				"ground_grey_mushrooms_4.png", "ground_grey_mushrooms_5.png",
-				"ground_grey_mushrooms_6.png", "ground_grey_mushrooms_7.png",
-				"ground_grey_mushrooms_8.png", "ground_grey_patch_1.png",
-				"ground_grey_pool_1.png", "ground_grey_pools_1.png",
-				"ground_grey_pools_2.png", "ground_grey_red_dots_1.png",
+		Object[] possibilities = {
+				"ground_grey_1.png",
+				"ground_grey_2.png",
+				"ground_grey_dark_circle_1.png",
+				"ground_grey_dark_dots_1.png",
+				"ground_grey_green_dots_1.png",
+				"ground_grey_greenish_1.png",
+				"ground_grey_greenish_2.png",
+				"ground_grey_mushrooms_1.png",
+				"ground_grey_mushrooms_2.png",
+				"ground_grey_mushrooms_3.png",
+				"ground_grey_mushrooms_4.png",
+				"ground_grey_mushrooms_5.png",
+				"ground_grey_mushrooms_6.png",
+				"ground_grey_mushrooms_7.png",
+				"ground_grey_mushrooms_8.png",
+				"ground_grey_patch_1.png",
+				"ground_grey_pool_1.png",
+				"ground_grey_pools_1.png",
+				"ground_grey_pools_2.png",
+				"ground_grey_red_dots_1.png",
 				"ground_grey_road_corner_1_e.png",
 				"ground_grey_road_end_1_e.png",
 				"ground_grey_road_straight_1_ew.png",
-				"ground_grey_road_t_1_e.png", "ground_grey_road_x_1.png",
+				"ground_grey_road_t_1_e.png",
+				"ground_grey_road_x_1.png",
 				"ground_grey_stones_1.png",
+				"ground_grey_rock_1.png",
+				"ground_grey_rock_2.png",
+				"ground_grey_rock_3.png",
+				"ground_grey_spikes_1.png",
+				"ground_grey_spikes_2.png",
+				"ground_grey_spikes_3.png",
 				"ground_grey_tile_1_corner_1_e.png",
 				"ground_grey_tile_1_one_side_1_e.png",
 				"ground_grey_tile_1_two_sides_1_e.png",
@@ -313,18 +331,24 @@ public class WorldBuilder {
 				"ground_grey_tile_2_loose_2.png",
 				"ground_grey_tile_2_one_side_e.png",
 				"ground_grey_tile_2_two_sides_e.png",
-				"ground_grey_trash_1.png", "ground_grey_water_corner_e.png",
+				"ground_grey_trash_1.png",
+				"water_1.png",
+				"ground_grey_water_corner_e.png",
 				"ground_grey_water_island_1.png",
 				"ground_grey_water_one_side_e.png",
 				"ground_grey_water_rock_1.png",
-				"ground_grey_water_two_sides_e.png", "ground_tile_1.png",
+				"ground_grey_water_two_sides_e.png",
+				"ground_tile_1.png",
 				"ground_tile_1_greenish_1.png",
 				"ground_tile_1_tile_2_corner_e.png",
 				"ground_tile_1_tile_2_one_side_e.png",
-				"ground_tile_1_tile_2_two_sides_e.png", "ground_tile_2.png",
-				"ground_tile_2_2.png", "ground_tile_2_gravel_2.png",
+				"ground_tile_1_tile_2_two_sides_e.png",
+				"ground_tile_2.png",
+				"ground_tile_2_2.png",
+				"ground_tile_2_gravel_2.png",
 				"ground_tile_2_green_dots_1.png",
-				"ground_tile_2_greenish_1.png", "ground_tile_2_red_dots_1.png",
+				"ground_tile_2_greenish_1.png",
+				"ground_tile_2_red_dots_1.png",
 				"ground_tile_2_trash_1.png" };
 		// TODO this works, but I am uncomfortable with these null values!
 		Component frame = null;
@@ -546,4 +570,133 @@ public class WorldBuilder {
 		}
 		return result;
 	}
+
+	// TODO copied and pasted this AGAIN, I really need to refactor this
+	// properly some time!
+	// TODO: From Sam. I decided to have a go at getting objects in the game :)
+	public static String[] getObjectFileName() {
+		String[] result = { "null" };
+		// this is ugly but would need to be stored in a file and parsed from it
+		// anyway
+		Object[] possibilities = { "chest_1_closed_ew.png",
+				"chest_2_closed.png",
+				"chest_3_closed_ew.png",
+				"cupboard_1_closed_ew.png",
+				"ground_grey_tree_1.png",
+				"ground_grey_tree_2.png",
+				"ground_grey_tree_3.png",
+				"ground_grey_tree_4.png",
+				"ground_grey_tree_5.png",
+				"ground_grey_obelisk_1.png",
+				"ground_grey_obelisk_2.png",
+				"plant_1.png",
+				"plant_2.png",
+				"plant_3.png",
+				"plant_5.png",
+				"plant_6.png",
+				"barrel_1_closed.png",
+				"barrel_2.png",
+				"barrel_3_ew.png",
+				"torch.png",
+				"sword_1.png",
+				"sword_2.png",
+				"sword_3.png",
+				"sword_4.png",
+				"sword_5.png",
+				"sword_6.png",
+				"sword_7.png",
+				"sword_8.png",
+				"sword_9.png",
+				"sword_10.png",
+				"sword_11.png",
+				"sword_12.png"
+		};
+		// TODO this works, but I am uncomfortable with these null values!
+		Component frame = null;
+		Icon icon = null;
+		String fileName = (String) JOptionPane.showInputDialog(frame,
+				"Pliz choice a thing", "Choice a thing", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "chest_1_closed_ew.png");
+		if (fileName == null)
+			return null;
+		String beginning = fileName.substring(0, fileName.length() - 6);
+		String end = fileName.substring(fileName.length() - 4,
+				fileName.length());
+		String direction = fileName.substring(fileName.length() - 6,
+				fileName.length() - 4);
+		System.out.println(beginning + direction + end);
+
+		// ha ha this is so ugly but it is very late :(
+		switch (direction) {
+		case "_n":
+			result = new String[4];
+			result[0] = beginning + "_n" + end;
+			result[1] = beginning + "_e" + end;
+			result[2] = beginning + "_s" + end;
+			result[3] = beginning + "_w" + end;
+			break;
+		case "_e":
+			result = new String[4];
+			result[0] = beginning + "_e" + end;
+			result[1] = beginning + "_s" + end;
+			result[2] = beginning + "_w" + end;
+			result[3] = beginning + "_n" + end;
+			break;
+		case "_s":
+			result = new String[4];
+			result[0] = beginning + "_s" + end;
+			result[1] = beginning + "_w" + end;
+			result[2] = beginning + "_n" + end;
+			result[3] = beginning + "_e" + end;
+			break;
+		case "_w":
+			result = new String[4];
+			result[0] = beginning + "_w" + end;
+			result[1] = beginning + "_n" + end;
+			result[2] = beginning + "_e" + end;
+			result[3] = beginning + "_s" + end;
+			break;
+		case "ns":
+			result = new String[2];
+			result[0] = beginning + "ns" + end;
+			result[1] = beginning + "ew" + end;
+			break;
+		case "ew":
+			result = new String[2];
+			result[0] = beginning + "ew" + end;
+			result[1] = beginning + "ns" + end;
+			break;
+		default:
+			result = new String[1];
+			result[0] = fileName;
+			break;
+		}
+		return result;
+	}
+
+	/**
+	 * This method is used to get a String from the World Builder.
+	 * It can be used for getting custom descriptions for particular items,
+	 * for example.
+	 *
+	 * @param message - The message to display to the user regarding the input dialog
+	 * @return The String which the user gave as input
+	 */
+	public static String getString(String message) {
+		String description = (String) JOptionPane.showInputDialog(message);
+		return description;
+	}
+
+	/**
+	 * This method is used to get an Integer from the World Builder.
+	 * This can be used for all kinds of custom numbers needed for particular items.
+	 *
+	 * @param message - The message to display to the user regarding the input dialog
+	 * @return The Integer which the user gave as input
+	 */
+	public static Integer getInteger(String message) {
+		Integer description = Integer.parseInt(JOptionPane.showInputDialog(message));
+		return description;
+	}
+
 }

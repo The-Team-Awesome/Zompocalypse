@@ -124,6 +124,8 @@ public class Client extends GameListenerThread {
 				key = UICommand.EAST.getValue();
 			} else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN) {
 				key = UICommand.SOUTH.getValue();
+			} else if(code == KeyEvent.VK_E || code == KeyEvent.VK_SPACE) {
+				key = UICommand.USE.getValue();
 			} else if (code == KeyEvent.VK_COMMA) {
 				frame.processCommand(id, UICommand.ROTATECLOCKWISE.getValue());
 				key = UICommand.ROTATECLOCKWISE.getValue();

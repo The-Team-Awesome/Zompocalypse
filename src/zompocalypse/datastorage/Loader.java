@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,8 +18,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
-
-import zompocalypse.Main;
 
 /**
  * This class is a central place for loading all images, text, sound, font
@@ -34,8 +36,9 @@ public class Loader {
 	public static final String spritesDir = "sprites";
 	public static final String iconsDir = "icons";
 	public static final String mapDir = "map";
+	public static final String soundDir = "sounds";
 
-	public static final String mapFile = "SamsMap.xml";
+	public static final String mapFile = "map.xml";
 	public static final String testFile = "Test_Suite_Map.xml";
 	public static final char separator = '/';
 
@@ -69,6 +72,8 @@ public class Loader {
 			// changing permissions on the file or making sure you're using the correct name.
 
 			OutputStream out = new FileOutputStream(file);
+
+			System.out.println(name);
 
 			while ((read = stream.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
@@ -131,8 +136,9 @@ public class Loader {
 	 */
 	public static Clip LoadSound(String filename) {
 		try {
+			String name = soundDir + separator + filename;
 			Clip clip = AudioSystem.getClip();
-			File soundFile = LoadFile(filename);
+			File soundFile = LoadFile(name);
 	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(soundFile);
 			clip.open(inputStream);
 
@@ -147,6 +153,16 @@ public class Loader {
 		}
 
 		return null;
+	}
+	
+	public static MediaPlayer LoadMP3(String filename) {
+		JFXPanel fxPanel = new JFXPanel();
+		String name = soundDir + separator + filename;
+		File soundFile = LoadFile(name);
+		Media hit = new Media(soundFile.toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(hit);
+		
+		return mediaPlayer;
 	}
 
 }

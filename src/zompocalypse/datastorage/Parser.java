@@ -31,6 +31,8 @@ import javax.swing.JFileChooser;
  */
 public class Parser {
 
+	private static int id;
+
 	/**
 	 * Parses a Map from a CSV file and returns a World with the new Map.
 	 *
@@ -48,6 +50,7 @@ public class Parser {
 		Set<Point> zombieSpawnPoints = new HashSet<Point>();
 		Set<Point> playerSpawnPoints = new HashSet<Point>();
 		int x = 0, y = 0;
+		id = 0;
 		Map<String, String> textTileMap = new HashMap<String, String>();
 
 		// Uses tile_type text to create a map of all the shortcuts to full
@@ -105,18 +108,24 @@ public class Parser {
 				NodeList cells = cellMap.getElementsByTagName("cell");
 				for (int col = 0; col < cells.getLength(); col++) {
 					Element cell = (Element) cells.item(col);
-					parseTile(map, textTileMap, cell.getAttribute("img"), col, row);
+					parseTile(map, textTileMap, cell.getAttribute("img"), col,
+							row);
 					if (cell.hasAttribute("wall")) {
 						parseWall(objects, textTileMap,
 								cell.getAttribute("wall"),
 								cell.getAttribute("offset"), col, row);
 
+					} else if (cell.hasAttribute("door")) {
+						parseDoor(objects, textTileMap,
+								cell.getAttribute("door"),
+								cell.getAttribute("offset"), cell.getAttribute("locked"),
+								cell.getAttribute("open"), col, row);
 					}
 					if (cell.hasAttribute("zombieSpawnPoint")) {
-						zombieSpawnPoints.add(new Point(col,row));
+						zombieSpawnPoints.add(new Point(col, row));
 					}
 					if (cell.hasAttribute("playerSpawnPoint")) {
-						playerSpawnPoints.add(new Point(col,row));
+						playerSpawnPoints.add(new Point(col, row));
 					}
 				}
 			}
@@ -127,7 +136,19 @@ public class Parser {
 			mapReader.close();
 		}
 
-		return new World(x, y, map, objects, zombieSpawnPoints, playerSpawnPoints);
+		return new World(x, y, map, objects, zombieSpawnPoints,
+				playerSpawnPoints, id);
+	}
+
+	private static void parseDoor(PriorityQueue<GameObject>[][] objects,
+			Map<String, String> textTileMap, String string,
+			String offset, String locked, String open, int col, int row) {
+		String[] door = expandCode(textTileMap, string);
+		boolean isLocked = true;
+		if (locked.equals("false"))
+			isLocked = false;
+		objects[col][row].add(new Door(col, row, door, Integer.parseInt(offset), isLocked, id++));
+		if (open.equals("true")) ((Door) objects[col][row].peek()).use(null);
 	}
 
 	/**
@@ -135,8 +156,8 @@ public class Parser {
 	 * (i,j) with the offset it is to be drawn at
 	 */
 	private static void parseWall(PriorityQueue<GameObject>[][] objectz,
-			Map<String, String> textTileMap, String string, String offset, int i,
-			int j) {
+			Map<String, String> textTileMap, String string, String offset,
+			int i, int j) {
 		String[] wall = expandCode(textTileMap, string);
 		objectz[i][j].add(new Wall(wall, Integer.parseInt(offset)));
 	}
@@ -296,22 +317,29 @@ public class Parser {
 							getCode(map[row][col].getFileName(), textTileMap));
 					xmlRow.appendChild(xmlCell);
 					if (objects[row][col] != null) {
-						if (objects[row][col].peek() instanceof zompocalypse.gameworld.world.Wall) {
+						if (objects[row][col].peek() instanceof Wall) {
 							Wall wall = (Wall) objects[row][col].peek();
-							xmlCell.setAttribute("wall", getCode(wall.getFileName(), textTileMap));
-							xmlCell.setAttribute("offset", String.valueOf(wall.getOffset()));
-						}
-						else if (objects[row][col].peek() instanceof zompocalypse.gameworld.world.Door) {
+							xmlCell.setAttribute("wall",
+									getCode(wall.getFileName(), textTileMap));
+							xmlCell.setAttribute("offset",
+									String.valueOf(wall.getOffset()));
+						} else if (objects[row][col].peek() instanceof Door) {
 							Door door = (Door) objects[row][col].peek();
-							xmlCell.setAttribute("door", getCode(door.getFileName(), textTileMap));
-							xmlCell.setAttribute("offset", String.valueOf(door.getOffset()));
-							xmlCell.setAttribute("open", door.isOpenToString());
+							xmlCell.setAttribute("door",
+									getCode(door.getFileName(), textTileMap));
+							xmlCell.setAttribute("offset",
+									String.valueOf(door.getOffset()));
+							xmlCell.setAttribute("open", String.valueOf(door.isOpen()));
+							xmlCell.setAttribute("locked", String.valueOf(door.isLocked()));
+						} else if(objects[row][col].peek() instanceof Container) {
+							Container door = (Container) objects[row][col].peek();
+							// TODO: I don't know what I'm doing here! I'll leave this to David :)
 						}
 					}
-					if (zombieSpawnPoints.contains(new Point(row,col))) {
+					if (zombieSpawnPoints.contains(new Point(row, col))) {
 						xmlCell.setAttribute("zombieSpawnPoint", "");
 					}
-					if (playerSpawnPoints.contains(new Point(row,col))) {
+					if (playerSpawnPoints.contains(new Point(row, col))) {
 						xmlCell.setAttribute("playerSpawnPoint", "");
 					}
 				}

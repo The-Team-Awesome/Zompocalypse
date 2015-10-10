@@ -27,7 +27,7 @@ public class StrategyZombie extends MovingCharacter {
 	}
 
 	public void setQueued(Orientation queued) {
-		this.orientation = queued;
+		this.direction = queued;
 	}
 
 	@Override

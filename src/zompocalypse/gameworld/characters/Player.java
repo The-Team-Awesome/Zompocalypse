@@ -1,20 +1,19 @@
 package zompocalypse.gameworld.characters;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
 
-import com.sun.imageio.plugins.common.ImageUtil;
-
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Torch;
+import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
-import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * Player is a human played character in the game.
@@ -36,6 +35,9 @@ public final class Player extends MovingCharacter {
 	private int health;
 	private int speed;
 	private int strength;
+
+	// This is the currently equipped Item
+	private Weapon equipped;
 
 	private String[] filenames;
 	private ImageIcon[] images;
@@ -61,6 +63,8 @@ public final class Player extends MovingCharacter {
 		// inventory so something is visible when viewing their backpack
 		inventory.add(new Key("gold_key_inv.png", 0));
 		inventory.add(new Key("gold_key_inv.png", 0));
+		inventory.add(new Torch("torch.png", 0));
+		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 0, 5);
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
@@ -102,7 +106,7 @@ public final class Player extends MovingCharacter {
 	 * Get this players strength
 	 */
 	public int strength() {
-		return strength;
+		return strength + equipped.getStrength();
 	}
 
 	/**
@@ -172,6 +176,7 @@ public final class Player extends MovingCharacter {
 	public PriorityQueue<GameObject> getObjectsHere() {
 		int myX = getX();
 		int myY = getY();
+
 		World game = getWorld();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
@@ -183,14 +188,20 @@ public final class Player extends MovingCharacter {
 		int frontY = getY();
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
-		if (orientation == Orientation.NORTH && frontY > 0) {
+		// Hi, I'm Sam. I changed orientation to queued here because that
+		// represents the players actual direction. It may be that orientation
+		// was added as a double up, because MovingCharacter also has an
+		// orientation field. I'd like to suggest queued is renamed to direction,
+		// because it represents what it is more accurately :)
+
+		if (direction == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
-		} else if (orientation == Orientation.EAST && frontX < game.width() - 1) {
+		} else if (direction == Orientation.EAST && frontX < game.width() - 1) {
 			return worldObs[frontX + 1][frontY];
-		} else if (orientation == Orientation.SOUTH
+		} else if (direction == Orientation.SOUTH
 				&& frontY < game.height() - 1) {
 			return worldObs[frontX][frontY + 1];
-		} else if (orientation == Orientation.EAST && frontX > 0) {
+		} else if (direction == Orientation.WEST && frontX > 0) {
 			return worldObs[frontX - 1][frontY];
 		}
 		// if we are facing the edge of the world return an empty queue of
@@ -217,6 +228,10 @@ public final class Player extends MovingCharacter {
 	 */
 	public ArrayList<GameObject> getInventory() {
 		return inventory;
+	}
+
+	public Weapon getEquipped() {
+		return equipped;
 	}
 
 	public void move(Orientation north, Orientation cameraDirection) {

@@ -10,8 +10,8 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Key;
-import zompocalypse.gameworld.world.Door;
 import zompocalypse.gameworld.world.World;
 
 public class PlayerTests {

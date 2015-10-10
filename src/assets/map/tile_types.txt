@@ -36,6 +36,7 @@ p,pool
 pa,patch
 ps,pools
 pt,patch
+pl,plant
 r,road
 rc,rock
 rd,red
@@ -49,6 +50,7 @@ t,t
 ti,tile
 tr,trash
 tw,two
+tre,tree
 w,w
 wa,water
 wl,wall
