@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	PlayerTests.class,
 	ZombieTests.class,
-//	ContainerTests.class,
+	ContainerTests.class,
 	DoorTests.class
 })
 public class LogicTestSuite {

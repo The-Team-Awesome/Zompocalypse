@@ -153,11 +153,7 @@ public class Parser {
 	private static void parseContainer(PriorityQueue<GameObject>[][] objects,
 			Map<String, String> textTileMap, String name, String size,
 			String movable, String locked, int col, int row) {
-		System.out.println(name);
 		String[] container = expandCode(textTileMap, name);
-		System.out.println(container);
-		System.out.println("Size is " + size);
-		System.out.println("movable is " + movable);
 		objects[col][row].add(new Container(container, Integer.parseInt(size),
 				movable.equals("true"), locked.equals("false"), id++));
 
@@ -408,7 +404,7 @@ public class Parser {
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
-		System.out.println(string);
+//		System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);

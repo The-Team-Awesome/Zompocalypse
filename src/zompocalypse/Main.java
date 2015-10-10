@@ -15,8 +15,8 @@ public class Main {
 	}
 
 	/**
-	 * This is entry point for the Zompocalypse game. It starts up the basic MenuListener
-	 * which will send events to the MainFrame.
+	 * This is entry point for the Zompocalypse game. It starts up the basic
+	 * MenuListener which will send events to the MainFrame.
 	 */
 	private static void start() {
 		MenuListener user = new MenuListener();
