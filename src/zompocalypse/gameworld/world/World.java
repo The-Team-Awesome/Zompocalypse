@@ -18,6 +18,7 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
@@ -506,6 +507,8 @@ public class World implements Serializable {
 		} else if(objectName[0].contains("torch")) {
 			// This is a torch, pretty torch gives the player light :)
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
+		} else if(objectName[0].contains("key")) {
+			objects[editor.x][editor.y].add(new Key(objectName[0], id++));
 		}
 
 	}
