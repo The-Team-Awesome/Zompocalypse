@@ -14,6 +14,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.characters.StrategyZombie;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
@@ -316,7 +317,11 @@ public class World implements Serializable {
 
 			// Then, if no objects were used before, process any in front of the player
 			for (GameObject o : player.getObjectsInfront()) {
-				if (o instanceof Item) {
+				if(o instanceof StrategyZombie) {
+					StrategyZombie zombie = (StrategyZombie) o;
+					int damage = player.calculateAttack();
+					zombie.damaged(damage);
+				} else if (o instanceof Item) {
 					((Item) o).use(player);
 					return;
 				}

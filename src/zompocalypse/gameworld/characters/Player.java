@@ -30,6 +30,7 @@ public final class Player extends MovingCharacter {
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;
+	private final int BASE_ATTACK = 10;
 
 	private final int uid;
 	private int score;
@@ -108,6 +109,19 @@ public final class Player extends MovingCharacter {
 	 */
 	public int strength() {
 		return strength + equipped.getStrength();
+	}
+
+	/**
+	 * Calculates the players attack damage. This is a product of a random
+	 * number multiplied by their strength, with their base attack added to the end.
+	 *
+	 * @return
+	 */
+	public int calculateAttack() {
+		int attack = (int) (Math.random() * (strength()));
+		attack += BASE_ATTACK;
+
+		return attack;
 	}
 
 	/**
