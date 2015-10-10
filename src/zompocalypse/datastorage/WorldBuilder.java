@@ -357,59 +357,8 @@ public class WorldBuilder {
 				"Pliz choice a floor", "Choice a floor",
 				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
 				"ground_grey_1.png");
-		String beginning = fileName.substring(0, fileName.length() - 6);
-		String end = fileName.substring(fileName.length() - 4,
-				fileName.length());
-		String direction = fileName.substring(fileName.length() - 6,
-				fileName.length() - 4);
-		System.out.println(beginning + direction + end);
 
-		// ha ha this is so ugly but it is very late :(
-		switch (direction) {
-		case "_n":
-			result = new String[4];
-			result[0] = beginning + "_n" + end;
-			result[1] = beginning + "_e" + end;
-			result[2] = beginning + "_s" + end;
-			result[3] = beginning + "_w" + end;
-			break;
-		case "_e":
-			result = new String[4];
-			result[0] = beginning + "_e" + end;
-			result[1] = beginning + "_s" + end;
-			result[2] = beginning + "_w" + end;
-			result[3] = beginning + "_n" + end;
-			break;
-		case "_s":
-			result = new String[4];
-			result[0] = beginning + "_s" + end;
-			result[1] = beginning + "_w" + end;
-			result[2] = beginning + "_n" + end;
-			result[3] = beginning + "_e" + end;
-			break;
-		case "_w":
-			result = new String[4];
-			result[0] = beginning + "_w" + end;
-			result[1] = beginning + "_n" + end;
-			result[2] = beginning + "_e" + end;
-			result[3] = beginning + "_s" + end;
-			break;
-		case "ns":
-			result = new String[2];
-			result[0] = beginning + "ns" + end;
-			result[1] = beginning + "ew" + end;
-			break;
-		case "ew":
-			result = new String[2];
-			result[0] = beginning + "ew" + end;
-			result[1] = beginning + "ns" + end;
-			break;
-		default:
-			result = new String[1];
-			result[0] = fileName;
-			break;
-		}
-		return result;
+		return getFilenameArray(fileName);
 	}
 
 	/**
@@ -442,59 +391,8 @@ public class WorldBuilder {
 				"wall_brown_1_corner_e.png");
 		if (fileName == null)
 			return null;
-		String beginning = fileName.substring(0, fileName.length() - 6);
-		String end = fileName.substring(fileName.length() - 4,
-				fileName.length());
-		String direction = fileName.substring(fileName.length() - 6,
-				fileName.length() - 4);
-		System.out.println(beginning + direction + end);
 
-		// ha ha this is so ugly but it is very late :(
-		switch (direction) {
-		case "_n":
-			result = new String[4];
-			result[0] = beginning + "_n" + end;
-			result[1] = beginning + "_e" + end;
-			result[2] = beginning + "_s" + end;
-			result[3] = beginning + "_w" + end;
-			break;
-		case "_e":
-			result = new String[4];
-			result[0] = beginning + "_e" + end;
-			result[1] = beginning + "_s" + end;
-			result[2] = beginning + "_w" + end;
-			result[3] = beginning + "_n" + end;
-			break;
-		case "_s":
-			result = new String[4];
-			result[0] = beginning + "_s" + end;
-			result[1] = beginning + "_w" + end;
-			result[2] = beginning + "_n" + end;
-			result[3] = beginning + "_e" + end;
-			break;
-		case "_w":
-			result = new String[4];
-			result[0] = beginning + "_w" + end;
-			result[1] = beginning + "_n" + end;
-			result[2] = beginning + "_e" + end;
-			result[3] = beginning + "_s" + end;
-			break;
-		case "ns":
-			result = new String[2];
-			result[0] = beginning + "ns" + end;
-			result[1] = beginning + "ew" + end;
-			break;
-		case "ew":
-			result = new String[2];
-			result[0] = beginning + "ew" + end;
-			result[1] = beginning + "ns" + end;
-			break;
-		default:
-			result = new String[1];
-			result[0] = fileName;
-			break;
-		}
-		return result;
+		return getFilenameArray(fileName);
 	}
 
 	// TODO copied and pasted this AGAIN, I really need to refactor this
@@ -516,59 +414,8 @@ public class WorldBuilder {
 				icon, possibilities, "wall_brown_1_door_closed_ew.png");
 		if (fileName == null)
 			return null;
-		String beginning = fileName.substring(0, fileName.length() - 6);
-		String end = fileName.substring(fileName.length() - 4,
-				fileName.length());
-		String direction = fileName.substring(fileName.length() - 6,
-				fileName.length() - 4);
-		System.out.println(beginning + direction + end);
 
-		// ha ha this is so ugly but it is very late :(
-		switch (direction) {
-		case "_n":
-			result = new String[4];
-			result[0] = beginning + "_n" + end;
-			result[1] = beginning + "_e" + end;
-			result[2] = beginning + "_s" + end;
-			result[3] = beginning + "_w" + end;
-			break;
-		case "_e":
-			result = new String[4];
-			result[0] = beginning + "_e" + end;
-			result[1] = beginning + "_s" + end;
-			result[2] = beginning + "_w" + end;
-			result[3] = beginning + "_n" + end;
-			break;
-		case "_s":
-			result = new String[4];
-			result[0] = beginning + "_s" + end;
-			result[1] = beginning + "_w" + end;
-			result[2] = beginning + "_n" + end;
-			result[3] = beginning + "_e" + end;
-			break;
-		case "_w":
-			result = new String[4];
-			result[0] = beginning + "_w" + end;
-			result[1] = beginning + "_n" + end;
-			result[2] = beginning + "_e" + end;
-			result[3] = beginning + "_s" + end;
-			break;
-		case "ns":
-			result = new String[2];
-			result[0] = beginning + "ns" + end;
-			result[1] = beginning + "ew" + end;
-			break;
-		case "ew":
-			result = new String[2];
-			result[0] = beginning + "ew" + end;
-			result[1] = beginning + "ns" + end;
-			break;
-		default:
-			result = new String[1];
-			result[0] = fileName;
-			break;
-		}
-		return result;
+		return getFilenameArray(fileName);
 	}
 
 	// TODO copied and pasted this AGAIN, I really need to refactor this
@@ -597,6 +444,7 @@ public class WorldBuilder {
 				"barrel_1_closed.png",
 				"barrel_2.png",
 				"barrel_3_ew.png",
+				"gold_key.png",
 				"torch.png",
 				"sword_1.png",
 				"sword_2.png",
@@ -619,11 +467,17 @@ public class WorldBuilder {
 				icon, possibilities, "chest_1_closed_ew.png");
 		if (fileName == null)
 			return null;
-		String beginning = fileName.substring(0, fileName.length() - 6);
-		String end = fileName.substring(fileName.length() - 4,
-				fileName.length());
-		String direction = fileName.substring(fileName.length() - 6,
-				fileName.length() - 4);
+
+		return getFilenameArray(fileName);
+	}
+
+	private static String[] getFilenameArray(String filename) {
+		String[] result;
+		String beginning = filename.substring(0, filename.length() - 6);
+		String end = filename.substring(filename.length() - 4,
+				filename.length());
+		String direction = filename.substring(filename.length() - 6,
+				filename.length() - 4);
 		System.out.println(beginning + direction + end);
 
 		// ha ha this is so ugly but it is very late :(
@@ -668,7 +522,7 @@ public class WorldBuilder {
 			break;
 		default:
 			result = new String[1];
-			result[0] = fileName;
+			result[0] = filename;
 			break;
 		}
 		return result;

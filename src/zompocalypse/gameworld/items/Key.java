@@ -37,7 +37,7 @@ public class Key implements Item{
 			if(o instanceof Lockable){
 				boolean keyUsed = ((Lockable) o).unlock(true);
 				if (keyUsed){
-					player.getInventory().remove(o);
+					player.getInventory().remove(this);
 					return;
 				}
 			}
@@ -47,7 +47,7 @@ public class Key implements Item{
 			if(o instanceof Lockable){
 				boolean keyUsed = ((Lockable) o).unlock(true);
 				if (keyUsed){
-					player.getInventory().remove(o);
+					player.getInventory().remove(this);
 					return;
 				}
 			}
