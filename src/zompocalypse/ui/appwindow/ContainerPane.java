@@ -3,6 +3,8 @@ package zompocalypse.ui.appwindow;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javafx.beans.binding.SetBinding;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;

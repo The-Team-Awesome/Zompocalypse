@@ -162,7 +162,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		setIconImage(img);
 		// TODO: bring DO_NOTHING_ON_EXIT back when we finish testing
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setPreferredSize(new Dimension(1000, 800));
+		setPreferredSize(new Dimension(1000, 750));
 		setResizable(false);
 		addWindowListener(this);
 		setBackground(CustomUtils.frameBackground);
@@ -372,7 +372,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		ContainerPane inventory = new ContainerPane(objects, action);
 		JOptionPane container = new JOptionPane();
-		container.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		container.showMessageDialog(this, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 
