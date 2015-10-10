@@ -30,6 +30,7 @@ public final class Player extends MovingCharacter {
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;
+	private final int BASE_ATTACK = 10;
 
 	private final int uid;
 	private int score;
@@ -45,6 +46,8 @@ public final class Player extends MovingCharacter {
 	private String imageName;
 	private ImageIcon currentImage;
 	private Orientation orientation;
+
+	private Item queuedUse;
 
 	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
 			int score, String playerName, String[] filenames, World game) {
@@ -71,6 +74,14 @@ public final class Player extends MovingCharacter {
 		this.images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
+	}
+
+	public void queueItem(Item item) {
+		queuedUse = item;
+	}
+
+	public void useQueued() {
+		queuedUse.use(this);
 	}
 
 	/**
@@ -108,6 +119,19 @@ public final class Player extends MovingCharacter {
 	 */
 	public int strength() {
 		return strength + equipped.getStrength();
+	}
+
+	/**
+	 * Calculates the players attack damage. This is a product of a random
+	 * number multiplied by their strength, with their base attack added to the end.
+	 *
+	 * @return
+	 */
+	public int calculateAttack() {
+		int attack = (int) (Math.random() * (strength()));
+		attack += BASE_ATTACK;
+
+		return attack;
 	}
 
 	/**
@@ -195,14 +219,14 @@ public final class Player extends MovingCharacter {
 		// orientation field. I'd like to suggest queued is renamed to direction,
 		// because it represents what it is more accurately :)
 
-		if (direction == Orientation.NORTH && frontY > 0) {
+		if (ori == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
-		} else if (direction == Orientation.EAST && frontX < game.width() - 1) {
+		} else if (ori == Orientation.EAST && frontX < game.width() - 1) {
 			return worldObs[frontX + 1][frontY];
-		} else if (direction == Orientation.SOUTH
+		} else if (ori == Orientation.SOUTH
 				&& frontY < game.height() - 1) {
 			return worldObs[frontX][frontY + 1];
-		} else if (direction == Orientation.WEST && frontX > 0) {
+		} else if (ori == Orientation.WEST && frontX > 0) {
 			return worldObs[frontX - 1][frontY];
 		}
 		// if we are facing the edge of the world return an empty queue of

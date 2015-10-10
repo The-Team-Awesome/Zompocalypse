@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import zompocalypse.ui.appwindow.UICommand;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 
 public class CustomServerPanel extends JPanel {
@@ -27,8 +28,13 @@ public class CustomServerPanel extends JPanel {
 		this.action = action;
 
 		arrangeComponents();
+
+		setBackground(CustomUtils.frameBackground);
 	}
 
+	/**
+	 * Sets and arranges position of components into the content panel.
+	 */
 	private void arrangeComponents() {
 
 		this.setLayout(new GridBagLayout());
@@ -60,6 +66,10 @@ public class CustomServerPanel extends JPanel {
 		this.add(start, constraints);
 	}
 
+	/**
+	 * Gets the number of clients from the text input.
+	 * @return number of clients.
+	 */
 	public int getNumClients() {
 		return Integer.parseInt(clients.getText());
 	}
