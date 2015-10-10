@@ -6,12 +6,12 @@ import zompocalypse.gameworld.world.World;
 
 public interface Strategy {
 
-	public int type();
+	public ActorType type();
 
 	public int speed();
 
-	public void tick(World game, StrategyZombie ghost);
+	public void tick(World game, StrategyZombie Zombie);
 
-	public void draw(Graphics g, StrategyZombie ghost);
+	public void draw(Graphics g, StrategyZombie zombie);
 
 }

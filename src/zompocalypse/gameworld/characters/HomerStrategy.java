@@ -7,9 +7,9 @@ import zompocalypse.gameworld.world.World;
 public class HomerStrategy implements Strategy {
 
 	@Override
-	public int type() {
+	public ActorType type() {
 		// TODO Auto-generated method stub
-		return 0;
+		return ActorType.HOMERZOMBIE;
 	}
 
 	@Override
@@ -21,16 +21,15 @@ public class HomerStrategy implements Strategy {
 	@Override
 	public void tick(World game, StrategyZombie ghost) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void draw(Graphics g, StrategyZombie ghost) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	/*
-	private static final Random random = new Random(System.currentTimeMillis());
 
 	@Override
 	public int speed() {

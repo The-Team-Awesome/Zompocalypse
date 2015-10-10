@@ -10,8 +10,8 @@ public class StrategyZombie extends MovingCharacter {
 
 	private Strategy strategy;
 
-	public StrategyZombie(int realX, int realY, Strategy strategy) {
-		super(realX, realY, Orientation.NORTH);
+	public StrategyZombie(World game, int realX, int realY, Strategy strategy) {
+		super(game, realX, realY, Orientation.NORTH);
 		this.strategy = strategy;
 	}
 
