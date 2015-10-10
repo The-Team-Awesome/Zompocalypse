@@ -1,16 +1,13 @@
 package zompocalypse.gameworld.world;
 
 import java.awt.Point;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import zompocalypse.datastorage.*;
+import zompocalypse.datastorage.WorldBuilder;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -19,8 +16,8 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
-import zompocalypse.ui.rendering.RenderPanel;
 
 /**
  * The World class representing the world in which Zompocolypse takes place.
@@ -484,6 +481,8 @@ public class World implements Serializable {
 		} else if(objectName[0].contains("plant")) {
 			offset = 12;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
+		} else if(objectName[0].contains("sword")) {
+			objects[editor.x][editor.y].add(new Weapon(objectName[0], "The description", id++, 5));
 		}
 
 	}

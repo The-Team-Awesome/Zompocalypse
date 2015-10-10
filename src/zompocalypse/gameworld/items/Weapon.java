@@ -42,7 +42,7 @@ public class Weapon implements Item {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		g.drawImage(currentImage, x, y-18, null);
+		g.drawImage(currentImage, x+10, y, null);
 	}
 
 	@Override

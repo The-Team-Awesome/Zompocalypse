@@ -596,7 +596,19 @@ public class WorldBuilder {
 				"plant_6.png",
 				"barrel_1_closed.png",
 				"barrel_2.png",
-				"barrel_3_ew.png"
+				"barrel_3_ew.png",
+				"sword_1.png",
+				"sword_2.png",
+				"sword_3.png",
+				"sword_4.png",
+				"sword_5.png",
+				"sword_6.png",
+				"sword_7.png",
+				"sword_8.png",
+				"sword_9.png",
+				"sword_10.png",
+				"sword_11.png",
+				"sword_12.png"
 		};
 		// TODO this works, but I am uncomfortable with these null values!
 		Component frame = null;
