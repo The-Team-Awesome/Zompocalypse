@@ -60,9 +60,11 @@ public class Container implements Item, Lockable{
 	 * NOTE: if size is less than the amount of items passed in then: this.size == items.size()
 	 * Requires a boolean to determine if the container is movable or not.
 	 */
-	public Container(int size, boolean movable, List<Item> items){
+	public Container(int size, boolean movable, boolean locked, List<Item> items, String filename){
 		this.size = size;
+		this.locked = locked;
 		this.movable = movable;
+		this.filename = filename;
 		this.heldItems = items;
 
 		if (this.size < heldItems.size()){
@@ -84,6 +86,7 @@ public class Container implements Item, Lockable{
 	public Container(int x, int y, String[] fileNames, int size,
 			boolean movable, boolean locked, int uid) {
 		fileNamesClosed = fileNames;
+		this.filename = fileNames[0];
 		imagesClosed = imu.setupImages(fileNames);
 
 		fileNamesOpen = new String[fileNames.length];
