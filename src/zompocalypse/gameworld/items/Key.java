@@ -37,7 +37,7 @@ public class Key implements Item{
 			if(o instanceof Lockable){
 				boolean keyUsed = ((Lockable) o).unlock(true);
 				if (keyUsed){
-					player.getInventory().remove(o);
+					player.getInventory().remove(this);
 					return;
 				}
 			}
@@ -47,7 +47,8 @@ public class Key implements Item{
 			if(o instanceof Lockable){
 				boolean keyUsed = ((Lockable) o).unlock(true);
 				if (keyUsed){
-					player.getInventory().remove(o);
+					System.out.println("test");
+					player.getInventory().remove(this);
 					return;
 				}
 			}
@@ -85,7 +86,7 @@ public class Key implements Item{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	public String examine(){
 		return "A key. Perhaps this could unlock something....";
 	}

@@ -2,7 +2,9 @@ package zompocalypse.gameworld.world;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -318,6 +320,21 @@ public class World implements Serializable {
 					return;
 				}
 			}
+		} else if(key.contains(UICommand.USEITEM.getValue())) {
+			String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
+			int itemId = Integer.parseInt(trimmed);
+			List<Item> inventory = player.getInventory();
+			Item using = null;
+
+			for(Item i : inventory) {
+				if(i.getUniqueID() == itemId) {
+					using = i;
+				}
+			}
+
+			using.use(player);
+
+			System.out.println("Object interacted: " + using);
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
