@@ -8,7 +8,7 @@ import zompocalypse.gameworld.world.World;
 
 public class RandomStrategy implements Strategy{
 	private final static int WAIT_TIME = 10;
-	private final int SPEED = 1;
+	private final int SPEED = 10;
 	private static final Random random = new Random(System.currentTimeMillis());
 	private static int moveTimeCounter = WAIT_TIME;
 
@@ -24,6 +24,11 @@ public class RandomStrategy implements Strategy{
 
 	@Override
 	public void tick(World game, StrategyZombie zombie) {
+		if(moveTimeCounter > 0){
+			moveTimeCounter -= SPEED;
+			return;
+		}
+		
 		Orientation direction = zombie.ori;
 		int choice = random.nextInt(3);
 
@@ -44,6 +49,7 @@ public class RandomStrategy implements Strategy{
 			zombie.moveWest();
 			break;
 		}
+		moveTimeCounter = WAIT_TIME;
 	}
 
 	@Override

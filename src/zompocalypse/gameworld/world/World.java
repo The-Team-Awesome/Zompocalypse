@@ -241,25 +241,23 @@ public class World implements Serializable {
 				"Bibbly Bob", filenames, this);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
-		spawnZombie();
+
+		spawnZombie(new RandomStrategy());
 		return player.getUid();
 	}
 
-	public void spawnZombie(){
-
+	public void spawnZombie(Strategy strat){
 		int x = 1, y = 1;
-
 		for (Point p : zombieSpawnPoints) {
 			x = p.x;
 			y = p.y;
 		}
 
-		Strategy rand = new RandomStrategy();
 		String[] filenames = { "npc_zombie_n.png",
 				"npc_zombie_e.png", "npc_zombie_s.png",
 				"npc_zombie_w.png" };
 
-		StrategyZombie zombie = new StrategyZombie(this, x, y, rand, ++id, filenames);
+		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id, filenames);
 		idToActor.put(id, zombie);
 		objects[zombie.getX()][zombie.getY()].add(zombie);
 	}
