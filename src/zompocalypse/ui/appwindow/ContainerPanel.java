@@ -4,36 +4,31 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
 import javax.swing.JRadioButton;
+import javax.swing.JPanel;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.ui.appwindow.custom.ZRadioButton;
 
-public class ContainerPane {
+public class ContainerPanel extends JPanel {
 	private ActionListener action;
 	private List<? extends GameObject> objects;
 
-	public ContainerPane(List<? extends GameObject> objects, ActionListener action) {
+	public ContainerPanel(List<? extends GameObject> objects, ActionListener action) {
 		super();
 		this.objects = objects;
 		this.action = action;
+
+		this.setup();
 	}
 
-	public JComponent[] inputs() {
-		JComponent[] inputs = new JComponent[objects.size()];
-
-		int count = 0;
-
+	public void setup() {
 		ButtonGroup options = new ButtonGroup();
 
 		for(GameObject object : objects) {
 			JRadioButton button = new ZRadioButton(object, action);
-			inputs[count] = button;
+			add(button, null);
 			options.add(button);
-			count++;
 		}
-
-		return inputs;
 	}
 }

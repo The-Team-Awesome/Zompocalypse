@@ -353,8 +353,9 @@ public class MainFrame extends JFrame implements WindowListener {
 		Player player = (Player) game.getCharacterByID(id);
 		ArrayList<GameObject> objects = player.getInventory();
 
-		ContainerPane inventory = new ContainerPane(objects, action);
-		JOptionPane.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		ContainerPanel inventory = new ContainerPanel(objects, action);
+		JOptionPane.showMessageDialog(null, inventory,
+				"Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**

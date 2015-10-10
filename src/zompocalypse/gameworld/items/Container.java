@@ -14,7 +14,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
-import zompocalypse.ui.appwindow.ContainerPane;
+import zompocalypse.ui.appwindow.ContainerPanel;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
@@ -115,8 +115,8 @@ public class Container implements Item, Lockable{
 		// It will need a valid action handler to pass to the ContainerPane,
 		// need to think about where this will come from!
 		int id = player.getUID();
-		ContainerPane inventory = new ContainerPane(this.heldItems, null);
-		JOptionPane.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		ContainerPanel inventory = new ContainerPanel(this.heldItems, null);
+		JOptionPane.showMessageDialog(null, inventory, "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	public List<Item> getHeldItems() {
