@@ -85,18 +85,15 @@ public class Money implements Item {
 
 	@Override
 	public String examine() {
+		int amount = this.amount;
 
-		String description = "";
-
-		if(amount < 50) {
-			description = "A small stack of " + type + " coins.";
-		} else if(amount < 100) {
-			description = "A stack of " + type + " coins.";
-		} else {
-			description = "A huge stack of " + type + " coins! You'll be rich!";
+		if(type.equals("silver")) {
+			amount = amount / 10;
+		} else if(type.equals("gold")) {
+			amount = amount / 100;
 		}
 
-		return description;
+		return "A stack of " + amount + " " + type + " coins.";
 	}
 
 }
