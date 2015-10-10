@@ -362,7 +362,7 @@ public class Parser {
 		}
 
 		// If we got here something went wrong!
-		return "Error: Unable to save World";
+		return "Error: Unable to save the World";
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {

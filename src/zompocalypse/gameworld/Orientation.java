@@ -1,5 +1,12 @@
 package zompocalypse.gameworld;
 
+/**
+ *	Represents the current orientation of the camera for a Player,
+ *	or the orientation of an object in space.
+ *
+ * @author Pauline Kelly
+ *
+ */
 public enum Orientation {
 	NORTH, EAST, SOUTH, WEST;
 
@@ -18,9 +25,8 @@ public enum Orientation {
 			return SOUTH;
 		case 3:
 			return WEST;
+		default:
+			throw new IllegalStateException("Must be a valid direction.");
 		}
-
-		// Cannot possibly ever get here!
-		return NORTH;
 	}
 }
