@@ -22,6 +22,7 @@ import zompocalypse.ui.rendering.ImageUtils;
  */
 public class Door implements Item, Lockable {
 
+	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
 
@@ -126,6 +127,10 @@ public class Door implements Item, Lockable {
 		return imageName;
 	}
 
+	public String getCSVCode(Map<String, String> textTileMap) {
+		return "2";
+	}
+
 	public void setOccupiable(boolean bool) {
 		occupiable = bool;
 	}
@@ -163,6 +168,10 @@ public class Door implements Item, Lockable {
 		return offset;
 	}
 
+	/**
+	 * Returns whether the door is open or not.
+	 * @return
+	 */
 	public boolean isOpen() {
 		return open;
 	}
