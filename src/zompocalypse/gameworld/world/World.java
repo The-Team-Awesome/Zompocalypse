@@ -2,7 +2,6 @@ package zompocalypse.gameworld.world;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
@@ -253,7 +253,7 @@ public class World implements Serializable {
 		}
 
 		Strategy rand = new RandomStrategy();
-		StrategyZombie zombie = new StrategyZombie(this, x, y, ++id, rand);
+		StrategyZombie zombie = new StrategyZombie(this, x, y, rand, ++id);
 		idToActor.put(id, zombie);
 		objects[zombie.getX()][zombie.getY()].add(zombie);
 	}
@@ -335,7 +335,11 @@ public class World implements Serializable {
 
 			// Then, if no objects were used before, process any in front of the player
 			for (GameObject o : player.getObjectsInfront()) {
-				if (o instanceof Item) {
+				if(o instanceof StrategyZombie) {
+					StrategyZombie zombie = (StrategyZombie) o;
+					int damage = player.calculateAttack();
+					zombie.damaged(damage);
+				} else if (o instanceof Item) {
 					((Item) o).use(player);
 					return;
 				}
@@ -351,7 +355,10 @@ public class World implements Serializable {
 					using = i;
 				}
 			}
-			using.use(player);
+
+			player.queueItem(using);
+		} else if(key.equals(UICommand.BACKPACK.getValue())) {
+			player.useQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
@@ -527,7 +534,11 @@ public class World implements Serializable {
 			// This is a torch, pretty torch gives the player light :)
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
 		} else if(objectName[0].contains("key")) {
+			// This is a key! It is used to unlock doors.
 			objects[editor.x][editor.y].add(new Key(objectName[0], id++));
+		} else if(objectName[0].contains("coins")) {
+			int amount = WorldBuilder.getInteger("Pliz gimme a amount number");
+			objects[editor.x][editor.y].add(new Money(objectName[0], id++, amount));
 		}
 
 	}

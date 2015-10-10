@@ -12,10 +12,17 @@ import zompocalypse.ui.rendering.ImageUtils;
 
 public class StrategyZombie extends MovingCharacter {
 
+	private final int ZOMBIE_HEALTH = 100;
+	private final int ZOMBIE_SPEED = 5;
+	private final int ZOMBIE_STRENGTH = 20;
+	private final int BASE_ATTACK = 10;
+
+	private final int uid;
+	private int health;
+	private int speed;
+	private int strength;
+
 	private Strategy strategy;
-
-	private int id;
-
 	private Orientation orientation = Orientation.NORTH;
 
 	private String[] filenames = { "npc_zombie_n.png",
@@ -26,15 +33,23 @@ public class StrategyZombie extends MovingCharacter {
 	private String imageName;
 	private ImageIcon currentImage;
 
-	public StrategyZombie(World game, int xCoord, int yCoord, int id, Strategy strategy) {
-		super(game, xCoord, yCoord, Orientation.NORTH);
+	public StrategyZombie(World game, int realX, int realY, Strategy strategy, int uid) {
+		super(game, realX, realY, Orientation.NORTH);
 		this.strategy = strategy;
-		this.id = id;
+		this.uid = uid;
+
+		this.health = ZOMBIE_HEALTH;
+		this.speed = ZOMBIE_SPEED;
+		this.strength = ZOMBIE_STRENGTH;
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
+	}
+
+	public void damaged(int damage) {
+		health = health - damage;
 	}
 
 	@Override
@@ -49,7 +64,7 @@ public class StrategyZombie extends MovingCharacter {
 	}
 
 	public void setQueued(Orientation queued) {
-		this.direction = queued;
+		this.ori = queued;
 	}
 
 	@Override

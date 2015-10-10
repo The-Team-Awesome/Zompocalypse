@@ -11,6 +11,8 @@ import zompocalypse.gameworld.world.World;
  * @author Kieran Mckay, 300276166
  */
 public abstract class Actor implements GameObject {
+
+	private static final long serialVersionUID = 1L;
 	protected int xCoord; //  x-position
 	protected int yCoord; //  y-position
 

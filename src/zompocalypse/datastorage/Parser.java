@@ -332,8 +332,7 @@ public class Parser {
 							xmlCell.setAttribute("open", String.valueOf(door.isOpen()));
 							xmlCell.setAttribute("locked", String.valueOf(door.isLocked()));
 						} else if(objects[row][col].peek() instanceof Container) {
-							Container door = (Container) objects[row][col].peek();
-							// TODO: I don't know what I'm doing here! I'll leave this to David :)
+							xmlCell.appendChild(parseContainer(doc, (Container) objects[row][col].peek(), textTileMap));
 						}
 					}
 					if (zombieSpawnPoints.contains(new Point(row, col))) {
@@ -362,11 +361,20 @@ public class Parser {
 		}
 
 		// If we got here something went wrong!
-		return "Error: Unable to save World";
+		return "Error: Unable to save the World";
+	}
+
+	private static Node parseContainer(Document doc, Container container,
+			Map<String, String> textTileMap) {
+		Element xmlContainer = doc.createElement("container");
+		xmlContainer.setAttribute("img",
+				getCode(container.getFileName(), textTileMap));
+		return xmlContainer;
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
+		System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);

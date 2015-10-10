@@ -154,15 +154,19 @@ public class Loader {
 
 		return null;
 	}
-	
+
+	/**
+	 * Loads an mp3 file for playing sounds.
+	 * @param filename Path of the audio file
+	 * @return MediaPlayer element to be used in-game
+	 */
 	public static MediaPlayer LoadMP3(String filename) {
 		JFXPanel fxPanel = new JFXPanel();
 		String name = soundDir + separator + filename;
 		File soundFile = LoadFile(name);
 		Media hit = new Media(soundFile.toURI().toString());
 		MediaPlayer mediaPlayer = new MediaPlayer(hit);
-		
+
 		return mediaPlayer;
 	}
-
 }

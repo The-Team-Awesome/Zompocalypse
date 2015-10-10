@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 
 import zompocalypse.controller.RunningServer;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 
 /**
  * The ServerPanel is what a user sees when they start a server running.
@@ -32,8 +33,13 @@ public class ServerPanel extends JPanel {
 		server = new RunningServer(this, port, gameClock, serverClock);
 
 		arrangeComponents();
+
+		setBackground(CustomUtils.frameBackground);
 	}
 
+	/**
+	 * Arranges position and set components into the content panel.
+	 */
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -53,15 +59,27 @@ public class ServerPanel extends JPanel {
 		this.add(scroller, constraints);
 	}
 
+	/**
+	 * Send the number of clients to the server.
+	 * @param numClients - number of clients.
+	 */
 	public void setNumClients(int numClients) {
 		server.updateNumClients(numClients);
 	}
 
+	/**
+	 * Updates the content on the text area.
+	 * @param text
+	 */
 	public void updateContent(String text) {
 		content += text + "\n";
 		field.setText(content);
 	}
 
+	/**
+	 * Starts a server.
+	 * @param game - current game.
+	 */
 	public void startServer(World game) {
 		server.startServer(game);
 	}
