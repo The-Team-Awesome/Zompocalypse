@@ -16,6 +16,7 @@ public enum UICommand {
 	ITEMTWO("ItemTwo"),
 	ITEMTHREE("ItemThree"),
 	USE("Use"),
+	EXAMINE("Examine"),
 	USEITEM("use-"),
 	BACKPACK("Backpack"),
 	SINGLEPLAYER("SinglePlayer"),

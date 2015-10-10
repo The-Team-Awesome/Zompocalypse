@@ -231,6 +231,8 @@ public class MainFrame extends JFrame implements WindowListener {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
 		} else if (command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
+		} else if (command.equals(UICommand.EXAMINE.getValue())) {
+			gameCard.examine();
 		}
 	}
 
