@@ -118,7 +118,6 @@ public class Door implements Item, Lockable {
 	}
 
 	public boolean occupiable() {
-		// TODO
 		return occupiable;
 	}
 

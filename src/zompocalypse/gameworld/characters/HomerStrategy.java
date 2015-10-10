@@ -1,45 +1,95 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 
 public class HomerStrategy implements Strategy {
+	private final static int WAIT_TIME = 10;
+	private final int SPEED = 10;
+	private static int moveTimeCounter = WAIT_TIME;
+	private Player target;
 
 	@Override
 	public ActorType type() {
-		// TODO Auto-generated method stub
 		return ActorType.HOMERZOMBIE;
 	}
 
 	@Override
 	public int speed() {
-		// TODO Auto-generated method stub
-		return 0;
+		return SPEED;
 	}
 
 	@Override
-	public void tick(World game, StrategyZombie ghost) {
-		// TODO Auto-generated method stub
-
+	public void tick(World game, StrategyZombie zombie) {
+		if(moveTimeCounter > 0){
+			moveTimeCounter -= speed();
+			return;
+		}
+		updateTarget(game, zombie);
+		
+		Orientation direction = getPreferedDirection(game, zombie); 
+		switch (direction) {
+		case NORTH:
+			zombie.moveNorth();
+			break;
+		case EAST:
+			zombie.moveEast();
+			break;
+		case SOUTH:
+			zombie.moveSouth();
+			break;
+		case WEST:
+			zombie.moveWest();
+			break;
+		}
+		moveTimeCounter = WAIT_TIME;
 	}
+	
+	private void updateTarget(World game, StrategyZombie zombie){
+		
+		Map<Integer, Actor> characters = game.getIdToActor();
+		for(Actor a : characters.values()){
+			if(a instanceof Player){
+				if(target == null){
+					target = (Player)a;
+				}else{
+					Player player = (Player) a;
+					int xdifPlayer = Math.abs(zombie.getX() - player.getX());
+					int ydifPlayer = Math.abs(zombie.getY() - player.getY());
+					int playerDist = xdifPlayer + ydifPlayer;					
 
+					int xdifTarget = Math.abs(zombie.getX() - target.getX());
+					int ydifTarget = Math.abs(zombie.getY() - target.getY());
+					int targetDist = xdifTarget + ydifTarget;
+					if (playerDist < targetDist){
+						target = player;
+					}
+				}
+			}
+		}
+	}
+	
+	private Orientation getPreferedDirection(World game, StrategyZombie zombie){
+		
+		int xdifTarget = Math.abs(zombie.getX() - target.getX());
+		int ydifTarget = Math.abs(zombie.getY() - target.getY());
+		
+		return Orientation.NORTH;
+	}
+	
+	/*
 	@Override
 	public void draw(Graphics g, StrategyZombie ghost) {
 		// TODO Auto-generated method stub
 
 	}
+	*/
 	/*
-
-	@Override
-	public int speed() {
-		return 3;
-	}
-
-	@Override
-	public int type() {
-		return Character.HOMERZOMBIE;
-	}
 
 	@Override
 	public void tick(World game, StrategyZombie zombie) {
@@ -87,7 +137,7 @@ public class HomerStrategy implements Strategy {
 				}
 			}
 		}
-
+		
 		if(targetDeltaX != -1) {
 			int deltaX = Math.abs(targetDeltaX);
 			int deltaY = Math.abs(targetDeltaY);
@@ -108,25 +158,8 @@ public class HomerStrategy implements Strategy {
 			}
 		}
 	}
-
-	@Override
-	public void draw(Graphics g, StrategyZombie zombie) {
-		switch(zombie.direction()) {
-			case MovingCharacter.RIGHT:
-				g.drawImage(HGHOST_RIGHT, zombie.realX(),zombie.realY(), null, null);
-				break;
-			case MovingCharacter.UP:
-				g.drawImage(HGHOST_UP, zombie.realX(),zombie.realY(), null, null);
-				break;
-			case MovingCharacter.DOWN:
-				g.drawImage(HGHOST_DOWN, zombie.realX(),zombie.realY(), null, null);
-				break;
-			case MovingCharacter.LEFT:
-				g.drawImage(HGHOST_LEFT, zombie.realX(),zombie.realY(), null, null);
-				break;
-		}
-	}
-
+	*/
+	/*
 	private void tryMoveUp(boolean preferLeft, World game, StrategyZombie zombie) {
 		if(game.canMoveUp(zombie)) {
 			zombie.moveUp();
@@ -190,5 +223,5 @@ public class HomerStrategy implements Strategy {
 			zombie.moveLeft(); // last resort
 		}
 	}
-*/
+	*/
 }

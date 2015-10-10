@@ -25,7 +25,7 @@ public class RandomStrategy implements Strategy{
 	@Override
 	public void tick(World game, StrategyZombie zombie) {
 		if(moveTimeCounter > 0){
-			moveTimeCounter -= SPEED;
+			moveTimeCounter -= speed();
 			return;
 		}
 		
@@ -51,9 +51,10 @@ public class RandomStrategy implements Strategy{
 		}
 		moveTimeCounter = WAIT_TIME;
 	}
-
+	/*
 	@Override
 	public void draw(Graphics g, StrategyZombie zombie) {
 		// TODO Auto-generated method stub
 	}
+	*/
 }

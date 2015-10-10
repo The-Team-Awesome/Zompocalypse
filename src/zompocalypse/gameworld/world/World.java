@@ -13,6 +13,7 @@ import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
+import zompocalypse.gameworld.characters.MovingCharacter;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.characters.RandomStrategy;
 import zompocalypse.gameworld.characters.Strategy;
@@ -54,6 +55,7 @@ public class World implements Serializable {
 	 */
 
 	private Orientation orientation;
+
 	private Floor[][] map;
 	private PriorityQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
@@ -120,7 +122,8 @@ public class World implements Serializable {
 				return true;
 			else if (o instanceof Door)
 				return !((Door) o).occupiable();
-
+			//else if (o instanceof Container)
+				//return !((Container) o).occupiable();
 		}
 		return false;
 	}
@@ -164,6 +167,12 @@ public class World implements Serializable {
 
 	public PriorityQueue<GameObject>[][] getObjects() {
 		return objects;
+	}
+	
+	public boolean canMove(MovingCharacter mover, Orientation dir){
+		int x = mover.getX();
+		int y = mover.getY();
+		return true;
 	}
 
 	// ***********************************************
@@ -666,6 +675,14 @@ public class World implements Serializable {
 
 	public Player getPlayer(int id) {
 		return (Player) idToActor.get(id);
+	}
+	
+
+	/**
+	 * @return the idToActor
+	 */
+	public Map<Integer, Actor> getIdToActor() {
+		return idToActor;
 	}
 
 	public void editDoor() {

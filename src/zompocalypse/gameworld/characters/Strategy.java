@@ -12,6 +12,6 @@ public interface Strategy {
 
 	public void tick(World game, StrategyZombie Zombie);
 
-	public void draw(Graphics g, StrategyZombie zombie);
+	//public void draw(Graphics g, StrategyZombie zombie);
 
 }
