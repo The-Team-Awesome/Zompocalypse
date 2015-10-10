@@ -1,7 +1,13 @@
 package zompocalypse.gameworld.characters;
 
+import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
+
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 /**
  * A Character is a record of information about a particular character in the
@@ -13,31 +19,120 @@ import zompocalypse.gameworld.world.World;
 public abstract class Actor implements GameObject {
 
 	private static final long serialVersionUID = 1L;
-	protected int xCoord; //  x-position
-	protected int yCoord; //  y-position
+
+	protected int xCoord; // x-position
+	protected int yCoord; // y-position
+	protected int uid;
+
+	protected String filename;
+	protected Orientation queued; // queued direction change
+	protected World game;
+
+	private String[] filenames;
+	private ImageIcon[] images;
+	private ImageIcon currentImage;
+	private Orientation orientation;
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character
 	 */
-	public Actor(int xCoord, int yCoord) {
+	public Actor(int uid, World game, int xCoord, int yCoord,
+			Orientation direction, String[] filenames) {
+
+		this.game = game;
+
+		this.orientation = Orientation.NORTH;
+		this.filenames = filenames;
+
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		this.images = imu.setupImages(filenames);
+		this.currentImage = images[0];
+		this.filename = filenames[0]; // pass in the name of the character
+
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
+		this.uid = uid; // everyone should have a userid so that they can be
+						// drawn
+
+		queued = Orientation.NORTH;
 	}
 
 	/**
 	 * The current X coordinate for this character
-	 * @return X co-ordinate
+	 */
+	public String[] getFilenames() {
+		return filenames;
+	}
+
+	/**
+	 * The current X coordinate for this character
 	 */
 	public int getX() {
 		return xCoord;
 	}
 
 	/**
+	 * Get unique id
+	 * @return
+	 */
+	public int getUid() {
+		return this.uid;
+	}
+
+	/**
+	 * Get character's name
+	 * @return
+	 */
+	public String getFileName() {
+		return this.filename;
+	}
+
+	/**
+	 * Gets the current image
+	 * @return
+	 */
+	protected ImageIcon getCurrentImage() {
+		return currentImage;
+	}
+
+	/**
 	 * The current y coordinate for this character
-	 * @return Y co-ordinate
 	 */
 	public int getY() {
 		return yCoord;
+	}
+
+	/**
+	 * Returns the world
+	 * @return
+	 */
+	protected World getWorld() {
+		return game;
+	}
+
+	/**
+	 * Sets up the drawing for the character, to be overridden using the specific offset
+	 */
+	public void draw(int realx, int realy, int offsetY, Graphics g, Orientation worldOrientation) {
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		Orientation ord = Orientation.getCharacterOrientation(queued,
+				worldOrientation);
+
+		currentImage = imu.getCurrentImageForOrientation(ord, images);
+		g.drawImage(getCurrentImage().getImage(), realx, realy + offsetY, null);
+	}
+
+	@Override
+	public int compareTo(GameObject o) {  //TODO
+		return 0;
+	}
+
+	/**
+	 * Get the current orientation
+	 * @return
+	 */
+	public Orientation getCurrentOrientation() {
+		return orientation;
 	}
 
 	/**
@@ -46,4 +141,6 @@ public abstract class Actor implements GameObject {
 	 * in.
 	 */
 	public abstract void tick(World game);
+
+
 }

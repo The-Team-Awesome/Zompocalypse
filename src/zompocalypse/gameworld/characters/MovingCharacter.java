@@ -6,7 +6,6 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 
-
 /**
  * The moving character class represents characters in the game world which
  * move. Moving characters have a direction of movement, and a speed at which
@@ -17,23 +16,143 @@ import zompocalypse.gameworld.world.World;
 public abstract class MovingCharacter extends Actor {
 
 	private static final long serialVersionUID = 1L;
-	protected Orientation ori;
 	protected boolean moving;
-	protected Orientation queued; 	// queued direction change
-	protected World game;
 
-	public MovingCharacter(World game, int xCoord, int yCoord, Orientation direction) {
-		super(xCoord,yCoord);
-		this.game = game;
-		this.ori = direction;
+	private int health;
+	private int speed;   //non monving zomies have 0 speed?
+	private int strength;
+
+	protected Orientation ori;  //the orientation that the player is moving in
+
+	public MovingCharacter(int uid, World game, int xCoord, int yCoord, Orientation direction,
+			String[] filenames) {
+		super(uid, game, xCoord, yCoord, direction, filenames);
+
 		this.moving = false;
-		queued = Orientation.NORTH;
+	}
+
+	/**
+	 * Check if this character is dead.
+	 */
+	public boolean isDead() {
+		return health <= 0;
+	}
+
+	/**
+	 * Get this characters remaining health
+	 */
+	public int getHealth() {
+		return health;
+	}
+
+	/**
+	 * Get this characters strength
+	 */
+	public int getStrength() {
+		return strength;
+	}
+
+	/**
+	 * The tick method is provided to enable computer control characters to
+	 * make decisions.
+	 */
+	@Override
+	public void tick(World game) {
+		if(!moving){
+			return;
+		}
+		moving = false;
+
+		// Attempt to update the character's position. This is done by
+		// speculating at the new board position and then deciding if this
+		// should be allowed or not.
+		int oldX = xCoord;
+		int oldY = yCoord;
+
+		int newX;
+		int newY;
+
+		int width = game.width();
+		int height = game.height();
+
+		if(queued == Orientation.NORTH) {
+			newX = xCoord;
+			newY = yCoord -1;
+			ori = queued;
+		}
+		else if(queued == Orientation.SOUTH) {
+			newX = xCoord;
+			newY = yCoord +1;
+			ori = queued;
+		}
+		else if(queued == Orientation.EAST) {
+			newX = xCoord + 1;
+			newY = yCoord;
+			ori = queued;
+		}
+		else if(queued == Orientation.WEST) {
+			newX = xCoord - 1;
+			newY = yCoord;
+			ori = queued;
+		}
+		else {
+			throw new IllegalStateException();
+		}
+
+		if(newX < 0 || newY < 0 || newX >= width || newY >= height) {
+			return;
+		}
+
+		//If the game is not blocked, then the position can be updated
+		if(!game.isBlocked(newX,newY)) {
+			PriorityQueue<GameObject> objects[][] = game.getObjects();
+
+			xCoord = newX;
+			yCoord = newY;
+			objects[oldX][oldY].remove(this);
+			objects[newX][newY].add(this);
+		}
+	}
+
+	/**
+	 * Sets the orientation for the character to move in
+	 */
+	public void setOrientation(Orientation orientation) {
+		this.ori = orientation;
+	}
+
+	/**
+	 * Get this characters speed
+	 */
+	public void setSpeed(int s) {
+		this.speed = s;
+	}
+
+	/**
+	 * Set this characters health
+	 */
+	public void setHealth(int h) {
+		this.health = h;
+	}
+
+	/**
+	 * Set this characters strength
+	 */
+	public void setStrength(int st) {
+		this.strength = st;
+	}
+
+	/**
+	 * Get this characters speed
+	 */
+	public int getSpeed() {
+		return this.speed;
 	}
 
 	/**
 	 * Determine the direction in which this character is moving.
 	 */
-	public Orientation direction() {
+	public Orientation getOrientation() {
 		return ori;
 	}
 
@@ -68,85 +187,4 @@ public abstract class MovingCharacter extends Actor {
 		queued = Orientation.WEST;
 		moving = true;
 	}
-
-	/**
-	 * The tick method is provided to enable computer control characters to
-	 * make decisions.
-	 */
-	@Override
-	public void tick(World game) {
-
-		if(!moving){
-			return;
-		}
-
-		moving = false;
-
-		// Attempt to update the character's position. This is done by
-		// speculating at the new board position and then deciding if this
-		// should be allowed or not.
-		int oldX = xCoord;
-		int oldY = yCoord;
-
-		int newX;
-		int newY;
-
-		int width = game.width();
-		int height = game.height();
-
-		if(queued == Orientation.NORTH) {
-			newX = xCoord;
-			newY = yCoord -1;
-			ori = queued;
-		} else if(queued == Orientation.SOUTH) {
-			newX = xCoord;
-			newY = yCoord +1;
-			ori = queued;
-		} else if(queued == Orientation.EAST) {
-			newX = xCoord + 1;
-			newY = yCoord;
-			ori = queued;
-		} else if(queued == Orientation.WEST) {
-			newX = xCoord - 1;
-			newY = yCoord;
-			ori = queued;
-		} else {
-			return;
-		}
-
-
-
-		if(newX < 0 || newY < 0 || newX >= width || newY >= height) {
-			return;
-		}
-
-		if(!game.isBlocked(newX,newY)) {
-			// we can update our position ...
-			PriorityQueue<GameObject> objects[][] = game.getObjects();
-
-			//System.out.println(objects);
-
-			/*for(int x = 0; x < objects.length; x++) {
-				for(int y = 0; y < objects[0].length; y++) {
-					System.out.print(objects[x][y] + ", ");
-				}
-				System.out.print("\n");
-			}*/
-
-			xCoord = newX;
-			yCoord = newY;
-			objects[oldX][oldY].remove(this);
-			objects[newX][newY].add(this);
-		}
-	}
-
-	/**
-	 * Determine the speed at which this character moves
-	 */
-	abstract public int speed();
-
-	public void setOrientation(Orientation orientation) {
-		this.ori = orientation;
-	}
-
 }

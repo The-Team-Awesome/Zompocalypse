@@ -25,39 +25,42 @@ import zompocalypse.ui.rendering.ImageUtils;
  */
 public final class Player extends MovingCharacter {
 
+	private static final long serialVersionUID = 1L;
+
 	private List<Item> inventory;
 
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;
 
-	private final int uid;
 	private int score;
-	private int health;
-	private int speed;
-	private int strength;
+
+	private final int OFFSETY = -20;
 
 	// This is the currently equipped Item
 	private Weapon equipped;
 
-	private String[] filenames;
-	private ImageIcon[] images;
-	private String imageName;
-	private ImageIcon currentImage;
-	private Orientation orientation;
+	/**
+	 * @param uid
+	 * @param score
+	 * @param playerName
+	 * @param game
+	 * @param xCoord
+	 * @param yCoord
+	 * @param direction
+	 * @param filenames
+	 */
+	public Player(int uid, int score, String playerName, World game, int xCoord, int yCoord, Orientation direction,
+			String[] filenames) {
+		super(uid, game, xCoord, yCoord, direction, filenames);
 
-	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
-			int score, String playerName, String[] filenames, World game) {
-		super(game, xCoord, yCoord, orientation);
 		this.score = score;
-		this.uid = uid;
-		this.filenames = filenames;
-		this.health = PLAYER_HEALTH;
-		this.speed = PLAYER_SPEED;
-		this.strength = PLAYER_STRENGTH;
+
+		setHealth(PLAYER_HEALTH);
+		setSpeed(PLAYER_SPEED);
+		setStrength(PLAYER_STRENGTH);
 
 		this.inventory = new ArrayList<Item>();
-		this.orientation = Orientation.NORTH;
 
 		// TODO: This is just temporary, adding objects to the Players
 		// inventory so something is visible when viewing their backpack
@@ -66,27 +69,6 @@ public final class Player extends MovingCharacter {
 		inventory.add(new Torch("torch.png", 3));
 		inventory.add(new Money("coins_gold.png", 4, 10));
 		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
-
-		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		this.images = imu.setupImages(filenames);
-		this.currentImage = images[0];
-		this.imageName = filenames[0];
-	}
-
-	/**
-	 * Get this players unique identifier.
-	 */
-	public int getUID() {
-		return uid;
-	}
-
-	/**
-	 * Returns a reference to this players game world
-	 *
-	 * @return the World object this player is acting on
-	 */
-	public World getWorld() {
-		return game;
 	}
 
 	/**
@@ -97,32 +79,11 @@ public final class Player extends MovingCharacter {
 	}
 
 	/**
-	 * Get this players remaining health
-	 */
-	public int health() {
-		return health;
-	}
-
-	/**
-	 * Get this players strength
-	 */
-	public int strength() {
-		return strength + equipped.getStrength();
-	}
-
-	/**
-	 * Get this players speed
+	 * Get this players strength  //TODO
 	 */
 	@Override
-	public int speed() {
-		return speed;
-	}
-
-	/**
-	 * Check if this player is dead.
-	 */
-	public boolean isDead() {
-		return health <= 0;
+	public int getStrength() {
+		return super.getStrength() + equipped.getStrength();
 	}
 
 	/**
@@ -132,48 +93,27 @@ public final class Player extends MovingCharacter {
 		score += points;
 	}
 
+	/**
+	 * Ticks the game over.
+	 */
 	@Override
 	public void tick(World game) {
 		if (!isDead()) {
 			super.tick(game);
-
 		}
-	}
-
-	/**
-	 * Draw the player that is yours to the screen different so you know which
-	 * one is you
-	 */
-	public void drawOwn(Graphics g) {
-
-	}
-
-	@Override
-	public String getFileName() {
-		return this.imageName;
-	}
-
-	/**
-	 * Draw the player to the screen
-	 */
-	public void draw(int realx, int realy, Graphics g,
-			Orientation worldOrientation) {
-		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		Orientation ord = Orientation.getCharacterOrientation(queued, worldOrientation);
-		currentImage = imu.getCurrentImageForOrientation(ord,
-				images);
-
-		g.drawImage(currentImage.getImage(), realx, realy - 20, null);
 	}
 
 	@Override
 	public String toString() {
-		return "Player [uid=" + uid + ", orientation=" + orientation
-				+ ", score=" + score + ", health=" + health + ", speed="
-				+ speed + ", strength=" + strength + ", filename=" + filenames
+		return "Player [uid=" + getUid() + ", orientation=" + getOrientation()
+				+ ", score=" + score + ", health=" + getHealth() + ", speed="
+				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
 	}
 
+	/**
+	 * Gets the priority queue
+	 */
 	public PriorityQueue<GameObject> getObjectsHere() {
 		int myX = getX();
 		int myY = getY();
@@ -184,9 +124,14 @@ public final class Player extends MovingCharacter {
 		return worldObs[myX][myY];
 	}
 
+	/**
+	 * Gets a priority queue for drawing the objects in the right order.
+	 * @return
+	 */
 	public PriorityQueue<GameObject> getObjectsInfront() {
 		int frontX = getX();
 		int frontY = getY();
+
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
 		// Hi, I'm Sam. I changed orientation to queued here because that
@@ -210,17 +155,14 @@ public final class Player extends MovingCharacter {
 		return new PriorityQueue<GameObject>();
 	}
 
-	@Override
-	public int compareTo(GameObject o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	/**
+	 * Picks up the item and puts it in the inventory.
+	 * @param item
+	 * @return
+	 */
 	public boolean pickUp(Item item) {
 		return inventory.add(item);
 	}
-
-	// TODO add drop item
 
 	/**
 	 * This players inventory items
@@ -231,10 +173,20 @@ public final class Player extends MovingCharacter {
 		return inventory;
 	}
 
+	/**
+	 * Gets the equipped weapon
+	 * @return
+	 */
 	public Weapon getEquipped() {
 		return equipped;
 	}
 
+	/**
+	 * Moves the camera.
+	 *
+	 * @param north
+	 * @param cameraDirection //TODO
+	 */
 	public void move(Orientation north, Orientation cameraDirection) {
 		Orientation ori = Orientation.getCharacterOrientation(north, cameraDirection);
 		switch (ori) {
@@ -253,13 +205,12 @@ public final class Player extends MovingCharacter {
 		}
 	}
 
-	public Orientation getCurrentOrientation() {
-		return orientation;
-	}
-
-	public void rotatePerspective(Direction value) {
-		switch (value) {
-
+	/**
+	 * Rotates the perspective of the player.
+	 * @param value
+	 */
+	public void rotatePerspective(Direction dir) {
+		switch (dir) {
 		case CLOCKWISE:
 			updateCurrentOrientationClockwise();
 			return;
@@ -271,11 +222,13 @@ public final class Player extends MovingCharacter {
 					"Direction wasn't clockwise or anticlockwise");
 		}
 	}
+
 	/**
 	 * Updates the current orientation of the viewer to its clockwise
 	 * counterpart.
 	 */
 	private void updateCurrentOrientationClockwise() {
+		Orientation orientation = getOrientation();
 		switch (orientation) {
 		case NORTH:
 			orientation = Orientation.EAST;
@@ -300,6 +253,7 @@ public final class Player extends MovingCharacter {
 	 * counterpart.
 	 */
 	private void updateCurrentOrientationAntiClockwise() {
+		Orientation orientation = getOrientation();
 		switch (orientation) {
 		case NORTH:
 			orientation = Orientation.WEST;
@@ -319,4 +273,11 @@ public final class Player extends MovingCharacter {
 		}
 	}
 
+	/**
+	 * Calls super on the draw method
+	 */
+	@Override
+	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		super.draw(x, y, OFFSETY, g, worldOrientation);
+	}
 }
