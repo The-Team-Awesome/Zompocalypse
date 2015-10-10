@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import zompocalypse.gameworld.Drawable;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.ui.appwindow.ContainerPane;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
@@ -109,7 +111,12 @@ public class Container implements Item, Lockable{
 	}
 
 	private void open(Player player){
-		//TODO open and display contents to user probably through a new window
+		// TODO: Once containers are in the world, we can properly test this!
+		// It will need a valid action handler to pass to the ContainerPane,
+		// need to think about where this will come from!
+		int id = player.getUID();
+		ContainerPane inventory = new ContainerPane(this.heldItems, null);
+		JOptionPane.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	public List<Item> getHeldItems() {

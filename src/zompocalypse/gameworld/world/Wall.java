@@ -45,7 +45,7 @@ public class Wall implements GameObject {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
 
-
+		// TODO: This is hacky, yuck!
 		if(imageName.contains("plant")) {
 			g.drawImage(currentImage.getImage(), x + offset, y - offset, null);
 		} else {

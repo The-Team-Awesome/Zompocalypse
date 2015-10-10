@@ -485,8 +485,6 @@ public class World implements Serializable {
 			offset = 12;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
 		}
-			/*objects[editor.x][editor.y].add(new Door(editor.x, editor.y,
-					objectName, offset, false, id++));*/
 
 	}
 

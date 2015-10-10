@@ -1,23 +1,20 @@
 package zompocalypse.ui.appwindow;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.ui.appwindow.custom.ZRadioButton;
 
 public class ContainerPane {
 	private ActionListener action;
-	private ArrayList<GameObject> objects;
+	private List<? extends GameObject> objects;
 
-	public ContainerPane(ArrayList<GameObject> objects, ActionListener action) {
+	public ContainerPane(List<? extends GameObject> objects, ActionListener action) {
 		super();
 		this.objects = objects;
 		this.action = action;

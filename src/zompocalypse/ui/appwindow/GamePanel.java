@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
+import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
@@ -72,6 +73,7 @@ public class GamePanel extends JPanel {
 	private ActionListener action;
 	private World game;
 	private int id;
+	private Player player;
 
 
 	public GamePanel(int id, World game, ActionListener action) {
@@ -79,6 +81,8 @@ public class GamePanel extends JPanel {
 		this.game = game;
 		this.action = action;
 		this.id = id;
+
+		this.player = game.getPlayer(id);
 
 		this.setBackground(CustomUtils.frameBackground);
 		this.setLayout(new GridBagLayout());
@@ -134,19 +138,14 @@ public class GamePanel extends JPanel {
 		GridBagConstraints c =  new GridBagConstraints();
 		int positionY = 0;
 
-		ImageIcon itemImage = new ImageIcon();
-		// ITEMS
-		try {
-			itemImage = new ImageIcon(ITEM);
-		} catch (Exception e) {
-			throw new RuntimeException("Error finding image: "+e);
-		}
+		ImageIcon itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+
 
 		Insets bottomInset = new Insets(0, 0, 40, 0);
 		Insets generalInset = new Insets(0,0,10,0);
 
 		lblItem = new JLabel(itemImage);
-		lblItem.setText("iteeeem");
+		lblItem.setText("Equipped");
 		c.gridx = 1;
 		c.gridy = positionY++;
 		c.ipadx = 3;

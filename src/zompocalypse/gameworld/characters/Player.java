@@ -1,20 +1,18 @@
 package zompocalypse.gameworld.characters;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
 
-import com.sun.imageio.plugins.common.ImageUtil;
-
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
-import zompocalypse.ui.appwindow.UICommand;
 
 /**
  * Player is a human played character in the game.
@@ -36,6 +34,9 @@ public final class Player extends MovingCharacter {
 	private int health;
 	private int speed;
 	private int strength;
+
+	// This is the currently equipped Item
+	private Weapon equipped;
 
 	private String[] filenames;
 	private ImageIcon[] images;
@@ -61,6 +62,7 @@ public final class Player extends MovingCharacter {
 		// inventory so something is visible when viewing their backpack
 		inventory.add(new Key("gold_key_inv.png", 0));
 		inventory.add(new Key("gold_key_inv.png", 0));
+		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 0, 5);
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
@@ -102,7 +104,7 @@ public final class Player extends MovingCharacter {
 	 * Get this players strength
 	 */
 	public int strength() {
-		return strength;
+		return strength + equipped.getStrength();
 	}
 
 	/**
@@ -224,6 +226,10 @@ public final class Player extends MovingCharacter {
 	 */
 	public ArrayList<GameObject> getInventory() {
 		return inventory;
+	}
+
+	public Weapon getEquipped() {
+		return equipped;
 	}
 
 	public void move(Orientation north, Orientation cameraDirection) {

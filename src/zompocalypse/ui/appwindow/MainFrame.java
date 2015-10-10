@@ -354,22 +354,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		ArrayList<GameObject> objects = player.getInventory();
 
 		ContainerPane inventory = new ContainerPane(objects, action);
-		JOptionPane container = new JOptionPane();
-		container.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
-	}
-
-
-	/**
-	 * This method opens up a new message dialog, just like the
-	 * showBackpack method, for a unique container with the given id.
-	 *
-	 * @param id - The unique ID of the Container
-	 */
-	private void showContainer(int id) {
-		Container container = null; // get something from the game world here?
-
-		List<Item> object = container.getHeldItems();
-
+		JOptionPane.showMessageDialog(null, inventory.inputs(), "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
