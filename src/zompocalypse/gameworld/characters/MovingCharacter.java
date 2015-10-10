@@ -1,7 +1,6 @@
 package zompocalypse.gameworld.characters;
 
 import java.util.PriorityQueue;
-import java.awt.Graphics;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -17,7 +16,8 @@ import zompocalypse.gameworld.world.World;
  */
 public abstract class MovingCharacter extends Actor {
 
-	protected Orientation direction;
+	private static final long serialVersionUID = 1L;
+	protected Orientation ori;
 	protected boolean moving;
 	protected Orientation queued; 	// queued direction change
 	protected World game;
@@ -25,7 +25,7 @@ public abstract class MovingCharacter extends Actor {
 	public MovingCharacter(World game, int xCoord, int yCoord, Orientation direction) {
 		super(xCoord,yCoord);
 		this.game = game;
-		this.direction = direction;
+		this.ori = direction;
 		this.moving = false;
 		queued = Orientation.NORTH;
 	}
@@ -34,24 +34,36 @@ public abstract class MovingCharacter extends Actor {
 	 * Determine the direction in which this character is moving.
 	 */
 	public Orientation direction() {
-		return direction;
+		return ori;
 	}
 
+	/**
+	 * Changes the new orientation to North, updates that it must be changed.
+	 */
 	public void moveNorth() {
 		queued = Orientation.NORTH;
 		moving = true;
 	}
 
+	/**
+	 * Changes the new orientation to East, updates that it must be changed.
+	 */
 	public void moveEast() {
 		queued = Orientation.EAST;
 		moving = true;
 	}
 
+	/**
+	 * Changes the new orientation to South, updates that it must be changed.
+	 */
 	public void moveSouth() {
 		queued = Orientation.SOUTH;
 		moving = true;
 	}
 
+	/**
+	 * Changes the new orientation to West, updates that it must be changed.
+	 */
 	public void moveWest() {
 		queued = Orientation.WEST;
 		moving = true;
@@ -75,26 +87,29 @@ public abstract class MovingCharacter extends Actor {
 		// should be allowed or not.
 		int oldX = xCoord;
 		int oldY = yCoord;
-		int newX, newY;
+
+		int newX;
+		int newY;
+
 		int width = game.width();
 		int height = game.height();
 
 		if(queued == Orientation.NORTH) {
 			newX = xCoord;
 			newY = yCoord -1;
-			direction = queued;
+			ori = queued;
 		} else if(queued == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
-			direction = queued;
+			ori = queued;
 		} else if(queued == Orientation.EAST) {
 			newX = xCoord + 1;
 			newY = yCoord;
-			direction = queued;
+			ori = queued;
 		} else if(queued == Orientation.WEST) {
 			newX = xCoord - 1;
 			newY = yCoord;
-			direction = queued;
+			ori = queued;
 		} else {
 			return;
 		}
@@ -105,9 +120,7 @@ public abstract class MovingCharacter extends Actor {
 			return;
 		}
 
-		if(game.isBlocked(newX,newY)) {
-			// we've bumped into a wall ... so we have to stop!!
-		} else {
+		if(!game.isBlocked(newX,newY)) {
 			// we can update our position ...
 			PriorityQueue<GameObject> objects[][] = game.getObjects();
 
@@ -133,7 +146,7 @@ public abstract class MovingCharacter extends Actor {
 	abstract public int speed();
 
 	public void setOrientation(Orientation orientation) {
-		this.direction = orientation;
+		this.ori = orientation;
 	}
 
 }

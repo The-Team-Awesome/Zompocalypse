@@ -36,18 +36,24 @@ public class ClientPanel extends JPanel {
 	private ActionListener action;
 
 	// IPv4 pattern for JTextField
-	static final Pattern pat = Pattern.compile("\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-            "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-            "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-            "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
+	static final Pattern pat = Pattern
+			.compile("\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
+					+ "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
+					+ "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
+					+ "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
 
 	public ClientPanel(ActionListener action) {
 		super();
 		this.action = action;
-		setBackground(CustomUtils.frameBackground);
+
 		arrangeComponents();
+
+		setBackground(CustomUtils.frameBackground);
 	}
 
+	/**
+	 * Sets and arranges position of components into the content panel.
+	 */
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -66,48 +72,52 @@ public class ClientPanel extends JPanel {
 		txtServerIp.setColumns(20);
 		// using listener to watch the user input dynamically
 		txtServerIp.getDocument().addDocumentListener(new DocumentListener() {
-	            void checkDocument(DocumentEvent e) {
-	                try {
-	                    String text = e.getDocument().getText(0, e.getDocument().getLength());
-	                    // enables button if IP matches pattern
-	                    btnEnter.setEnabled(checkIPString(text));
-	                } catch (BadLocationException ex) {
-	                    //Do something, OK?
-	                }
-	            }
-	            @Override
-				public void insertUpdate(DocumentEvent e) {
-	                checkDocument(e);
-	            }
-	            @Override
-				public void removeUpdate(DocumentEvent e) {
-	                checkDocument(e);
-	            }
-	            @Override
-				public void changedUpdate(DocumentEvent e) {
-	                checkDocument(e);
-	            }
-	        });
+			void checkDocument(DocumentEvent e) {
+				try {
+					String text = e.getDocument().getText(0,
+							e.getDocument().getLength());
+					// enables button if IP matches pattern
+					btnEnter.setEnabled(checkIPString(text));
+				} catch (BadLocationException ex) {
+					// Do something, OK?
+				}
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				checkDocument(e);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				checkDocument(e);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				checkDocument(e);
+			}
+		});
 
 		// verifies if the pattern is matching the IP pattern
-		 txtServerIp.setInputVerifier(new InputVerifier() {
-	            @Override
-				public boolean shouldYieldFocus(JComponent input) {
-	                boolean inputOK = verify(input);
-	                if (inputOK) {
-	                    return true;
-	                } else {
-	                    Toolkit.getDefaultToolkit().beep();
-	                    return false;
-	                }
-	            }
-	            @Override
-				public boolean verify(JComponent input) {
-	                JTextField field = (JTextField) input;
-	                return checkIPString(field.getText());
-	            }
-	        });
+		txtServerIp.setInputVerifier(new InputVerifier() {
+			@Override
+			public boolean shouldYieldFocus(JComponent input) {
+				boolean inputOK = verify(input);
+				if (inputOK) {
+					return true;
+				} else {
+					Toolkit.getDefaultToolkit().beep();
+					return false;
+				}
+			}
 
+			@Override
+			public boolean verify(JComponent input) {
+				JTextField field = (JTextField) input;
+				return checkIPString(field.getText());
+			}
+		});
 
 		// adding components to panel
 		constraints.insets = buttonsInset;
@@ -121,17 +131,23 @@ public class ClientPanel extends JPanel {
 		this.add(btnEnter, constraints);
 	}
 
+	/**
+	 * Gets the IP input in the text area.
+	 *
+	 * @return IP address inserted.
+	 */
 	public String getIp() {
 		return txtServerIp.getText();
 	}
 
 	/**
 	 * Verifies the in put string matches IPv4 pattern.
+	 *
 	 * @param s
 	 * @return true when the input string matches the IPv4 pattern.
 	 */
 	static boolean checkIPString(String s) {
-        Matcher m = pat.matcher(s);
-        return m.matches();
-    }
+		Matcher m = pat.matcher(s);
+		return m.matches();
+	}
 }
