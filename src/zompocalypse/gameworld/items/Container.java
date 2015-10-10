@@ -42,40 +42,9 @@ public class Container implements Item, Lockable{
 	private int uid;
 
 	/**
-	 * Constructor for container with no items in it.
-	 * Requires a size for the amount of items it can hold.
-	 * Requires a boolean to determine if the container is movable or not.
-	 */
-	public Container(int size, boolean movable, boolean locked, String filename){
-		this.size = size;
-		this.movable = movable;
-		this.locked = locked;
-		this.filename = filename;
-		this.heldItems = new ArrayList<Item>();
-	}
-
-	/**
-	 * Constructor for container which starts with a list of items.
 	 * Requires a size for the amount of items it can hold.
 	 * NOTE: if size is less than the amount of items passed in then: this.size == items.size()
 	 * Requires a boolean to determine if the container is movable or not.
-	 */
-	public Container(int size, boolean movable, boolean locked, List<Item> items, String filename){
-		this.size = size;
-		this.locked = locked;
-		this.movable = movable;
-		this.filename = filename;
-		this.heldItems = items;
-
-		if (this.size < heldItems.size()){
-			this.size = heldItems.size();
-		}
-	}
-
-	/**
-	 * Woah, this has way too many parameters!
-	 * @param x
-	 * @param y
 	 * @param fileNames
 	 * @param offset
 	 * @param size
@@ -83,7 +52,7 @@ public class Container implements Item, Lockable{
 	 * @param locked
 	 * @param uid
 	 */
-	public Container(int x, int y, String[] fileNames, int size,
+	public Container(String[] fileNames, int size,
 			boolean movable, boolean locked, int uid) {
 		fileNamesClosed = fileNames;
 		this.filename = fileNames[0];
