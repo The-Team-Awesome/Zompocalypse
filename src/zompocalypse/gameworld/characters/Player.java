@@ -236,4 +236,10 @@ public final class Player extends MovingCharacter {
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		super.draw(x, y, OFFSETY, g, worldOrientation);
 	}
+
+	@Override
+	public boolean occupiable() {
+		// consider changing to true if we want players to be able to block
+		return false;
+	}
 }

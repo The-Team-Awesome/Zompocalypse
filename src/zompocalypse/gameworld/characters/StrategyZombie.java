@@ -51,4 +51,10 @@ public class StrategyZombie extends MovingCharacter {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public boolean occupiable() {
+		// consider changing to true if we want zombies to be able to block
+		return false;
+	}
 }

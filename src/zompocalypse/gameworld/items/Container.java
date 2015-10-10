@@ -99,6 +99,12 @@ public class Container implements Item, Lockable{
 	public List<Item> getHeldItems() {
 		return heldItems;
 	}
+	
+	public boolean occupiable(){
+		//It makes sense if you cant move an item, 
+		//you also can't occupy the same floor space (too big)
+		return movable;
+	}
 
 	/**
 	 * Whether or not there is any more room available in this container.

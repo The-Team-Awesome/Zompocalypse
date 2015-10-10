@@ -43,6 +43,10 @@ public class Torch implements Item {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public boolean occupiable(){
+		return true;
+	}
 
 	@Override
 	public boolean movable() {

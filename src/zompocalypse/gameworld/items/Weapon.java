@@ -50,6 +50,10 @@ public class Weapon implements Item {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public boolean occupiable(){
+		return true;
+	}
 
 	@Override
 	public void use(Player player) {

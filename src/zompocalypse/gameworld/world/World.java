@@ -122,8 +122,8 @@ public class World implements Serializable {
 				return true;
 			else if (o instanceof Door)
 				return !((Door) o).occupiable();
-			//else if (o instanceof Container)
-				//return !((Container) o).occupiable();
+			else if (o instanceof Container)
+				return !((Container) o).occupiable();
 		}
 		return false;
 	}

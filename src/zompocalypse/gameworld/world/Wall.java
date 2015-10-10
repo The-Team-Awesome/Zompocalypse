@@ -82,4 +82,9 @@ public class Wall implements GameObject {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean occupiable() {
+		return false;
+	}
 }

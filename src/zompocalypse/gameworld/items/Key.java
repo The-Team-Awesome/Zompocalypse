@@ -84,4 +84,8 @@ public class Key implements Item{
 	public String examine(){
 		return "A key. Perhaps this could unlock something....";
 	}
+	
+	public boolean occupiable(){
+		return true;
+	}
 }
