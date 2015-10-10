@@ -2,7 +2,6 @@ package zompocalypse.gameworld.world;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
@@ -508,7 +508,11 @@ public class World implements Serializable {
 			// This is a torch, pretty torch gives the player light :)
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
 		} else if(objectName[0].contains("key")) {
+			// This is a key! It is used to unlock doors.
 			objects[editor.x][editor.y].add(new Key(objectName[0], id++));
+		} else if(objectName[0].contains("coins")) {
+			int amount = WorldBuilder.getInteger("Pliz gimme a amount number");
+			objects[editor.x][editor.y].add(new Money(objectName[0], id++, amount));
 		}
 
 	}

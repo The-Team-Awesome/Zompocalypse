@@ -20,9 +20,11 @@ public abstract class MovingCharacter extends Actor {
 	protected Orientation direction;
 	protected boolean moving;
 	protected Orientation queued; 	// queued direction change
+	protected World game;
 
-	public MovingCharacter(int xCoord, int yCoord, Orientation direction) {
+	public MovingCharacter(World game, int xCoord, int yCoord, Orientation direction) {
 		super(xCoord,yCoord);
+		this.game = game;
 		this.direction = direction;
 		this.moving = false;
 		queued = Orientation.NORTH;

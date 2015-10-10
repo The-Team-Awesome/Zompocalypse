@@ -12,6 +12,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
@@ -24,8 +25,6 @@ import zompocalypse.ui.rendering.ImageUtils;
  */
 public final class Player extends MovingCharacter {
 
-	// private static final long serialVersionUID = -3257369460305701226L;
-	private World game;
 	private List<Item> inventory;
 
 	private final int PLAYER_HEALTH = 100;
@@ -49,7 +48,7 @@ public final class Player extends MovingCharacter {
 
 	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
 			int score, String playerName, String[] filenames, World game) {
-		super(xCoord, yCoord, orientation);
+		super(game, xCoord, yCoord, orientation);
 		this.score = score;
 		this.uid = uid;
 		this.filenames = filenames;
@@ -57,8 +56,7 @@ public final class Player extends MovingCharacter {
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
 
-		this.game = game;
-		inventory = new ArrayList<Item>();
+		this.inventory = new ArrayList<Item>();
 		this.orientation = Orientation.NORTH;
 
 		// TODO: This is just temporary, adding objects to the Players
@@ -66,7 +64,8 @@ public final class Player extends MovingCharacter {
 		inventory.add(new Key("gold_key_inv.png", 1));
 		inventory.add(new Key("gold_key_inv.png", 2));
 		inventory.add(new Torch("torch.png", 3));
-		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 4, 5);
+		inventory.add(new Money("coins_gold.png", 4, 10));
+		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
