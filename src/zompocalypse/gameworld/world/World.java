@@ -13,6 +13,7 @@ import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
+import zompocalypse.gameworld.characters.HomerStrategy;
 import zompocalypse.gameworld.characters.MovingCharacter;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.characters.RandomStrategy;
@@ -162,12 +163,6 @@ public class World implements Serializable {
 	public PriorityQueue<GameObject>[][] getObjects() {
 		return objects;
 	}
-	
-	public boolean canMove(MovingCharacter mover, Orientation dir){
-		int x = mover.getX();
-		int y = mover.getY();
-		return true;
-	}
 
 	// ***********************************************
 	// Networking Methods
@@ -246,6 +241,8 @@ public class World implements Serializable {
 		objects[player.getX()][player.getY()].add(player);
 
 		spawnZombie(new RandomStrategy());
+		spawnZombie(new HomerStrategy());
+		
 		return player.getUid();
 	}
 
@@ -259,8 +256,18 @@ public class World implements Serializable {
 		String[] filenames = { "npc_zombie_n.png",
 				"npc_zombie_e.png", "npc_zombie_s.png",
 				"npc_zombie_w.png" };
+		
+		String[] homerfilenames = { "npc_dragon_n.png",
+				"npc_dragon_e.png", "npc_dragon_s.png",
+				"npc_dragon_w.png" };
+		
 
 		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id, filenames);
+		
+		if(strat instanceof HomerStrategy){
+			zombie = new StrategyZombie(this, x, y, strat, ++id, homerfilenames);
+		}
+
 		idToActor.put(id, zombie);
 		objects[zombie.getX()][zombie.getY()].add(zombie);
 	}

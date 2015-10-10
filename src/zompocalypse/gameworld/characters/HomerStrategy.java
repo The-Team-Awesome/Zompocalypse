@@ -74,12 +74,58 @@ public class HomerStrategy implements Strategy {
 		}
 	}
 	
-	private Orientation getPreferedDirection(World game, StrategyZombie zombie){
+	private Orientation getPreferedDirection(World game, StrategyZombie zombie){		
+		int xdist = zombie.getX() - target.getX();
+		int ydist = zombie.getY() - target.getY();
 		
-		int xdifTarget = Math.abs(zombie.getX() - target.getX());
-		int ydifTarget = Math.abs(zombie.getY() - target.getY());
-		
-		return Orientation.NORTH;
+		//try make some smart choices before defaulting
+		if(Math.abs(xdist) > Math.abs(ydist)){
+			//check x axis first
+			if (xdist >= 0){
+				if (!game.isBlocked(zombie.getX()-1, zombie.getY())){
+					return Orientation.WEST;					
+				}
+			}else {
+				if (!game.isBlocked(zombie.getX()+1, zombie.getY())){
+					return Orientation.EAST;					
+				}
+			}
+			if (ydist >= 0){
+				if (!game.isBlocked(zombie.getX(), zombie.getY()-1)){
+					return Orientation.NORTH;					
+				}
+			}else {
+				if (!game.isBlocked(zombie.getX(), zombie.getY()+1)){
+					return Orientation.SOUTH;					
+				}
+			}
+			//dumb choice time
+		}else {
+
+			if (ydist >= 0){
+				if (!game.isBlocked(zombie.getX(), zombie.getY()-1)){
+					return Orientation.NORTH;					
+				}
+			}else {
+				if (!game.isBlocked(zombie.getX(), zombie.getY()+1)){
+					return Orientation.SOUTH;					
+				}
+			}
+			if (xdist >= 0){
+				if (!game.isBlocked(zombie.getX()-1, zombie.getY())){
+					return Orientation.WEST;					
+				}
+			}else {
+				if (!game.isBlocked(zombie.getX()+1, zombie.getY())){
+					return Orientation.EAST;					
+				}
+			}
+			//dumb choice time
+		}
+
+		//if we are reaching this point our two preferred directions are unavailable
+		//future implementations may be smarter but for now zombie just turns around 180degrees
+		return Orientation.getNext(Orientation.getNext(zombie.ori));
 	}
 	
 	/*
