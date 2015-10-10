@@ -16,6 +16,7 @@ import java.awt.Point;
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -408,7 +409,23 @@ public class Parser {
 		xmlContainer.setAttribute("name", String.valueOf(container.getName()));
 		xmlContainer.setAttribute("description",
 				String.valueOf(container.examine()));
+		List<Item> inventory = container.getHeldItems();
+		for (Item i : inventory) {
+			if (i instanceof Key) {
+				xmlContainer.appendChild(writeKey(doc,
+									i,
+									textTileMap));
+			}
+		}
 		return xmlContainer;
+	}
+
+	private static Node writeKey(Document doc, Item i,
+			Map<String, String> textTileMap) {
+		Element xmlKey = doc.createElement("key");
+		xmlKey.setAttribute("img",
+				getCode(i.getFileName(), textTileMap));
+		return xmlKey;
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
