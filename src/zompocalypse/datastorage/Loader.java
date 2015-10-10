@@ -73,8 +73,6 @@ public class Loader {
 
 			OutputStream out = new FileOutputStream(file);
 
-//			System.out.println(name);
-
 			while ((read = stream.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
 			}
