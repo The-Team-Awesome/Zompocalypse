@@ -35,6 +35,7 @@ public class Clock extends Thread {
 				// and repaint if it is this clocks responsibility
 				if(frame != null) {
 					frame.repaint();
+					frame.requestFocus();
 				}
 
 			} catch (InterruptedException e) {
