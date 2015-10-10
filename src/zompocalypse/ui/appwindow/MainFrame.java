@@ -380,8 +380,11 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		ContainerPanel inventory = new ContainerPanel(objects, action);
 
-		JOptionPane.showMessageDialog(null, inventory, "Player " + id
-				+ "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		String[] options = {"Use"};
+
+		JOptionPane.showOptionDialog(null, inventory, "Player " + id
+				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, options, options[0]);
 	}
 
 	/**
