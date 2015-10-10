@@ -40,8 +40,8 @@ import zompocalypse.ui.appwindow.multiplayer.MultiplayerPanel;
 import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
 
 /**
- * MainFrame is the main window of the application. It holds the other panels containing
- * the different screens of the game.
+ * MainFrame is the main window of the application. It holds the other panels
+ * containing the different screens of the game.
  *
  * @author Danielle Emygdio
  *
@@ -59,15 +59,16 @@ public class MainFrame extends JFrame implements WindowListener {
 	private World game;
 
 	/**
-	 * This will be the listener for all action events which are triggered,
-	 * such as button clicks or field entries. For example, when creating a button,
+	 * This will be the listener for all action events which are triggered, such
+	 * as button clicks or field entries. For example, when creating a button,
 	 * it should be added using button.addActionListener(action);
 	 */
 	private ActionListener action;
 
 	/**
 	 * This information is used for setting up a Networked games' update speed
-	 * and any games clock speed, as well as a central place for networking details.
+	 * and any games clock speed, as well as a central place for networking
+	 * details.
 	 */
 	private static final String icon = "zombie-icon.png";
 	private int port = 32768;
@@ -75,10 +76,16 @@ public class MainFrame extends JFrame implements WindowListener {
 	private int clientClock = 100;
 	private int serverClock = 50;
 
+	/**
+	 * Creates a frame without assigning a world. Used for the first time a
+	 * frame is called.
+	 *
+	 * @param listener
+	 */
 	public MainFrame(EventListener listener) {
 		super("Zompocalypse");
 
-		if(listener instanceof ActionListener) {
+		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
 
@@ -102,7 +109,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
 
-		//SoundManager.playTheme();
+		// SoundManager.playTheme();
 
 		// setting content as default content for this frame
 		setContentPane(cards);
@@ -112,22 +119,30 @@ public class MainFrame extends JFrame implements WindowListener {
 		setLocationRelativeTo(null); // center the screen
 	}
 
+	/**
+	 * Creates a frame that holds a World.
+	 *
+	 * @param id
+	 * @param game
+	 * @param listener
+	 */
 	public MainFrame(int id, World game, EventListener listener) {
 		super("Zompocalypse");
 
-		// Set up the given EventListener to process Key, Mouse and Action events
-		if(listener instanceof KeyListener) {
+		// Set up the given EventListener to process Key, Mouse and Action
+		// events
+		if (listener instanceof KeyListener) {
 			KeyListener key = (KeyListener) listener;
 			addKeyListener(key);
 		}
 
-		if(listener instanceof MouseListener) {
+		if (listener instanceof MouseListener) {
 			MouseListener mouse = (MouseListener) listener;
 			System.out.println(mouse);
 			addMouseListener(mouse);
 		}
 
-		if(listener instanceof ActionListener) {
+		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
 
@@ -155,7 +170,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		setLocationRelativeTo(null); // center the screen
 
 		// TODO: From Sam. This is not always called successfully...
-		//this.requestFocus();
+		// this.requestFocus();
 	}
 
 	/**
@@ -176,7 +191,9 @@ public class MainFrame extends JFrame implements WindowListener {
 
 	/**
 	 * Updates the World for this frame.
-	 * @param game - updated instance of World.
+	 *
+	 * @param game
+	 *            - updated instance of World.
 	 */
 	public void updateGame(World game) {
 		this.game = game;
@@ -190,25 +207,25 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * @param command
 	 */
 	public synchronized void processCommand(int id, String command) {
-		 if(command.equals(UICommand.OPTIONS.getValue())) {
+		if (command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
-		} else if(command.equals(UICommand.LOADGAME.getValue())) {
+		} else if (command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
-		} else if(command.equals(UICommand.SINGLEPLAYER.getValue())) {
+		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
 			singlePlayer();
-		} else if(command.equals(UICommand.MULTIPLAYER.getValue())) {
+		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
-		} else if(command.equals(UICommand.SERVER.getValue())) {
+		} else if (command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();
-		} else if(command.equals(UICommand.STARTSERVER.getValue())) {
+		} else if (command.equals(UICommand.STARTSERVER.getValue())) {
 			startServer();
-		} else if(command.equals(UICommand.CLIENT.getValue())) {
+		} else if (command.equals(UICommand.CLIENT.getValue())) {
 			showClient();
-		} else if(command.equals(UICommand.ENTERIP.getValue())) {
+		} else if (command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
-		} else if(command.equals(UICommand.BACKPACK.getValue())) {
+		} else if (command.equals(UICommand.BACKPACK.getValue())) {
 			showBackpack(id);
-		} else if(command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
+		} else if (command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATECLOCKWISE.getValue());
 		} else if (command.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
@@ -231,19 +248,23 @@ public class MainFrame extends JFrame implements WindowListener {
 		layout.show(cards, "4");
 	}
 
+	/**
+	 * This method shows the customize server screen.
+	 */
 	private void customiseServer() {
 		layout.show(cards, "5");
 	}
 
 	/**
-	 * This method shows the Server screen for a networked game and starts that server running.
+	 * This method shows the Server screen for a networked game and starts that
+	 * server running.
 	 */
 	private void startServer() {
 
 		int numClients = customServerCard.getNumClients();
 		serverCard.setNumClients(numClients);
 
-		if(game == null) {
+		if (game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);
 			} catch (IOException e) {
@@ -257,15 +278,16 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 * This gets the entered url, creates a Client and connects it to the server at that url.
-	 * It then starts the Clients game running!
+	 * This gets the entered url, creates a Client and connects it to the server
+	 * at that url. It then starts the Clients game running!
 	 */
 	private void multiPlayer() {
 		String ip = clientCard.getIp();
 
 		try {
 			Socket socket = new Socket(ip, port);
-			System.out.println("Client successfully connected to URL: " + ip + ", port: " + port);
+			System.out.println("Client successfully connected to URL: " + ip
+					+ ", port: " + port);
 
 			Client client = new Client(socket, clientClock, this);
 
@@ -287,11 +309,11 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 * This method starts up a single player game. If a map has been loaded
-	 * in, it will use that, otherwise it will load the default map file.
+	 * This method starts up a single player game. If a map has been loaded in,
+	 * it will use that, otherwise it will load the default map file.
 	 */
 	private void singlePlayer() {
-		if(game == null) {
+		if (game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);
 			} catch (IOException e) {
@@ -327,26 +349,27 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * @param listener
 	 */
 	private void updateListeners(EventListener listener) {
-		if(listener instanceof KeyListener) {
+		if (listener instanceof KeyListener) {
 			KeyListener key = (KeyListener) listener;
 			addKeyListener(key);
 		}
 
-		if(listener instanceof MouseListener) {
+		if (listener instanceof MouseListener) {
 			MouseListener mouse = (MouseListener) listener;
 			addMouseListener(mouse);
 		}
 
-		if(listener instanceof ActionListener) {
+		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
 	}
 
 	/**
-	 * This method displays the contents of the backpack for the
-	 * Player which belongs to the given id.
+	 * This method displays the contents of the backpack for the Player which
+	 * belongs to the given id.
 	 *
-	 * @param id - The unique ID of the Player
+	 * @param id
+	 *            - The unique ID of the Player
 	 */
 	private void showBackpack(int id) {
 
@@ -355,16 +378,16 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		ContainerPanel inventory = new ContainerPanel(objects, action);
 
-		JOptionPane.showMessageDialog(null, inventory,
-				"Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, inventory, "Player " + id
+				+ "'s Inventory", JOptionPane.PLAIN_MESSAGE);
 	}
 
-
 	/**
-	 * This method opens up a new message dialog, just like the
-	 * showBackpack method, for a unique container with the given id.
+	 * This method opens up a new message dialog, just like the showBackpack
+	 * method, for a unique container with the given id.
 	 *
-	 * @param id - The unique ID of the Container
+	 * @param id
+	 *            - The unique ID of the Container
 	 */
 	private void showContainer(int id) {
 		Container container = null; // get something from the game world here?
@@ -375,14 +398,14 @@ public class MainFrame extends JFrame implements WindowListener {
 
 	/**
 	 * This method gives the user a file chooser to pick an xml file to load
-	 * into the game, replacing whatever world existed there beforehand.
-	 * The player can destroy worlds with this method!
+	 * into the game, replacing whatever world existed there beforehand. The
+	 * player can destroy worlds with this method!
 	 */
 	private void loadGame() {
 		JFileChooser chooser = new JFileChooser();
 		int value = chooser.showOpenDialog(this);
 
-		if(value == JFileChooser.APPROVE_OPTION) {
+		if (value == JFileChooser.APPROVE_OPTION) {
 			String filename = chooser.getSelectedFile().getName();
 
 			try {
@@ -394,47 +417,43 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 * This method shows a dialog to ask the client if he wants to save the game.
-	 * In case the client chooses yes, it saves the game. Otherwise, it does nothing.
+	 * This method shows a dialog to ask the client if he wants to save the
+	 * game. In case the client chooses yes, it saves the game. Otherwise, it
+	 * does nothing.
 	 */
 	private void saveGame() {
-		Object[] options = {"Yes, please", "No way!"};
+		Object[] options = { "Yes, please", "No way!" };
 
 		int option = JOptionPane.showOptionDialog(this,
-		    "Are you sure you wanna save the game?",
-		    "Save Game",
-		    JOptionPane.YES_NO_OPTION,
-		    JOptionPane.QUESTION_MESSAGE,
-		    null,     //do not use a custom Icon
-		    options,  //the titles of buttons
-		    options[0]); //default button title
+				"Are you sure you wanna save the game?", "Save Game",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				options, // the titles of buttons
+				options[0]); // default button title
 
-		if(option == 0) {
+		if (option == 0) {
 			gameCard.saveGame();
 		}
 	}
 
 	/**
-	 * This method shows a dialog to ask the client if he wants to quit the game.
-	 * It disposes the window and exit the application when the player chooses yes,
-	 * otherwise it does nothing.
+	 * This method shows a dialog to ask the client if he wants to quit the
+	 * game. It disposes the window and exit the application when the player
+	 * chooses yes, otherwise it does nothing.
 	 */
 	private void quitGame() {
-		Object[] options = {"Yes, please", "No way!"};
+		Object[] options = { "Yes, please", "No way!" };
 
 		int option = JOptionPane.showOptionDialog(this,
-		"Are you sure you quit the game?",
-		"Quit Game",
-		JOptionPane.YES_NO_OPTION,
-		JOptionPane.QUESTION_MESSAGE,
-		null,     //do not use a custom Icon
-		options,  //the titles of buttons
-		options[0]); //default button title
+				"Are you sure you quit the game?", "Quit Game",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				options, // the titles of buttons
+				options[0]); // default button title
 
-		if(option == 0) {
+		if (option == 0) {
 			dispose();
 			System.exit(0);
-			// TODO: Sam, is there anything to do with the server whenever the windows close?
+			// TODO: Sam, is there anything to do with the server whenever the
+			// windows close?
 		}
 	}
 
@@ -446,7 +465,8 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {}
+	public void windowOpened(WindowEvent e) {
+	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
@@ -455,17 +475,22 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	@Override
-	public void windowClosed(WindowEvent e) {}
+	public void windowClosed(WindowEvent e) {
+	}
 
 	@Override
-	public void windowIconified(WindowEvent e) {}
+	public void windowIconified(WindowEvent e) {
+	}
 
 	@Override
-	public void windowDeiconified(WindowEvent e) {}
+	public void windowDeiconified(WindowEvent e) {
+	}
 
 	@Override
-	public void windowActivated(WindowEvent e) {}
+	public void windowActivated(WindowEvent e) {
+	}
 
 	@Override
-	public void windowDeactivated(WindowEvent e) {}
- }
+	public void windowDeactivated(WindowEvent e) {
+	}
+}

@@ -15,8 +15,7 @@ import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
- * StartPanel contains the components for the start
- * screen of the game.
+ * StartPanel contains the components for the start screen of the game.
  *
  * @author Danielle Emygdio
  *
@@ -29,7 +28,8 @@ public class StartPanel extends JPanel {
 
 	private ActionListener action;
 
-	private static final Image BACKGROUND = Loader.LoadImage("background02.jpg");
+	private static final Image BACKGROUND = Loader
+			.LoadImage("background02.jpg");
 
 	public StartPanel(ActionListener action) {
 		this.setSize(1000, 1000);
@@ -38,6 +38,9 @@ public class StartPanel extends JPanel {
 		arrangeComponents();
 	}
 
+	/**
+	 * Sets and arranges position of components into the content panel.
+	 */
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -70,10 +73,9 @@ public class StartPanel extends JPanel {
 	}
 
 	@Override
-	  protected void paintComponent(Graphics g) {
-	    super.paintComponent(g);
-	    setBackground(CustomUtils.frameBackground);
-	    //g.drawImage(BACKGROUND, 0, 0, null);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setBackground(CustomUtils.frameBackground);
+		// g.drawImage(BACKGROUND, 0, 0, null);
 	}
 }
-
