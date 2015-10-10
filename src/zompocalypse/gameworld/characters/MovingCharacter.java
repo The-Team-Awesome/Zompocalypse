@@ -17,13 +17,13 @@ import zompocalypse.gameworld.world.World;
  */
 public abstract class MovingCharacter extends Actor {
 
-	protected Orientation orientation;
+	protected Orientation direction;
 	protected boolean moving;
 	protected Orientation queued; 	// queued direction change
 
 	public MovingCharacter(int xCoord, int yCoord, Orientation direction) {
 		super(xCoord,yCoord);
-		this.orientation = direction;
+		this.direction = direction;
 		this.moving = false;
 		queued = Orientation.NORTH;
 	}
@@ -32,7 +32,7 @@ public abstract class MovingCharacter extends Actor {
 	 * Determine the direction in which this character is moving.
 	 */
 	public Orientation direction() {
-		return orientation;
+		return direction;
 	}
 
 	public void moveNorth() {
@@ -80,19 +80,19 @@ public abstract class MovingCharacter extends Actor {
 		if(queued == Orientation.NORTH) {
 			newX = xCoord;
 			newY = yCoord -1;
-			orientation = queued;
+			direction = queued;
 		} else if(queued == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
-			orientation = queued;
+			direction = queued;
 		} else if(queued == Orientation.EAST) {
 			newX = xCoord + 1;
 			newY = yCoord;
-			orientation = queued;
+			direction = queued;
 		} else if(queued == Orientation.WEST) {
 			newX = xCoord - 1;
 			newY = yCoord;
-			orientation = queued;
+			direction = queued;
 		} else {
 			return;
 		}
@@ -131,7 +131,7 @@ public abstract class MovingCharacter extends Actor {
 	abstract public int speed();
 
 	public void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
+		this.direction = orientation;
 	}
 
 }

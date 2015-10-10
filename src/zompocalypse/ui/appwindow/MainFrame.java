@@ -101,8 +101,8 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
-		
-		SoundManager.playTheme();
+
+		//SoundManager.playTheme();
 
 		// setting content as default content for this frame
 		setContentPane(cards);
