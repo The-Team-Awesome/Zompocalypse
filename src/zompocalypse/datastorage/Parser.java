@@ -16,6 +16,7 @@ import java.awt.Point;
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -126,9 +127,12 @@ public class Parser {
 						if (object.getNodeName().equals("container")) {
 							parseContainer(objects, textTileMap,
 									object.getAttribute("img"),
+									object.getAttribute("name"),
+									object.getAttribute("description"),
 									object.getAttribute("size"),
 									object.getAttribute("movable"),
-									object.getAttribute("locked"), col, row);
+									object.getAttribute("locked"),
+									object.getAttribute("open"), col, row);
 						}
 					}
 					if (cell.hasAttribute("zombieSpawnPoint")) {
@@ -151,16 +155,13 @@ public class Parser {
 	}
 
 	private static void parseContainer(PriorityQueue<GameObject>[][] objects,
-			Map<String, String> textTileMap, String name, String size,
-			String movable, String locked, int col, int row) {
-		System.out.println(name);
-		String[] container = expandCode(textTileMap, name);
-		System.out.println(container);
-		System.out.println("Size is " + size);
-		System.out.println("movable is " + movable);
-		// TODO: Save name and description here :)
-		objects[col][row].add(new Container(container, Integer.parseInt(size), null, null,
-				movable.equals("true"), locked.equals("false"), id++));
+			Map<String, String> textTileMap, String img, String name,
+			String description, String size, String movable, String locked,
+			String open, int col, int row) {
+		String[] container = expandCode(textTileMap, img);
+		objects[col][row].add(new Container(container, Integer.parseInt(size),
+				name, description, movable.equals("true"), locked
+						.equals("false"), open.equals("false"), id++));
 
 	}
 
@@ -404,12 +405,32 @@ public class Parser {
 				String.valueOf(container.movable()));
 		xmlContainer.setAttribute("locked",
 				String.valueOf(container.isLocked()));
+		xmlContainer.setAttribute("open", String.valueOf(container.isOpen()));
+		xmlContainer.setAttribute("name", String.valueOf(container.getName()));
+		xmlContainer.setAttribute("description",
+				String.valueOf(container.examine()));
+		List<Item> inventory = container.getHeldItems();
+		for (Item i : inventory) {
+			if (i instanceof Key) {
+				xmlContainer.appendChild(writeKey(doc,
+									i,
+									textTileMap));
+			}
+		}
 		return xmlContainer;
+	}
+
+	private static Node writeKey(Document doc, Item i,
+			Map<String, String> textTileMap) {
+		Element xmlKey = doc.createElement("key");
+		xmlKey.setAttribute("img",
+				getCode(i.getFileName(), textTileMap));
+		return xmlKey;
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
-		System.out.println(string);
+		// System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);

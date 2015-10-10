@@ -38,7 +38,7 @@ public class Loader {
 	public static final String mapDir = "map";
 	public static final String soundDir = "sounds";
 
-	public static final String mapFile = "map.xml";
+	public static final String mapFile = "tiny.xml";
 	public static final String testFile = "Test_Suite_Map.xml";
 	public static final char separator = '/';
 
@@ -72,8 +72,6 @@ public class Loader {
 			// changing permissions on the file or making sure you're using the correct name.
 
 			OutputStream out = new FileOutputStream(file);
-
-			//System.out.println(name);
 
 			while ((read = stream.read(bytes)) != -1) {
 				out.write(bytes, 0, read);

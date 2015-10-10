@@ -56,7 +56,7 @@ public class Container implements Item, Lockable{
 	 * @param uid
 	 */
 	public Container(String[] fileNames, int size, String name, String description,
-			boolean movable, boolean locked, int uid) {
+			boolean movable, boolean locked, boolean open, int uid) {
 		fileNamesClosed = fileNames;
 		this.filename = fileNames[0];
 		imagesClosed = imu.setupImages(fileNames);
@@ -74,7 +74,7 @@ public class Container implements Item, Lockable{
 		this.size = size;
 		this.movable = movable;
 		this.locked = locked;
-		this.open = false;
+		this.open = open;
 		this.heldItems = new ArrayList<Item>();
 		this.uid = uid;
 	}
@@ -222,6 +222,14 @@ public class Container implements Item, Lockable{
 
 	public String examine(){
 		return description;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public void rotate() {

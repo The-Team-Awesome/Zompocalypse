@@ -522,7 +522,7 @@ public class World implements Serializable {
 			String description = WorldBuilder.getString("Pliz do a description");
 			int size = WorldBuilder.getInteger("Pliz put a size number");
 
-			Container c = new Container(objectName, size, name, description, false, false, id++);
+			Container c = new Container(objectName, size, name, description, false, false, false, id++);
 
 			int i = 0;
 			while(i < size) {
