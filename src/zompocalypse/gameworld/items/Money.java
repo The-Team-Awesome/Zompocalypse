@@ -60,12 +60,6 @@ public class Money implements Item {
 	}
 
 	@Override
-	public String getCSVCode(Map<String, String> textTileMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getUniqueID() {
 		return uid;
 	}
