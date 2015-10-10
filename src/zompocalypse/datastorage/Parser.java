@@ -126,9 +126,12 @@ public class Parser {
 						if (object.getNodeName().equals("container")) {
 							parseContainer(objects, textTileMap,
 									object.getAttribute("img"),
+									object.getAttribute("name"),
+									object.getAttribute("description"),
 									object.getAttribute("size"),
 									object.getAttribute("movable"),
-									object.getAttribute("locked"), col, row);
+									object.getAttribute("locked"),
+									object.getAttribute("open"), col, row);
 						}
 					}
 					if (cell.hasAttribute("zombieSpawnPoint")) {
@@ -151,11 +154,13 @@ public class Parser {
 	}
 
 	private static void parseContainer(PriorityQueue<GameObject>[][] objects,
-			Map<String, String> textTileMap, String name, String size,
-			String movable, String locked, int col, int row) {
-		String[] container = expandCode(textTileMap, name);
+			Map<String, String> textTileMap, String img, String name,
+			String description, String size, String movable, String locked,
+			String open, int col, int row) {
+		String[] container = expandCode(textTileMap, img);
 		objects[col][row].add(new Container(container, Integer.parseInt(size),
-				movable.equals("true"), locked.equals("false"), id++));
+				name, description, movable.equals("true"), locked
+						.equals("false"), open.equals("false"), id++));
 
 	}
 
@@ -399,12 +404,16 @@ public class Parser {
 				String.valueOf(container.movable()));
 		xmlContainer.setAttribute("locked",
 				String.valueOf(container.isLocked()));
+		xmlContainer.setAttribute("open", String.valueOf(container.isOpen()));
+		xmlContainer.setAttribute("name", String.valueOf(container.getName()));
+		xmlContainer.setAttribute("description",
+				String.valueOf(container.examine()));
 		return xmlContainer;
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
-//		System.out.println(string);
+		// System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);

@@ -443,7 +443,22 @@ public class WorldBuilder {
 				"plant_6.png",
 				"barrel_1_closed.png",
 				"barrel_2.png",
-				"barrel_3_ew.png",
+				"barrel_3_ew.png"
+		};
+		// TODO this works, but I am uncomfortable with these null values!
+		Component frame = null;
+		Icon icon = null;
+		String fileName = (String) JOptionPane.showInputDialog(frame,
+				"Pliz choice a thing", "Choice a thing", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "chest_1_closed_ew.png");
+		if (fileName == null)
+			return null;
+
+		return getFilenameArray(fileName);
+	}
+
+	public static String getItemFileName() {
+		Object[] possibilities = {
 				"gold_key.png",
 				"coins_bronze.png",
 				"coins_silver.png",
@@ -462,16 +477,15 @@ public class WorldBuilder {
 				"sword_11.png",
 				"sword_12.png"
 		};
-		// TODO this works, but I am uncomfortable with these null values!
+
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a thing", "Choice a thing", JOptionPane.PLAIN_MESSAGE,
-				icon, possibilities, "chest_1_closed_ew.png");
+				"Pliz choice a item", "Choice a item", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "gold_key.png");
 		if (fileName == null)
 			return null;
-
-		return getFilenameArray(fileName);
+		return fileName;
 	}
 
 	private static String[] getFilenameArray(String filename) {
