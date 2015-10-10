@@ -597,6 +597,7 @@ public class WorldBuilder {
 				"barrel_1_closed.png",
 				"barrel_2.png",
 				"barrel_3_ew.png",
+				"torch.png",
 				"sword_1.png",
 				"sword_2.png",
 				"sword_3.png",

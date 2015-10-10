@@ -16,6 +16,7 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
 
@@ -482,7 +483,10 @@ public class World implements Serializable {
 			offset = 12;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
 		} else if(objectName[0].contains("sword")) {
+			// TODO: Maybe here, we could query for a description and strength rating for the sword?
 			objects[editor.x][editor.y].add(new Weapon(objectName[0], "The description", id++, 5));
+		} else if(objectName[0].contains("torch")) {
+			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
 		}
 
 	}

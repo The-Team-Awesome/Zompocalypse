@@ -10,6 +10,7 @@ import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
@@ -62,6 +63,7 @@ public final class Player extends MovingCharacter {
 		// inventory so something is visible when viewing their backpack
 		inventory.add(new Key("gold_key_inv.png", 0));
 		inventory.add(new Key("gold_key_inv.png", 0));
+		inventory.add(new Torch("torch.png", 0));
 		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 0, 5);
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
