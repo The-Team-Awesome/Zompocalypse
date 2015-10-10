@@ -154,14 +154,14 @@ public class Loader {
 
 		return null;
 	}
-	
+
 	public static MediaPlayer LoadMP3(String filename) {
 		JFXPanel fxPanel = new JFXPanel();
 		String name = soundDir + separator + filename;
 		File soundFile = LoadFile(name);
 		Media hit = new Media(soundFile.toURI().toString());
 		MediaPlayer mediaPlayer = new MediaPlayer(hit);
-		
+
 		return mediaPlayer;
 	}
 
