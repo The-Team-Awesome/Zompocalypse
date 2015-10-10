@@ -34,7 +34,7 @@ public class ZombieTests {
 	 */
 
 	@Test public void zombieValidMove1() {
-		StrategyZombie z = new StrategyZombie(game, 3, 3, new HomerStrategy());
+		StrategyZombie z = new StrategyZombie(game, 3, 3, 0, new HomerStrategy());
 		z.moveNorth();
 
 		z.tick(game);
@@ -44,7 +44,7 @@ public class ZombieTests {
 	}
 
 	@Test public void zombieValidMove2() {
-		StrategyZombie z = new StrategyZombie(game, 4, 4, new HomerStrategy());
+		StrategyZombie z = new StrategyZombie(game, 4, 4, 0, new HomerStrategy());
 		// This sequence should leave the zombie at 3, 5
 
 		//cannot move here because wall
@@ -70,7 +70,7 @@ public class ZombieTests {
 	 */
 
 	@Test public void zombieInvalidMove1() {
-		StrategyZombie z = new StrategyZombie(game, 0, 0, new HomerStrategy());
+		StrategyZombie z = new StrategyZombie(game, 0, 0, 0, new HomerStrategy());
 		z.moveNorth();
 
 		z.tick(game);
@@ -80,7 +80,7 @@ public class ZombieTests {
 	}
 
 	@Test public void zombieInvalidMove2() {
-		StrategyZombie z = new StrategyZombie(game, 0, 0, new HomerStrategy());
+		StrategyZombie z = new StrategyZombie(game, 0, 0, 0, new HomerStrategy());
 		// This sequence of movements should still leave the Zombie at the position 0,0
 		z.moveWest();
 		z.tick(game);

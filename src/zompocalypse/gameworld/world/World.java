@@ -15,6 +15,9 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.characters.RandomStrategy;
+import zompocalypse.gameworld.characters.Strategy;
+import zompocalypse.gameworld.characters.StrategyZombie;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
@@ -217,7 +220,7 @@ public class World implements Serializable {
 	 */
 	public synchronized int registerPlayer() {
 		// A new player has been added
-		int x, y;
+		int x = 1, y = 1;
 
 		for (Point p : playerSpawnPoints) {
 			x = p.x;
@@ -232,11 +235,27 @@ public class World implements Serializable {
 
 		// TODO: This should really get valid information for name,
 		// as well as select their x, y co-ordinates based on a valid portal
-		Player player = new Player(1, 1, Orientation.NORTH, ++id, 0,
+		Player player = new Player(x, y, Orientation.NORTH, ++id, 0,
 				"Bibbly Bob", filenames, this);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
+		spawnZombie();
 		return player.getUID();
+	}
+
+	public void spawnZombie(){
+
+		int x = 1, y = 1;
+
+		for (Point p : zombieSpawnPoints) {
+			x = p.x;
+			y = p.y;
+		}
+
+		Strategy rand = new RandomStrategy();
+		StrategyZombie zombie = new StrategyZombie(this, x, y, ++id, rand);
+		idToActor.put(id, zombie);
+		objects[zombie.getX()][zombie.getY()].add(zombie);
 	}
 
 	/**

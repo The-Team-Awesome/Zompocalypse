@@ -1,5 +1,7 @@
 package zompocalypse.gameworld;
 
+import java.net.NoRouteToHostException;
+
 public enum Orientation {
 	NORTH, EAST, SOUTH, WEST;
 
@@ -22,5 +24,17 @@ public enum Orientation {
 
 		// Cannot possibly ever get here!
 		return NORTH;
+	}
+
+	public static Orientation getNext(Orientation current){
+		if(current == NORTH){
+			return EAST;
+		}else if(current == EAST){
+			return SOUTH;
+		}else if(current == SOUTH){
+			return WEST;
+		}else {
+			return NORTH;
+		}
 	}
 }
