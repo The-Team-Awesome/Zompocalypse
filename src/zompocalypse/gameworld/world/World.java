@@ -116,14 +116,8 @@ public class World implements Serializable {
 		}
 		PriorityQueue<GameObject> obj = objects[x][y];
 		for (GameObject o : obj) {
-			if (o != null && o instanceof Wall)
-				return true;
-			else if (o instanceof Wall)
-				return true;
-			else if (o instanceof Door)
-				return !((Door) o).occupiable();
-			else if (o instanceof Container)
-				return !((Container) o).occupiable();
+			if (o != null)
+				return !o.occupiable();
 		}
 		return false;
 	}
