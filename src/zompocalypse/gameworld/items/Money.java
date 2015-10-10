@@ -2,6 +2,7 @@ package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.List;
 import java.util.Map;
 
 import zompocalypse.datastorage.Loader;
@@ -26,10 +27,20 @@ public class Money implements Item {
 
 		String type = filename.replace("coins_", "");
 		type = type.replace(".png", "");
+
+		if(type.equals("silver")) {
+			this.amount = (amount) * 10;
+		} else if(type.equals("gold")) {
+			this.amount = (amount) * 100;
+		}
 	}
 
 	public int getAmount() {
 		return amount;
+	}
+
+	public void add(int amount) {
+		this.amount += amount;
 	}
 
 	@Override
@@ -51,7 +62,15 @@ public class Money implements Item {
 
 	@Override
 	public void use(Player player) {
-		// TODO Auto-generated method stub
+		List<Item> inventory = player.getInventory();
+		if(!inventory.contains(this)) {
+			for(Item i : inventory) {
+				if(i instanceof Money) {
+					Money money = (Money) i;
+					money.add(amount);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -66,18 +85,15 @@ public class Money implements Item {
 
 	@Override
 	public String examine() {
+		int amount = this.amount;
 
-		String description = "";
-
-		if(amount < 50) {
-			description = "A small stack of " + type + " coins.";
-		} else if(amount < 100) {
-			description = "A stack of " + type + " coins.";
-		} else {
-			description = "A huge stack of " + type + " coins! You'll be rich!";
+		if(type.equals("silver")) {
+			amount = amount / 10;
+		} else if(type.equals("gold")) {
+			amount = amount / 100;
 		}
 
-		return description;
+		return "A stack of " + amount + " " + type + " coins.";
 	}
 
 }
