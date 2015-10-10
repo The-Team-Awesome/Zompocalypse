@@ -126,11 +126,6 @@ public class Door implements Item, Lockable {
 		return imageName;
 	}
 
-	@Override
-	public String getCSVCode(Map<String, String> textTileMap) {
-		return "2";
-	}
-
 	public void setOccupiable(boolean bool) {
 		occupiable = bool;
 	}

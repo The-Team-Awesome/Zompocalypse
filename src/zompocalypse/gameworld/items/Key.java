@@ -65,11 +65,6 @@ public class Key implements Item{
 	}
 
 	@Override
-	public String getCSVCode(Map<String, String> textTileMap) {
-		return "_ky";
-	}
-
-	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		g.drawImage(currentImage, x, y-18, null);
 
