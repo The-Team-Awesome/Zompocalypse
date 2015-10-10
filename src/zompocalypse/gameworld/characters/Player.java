@@ -47,6 +47,8 @@ public final class Player extends MovingCharacter {
 	private ImageIcon currentImage;
 	private Orientation orientation;
 
+	private Item queuedUse;
+
 	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
 			int score, String playerName, String[] filenames, World game) {
 		super(game, xCoord, yCoord, orientation);
@@ -72,6 +74,14 @@ public final class Player extends MovingCharacter {
 		this.images = imu.setupImages(filenames);
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
+	}
+
+	public void queueItem(Item item) {
+		queuedUse = item;
+	}
+
+	public void useQueued() {
+		queuedUse.use(this);
 	}
 
 	/**
