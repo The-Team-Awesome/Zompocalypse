@@ -331,10 +331,7 @@ public class World implements Serializable {
 					using = i;
 				}
 			}
-
 			using.use(player);
-
-			System.out.println("Object interacted: " + using);
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
