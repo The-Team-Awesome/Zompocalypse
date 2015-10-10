@@ -360,6 +360,21 @@ public class Parser {
 									String.valueOf(door.isOpen()));
 							xmlCell.setAttribute("locked",
 									String.valueOf(door.isLocked()));
+						} else if (objects[row][col].peek() instanceof Key) {
+							xmlCell.appendChild(writeKey(doc,
+									(Key) objects[row][col].peek(), textTileMap));
+						} else if (objects[row][col].peek() instanceof Money) {
+							xmlCell.appendChild(writeMoney(doc,
+									(Money) objects[row][col].peek(),
+									textTileMap));
+						} else if (objects[row][col].peek() instanceof Torch) {
+							xmlCell.appendChild(writeTorch(doc,
+									(Torch) objects[row][col].peek(),
+									textTileMap));
+						} else if (objects[row][col].peek() instanceof Weapon) {
+							xmlCell.appendChild(writeWeapon(doc,
+									(Weapon) objects[row][col].peek(),
+									textTileMap));
 						} else if (objects[row][col].peek() instanceof Container) {
 							xmlCell.appendChild(writeContainer(doc,
 									(Container) objects[row][col].peek(),
@@ -411,26 +426,58 @@ public class Parser {
 				String.valueOf(container.examine()));
 		List<Item> inventory = container.getHeldItems();
 		for (Item i : inventory) {
-			if (i instanceof Key) {
-				xmlContainer.appendChild(writeKey(doc,
-									i,
-									textTileMap));
+			if (i instanceof Container) {
+				xmlContainer.appendChild(writeContainer(doc, (Container) i,
+						textTileMap));
+			} else if (i instanceof Key) {
+				xmlContainer.appendChild(writeKey(doc, (Key) i, textTileMap));
+			} else if (i instanceof Torch) {
+				xmlContainer
+						.appendChild(writeTorch(doc, (Torch) i, textTileMap));
+			} else if (i instanceof Weapon) {
+				xmlContainer.appendChild(writeWeapon(doc, (Weapon) i, textTileMap));
+			} else if (i instanceof Money) {
+				xmlContainer
+						.appendChild(writeMoney(doc, (Money) i, textTileMap));
 			}
 		}
 		return xmlContainer;
 	}
 
-	private static Node writeKey(Document doc, Item i,
+	private static Node writeWeapon(Document doc, Weapon i,
+			Map<String, String> textTileMap) {
+		Element xmlWeapon = doc.createElement("weapon");
+		xmlWeapon.setAttribute("img", getCode(i.getFileName(), textTileMap));
+		xmlWeapon.setAttribute("strength", String.valueOf(i.getStrength()));
+		xmlWeapon.setAttribute("description", i.examine());
+		return xmlWeapon;
+	}
+
+	private static Node writeTorch(Document doc, Torch i,
+			Map<String, String> textTileMap) {
+		Element xmlTorch = doc.createElement("key");
+		xmlTorch.setAttribute("img", getCode(i.getFileName(), textTileMap));
+		return xmlTorch;
+	}
+
+	private static Node writeMoney(Document doc, Money i,
+			Map<String, String> textTileMap) {
+		Element xmlMoney = doc.createElement("money");
+		xmlMoney.setAttribute("img", getCode(i.getFileName(), textTileMap));
+		xmlMoney.setAttribute("amount", String.valueOf(i.getAmount()));
+		return xmlMoney;
+	}
+
+	private static Node writeKey(Document doc, Key i,
 			Map<String, String> textTileMap) {
 		Element xmlKey = doc.createElement("key");
-		xmlKey.setAttribute("img",
-				getCode(i.getFileName(), textTileMap));
+		xmlKey.setAttribute("img", getCode(i.getFileName(), textTileMap));
 		return xmlKey;
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
-		// System.out.println(string);
+		System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);
