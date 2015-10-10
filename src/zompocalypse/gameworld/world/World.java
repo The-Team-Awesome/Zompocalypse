@@ -517,8 +517,24 @@ public class World implements Serializable {
 
 		int offset = 0;
 		if (objectName[0].contains("chest")) {
-			objects[editor.x][editor.y].add(new Container(objectName, 5, false,
-					false, id++));
+
+			String name = WorldBuilder.getString("Pliz give a name");
+			String description = WorldBuilder.getString("Pliz do a description");
+			int size = WorldBuilder.getInteger("Pliz put a size number");
+
+			Container c = new Container(objectName, size, name, description, false, false, id++);
+
+			int i = 0;
+			while(i < size) {
+				Item item = editItem(true);
+				if(item != null) {
+					System.out.println(item);
+					c.add(item);
+				}
+				i++;
+			}
+
+			objects[editor.x][editor.y].add(c);
 		} else if (objectName[0].contains("ground_grey")) {
 			// This is a decorative object, but functions just the same as a
 			// wall
@@ -534,10 +550,8 @@ public class World implements Serializable {
 			// rating,
 			// to give the game different kinds of swords with different
 			// qualities.
-			String description = WorldBuilder
-					.getString("Pliz do a description");
-			int strength = WorldBuilder
-					.getInteger("Pliz gimme a strength number");
+			String description = WorldBuilder.getString("Pliz do a description");
+			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
 			objects[editor.x][editor.y].add(new Weapon(objectName[0],
 					description, id++, strength));
 		} else if (objectName[0].contains("torch")) {
@@ -552,6 +566,65 @@ public class World implements Serializable {
 					amount));
 		}
 
+	}
+
+	public Item editItem(boolean inside) {
+		while (!objects[editor.x][editor.y].isEmpty())
+			objects[editor.x][editor.y].poll();
+
+		String itemName = WorldBuilder.getItemFileName();
+		if (itemName == null)
+			return null;
+
+		if (itemName.contains("sword")) {
+			// This is a Sword! They need a specific description and strength
+			// rating,
+			// to give the game different kinds of swords with different
+			// qualities.
+			String description = WorldBuilder.getString("Pliz do a description");
+			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
+
+			Weapon w = new Weapon(itemName, description, id++, strength);
+
+			if(inside) {
+				return w;
+			} else {
+				objects[editor.x][editor.y].add(w);
+			}
+		} else if (itemName.contains("torch")) {
+			// This is a torch, pretty torch gives the player light :)
+
+			Torch t = new Torch(itemName, id++);
+
+			if(inside) {
+				return t;
+			} else {
+				objects[editor.x][editor.y].add(t);
+			}
+
+		} else if (itemName.contains("key")) {
+			// This is a key! It is used to unlock doors.
+
+			Key k = new Key(itemName, id++);
+
+			if(inside) {
+				return k;
+			} else {
+				objects[editor.x][editor.y].add(k);
+			}
+		} else if (itemName.contains("coins")) {
+			int amount = WorldBuilder.getInteger("Pliz gimme a amount number");
+
+			Money m = new Money(itemName, id++, amount);
+
+			if(inside) {
+				return m;
+			} else {
+				objects[editor.x][editor.y].add(m);
+			}
+		}
+
+		return null;
 	}
 
 	public void rotateTile() {

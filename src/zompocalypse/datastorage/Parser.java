@@ -158,7 +158,8 @@ public class Parser {
 		System.out.println(container);
 		System.out.println("Size is " + size);
 		System.out.println("movable is " + movable);
-		objects[col][row].add(new Container(container, Integer.parseInt(size),
+		// TODO: Save name and description here :)
+		objects[col][row].add(new Container(container, Integer.parseInt(size), null, null,
 				movable.equals("true"), locked.equals("false"), id++));
 
 	}

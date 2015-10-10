@@ -30,6 +30,9 @@ public class Container implements Item, Lockable{
 	private boolean open;
 	private String filename;
 
+	private String name;
+	private String description;
+
 	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
 
 	protected ImageIcon[] imagesOpen;
@@ -52,7 +55,7 @@ public class Container implements Item, Lockable{
 	 * @param locked
 	 * @param uid
 	 */
-	public Container(String[] fileNames, int size,
+	public Container(String[] fileNames, int size, String name, String description,
 			boolean movable, boolean locked, int uid) {
 		fileNamesClosed = fileNames;
 		this.filename = fileNames[0];
@@ -66,6 +69,8 @@ public class Container implements Item, Lockable{
 
 		imagesOpen = imu.setupImages(fileNamesOpen);
 
+		this.name = name;
+		this.description = description;
 		this.size = size;
 		this.movable = movable;
 		this.locked = locked;
@@ -88,7 +93,7 @@ public class Container implements Item, Lockable{
 		// need to think about where this will come from!
 		int id = player.getUID();
 		ContainerPanel inventory = new ContainerPanel(this.heldItems, null);
-		JOptionPane.showMessageDialog(null, inventory, "Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, inventory, name, JOptionPane.PLAIN_MESSAGE);
 	}
 
 	public List<Item> getHeldItems() {
@@ -216,7 +221,7 @@ public class Container implements Item, Lockable{
 	}
 
 	public String examine(){
-		return "It apears to be some sort of container for holding items";
+		return description;
 	}
 
 	public void rotate() {
@@ -243,5 +248,13 @@ public class Container implements Item, Lockable{
 			this.currentImage = imagesClosed[0];
 			this.filename = rotateClosed[0];
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Container [size=" + size + ", movable=" + movable + ", locked="
+				+ locked + ", open=" + open + ", name=" + name
+				+ ", description=" + description + ", heldItems=" + heldItems
+				+ "]";
 	}
 }

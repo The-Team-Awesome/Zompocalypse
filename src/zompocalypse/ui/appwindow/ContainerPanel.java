@@ -24,8 +24,7 @@ public class ContainerPanel extends JPanel {
 	private ActionListener action;
 	private List<? extends GameObject> objects;
 
-	public ContainerPanel(List<? extends GameObject> objects,
-			ActionListener action) {
+	public ContainerPanel(List<? extends GameObject> objects, ActionListener action) {
 		super();
 		this.objects = objects;
 		this.action = action;
@@ -43,8 +42,7 @@ public class ContainerPanel extends JPanel {
 			if (object instanceof Item) {
 				Item item = (Item) object;
 				JRadioButton button = new ZRadioButton(object, action);
-				button.setActionCommand(UICommand.USEITEM.getValue()
-						+ Integer.toString(item.getUniqueID()));
+				button.setActionCommand(UICommand.USEITEM.getValue() + Integer.toString(item.getUniqueID()));
 				add(button, null);
 				options.add(button);
 			}
