@@ -1,9 +1,4 @@
 package zompocalypse.gameworld;
-
-<<<<<<< HEAD
-import java.net.NoRouteToHostException;
-
-=======
 /**
  *	Represents the current orientation of the camera for a Player,
  *	or the orientation of an object in space.
@@ -11,7 +6,6 @@ import java.net.NoRouteToHostException;
  * @author Pauline Kelly
  *
  */
->>>>>>> e9bc0c22a638dc6aef6d911b4dcad3b04a6989a4
 public enum Orientation {
 	NORTH,
 	EAST,

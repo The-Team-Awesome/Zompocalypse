@@ -24,7 +24,7 @@ public class RandomStrategy implements Strategy{
 
 	@Override
 	public void tick(World game, StrategyZombie zombie) {
-		Orientation current = zombie.direction;
+		Orientation current = zombie.ori;
 		int choice = random.nextInt(3);
 
 		for(int i = 0; i < choice; i++){
