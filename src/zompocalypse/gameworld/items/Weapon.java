@@ -80,10 +80,4 @@ public class Weapon implements Item {
 		return description;
 	}
 
-	@Override
-	public String toString() {
-		return "Weapon [filename=" + filename + ", uid=" + uid + ", strength="
-				+ strength + ", description=" + description + "]";
-	}
-
 }

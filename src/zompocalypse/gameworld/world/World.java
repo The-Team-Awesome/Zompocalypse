@@ -471,26 +471,26 @@ public class World implements Serializable {
 		if(objectName == null)
 			return;
 
-		// TODO: Really need to change this to create objects based on their string
 		int offset = 0;
 		if (objectName[0].contains("chest")) {
 			objects[editor.x][editor.y].add(new Container(editor.x, editor.y,
 					objectName, 5, false, false, id++));
 		} else if(objectName[0].contains("ground_grey")) {
+			// This is a decorative object, but functions just the same as a wall
 			offset = 48;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
 		} else if(objectName[0].contains("plant")) {
+			// Plants function basically the same as a Wall, they just look slightly different
 			offset = 12;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
 		} else if(objectName[0].contains("sword")) {
-			// TODO: Maybe here, we could query for a description and strength rating for the sword?
-
+			// This is a Sword! They need a specific description and strength rating,
+			// to give the game different kinds of swords with different qualities.
 			String description = WorldBuilder.getString("Pliz do a description");
 			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
-
 			objects[editor.x][editor.y].add(new Weapon(objectName[0], description, id++, strength));
-
 		} else if(objectName[0].contains("torch")) {
+			// This is a torch, pretty torch gives the player light :)
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
 		}
 
