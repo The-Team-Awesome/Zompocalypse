@@ -125,14 +125,22 @@ public class Parser {
 					} else if (cell.hasChildNodes()) {
 						Element object = (Element) cell.getFirstChild();
 						if (object.getNodeName().equals("container")) {
-							parseContainer(objects, textTileMap,
+							objects[col][row].add(parseContainer(textTileMap, object));
+						} else if (object.getNodeName().equals("key")) {
+							objects[col][row].add(parseKey(textTileMap,
+									object.getAttribute("img")));
+						} else if (object.getNodeName().equals("money")) {
+							objects[col][row].add(parseMoney(textTileMap,
 									object.getAttribute("img"),
-									object.getAttribute("name"),
-									object.getAttribute("description"),
-									object.getAttribute("size"),
-									object.getAttribute("movable"),
-									object.getAttribute("locked"),
-									object.getAttribute("open"), col, row);
+									object.getAttribute("amount")));
+						} else if (object.getNodeName().equals("torch")) {
+							objects[col][row].add(parseTorch(textTileMap,
+									object.getAttribute("img")));
+						} else if (object.getNodeName().equals("weapon")) {
+							objects[col][row].add(parseWeapon(textTileMap,
+									object.getAttribute("img"),
+									object.getAttribute("strength"),
+									object.getAttribute("description")));
 						}
 					}
 					if (cell.hasAttribute("zombieSpawnPoint")) {
@@ -154,15 +162,58 @@ public class Parser {
 				playerSpawnPoints, id);
 	}
 
-	private static void parseContainer(PriorityQueue<GameObject>[][] objects,
-			Map<String, String> textTileMap, String img, String name,
-			String description, String size, String movable, String locked,
-			String open, int col, int row) {
-		String[] container = expandCode(textTileMap, img);
-		objects[col][row].add(new Container(container, Integer.parseInt(size),
-				name, description, movable.equals("true"), locked
-						.equals("false"), open.equals("false"), id++));
+	private static Weapon parseWeapon(Map<String, String> textTileMap, String img, String strength,
+			String description) {
+		return new Weapon(expandCode(textTileMap, img)[0],
+				description, id++, Integer.parseInt(strength));
+	}
 
+	private static Torch parseTorch(Map<String, String> textTileMap, String img) {
+		return new Torch(expandCode(textTileMap, img)[0], id++);
+	}
+
+	private static Money parseMoney(Map<String, String> textTileMap, String img, String amount) {
+		return new Money(expandCode(textTileMap, img)[0], id++,
+				Integer.parseInt(amount));
+	}
+
+	private static Key parseKey(Map<String, String> textTileMap, String img) {
+		return new Key(expandCode(textTileMap, img)[0], id++);
+	}
+
+	private static Container parseContainer(Map<String, String> textTileMap, Element object) {
+		String[] container = expandCode(textTileMap, object.getAttribute("img"));
+		Container cont = new Container(container, Integer.parseInt(object
+				.getAttribute("size")), object.getAttribute("name"), object
+				.getAttribute("description"), object.getAttribute("movable")
+				.equals("true"), object.getAttribute("locked").equals("false"),
+				object.getAttribute("open").equals("false"), id++);
+		if (object.hasChildNodes()) {
+			NodeList nList = object.getChildNodes();
+			for (int x = 0; x < nList.getLength(); x++) {
+				Element node = (Element) nList.item(x);
+//				if (object.getNodeName().equals("container")) {
+//					cont.add(parseContainer(textTileMap, object));
+				if (node.getNodeName().equals("key")) {
+					cont.add(parseKey(textTileMap,
+							node.getAttribute("img")));
+					System.out.println("adding key!");
+				} else if (node.getNodeName().equals("money")) {
+					cont.add(parseMoney(textTileMap,
+							node.getAttribute("img"),
+							node.getAttribute("amount")));
+				} else if (node.getNodeName().equals("torch")) {
+					cont.add(parseTorch(textTileMap,
+							node.getAttribute("img")));
+				} else if (node.getNodeName().equals("weapon")) {
+					cont.add(parseWeapon(textTileMap,
+							node.getAttribute("img"),
+							node.getAttribute("strength"),
+							node.getAttribute("description")));
+				}
+			}
+		}
+		return cont;
 	}
 
 	private static void parseDoor(PriorityQueue<GameObject>[][] objects,
@@ -256,26 +307,19 @@ public class Parser {
 					tile[1] = floor + "_" + "ns.png";
 					break;
 				default:
-					floor = floor + "_" + object[object.length - 1] + ".png";
+					floor = floor + "_"
+							+ textTileMap.get(object[object.length - 1])
+							+ ".png";
 					tile = new String[] { floor };
 					break;
 				}
 			}
 		}
+		if (tile == null) {
+			tile = new String[1];
+			tile[0] = textTileMap.get(object[0]) + ".png";
+		}
 		return tile;
-	}
-
-	/**
-	 * Creates an Item from a String and returns it.
-	 *
-	 * @param str
-	 * @return
-	 */
-	private static Item parseItem(String str) {
-		if (str.equalsIgnoreCase("ky")) {
-			return new Key("gold_key.png", 0);
-		} else
-			return null;
 	}
 
 	/**
@@ -435,7 +479,8 @@ public class Parser {
 				xmlContainer
 						.appendChild(writeTorch(doc, (Torch) i, textTileMap));
 			} else if (i instanceof Weapon) {
-				xmlContainer.appendChild(writeWeapon(doc, (Weapon) i, textTileMap));
+				xmlContainer.appendChild(writeWeapon(doc, (Weapon) i,
+						textTileMap));
 			} else if (i instanceof Money) {
 				xmlContainer
 						.appendChild(writeMoney(doc, (Money) i, textTileMap));
@@ -455,7 +500,7 @@ public class Parser {
 
 	private static Node writeTorch(Document doc, Torch i,
 			Map<String, String> textTileMap) {
-		Element xmlTorch = doc.createElement("key");
+		Element xmlTorch = doc.createElement("torch");
 		xmlTorch.setAttribute("img", getCode(i.getFileName(), textTileMap));
 		return xmlTorch;
 	}
@@ -477,7 +522,6 @@ public class Parser {
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
-		System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);

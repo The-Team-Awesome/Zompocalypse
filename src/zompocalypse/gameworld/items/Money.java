@@ -19,13 +19,13 @@ public class Money implements Item {
 	private int amount;
 	private String type;
 
-	public Money(String filename, int uid, int amount) {
-		this.filename = filename;
-		currentImage = Loader.LoadSprite(filename);
+	public Money(String string, int uid, int amount) {
+		this.filename = string;
+		currentImage = Loader.LoadSprite(string);
 		this.uid = uid;
 		this.amount = amount;
 
-		type = filename.replace("coins_", "");
+		type = string.replace("coins_", "");
 		System.out.println(type);
 		type = type.replace(".png", "");
 		System.out.println(type);
