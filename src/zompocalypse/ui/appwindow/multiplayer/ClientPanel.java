@@ -19,6 +19,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import zompocalypse.ui.appwindow.UICommand;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
@@ -43,14 +44,13 @@ public class ClientPanel extends JPanel {
 	public ClientPanel(ActionListener action) {
 		super();
 		this.action = action;
-
+		setBackground(CustomUtils.frameBackground);
 		arrangeComponents();
 	}
 
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		//Insets topInset = new Insets(400, 0, 0, 0);
 		Insets buttonsInset = new Insets(20, 0, 0, 0);
 		int positionY = 0;
 

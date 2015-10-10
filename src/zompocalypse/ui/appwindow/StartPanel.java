@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import zompocalypse.datastorage.Loader;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
@@ -71,7 +72,8 @@ public class StartPanel extends JPanel {
 	@Override
 	  protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	        g.drawImage(BACKGROUND, 0, 0, null);
+	    setBackground(CustomUtils.frameBackground);
+	    //g.drawImage(BACKGROUND, 0, 0, null);
 	}
 }
 
