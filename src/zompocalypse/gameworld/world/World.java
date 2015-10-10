@@ -484,7 +484,12 @@ public class World implements Serializable {
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
 		} else if(objectName[0].contains("sword")) {
 			// TODO: Maybe here, we could query for a description and strength rating for the sword?
-			objects[editor.x][editor.y].add(new Weapon(objectName[0], "The description", id++, 5));
+
+			String description = WorldBuilder.getString("Pliz do a description");
+			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
+
+			objects[editor.x][editor.y].add(new Weapon(objectName[0], description, id++, strength));
+
 		} else if(objectName[0].contains("torch")) {
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
 		}

@@ -673,4 +673,30 @@ public class WorldBuilder {
 		}
 		return result;
 	}
+
+	/**
+	 * This method is used to get a String from the World Builder.
+	 * It can be used for getting custom descriptions for particular items,
+	 * for example.
+	 *
+	 * @param message - The message to display to the user regarding the input dialog
+	 * @return The String which the user gave as input
+	 */
+	public static String getString(String message) {
+		String description = (String) JOptionPane.showInputDialog(message);
+		return description;
+	}
+
+	/**
+	 * This method is used to get an Integer from the World Builder.
+	 * This can be used for all kinds of custom numbers needed for particular items.
+	 *
+	 * @param message - The message to display to the user regarding the input dialog
+	 * @return The Integer which the user gave as input
+	 */
+	public static Integer getInteger(String message) {
+		Integer description = Integer.parseInt(JOptionPane.showInputDialog(message));
+		return description;
+	}
+
 }
