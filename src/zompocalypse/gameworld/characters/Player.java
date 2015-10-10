@@ -24,8 +24,6 @@ import zompocalypse.ui.rendering.ImageUtils;
  */
 public final class Player extends MovingCharacter {
 
-	// private static final long serialVersionUID = -3257369460305701226L;
-	private World game;
 	private List<Item> inventory;
 
 	private final int PLAYER_HEALTH = 100;
@@ -49,7 +47,7 @@ public final class Player extends MovingCharacter {
 
 	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
 			int score, String playerName, String[] filenames, World game) {
-		super(xCoord, yCoord, orientation);
+		super(game, xCoord, yCoord, orientation);
 		this.score = score;
 		this.uid = uid;
 		this.filenames = filenames;
@@ -57,8 +55,7 @@ public final class Player extends MovingCharacter {
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
 
-		this.game = game;
-		inventory = new ArrayList<Item>();
+		this.inventory = new ArrayList<Item>();
 		this.orientation = Orientation.NORTH;
 
 		// TODO: This is just temporary, adding objects to the Players
