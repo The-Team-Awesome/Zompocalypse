@@ -30,7 +30,6 @@ public class Floor implements Drawable {
 	protected String[] filenames;
 
 	public Floor(int x, int y, String[] filenames) {
-		System.out.println(filenames[0]);
 		this.x = x;
 		this.y = y;
 
