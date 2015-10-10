@@ -117,7 +117,7 @@ public class World implements Serializable {
 			else if (o instanceof Wall)
 				return true;
 			else if (o instanceof Door)
-				return !((Door)o).occupiable();
+				return !((Door) o).occupiable();
 
 		}
 		return false;
@@ -310,14 +310,16 @@ public class World implements Serializable {
 			if (editMode) {
 				editor.x++;
 			} else {
-				player.move(Orientation.WEST, cameraDirection); // TODO This is wrong! Should be 'east' not
-			}													// 'west'??? But it works :(
+				player.move(Orientation.WEST, cameraDirection); // TODO This is
+																// wrong! Should
+																// be 'east' not
+			} // 'west'??? But it works :(
 		} else if (key.equals(UICommand.WEST.getValue())) {
 			if (editMode) {
 				editor.x--;
 			} else {
 				player.move(Orientation.EAST, cameraDirection); // TODO This is
-			}													// also wrong!
+			} // also wrong!
 		} else if (key.equals(UICommand.ITEMONE.getValue())) {
 			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
@@ -333,7 +335,8 @@ public class World implements Serializable {
 				}
 			}
 
-			// Then, if no objects were used before, process any in front of the player
+			// Then, if no objects were used before, process any in front of the
+			// player
 			for (GameObject o : player.getObjectsInfront()) {
 				if(o instanceof StrategyZombie) {
 					StrategyZombie zombie = (StrategyZombie) o;
@@ -344,14 +347,14 @@ public class World implements Serializable {
 					return;
 				}
 			}
-		} else if(key.contains(UICommand.USEITEM.getValue())) {
+		} else if (key.contains(UICommand.USEITEM.getValue())) {
 			String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
 			int itemId = Integer.parseInt(trimmed);
 			List<Item> inventory = player.getInventory();
 			Item using = null;
 
-			for(Item i : inventory) {
-				if(i.getUniqueID() == itemId) {
+			for (Item i : inventory) {
+				if (i.getUniqueID() == itemId) {
 					using = i;
 				}
 			}
@@ -500,45 +503,53 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * This method adds objects into the game at the given position.
-	 * It gives the user a selector for a range of different objects
-	 * which they can add into the game.
+	 * This method adds objects into the game at the given position. It gives
+	 * the user a selector for a range of different objects which they can add
+	 * into the game.
 	 */
 	public void editObject() {
 		while (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
 
 		String[] objectName = WorldBuilder.getObjectFileName();
-		if(objectName == null)
+		if (objectName == null)
 			return;
 
 		int offset = 0;
 		if (objectName[0].contains("chest")) {
-			objects[editor.x][editor.y].add(new Container(editor.x, editor.y,
-					objectName, 5, false, false, id++));
-		} else if(objectName[0].contains("ground_grey")) {
-			// This is a decorative object, but functions just the same as a wall
+			objects[editor.x][editor.y].add(new Container(objectName, 5, false,
+					false, id++));
+		} else if (objectName[0].contains("ground_grey")) {
+			// This is a decorative object, but functions just the same as a
+			// wall
 			offset = 48;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
-		} else if(objectName[0].contains("plant")) {
-			// Plants function basically the same as a Wall, they just look slightly different
+		} else if (objectName[0].contains("plant")) {
+			// Plants function basically the same as a Wall, they just look
+			// slightly different
 			offset = 12;
 			objects[editor.x][editor.y].add(new Wall(objectName, offset));
-		} else if(objectName[0].contains("sword")) {
-			// This is a Sword! They need a specific description and strength rating,
-			// to give the game different kinds of swords with different qualities.
-			String description = WorldBuilder.getString("Pliz do a description");
-			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
-			objects[editor.x][editor.y].add(new Weapon(objectName[0], description, id++, strength));
-		} else if(objectName[0].contains("torch")) {
+		} else if (objectName[0].contains("sword")) {
+			// This is a Sword! They need a specific description and strength
+			// rating,
+			// to give the game different kinds of swords with different
+			// qualities.
+			String description = WorldBuilder
+					.getString("Pliz do a description");
+			int strength = WorldBuilder
+					.getInteger("Pliz gimme a strength number");
+			objects[editor.x][editor.y].add(new Weapon(objectName[0],
+					description, id++, strength));
+		} else if (objectName[0].contains("torch")) {
 			// This is a torch, pretty torch gives the player light :)
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
-		} else if(objectName[0].contains("key")) {
+		} else if (objectName[0].contains("key")) {
 			// This is a key! It is used to unlock doors.
 			objects[editor.x][editor.y].add(new Key(objectName[0], id++));
-		} else if(objectName[0].contains("coins")) {
+		} else if (objectName[0].contains("coins")) {
 			int amount = WorldBuilder.getInteger("Pliz gimme a amount number");
-			objects[editor.x][editor.y].add(new Money(objectName[0], id++, amount));
+			objects[editor.x][editor.y].add(new Money(objectName[0], id++,
+					amount));
 		}
 
 	}
@@ -566,7 +577,7 @@ public class World implements Serializable {
 			((Wall) x).rotate();
 		} else if (x instanceof Door) {
 			((Door) x).rotate();
-		} else if(x instanceof Container) {
+		} else if (x instanceof Container) {
 			((Container) x).rotate();
 		}
 	}
