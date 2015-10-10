@@ -91,7 +91,7 @@ public class Container implements Item, Lockable{
 		// TODO: Once containers are in the world, we can properly test this!
 		// It will need a valid action handler to pass to the ContainerPane,
 		// need to think about where this will come from!
-		int id = player.getUID();
+		int id = player.getUid();
 		ContainerPanel inventory = new ContainerPanel(this.heldItems, null);
 		JOptionPane.showMessageDialog(null, inventory, name, JOptionPane.PLAIN_MESSAGE);
 	}

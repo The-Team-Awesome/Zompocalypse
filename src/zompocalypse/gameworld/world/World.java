@@ -32,6 +32,8 @@ import zompocalypse.ui.appwindow.UICommand;
  * @author Kieran Mckay, 300276166
  */
 public class World implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
 
@@ -240,7 +242,7 @@ public class World implements Serializable {
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 		spawnZombie();
-		return player.getUID();
+		return player.getUid();
 	}
 
 	public void spawnZombie(){
@@ -253,7 +255,11 @@ public class World implements Serializable {
 		}
 
 		Strategy rand = new RandomStrategy();
-		StrategyZombie zombie = new StrategyZombie(this, x, y, rand, ++id);
+		String[] filenames = { "npc_zombie_n.png",
+				"npc_zombie_e.png", "npc_zombie_s.png",
+				"npc_zombie_w.png" };
+
+		StrategyZombie zombie = new StrategyZombie(this, x, y, rand, ++id, filenames);
 		idToActor.put(id, zombie);
 		objects[zombie.getX()][zombie.getY()].add(zombie);
 	}

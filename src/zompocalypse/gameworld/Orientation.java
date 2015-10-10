@@ -41,6 +41,11 @@ public enum Orientation {
 		}
 	}
 
+	/**
+	 * Get clockwise orientation
+	 * @param current
+	 * @return
+	 */
 	public static Orientation getNext(Orientation current){
 		if(current == NORTH){
 			return EAST;
@@ -48,6 +53,23 @@ public enum Orientation {
 			return SOUTH;
 		}else if(current == SOUTH){
 			return WEST;
+		}else {
+			return NORTH;
+		}
+	}
+
+	/** Get anticlockwise orientation
+	 *
+	 * @param current
+	 * @return
+	 */
+	public static Orientation getPrev(Orientation current){
+		if(current == NORTH){
+			return WEST;
+		}else if(current == WEST){
+			return SOUTH;
+		}else if(current == SOUTH){
+			return EAST;
 		}else {
 			return NORTH;
 		}
