@@ -16,7 +16,6 @@ import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
-import zompocalypse.ui.rendering.ImageUtils;
 
 /**
  * Player is a human played character in the game.
@@ -32,10 +31,12 @@ public final class Player extends MovingCharacter {
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
 	private final int PLAYER_STRENGTH = 20;
+	private final int BASE_ATTACK = 10;
 
 	private int score;
-
 	private final int OFFSETY = -20;
+
+	private Item queuedUse;
 
 	// This is the currently equipped Item
 	private Weapon equipped;
@@ -50,9 +51,9 @@ public final class Player extends MovingCharacter {
 	 * @param direction
 	 * @param filenames
 	 */
-	public Player(int uid, int score, String playerName, World game, int xCoord, int yCoord, Orientation direction,
-			String[] filenames) {
-		super(uid, game, xCoord, yCoord, direction, filenames);
+	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
+			int score, String playerName, String[] filenames, World game) {
+		super(uid, game, xCoord, yCoord, orientation, filenames);
 
 		this.score = score;
 
@@ -71,6 +72,16 @@ public final class Player extends MovingCharacter {
 		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
 	}
 
+	public void queueItem(Item item) {
+		queuedUse = item;
+	}
+
+	public void useQueued() {
+		if(queuedUse != null){
+			queuedUse.use(this);
+		}
+	}
+
 	/**
 	 * Get this players score.
 	 */
@@ -79,7 +90,20 @@ public final class Player extends MovingCharacter {
 	}
 
 	/**
-	 * Get this players strength  //TODO
+	 * Calculates the players attack damage. This is a product of a random
+	 * number multiplied by their strength, with their base attack added to the end.
+	 *
+	 * @return
+	 */
+	public int calculateAttack() {
+		int attack = (int) (Math.random() * (getStrength()));
+		attack += BASE_ATTACK;
+
+		return attack;
+	}
+
+	/**
+	 * Get this players speed
 	 */
 	@Override
 	public int getStrength() {
@@ -202,74 +226,6 @@ public final class Player extends MovingCharacter {
 		case WEST:
 			this.moveWest();
 			break;
-		}
-	}
-
-	/**
-	 * Rotates the perspective of the player.
-	 * @param value
-	 */
-	public void rotatePerspective(Direction dir) {
-		switch (dir) {
-		case CLOCKWISE:
-			updateCurrentOrientationClockwise();
-			return;
-		case ANTICLOCKWISE:
-			updateCurrentOrientationAntiClockwise();
-			return;
-		default:
-			throw new IllegalArgumentException(
-					"Direction wasn't clockwise or anticlockwise");
-		}
-	}
-
-	/**
-	 * Updates the current orientation of the viewer to its clockwise
-	 * counterpart.
-	 */
-	private void updateCurrentOrientationClockwise() {
-		Orientation orientation = getOrientation();
-		switch (orientation) {
-		case NORTH:
-			orientation = Orientation.EAST;
-			return;
-		case SOUTH:
-			orientation = Orientation.WEST;
-			return;
-		case EAST:
-			orientation = Orientation.SOUTH;
-			return;
-		case WEST:
-			orientation = Orientation.NORTH;
-			return;
-		default:
-			throw new IllegalArgumentException(
-					"Current orientation is incorrect");
-		}
-	}
-
-	/**
-	 * Updates the current orientation of the viewer to its anticlockwise
-	 * counterpart.
-	 */
-	private void updateCurrentOrientationAntiClockwise() {
-		Orientation orientation = getOrientation();
-		switch (orientation) {
-		case NORTH:
-			orientation = Orientation.WEST;
-			return;
-		case SOUTH:
-			orientation = Orientation.EAST;
-			return;
-		case EAST:
-			orientation = Orientation.NORTH;
-			return;
-		case WEST:
-			orientation = Orientation.SOUTH;
-			return;
-		default:
-			throw new IllegalArgumentException(
-					"Current orientation is incorrect");
 		}
 	}
 

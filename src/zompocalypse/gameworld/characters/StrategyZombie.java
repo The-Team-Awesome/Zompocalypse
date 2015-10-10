@@ -2,22 +2,33 @@ package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
 
+import javax.swing.ImageIcon;
+
+import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 public class StrategyZombie extends MovingCharacter {
 
+	private final int ZOMBIE_HEALTH = 100;
+	private final int ZOMBIE_SPEED = 5;
+	private final int ZOMBIE_STRENGTH = 20;
+	private final int BASE_ATTACK = 10;
+
+	private final int OFFSETY = -20;
+
 	private Strategy strategy;
 
-	public StrategyZombie(World game, int realX, int realY, Strategy strategy) {
-		super(game, realX, realY, Orientation.NORTH);
+	public StrategyZombie(World game, int realX, int realY, Strategy strategy, int uid, String[] filenames) {
+		super(uid, game, realX, realY, Orientation.NORTH, filenames);
 		this.strategy = strategy;
-	}
+		this.uid = uid;
 
-	@Override
-	public int speed() {
-		return strategy.speed();
+		setHealth(ZOMBIE_HEALTH);
+		setSpeed(ZOMBIE_SPEED);
+		setStrength(ZOMBIE_STRENGTH);
 	}
 
 	@Override
@@ -30,16 +41,9 @@ public class StrategyZombie extends MovingCharacter {
 		this.ori = queued;
 	}
 
-	@Override
-	public String getFileName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		// TODO Auto-generated method stub
-
+	public void draw(int realx, int realy, Graphics g,
+			Orientation worldOrientation) {
+		super.draw(realx, realy, OFFSETY, g, worldOrientation);
 	}
 
 	@Override

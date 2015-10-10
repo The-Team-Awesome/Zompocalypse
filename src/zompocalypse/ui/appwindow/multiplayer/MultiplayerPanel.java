@@ -8,11 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import zompocalypse.ui.appwindow.UICommand;
+import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 
 /**
- * This panel presents the options for Multiplayer games to the user.
- * Those options are either:
+ * This panel presents the options for Multiplayer games to the user. Those
+ * options are either:
  * <ul>
  * <li>Start Server</li>
  * <li>Connect to Server</li>
@@ -32,8 +33,13 @@ public class MultiplayerPanel extends JPanel {
 		this.action = action;
 
 		arrangeComponents();
+
+		setBackground(CustomUtils.frameBackground);
 	}
 
+	/**
+	 * Sets and arranges position of components into the content panel.
+	 */
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();

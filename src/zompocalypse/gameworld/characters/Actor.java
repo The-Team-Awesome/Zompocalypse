@@ -25,13 +25,13 @@ public abstract class Actor implements GameObject {
 	protected int uid;
 
 	protected String filename;
-	protected Orientation queued; // queued direction change
+	protected Orientation queued; // queued direction change (moving)
 	protected World game;
 
 	private String[] filenames;
 	private ImageIcon[] images;
 	private ImageIcon currentImage;
-	private Orientation orientation;
+	private Orientation orientation;  //
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character

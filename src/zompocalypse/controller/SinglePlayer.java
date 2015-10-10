@@ -115,6 +115,8 @@ public class SinglePlayer extends GameListener {
 			game.rotateObject();
 		} else if (code == KeyEvent.VK_9 && editable) { // edit object
 			game.editObject();
+		} else if(code == KeyEvent.VK_0 && editable) {
+			game.editItem(false);
 		} else if (code == KeyEvent.VK_C && editable) { // copy location
 			game.copyLocation();
 		} else if (code == KeyEvent.VK_V && editable) { // paste location

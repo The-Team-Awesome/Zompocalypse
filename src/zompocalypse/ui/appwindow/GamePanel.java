@@ -19,7 +19,9 @@ import javax.swing.JTextArea;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
@@ -74,6 +76,8 @@ public class GamePanel extends JPanel {
 	private World game;
 	private int id;
 	private Player player;
+	private String dialog = "Welcome to Zompocalypse!\n";
+	private ZButton btnExamine;
 
 
 	public GamePanel(int id, World game, ActionListener action) {
@@ -122,7 +126,7 @@ public class GamePanel extends JPanel {
 	private void addDialogPanelComponents() {
 		txtDialog = new JTextArea(5, 65);
 		txtDialog.setFont(CustomUtils.textAreaFont);
-		txtDialog.setText("Welcome to Zompocalypse!\n");
+		txtDialog.setText(dialog);
 		txtDialog.setEditable(false);
 		txtDialog.setBackground(CustomUtils.lightYellow);
 		txtDialog.setVisible(true);
@@ -171,6 +175,15 @@ public class GamePanel extends JPanel {
 		c.ipadx = 2;
 		c.insets = generalInset;
 		menuPanel.add(btnBackpack, c);
+
+		btnExamine = new ZButton("Examine");
+		btnExamine.setActionCommand(UICommand.EXAMINE.getValue());
+		btnExamine.addActionListener(action);
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 2;
+		c.insets = generalInset;
+		menuPanel.add(btnExamine, c);
 
 		btnUse = new ZButton("Use");
 		btnUse.setActionCommand(UICommand.USE.getValue());
@@ -304,6 +317,16 @@ public class GamePanel extends JPanel {
 	}
 
 	/**
+	 * Updated dialog text in the text area.
+	 *
+	 * @param text to be inserted into the dialog.
+	 */
+	public void updateDialog(String text) {
+		dialog += text + "\n";
+		txtDialog.setText(dialog);
+	}
+
+	/**
 	 * Rotates the rendered world at the renderingPanel.
 	 *
 	 * @param command is the actionCommand of the button pressed.
@@ -326,6 +349,28 @@ public class GamePanel extends JPanel {
 			new JOptionPane("Something happened and we couldn't save your game :(", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Unexpected problem. Couldn't save the game. :(");
 		}
+	}
+
+	/**
+	 * Finds the item to be examined to be shown in the dialog.
+	 */
+	public void examine() {
+		String examineText = "";
+		// Process any objects the player is standing on first
+		for (GameObject o : player.getObjectsHere()) {
+			if (o instanceof Item) {
+				examineText = ((Item) o).examine();
+			}
+		}
+
+		// Then, if no objects were used before, process any in front of the player
+		for (GameObject o : player.getObjectsInfront()) {
+			if (o instanceof Item) {
+				examineText = ((Item) o).examine();
+			}
+		}
+
+		updateDialog(examineText);
 	}
 }
 

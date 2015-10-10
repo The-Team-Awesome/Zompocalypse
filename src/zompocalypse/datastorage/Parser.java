@@ -118,8 +118,21 @@ public class Parser {
 					} else if (cell.hasAttribute("door")) {
 						parseDoor(objects, textTileMap,
 								cell.getAttribute("door"),
-								cell.getAttribute("offset"), cell.getAttribute("locked"),
+								cell.getAttribute("offset"),
+								cell.getAttribute("locked"),
 								cell.getAttribute("open"), col, row);
+					} else if (cell.hasChildNodes()) {
+						Element object = (Element) cell.getFirstChild();
+						if (object.getNodeName().equals("container")) {
+							parseContainer(objects, textTileMap,
+									object.getAttribute("img"),
+									object.getAttribute("name"),
+									object.getAttribute("description"),
+									object.getAttribute("size"),
+									object.getAttribute("movable"),
+									object.getAttribute("locked"),
+									object.getAttribute("open"), col, row);
+						}
 					}
 					if (cell.hasAttribute("zombieSpawnPoint")) {
 						zombieSpawnPoints.add(new Point(col, row));
@@ -140,15 +153,28 @@ public class Parser {
 				playerSpawnPoints, id);
 	}
 
+	private static void parseContainer(PriorityQueue<GameObject>[][] objects,
+			Map<String, String> textTileMap, String img, String name,
+			String description, String size, String movable, String locked,
+			String open, int col, int row) {
+		String[] container = expandCode(textTileMap, img);
+		objects[col][row].add(new Container(container, Integer.parseInt(size),
+				name, description, movable.equals("true"), locked
+						.equals("false"), open.equals("false"), id++));
+
+	}
+
 	private static void parseDoor(PriorityQueue<GameObject>[][] objects,
-			Map<String, String> textTileMap, String string,
-			String offset, String locked, String open, int col, int row) {
+			Map<String, String> textTileMap, String string, String offset,
+			String locked, String open, int col, int row) {
 		String[] door = expandCode(textTileMap, string);
 		boolean isLocked = true;
 		if (locked.equals("false"))
 			isLocked = false;
-		objects[col][row].add(new Door(col, row, door, Integer.parseInt(offset), isLocked, id++));
-		if (open.equals("true")) ((Door) objects[col][row].peek()).use(null);
+		objects[col][row].add(new Door(col, row, door,
+				Integer.parseInt(offset), isLocked, id++));
+		if (open.equals("true"))
+			((Door) objects[col][row].peek()).use(null);
 	}
 
 	/**
@@ -329,10 +355,14 @@ public class Parser {
 									getCode(door.getFileName(), textTileMap));
 							xmlCell.setAttribute("offset",
 									String.valueOf(door.getOffset()));
-							xmlCell.setAttribute("open", String.valueOf(door.isOpen()));
-							xmlCell.setAttribute("locked", String.valueOf(door.isLocked()));
-						} else if(objects[row][col].peek() instanceof Container) {
-							xmlCell.appendChild(parseContainer(doc, (Container) objects[row][col].peek(), textTileMap));
+							xmlCell.setAttribute("open",
+									String.valueOf(door.isOpen()));
+							xmlCell.setAttribute("locked",
+									String.valueOf(door.isLocked()));
+						} else if (objects[row][col].peek() instanceof Container) {
+							xmlCell.appendChild(writeContainer(doc,
+									(Container) objects[row][col].peek(),
+									textTileMap));
 						}
 					}
 					if (zombieSpawnPoints.contains(new Point(row, col))) {
@@ -364,17 +394,26 @@ public class Parser {
 		return "Error: Unable to save the World";
 	}
 
-	private static Node parseContainer(Document doc, Container container,
+	private static Node writeContainer(Document doc, Container container,
 			Map<String, String> textTileMap) {
 		Element xmlContainer = doc.createElement("container");
 		xmlContainer.setAttribute("img",
 				getCode(container.getFileName(), textTileMap));
+		xmlContainer.setAttribute("size", String.valueOf(container.getSize()));
+		xmlContainer.setAttribute("movable",
+				String.valueOf(container.movable()));
+		xmlContainer.setAttribute("locked",
+				String.valueOf(container.isLocked()));
+		xmlContainer.setAttribute("open", String.valueOf(container.isOpen()));
+		xmlContainer.setAttribute("name", String.valueOf(container.getName()));
+		xmlContainer.setAttribute("description",
+				String.valueOf(container.examine()));
 		return xmlContainer;
 	}
 
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
-		System.out.println(string);
+		// System.out.println(string);
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
 		for (int x = 0; x < tileCode.length; x++) {
 			result = result + textTileMap.get(tileCode[x]);

@@ -2,6 +2,7 @@ package zompocalypse.gameworld.characters;
 
 import java.util.PriorityQueue;
 
+import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
@@ -50,6 +51,14 @@ public abstract class MovingCharacter extends Actor {
 	 */
 	public int getStrength() {
 		return strength;
+	}
+
+	/**
+	 * Updates the characters health after taking damage
+	 * @param damage
+	 */
+	public void damaged(int damage) {
+		setHealth(getHealth() - damage);
 	}
 
 	/**
@@ -186,5 +195,40 @@ public abstract class MovingCharacter extends Actor {
 	public void moveWest() {
 		queued = Orientation.WEST;
 		moving = true;
+	}
+
+	/**
+	 * Rotates the perspective of the player view
+	 * @param value
+	 */
+	public void rotatePerspective(Direction value) {
+		switch (value) {
+
+		case CLOCKWISE:
+			updateCurrentOrientationClockwise();
+			return;
+		case ANTICLOCKWISE:
+			updateCurrentOrientationAntiClockwise();
+			return;
+		default:
+			throw new IllegalArgumentException(
+					"Direction wasn't clockwise or anticlockwise");
+		}
+	}
+
+	/**
+	 * Updates the current orientation of the viewer to its anticlockwise
+	 * counterpart.
+	 */
+	protected void updateCurrentOrientationAntiClockwise() {
+		setOrientation(Orientation.getPrev(getOrientation()));
+	}
+
+	/**
+	 * Updates the current orientation of the viewer to its clockwise
+	 * counterpart.
+	 */
+	protected void updateCurrentOrientationClockwise() {
+		setOrientation(Orientation.getNext(getOrientation()));
 	}
 }

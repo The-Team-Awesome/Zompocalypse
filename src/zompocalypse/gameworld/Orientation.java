@@ -1,5 +1,4 @@
 package zompocalypse.gameworld;
-
 /**
  *	Represents the current orientation of the camera for a Player,
  *	or the orientation of an object in space.
@@ -39,6 +38,40 @@ public enum Orientation {
 			return WEST;
 		default:
 			throw new IllegalStateException("Must be a valid direction.");
+		}
+	}
+
+	/**
+	 * Get clockwise orientation
+	 * @param current
+	 * @return
+	 */
+	public static Orientation getNext(Orientation current){
+		if(current == NORTH){
+			return EAST;
+		}else if(current == EAST){
+			return SOUTH;
+		}else if(current == SOUTH){
+			return WEST;
+		}else {
+			return NORTH;
+		}
+	}
+
+	/** Get anticlockwise orientation
+	 *
+	 * @param current
+	 * @return
+	 */
+	public static Orientation getPrev(Orientation current){
+		if(current == NORTH){
+			return WEST;
+		}else if(current == WEST){
+			return SOUTH;
+		}else if(current == SOUTH){
+			return EAST;
+		}else {
+			return NORTH;
 		}
 	}
 }
