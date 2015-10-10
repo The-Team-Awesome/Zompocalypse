@@ -2,7 +2,9 @@ package zompocalypse.gameworld.world;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -16,6 +18,7 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
@@ -318,6 +321,18 @@ public class World implements Serializable {
 					return;
 				}
 			}
+		} else if(key.contains(UICommand.USEITEM.getValue())) {
+			String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
+			int itemId = Integer.parseInt(trimmed);
+			List<Item> inventory = player.getInventory();
+			Item using = null;
+
+			for(Item i : inventory) {
+				if(i.getUniqueID() == itemId) {
+					using = i;
+				}
+			}
+			using.use(player);
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
@@ -492,6 +507,8 @@ public class World implements Serializable {
 		} else if(objectName[0].contains("torch")) {
 			// This is a torch, pretty torch gives the player light :)
 			objects[editor.x][editor.y].add(new Torch(objectName[0], id++));
+		} else if(objectName[0].contains("key")) {
+			objects[editor.x][editor.y].add(new Key(objectName[0], id++));
 		}
 
 	}

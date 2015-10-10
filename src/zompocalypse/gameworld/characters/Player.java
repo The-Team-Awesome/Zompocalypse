@@ -2,6 +2,7 @@ package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
@@ -9,6 +10,7 @@ import javax.swing.ImageIcon;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
@@ -22,8 +24,7 @@ import zompocalypse.ui.rendering.ImageUtils;
  */
 public final class Player extends MovingCharacter {
 
-	// private static final long serialVersionUID = -3257369460305701226L;
-	private ArrayList<GameObject> inventory;
+	private List<Item> inventory;
 
 	private final int PLAYER_HEALTH = 100;
 	private final int PLAYER_SPEED = 5;
@@ -54,15 +55,15 @@ public final class Player extends MovingCharacter {
 		this.speed = PLAYER_SPEED;
 		this.strength = PLAYER_STRENGTH;
 
-		inventory = new ArrayList<GameObject>();
+		this.inventory = new ArrayList<Item>();
 		this.orientation = Orientation.NORTH;
 
 		// TODO: This is just temporary, adding objects to the Players
 		// inventory so something is visible when viewing their backpack
-		inventory.add(new Key("gold_key_inv.png", 0));
-		inventory.add(new Key("gold_key_inv.png", 0));
-		inventory.add(new Torch("torch.png", 0));
-		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 0, 5);
+		inventory.add(new Key("gold_key_inv.png", 1));
+		inventory.add(new Key("gold_key_inv.png", 2));
+		inventory.add(new Torch("torch.png", 3));
+		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 4, 5);
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		this.images = imu.setupImages(filenames);
@@ -213,7 +214,7 @@ public final class Player extends MovingCharacter {
 		return 0;
 	}
 
-	public boolean pickUp(GameObject item) {
+	public boolean pickUp(Item item) {
 		return inventory.add(item);
 	}
 
@@ -224,7 +225,7 @@ public final class Player extends MovingCharacter {
 	 *
 	 * @return An Arraylist containing this players inventory
 	 */
-	public ArrayList<GameObject> getInventory() {
+	public List<Item> getInventory() {
 		return inventory;
 	}
 

@@ -1,7 +1,6 @@
 package zompocalypse.gameworld.world;
 
 import java.awt.Graphics;
-import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
@@ -19,8 +18,9 @@ import zompocalypse.ui.rendering.ImageUtils;
  * @author Kieran Mckay, 300276166 & Pauline
  *
  */
-public class Floor implements Drawable{
+public class Floor implements Drawable {
 
+	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
 

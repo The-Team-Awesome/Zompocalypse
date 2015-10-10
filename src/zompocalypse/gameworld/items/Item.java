@@ -26,17 +26,11 @@ public interface Item extends GameObject {
 	public boolean movable();
 
 	/**
-	 * Returns a CSV representation of this Item that can be saved to CSV document
-	 */
-	public String getCSVCode(Map<String, String> textTileMap);
-
-
-	/**
 	 * Get this items unique identifier number
 	 * @return an integer which is this items unique identifier
 	 */
 	public int getUniqueID();
-	
+
 	/**
 	 * Returns a String description of the item
 	 */

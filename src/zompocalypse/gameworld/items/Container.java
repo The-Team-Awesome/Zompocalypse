@@ -206,11 +206,6 @@ public class Container implements Item, Lockable{
 		return filename;
 	}
 
-	public String getCSVCode(Map<String, String> textTileMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		// TODO Auto-generated method stub

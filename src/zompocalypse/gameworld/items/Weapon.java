@@ -53,7 +53,7 @@ public class Weapon implements Item {
 
 	@Override
 	public void use(Player player) {
-		List<GameObject> inventory = player.getInventory();
+		List<Item> inventory = player.getInventory();
 		if(!inventory.contains(this)) {
 			inventory.add(this);
 		}
@@ -62,12 +62,6 @@ public class Weapon implements Item {
 	@Override
 	public boolean movable() {
 		return true;
-	}
-
-	@Override
-	public String getCSVCode(Map<String, String> textTileMap) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

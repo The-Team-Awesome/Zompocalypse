@@ -126,11 +126,6 @@ public class Door implements Item, Lockable {
 		return imageName;
 	}
 
-	@Override
-	public String getCSVCode(Map<String, String> textTileMap) {
-		return "2";
-	}
-
 	public void setOccupiable(boolean bool) {
 		occupiable = bool;
 	}
@@ -163,6 +158,7 @@ public class Door implements Item, Lockable {
 		return new Door(x, y, fileNamesClosed, offset, locked, uid);
 	}
 
+
 	public int getOffset() {
 		return offset;
 	}
@@ -172,7 +168,6 @@ public class Door implements Item, Lockable {
 	}
 
 	public void rotate() {
-
 		String[] rotateOpen = new String[fileNamesOpen.length];
 		String[] rotateClosed = new String[fileNamesClosed.length];
 		for (int x = 0; x < rotateOpen.length - 1; x++) {

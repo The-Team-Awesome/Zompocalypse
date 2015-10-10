@@ -166,7 +166,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		setIconImage(img);
 		// TODO: bring DO_NOTHING_ON_EXIT back when we finish testing
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setPreferredSize(new Dimension(1000, 800));
+		setPreferredSize(new Dimension(1000, 750));
 		setResizable(false);
 		addWindowListener(this);
 		setBackground(CustomUtils.frameBackground);
@@ -351,11 +351,26 @@ public class MainFrame extends JFrame implements WindowListener {
 	private void showBackpack(int id) {
 
 		Player player = (Player) game.getCharacterByID(id);
-		ArrayList<GameObject> objects = player.getInventory();
+		List<Item> objects = player.getInventory();
 
 		ContainerPanel inventory = new ContainerPanel(objects, action);
+
 		JOptionPane.showMessageDialog(null, inventory,
 				"Player " + id + "'s Inventory", JOptionPane.PLAIN_MESSAGE);
+	}
+
+
+	/**
+	 * This method opens up a new message dialog, just like the
+	 * showBackpack method, for a unique container with the given id.
+	 *
+	 * @param id - The unique ID of the Container
+	 */
+	private void showContainer(int id) {
+		Container container = null; // get something from the game world here?
+
+		List<Item> object = container.getHeldItems();
+
 	}
 
 	/**

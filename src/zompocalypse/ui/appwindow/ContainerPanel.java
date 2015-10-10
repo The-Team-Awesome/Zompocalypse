@@ -3,11 +3,14 @@ package zompocalypse.ui.appwindow;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javafx.beans.binding.SetBinding;
+
 import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.items.Item;
 import zompocalypse.ui.appwindow.custom.ZRadioButton;
 
 public class ContainerPanel extends JPanel {
@@ -26,9 +29,13 @@ public class ContainerPanel extends JPanel {
 		ButtonGroup options = new ButtonGroup();
 
 		for(GameObject object : objects) {
-			JRadioButton button = new ZRadioButton(object, action);
-			add(button, null);
-			options.add(button);
+			if(object instanceof Item) {
+				Item item = (Item) object;
+				JRadioButton button = new ZRadioButton(object, action);
+				button.setActionCommand(UICommand.USEITEM.getValue() + Integer.toString(item.getUniqueID()));
+				add(button, null);
+				options.add(button);
+			}
 		}
 	}
 }
