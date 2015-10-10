@@ -25,8 +25,10 @@ public class Money implements Item {
 		this.uid = uid;
 		this.amount = amount;
 
-		String type = filename.replace("coins_", "");
+		type = filename.replace("coins_", "");
+		System.out.println(type);
 		type = type.replace(".png", "");
+		System.out.println(type);
 
 		if(type.equals("silver")) {
 			this.amount = (amount) * 10;
@@ -41,6 +43,10 @@ public class Money implements Item {
 
 	public void add(int amount) {
 		this.amount += amount;
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	@Override
