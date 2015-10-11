@@ -17,19 +17,19 @@ import zompocalypse.gameworld.world.World;
 public abstract class MovingCharacter extends Actor {
 
 	private static final long serialVersionUID = 1L;
-	protected boolean moving;
 
 	private int health;
 	private int speed;   //non monving zomies have 0 speed?
 	private int strength;
 
-	protected Orientation ori;  //the orientation that the player is moving in
+	protected Orientation queued; // queued direction change (moving)
+	protected boolean moving;
 
 	public MovingCharacter(int uid, World game, int xCoord, int yCoord, Orientation direction,
 			String[] filenames) {
 		super(uid, game, xCoord, yCoord, direction, filenames);
-		ori = direction;
 		this.moving = false;
+		queued = direction;
 	}
 
 	/**
@@ -87,25 +87,21 @@ public abstract class MovingCharacter extends Actor {
 		if(queued == Orientation.NORTH) {
 			newX = xCoord;
 			newY = yCoord -1;
-			ori = queued;
 			orientation = queued;
 		}
 		else if(queued == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
-			ori = queued;
 			orientation = queued;
 		}
 		else if(queued == Orientation.EAST) {
 			newX = xCoord + 1;
 			newY = yCoord;
-			ori = queued;
 			orientation = queued;
 		}
 		else if(queued == Orientation.WEST) {
 			newX = xCoord - 1;
 			newY = yCoord;
-			ori = queued;
 			orientation = queued;
 		}
 		else {
@@ -125,13 +121,6 @@ public abstract class MovingCharacter extends Actor {
 			objects[oldX][oldY].remove(this);
 			objects[newX][newY].add(this);
 		}
-	}
-
-	/**
-	 * Sets the orientation for the character to move in
-	 */
-	public void setOrientation(Orientation orientation) {
-		this.ori = orientation;
 	}
 
 	/**
@@ -160,13 +149,6 @@ public abstract class MovingCharacter extends Actor {
 	 */
 	public int getSpeed() {
 		return this.speed;
-	}
-
-	/**
-	 * Determine the direction in which this character is moving.
-	 */
-	public Orientation getOrientation() {
-		return ori;
 	}
 
 	/**

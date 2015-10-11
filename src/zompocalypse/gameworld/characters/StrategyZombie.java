@@ -33,10 +33,6 @@ public class StrategyZombie extends MovingCharacter {
 		strategy.tick(game, this);
 	}
 
-	public void setQueued(Orientation queued) {
-		this.ori = queued;
-	}
-
 	@Override
 	public void draw(int realx, int realy, Graphics g,
 			Orientation worldOrientation) {
@@ -51,7 +47,7 @@ public class StrategyZombie extends MovingCharacter {
 	
 	@Override
 	public boolean occupiable() {
-		// consider changing to true if we want zombies to be able to block
-		return false;
+		// consider changing to false if we want zombies to be able to block
+		return true;
 	}
 }

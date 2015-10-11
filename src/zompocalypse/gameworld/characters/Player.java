@@ -161,14 +161,14 @@ public final class Player extends MovingCharacter {
 		// orientation field. I'd like to suggest queued is renamed to direction,
 		// because it represents what it is more accurately :)
 
-		if (ori == Orientation.NORTH && frontY > 0) {
+		if (getOrientation() == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
-		} else if (ori == Orientation.EAST && frontX < game.width() - 1) {
+		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
 			return worldObs[frontX + 1][frontY];
-		} else if (ori == Orientation.SOUTH
+		} else if (getOrientation() == Orientation.SOUTH
 				&& frontY < game.height() - 1) {
 			return worldObs[frontX][frontY + 1];
-		} else if (ori == Orientation.WEST && frontX > 0) {
+		} else if (getOrientation() == Orientation.WEST && frontX > 0) {
 			return worldObs[frontX - 1][frontY];
 		}
 		// if we are facing the edge of the world return an empty queue of
@@ -236,7 +236,7 @@ public final class Player extends MovingCharacter {
 
 	@Override
 	public boolean occupiable() {
-		// consider changing to true if we want players to be able to block
-		return false;
+		// consider changing to false if we want players to be able to block
+		return true;
 	}
 }

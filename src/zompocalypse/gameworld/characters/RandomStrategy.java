@@ -27,7 +27,7 @@ public class RandomStrategy implements Strategy{
 			moveTimeCounter -= speed();
 			return;
 		}
-		Orientation direction = zombie.ori;
+		Orientation direction = zombie.getOrientation();
 		
 		int choice = random.nextInt(3);
 		for(int i = 0; i < choice; i++){

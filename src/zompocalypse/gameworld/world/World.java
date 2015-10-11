@@ -96,8 +96,7 @@ public class World implements Serializable {
 		}
 		if (tickTimer % 200 == 0){
 			spawnZombie(new HomerStrategy());
-		}
-		
+		}		
 		tickTimer++;
 	}
 

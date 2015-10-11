@@ -25,7 +25,6 @@ public abstract class Actor implements GameObject {
 	protected int uid;
 
 	protected String filename;
-	protected Orientation queued; // queued direction change (moving)
 	protected World game;
 
 	private String[] filenames;
@@ -53,8 +52,6 @@ public abstract class Actor implements GameObject {
 		this.yCoord = yCoord;
 		this.uid = uid; // everyone should have a userid so that they can be
 						// drawn
-
-		queued = Orientation.NORTH;
 	}
 
 	/**
@@ -129,10 +126,16 @@ public abstract class Actor implements GameObject {
 	}
 
 	/**
-	 * Get the current orientation
-	 * @return
+	 * Sets the orientation for the character
 	 */
-	public Orientation getCurrentOrientation() {
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
+	/**
+	 * Get the direction for the character
+	 */
+	public Orientation getOrientation() {
 		return orientation;
 	}
 
