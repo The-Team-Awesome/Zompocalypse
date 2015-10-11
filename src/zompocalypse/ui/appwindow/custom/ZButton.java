@@ -1,13 +1,9 @@
 package zompocalypse.ui.appwindow.custom;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.border.Border;
 
 /**
  * ZButton is responsible for customizing the appearance of JButton with this game theme.

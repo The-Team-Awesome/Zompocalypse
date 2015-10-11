@@ -1,10 +1,6 @@
 package zompocalypse.gameworld.characters;
 
-import java.awt.Graphics;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 

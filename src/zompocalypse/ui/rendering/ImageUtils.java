@@ -1,7 +1,5 @@
 package zompocalypse.ui.rendering;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
 
 import zompocalypse.datastorage.Loader;

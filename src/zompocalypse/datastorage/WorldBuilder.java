@@ -554,7 +554,7 @@ public class WorldBuilder {
 	 * @return The String which the user gave as input
 	 */
 	public static String getString(String message) {
-		String description = (String) JOptionPane.showInputDialog(message);
+		String description = JOptionPane.showInputDialog(message);
 		return description;
 	}
 

@@ -1,6 +1,5 @@
 package zompocalypse.gameworld.characters;
 
-import java.awt.Graphics;
 import java.util.Random;
 
 import zompocalypse.gameworld.Orientation;

@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import javax.swing.ImageIcon;
-
-import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Item;
@@ -213,9 +210,6 @@ public final class Player extends MovingCharacter {
 	 */
 	public void move(Orientation dir, Orientation cameraDirection) {
 		Orientation ori = Orientation.getCharacterOrientation(dir, cameraDirection);
-		System.out.println("Player Move. Dir = " + dir.toString());
-		System.out.println("Player Move. Camera = " + cameraDirection.toString());
-		System.out.println("Player Move. New Dir = " + ori.toString());
 		switch (ori) {
 		case NORTH:
 			this.moveNorth();

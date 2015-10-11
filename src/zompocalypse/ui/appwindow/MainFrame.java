@@ -10,25 +10,18 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-import javax.sound.sampled.Clip;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.text.DefaultEditorKit.CutAction;
-
-import javafx.scene.media.MediaPlayer;
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
-import zompocalypse.datastorage.SoundManager;
-import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;

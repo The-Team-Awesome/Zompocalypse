@@ -69,6 +69,7 @@ public class Door implements Item, Lockable {
 
 	}
 
+	@Override
 	public void use(Player player) {
 		if (locked && !open && player != null) {
 			return;
@@ -92,10 +93,12 @@ public class Door implements Item, Lockable {
 		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}
 
+	@Override
 	public boolean isLocked() {
 		return locked;
 	}
 
+	@Override
 	public boolean unlock(boolean hasKey) {
 		if (hasKey) {
 			locked = false;
@@ -117,6 +120,7 @@ public class Door implements Item, Lockable {
 		return y;
 	}
 
+	@Override
 	public boolean occupiable() {
 		return occupiable;
 	}
@@ -145,6 +149,7 @@ public class Door implements Item, Lockable {
 		return 0;
 	}
 
+	@Override
 	public String examine() {
 		if (locked) {
 			return "A locked door. Maybe a key could open it";

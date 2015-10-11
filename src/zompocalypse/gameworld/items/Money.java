@@ -3,8 +3,6 @@ package zompocalypse.gameworld.items;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.List;
-import java.util.Map;
-
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -66,6 +64,7 @@ public class Money implements Item {
 		return 0;
 	}
 	
+	@Override
 	public boolean occupiable(){
 		return true;
 	}

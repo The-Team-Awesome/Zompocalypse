@@ -8,6 +8,7 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import zompocalypse.controller.RunningServer;
 import zompocalypse.gameworld.world.World;
@@ -51,7 +52,7 @@ public class ServerPanel extends JPanel {
 		field.setText(content);
 
 		JScrollPane scroller = new JScrollPane(field);
-		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroller.setPreferredSize(new Dimension(800, 600));
 
 		constraints.insets = buttonsInset;

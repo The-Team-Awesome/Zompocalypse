@@ -4,12 +4,9 @@ import java.awt.Graphics;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import zompocalypse.gameworld.Drawable;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
@@ -79,10 +76,12 @@ public class Container implements Item, Lockable{
 		this.uid = uid;
 	}
 
+	@Override
 	public void use(Player player){
 		open(player);
 	}
 
+	@Override
 	public boolean movable() {
 		return movable;
 	}
@@ -100,6 +99,7 @@ public class Container implements Item, Lockable{
 		return heldItems;
 	}
 	
+	@Override
 	public boolean occupiable(){
 		//It makes sense if you cant move an item, 
 		//you also can't occupy the same floor space (too big)
@@ -202,6 +202,7 @@ public class Container implements Item, Lockable{
 		g.drawImage(currentImage.getImage(), x, y, null);
 	}
 
+	@Override
 	public int getUniqueID() {
 		return uid;
 	}
@@ -226,6 +227,7 @@ public class Container implements Item, Lockable{
 		return false;
 	}
 
+	@Override
 	public String examine(){
 		return description;
 	}

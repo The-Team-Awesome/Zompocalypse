@@ -1,7 +1,5 @@
 package zompocalypse.gameworld.items;
 
-import java.util.Map;
-
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 

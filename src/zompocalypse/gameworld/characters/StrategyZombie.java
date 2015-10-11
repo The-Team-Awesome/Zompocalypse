@@ -2,13 +2,9 @@ package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
-
-import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
-import zompocalypse.ui.rendering.ImageUtils;
 
 public class StrategyZombie extends MovingCharacter {
 
@@ -41,6 +37,7 @@ public class StrategyZombie extends MovingCharacter {
 		this.ori = queued;
 	}
 
+	@Override
 	public void draw(int realx, int realy, Graphics g,
 			Orientation worldOrientation) {
 		super.draw(realx, realy, OFFSETY, g, worldOrientation);

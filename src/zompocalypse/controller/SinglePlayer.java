@@ -3,11 +3,6 @@ package zompocalypse.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-
-import javax.swing.KeyStroke;
-
-import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
 import zompocalypse.ui.appwindow.UICommand;
@@ -64,7 +59,7 @@ public class SinglePlayer extends GameListener {
 
 		} else if(code == KeyEvent.VK_E || code == KeyEvent.VK_SPACE) { // player uses
 			game.processCommand(id, UICommand.USE.getValue());
-		} else if ((code == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+		} else if ((code == KeyEvent.VK_S) && ((e.getModifiers() & InputEvent.CTRL_MASK) != 0)) {
 			frame.processCommand(id, UICommand.OPTIONS.getValue());
 
 		} else if (code == KeyEvent.VK_COMMA) {

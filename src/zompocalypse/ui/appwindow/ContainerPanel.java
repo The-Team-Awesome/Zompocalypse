@@ -3,8 +3,6 @@ package zompocalypse.ui.appwindow;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javafx.beans.binding.SetBinding;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;

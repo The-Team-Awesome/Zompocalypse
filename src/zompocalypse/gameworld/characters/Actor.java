@@ -83,6 +83,7 @@ public abstract class Actor implements GameObject {
 	 * Get character's name
 	 * @return
 	 */
+	@Override
 	public String getFileName() {
 		return this.filename;
 	}

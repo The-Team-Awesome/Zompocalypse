@@ -14,7 +14,6 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.HomerStrategy;
-import zompocalypse.gameworld.characters.MovingCharacter;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.characters.RandomStrategy;
 import zompocalypse.gameworld.characters.Strategy;
@@ -78,7 +77,7 @@ public class World implements Serializable {
 		this.orientation = Orientation.NORTH;
 		this.zombieSpawnPoints = zombieSpawnPoints;
 		this.playerSpawnPoints = playerSpawnPoints;
-		this.id = id;
+		World.id = id;
 	}
 
 	/**
@@ -303,17 +302,6 @@ public class World implements Serializable {
 	public synchronized void processCommand(int id, String key) {
 		// System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
-
-		/**
-		 * TODO: From Sam. This breaks the networked element of the game. The
-		 * reason it breaks is because the world and the renderer are supposed
-		 * to be decoupled from each other, since the world is persistent across
-		 * all clients but each client has a unique renderer and view of the
-		 * world. A better solution to this problem would be to store the
-		 * orientation on each unique player and get it from them. Until this is
-		 * solved, my beautiful networking won't be able to work :(
-		 */
-
 		// Remember that key is a String, so call .equals() instead of ==
 
 		if (key.equals(UICommand.NORTH.getValue())) {
@@ -354,7 +342,6 @@ public class World implements Serializable {
 					return;
 				}
 			}
-
 			// Then, if no objects were used before, process any in front of the
 			// player
 			for (GameObject o : player.getObjectsInfront()) {
@@ -383,10 +370,8 @@ public class World implements Serializable {
 		} else if(key.equals(UICommand.BACKPACK.getValue())) {
 			player.useQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
-			//this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
 			orientation = Orientation.getPrev(orientation);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-			//this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
 			orientation = Orientation.getNext(orientation);
 		}
 	}

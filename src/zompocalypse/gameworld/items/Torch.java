@@ -2,8 +2,6 @@ package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.Map;
-
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -44,6 +42,7 @@ public class Torch implements Item {
 
 	}
 	
+	@Override
 	public boolean occupiable(){
 		return true;
 	}
