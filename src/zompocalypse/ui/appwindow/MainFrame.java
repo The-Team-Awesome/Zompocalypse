@@ -81,6 +81,8 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
+		
+		ContainerPanel.setupContainerPanel(action);
 
 		// creating default panel which uses cards
 		layout = new CardLayout();
@@ -303,6 +305,8 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
+		
+		ContainerPanel.setupContainerPanel(action);
 	}
 
 	/**
@@ -317,7 +321,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		Player player = (Player) game.getCharacterByID(id);
 		List<Item> objects = player.getInventory();
 
-		ContainerPanel inventory = new ContainerPanel(objects, action);
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(objects, UICommand.USEITEM.getValue());
 
 		String[] options = {"Use"};
 

@@ -19,6 +19,7 @@ public enum UICommand {
 	EXAMINE("Examine"),
 	PICKUP("PickUp"),
 	USEITEM("use-"),
+	TAKEITEM("take-"),
 	BACKPACK("Backpack"),
 	SINGLEPLAYER("SinglePlayer"),
 	MULTIPLAYER("Multiplayer"),

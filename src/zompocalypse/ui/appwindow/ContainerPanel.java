@@ -19,28 +19,39 @@ import zompocalypse.ui.appwindow.custom.ZRadioButton;
  *
  */
 public class ContainerPanel extends JPanel {
+	
+	private static ActionListener constanctAction;
+	
 	private ActionListener action;
 	private List<? extends GameObject> objects;
 
-	public ContainerPanel(List<? extends GameObject> objects, ActionListener action) {
+	private ContainerPanel(List<? extends GameObject> objects, ActionListener action, String key) {
 		super();
 		this.objects = objects;
 		this.action = action;
 
-		this.arrangeComponents();
+		this.arrangeComponents(key);
+	}
+	
+	public static void setupContainerPanel(ActionListener action) {
+		constanctAction = action;
+	}
+	
+	public static ContainerPanel getContainerPanel(List<? extends GameObject> objects, String key) {
+		return new ContainerPanel(objects, constanctAction, key);
 	}
 
 	/**
 	 * Sets and arranges position of components into the content panel.
 	 */
-	public void arrangeComponents() {
+	public void arrangeComponents(String key) {
 		ButtonGroup options = new ButtonGroup();
 
 		for (GameObject object : objects) {
 			if (object instanceof Item) {
 				Item item = (Item) object;
 				JRadioButton button = new ZRadioButton(object, action);
-				button.setActionCommand(UICommand.USEITEM.getValue() + Integer.toString(item.getUniqueID()));
+				button.setActionCommand(key + Integer.toString(item.getUniqueID()));
 				add(button, null);
 				options.add(button);
 			}

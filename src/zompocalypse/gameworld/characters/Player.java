@@ -34,6 +34,7 @@ public final class Player extends MovingCharacter {
 	private final int OFFSETY = -20;
 
 	private Item queuedUse;
+	private Item queuedTake;
 
 	// This is the currently equipped Item
 	private Weapon equipped;

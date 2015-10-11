@@ -3,6 +3,7 @@ package zompocalypse.gameworld.world;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -352,6 +353,8 @@ public class World implements Serializable {
 			player.use();
 		} else if (key.contains(UICommand.USEITEM.getValue())) {
 			useItem(player, key);
+		} else if(key.contains(UICommand.TAKEITEM.getValue())) {
+			takeItem(player, key);
 		} else if(key.equals(UICommand.BACKPACK.getValue())) {
 			player.useQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
@@ -377,6 +380,34 @@ public class World implements Serializable {
 		player.queueItem(using);
 	}
 
+	private void takeItem(Player player, String key){
+		String trimmed = key.replace(UICommand.TAKEITEM.getValue(), "");
+		int itemId = Integer.parseInt(trimmed);
+		
+		PriorityQueue<GameObject> objects = player.getObjectsInfront();
+		for(GameObject object : objects) {
+			if(object instanceof Item) {
+				if(object instanceof Container) {
+					Container container = (Container) object;
+					List<Item> items = container.getHeldItems();
+					Iterator<Item> iterator = items.iterator();
+					Item next = iterator.next();
+					
+					while(iterator.hasNext()) {
+						if(next.getUniqueID() == itemId) {
+							items.remove(next);
+							next.use(player);
+							return;
+						}
+						next =  iterator.next();
+					}
+				}
+			}
+		}
+		
+		//System.out.println("taken: " + trimmed);
+	}
+	
 	// ***********************************************
 	// End of Networking Methods
 	// ***********************************************

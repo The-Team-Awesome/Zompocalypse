@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -12,6 +13,7 @@ import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.ui.appwindow.ContainerPanel;
+import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
@@ -91,8 +93,10 @@ public class Container implements Item, Lockable{
 		// It will need a valid action handler to pass to the ContainerPane,
 		// need to think about where this will come from!
 		int id = player.getUid();
-		ContainerPanel inventory = new ContainerPanel(this.heldItems, null);
-		JOptionPane.showMessageDialog(null, inventory, name, JOptionPane.PLAIN_MESSAGE);
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(this.heldItems, UICommand.TAKEITEM.getValue());
+		
+		String[] options = {"Take"};
+		JOptionPane.showOptionDialog(null, inventory, name, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 	}
 
 	public List<Item> getHeldItems() {
