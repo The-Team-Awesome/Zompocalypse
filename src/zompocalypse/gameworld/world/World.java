@@ -313,7 +313,6 @@ public class World implements Serializable {
 		 * orientation on each unique player and get it from them. Until this is
 		 * solved, my beautiful networking won't be able to work :(
 		 */
-		Orientation cameraDirection = player.getCurrentOrientation();
 
 		// Remember that key is a String, so call .equals() instead of ==
 
@@ -321,28 +320,26 @@ public class World implements Serializable {
 			if (editMode) {
 				editor.y--;
 			} else {
-				player.move(Orientation.NORTH, cameraDirection);
+				player.move(Orientation.NORTH, orientation);
 			}
 		} else if (key.equals(UICommand.SOUTH.getValue())) {
 			if (editMode) {
 				editor.y++;
 			} else {
-				player.move(Orientation.SOUTH, cameraDirection);
+				player.move(Orientation.SOUTH, orientation);
 			}
 		} else if (key.equals(UICommand.EAST.getValue())) {
 			if (editMode) {
 				editor.x++;
 			} else {
-				player.move(Orientation.WEST, cameraDirection); // TODO This is
-																// wrong! Should
-																// be 'east' not
-			} // 'west'??? But it works :(
+				player.move(Orientation.WEST, orientation); 
+			} 
 		} else if (key.equals(UICommand.WEST.getValue())) {
 			if (editMode) {
 				editor.x--;
 			} else {
-				player.move(Orientation.EAST, cameraDirection); // TODO This is
-			} // also wrong!
+				player.move(Orientation.EAST, orientation);
+			} 
 		} else if (key.equals(UICommand.ITEMONE.getValue())) {
 			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
@@ -386,9 +383,11 @@ public class World implements Serializable {
 		} else if(key.equals(UICommand.BACKPACK.getValue())) {
 			player.useQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
-			this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
+			//this.rotatePlayerPerspective(id, Direction.ANTICLOCKWISE);
+			orientation = Orientation.getPrev(orientation);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-			this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
+			//this.rotatePlayerPerspective(id, Direction.CLOCKWISE);
+			orientation = Orientation.getNext(orientation);
 		}
 	}
 

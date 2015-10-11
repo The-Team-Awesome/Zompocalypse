@@ -88,21 +88,25 @@ public abstract class MovingCharacter extends Actor {
 			newX = xCoord;
 			newY = yCoord -1;
 			ori = queued;
+			orientation = queued;
 		}
 		else if(queued == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
 			ori = queued;
+			orientation = queued;
 		}
 		else if(queued == Orientation.EAST) {
 			newX = xCoord + 1;
 			newY = yCoord;
 			ori = queued;
+			orientation = queued;
 		}
 		else if(queued == Orientation.WEST) {
 			newX = xCoord - 1;
 			newY = yCoord;
 			ori = queued;
+			orientation = queued;
 		}
 		else {
 			throw new IllegalStateException();

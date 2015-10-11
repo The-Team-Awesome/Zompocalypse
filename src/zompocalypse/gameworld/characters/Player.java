@@ -211,8 +211,11 @@ public final class Player extends MovingCharacter {
 	 * @param north
 	 * @param cameraDirection //TODO
 	 */
-	public void move(Orientation north, Orientation cameraDirection) {
-		Orientation ori = Orientation.getCharacterOrientation(north, cameraDirection);
+	public void move(Orientation dir, Orientation cameraDirection) {
+		Orientation ori = Orientation.getCharacterOrientation(dir, cameraDirection);
+		System.out.println("Player Move. Dir = " + dir.toString());
+		System.out.println("Player Move. Camera = " + cameraDirection.toString());
+		System.out.println("Player Move. New Dir = " + ori.toString());
 		switch (ori) {
 		case NORTH:
 			this.moveNorth();

@@ -31,7 +31,7 @@ public abstract class Actor implements GameObject {
 	private String[] filenames;
 	private ImageIcon[] images;
 	private ImageIcon currentImage;
-	private Orientation orientation;  //
+	protected Orientation orientation;  //
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character
@@ -41,7 +41,7 @@ public abstract class Actor implements GameObject {
 
 		this.game = game;
 
-		this.orientation = Orientation.NORTH;
+		this.orientation = direction;
 		this.filenames = filenames;
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
@@ -115,7 +115,7 @@ public abstract class Actor implements GameObject {
 	 */
 	public void draw(int realx, int realy, int offsetY, Graphics g, Orientation worldOrientation) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		Orientation ord = Orientation.getCharacterOrientation(queued,
+		Orientation ord = Orientation.getCharacterOrientation(orientation,
 				worldOrientation);
 
 		currentImage = imu.getCurrentImageForOrientation(ord, images);

@@ -47,7 +47,7 @@ public class RenderPanel extends JPanel {
 	private final int FLOOR_TILE_HEIGHT = 42;
 	Floor blankTile;
 
-	private Orientation currentOrientation = Orientation.NORTH;
+	private Orientation currentOrientation;
 
 	/**
 	 * Constructor. Takes the height and width of the canvas into account.
@@ -59,6 +59,7 @@ public class RenderPanel extends JPanel {
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
+		this.currentOrientation = game.getOrientation();
 		this.id = id;
 		centreX = game.getPlayer(id).getX();
 		centreY = game.getPlayer(id).getY();
@@ -96,23 +97,7 @@ public class RenderPanel extends JPanel {
 	 * counterpart.
 	 */
 	private void updateCurrentOrientationClockwise() {
-		switch (currentOrientation) {
-		case NORTH:
-			currentOrientation = Orientation.EAST;
-			return;
-		case SOUTH:
-			currentOrientation = Orientation.WEST;
-			return;
-		case EAST:
-			currentOrientation = Orientation.SOUTH;
-			return;
-		case WEST:
-			currentOrientation = Orientation.NORTH;
-			return;
-		default:
-			throw new IllegalArgumentException(
-					"Current orientation is incorrect");
-		}
+		currentOrientation = Orientation.getNext(currentOrientation);
 	}
 
 	/**
@@ -120,23 +105,7 @@ public class RenderPanel extends JPanel {
 	 * counterpart.
 	 */
 	private void updateCurrentOrientationAntiClockwise() {
-		switch (currentOrientation) {
-		case NORTH:
-			currentOrientation = Orientation.WEST;
-			return;
-		case SOUTH:
-			currentOrientation = Orientation.EAST;
-			return;
-		case EAST:
-			currentOrientation = Orientation.NORTH;
-			return;
-		case WEST:
-			currentOrientation = Orientation.SOUTH;
-			return;
-		default:
-			throw new IllegalArgumentException(
-					"Current orientation is incorrect");
-		}
+		currentOrientation = Orientation.getPrev(currentOrientation);
 	}
 
 	/**
