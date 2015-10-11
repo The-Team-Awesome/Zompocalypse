@@ -97,6 +97,7 @@ public class Container implements Item, Lockable{
 		
 		String[] options = {"Take"};
 		JOptionPane.showOptionDialog(null, inventory, name, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		player.getWorld().processCommand(id, UICommand.CONTAINER.getValue());
 	}
 
 	public List<Item> getHeldItems() {

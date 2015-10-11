@@ -21,6 +21,7 @@ public enum UICommand {
 	USEITEM("use-"),
 	TAKEITEM("take-"),
 	BACKPACK("Backpack"),
+	CONTAINER("Chest"),
 	SINGLEPLAYER("SinglePlayer"),
 	MULTIPLAYER("Multiplayer"),
 	SERVER("Server"),

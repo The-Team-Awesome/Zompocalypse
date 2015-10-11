@@ -87,6 +87,16 @@ public final class Player extends MovingCharacter {
 		}
 		queuedUse = null;
 	}
+	
+	public void takeQueued() {
+		if(queuedTake != null){
+			queuedTake.use(this);
+			queuedContainer.getHeldItems().remove(queuedTake);
+		}
+		
+		queuedTake = null;
+		queuedContainer = null;
+	}
 
 	/**
 	 * Get this players score.

@@ -357,6 +357,8 @@ public class World implements Serializable {
 			takeItem(player, key);
 		} else if(key.equals(UICommand.BACKPACK.getValue())) {
 			player.useQueued();
+		} else if(key.equals(UICommand.CONTAINER.getValue())) {
+			player.takeQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			orientation = Orientation.getPrev(orientation);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
