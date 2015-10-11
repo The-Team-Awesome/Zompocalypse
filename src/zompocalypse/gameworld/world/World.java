@@ -38,6 +38,9 @@ public class World implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
+	
+	//increments every game tick
+	private static int tickTimer;
 
 	private static int id;
 	private Floor clipboardFloor;
@@ -89,6 +92,14 @@ public class World implements Serializable {
 		for (Actor actor : idToActor.values()) {
 			actor.tick(this);
 		}
+		if (tickTimer % 100 == 0){
+			spawnZombie(new RandomStrategy());
+		}
+		if (tickTimer % 200 == 0){
+			spawnZombie(new HomerStrategy());
+		}
+		
+		tickTimer++;
 	}
 
 	/**
@@ -239,9 +250,6 @@ public class World implements Serializable {
 				"Bibbly Bob", filenames, this);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
-
-		spawnZombie(new RandomStrategy());
-		spawnZombie(new HomerStrategy());
 		
 		return player.getUid();
 	}
@@ -251,6 +259,7 @@ public class World implements Serializable {
 		for (Point p : zombieSpawnPoints) {
 			x = p.x;
 			y = p.y;
+			System.out.println(p.toString());
 		}
 
 		String[] filenames = { "npc_zombie_n.png",
