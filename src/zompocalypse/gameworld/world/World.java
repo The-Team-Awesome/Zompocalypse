@@ -395,8 +395,7 @@ public class World implements Serializable {
 					
 					while(iterator.hasNext()) {
 						if(next.getUniqueID() == itemId) {
-							items.remove(next);
-							next.use(player);
+							player.queueTake(next, container);
 							return;
 						}
 						next =  iterator.next();
@@ -404,8 +403,6 @@ public class World implements Serializable {
 				}
 			}
 		}
-		
-		//System.out.println("taken: " + trimmed);
 	}
 	
 	// ***********************************************

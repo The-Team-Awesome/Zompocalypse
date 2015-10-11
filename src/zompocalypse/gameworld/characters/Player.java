@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Money;
@@ -35,6 +36,7 @@ public final class Player extends MovingCharacter {
 
 	private Item queuedUse;
 	private Item queuedTake;
+	private Container queuedContainer;
 
 	// This is the currently equipped Item
 	private Weapon equipped;
@@ -72,6 +74,11 @@ public final class Player extends MovingCharacter {
 
 	public void queueItem(Item item) {
 		queuedUse = item;
+	}
+	
+	public void queueTake(Item item, Container container) {
+		queuedTake = item;
+		queuedContainer = container;
 	}
 
 	public void useQueued() {
