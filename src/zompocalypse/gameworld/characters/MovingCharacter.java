@@ -28,7 +28,7 @@ public abstract class MovingCharacter extends Actor {
 	public MovingCharacter(int uid, World game, int xCoord, int yCoord, Orientation direction,
 			String[] filenames) {
 		super(uid, game, xCoord, yCoord, direction, filenames);
-
+		ori = direction;
 		this.moving = false;
 	}
 

@@ -29,11 +29,6 @@ public class RandomStrategy implements Strategy{
 			return;
 		}
 		Orientation direction = zombie.ori;
-		if (direction == null){
-			//TODO debug this. zombie.ori somehow null????
-			System.out.println("ZOMBIE ORIENTATION NULL!!! DEFAULTED TO NORTH");
-			direction = Orientation.NORTH;			
-		}
 		
 		int choice = random.nextInt(3);
 		for(int i = 0; i < choice; i++){
