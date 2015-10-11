@@ -1,8 +1,10 @@
 package zompocalypse.gameworld.characters;
 
+import java.io.Serializable;
+
 import zompocalypse.gameworld.world.World;
 
-public interface Strategy {
+public interface Strategy extends Serializable {
 
 	public ActorType type();
 

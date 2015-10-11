@@ -95,9 +95,10 @@ public class Server extends Thread {
 			socket.close();
 
 		} catch (IOException e) {
-			panel.updateContent("Player " + id + " has disconnected");
-			game.disconnectPlayer(id);
-			// TODO: handle removal of Player from game
+			//e.printStackTrace();
+			panel.updateContent(e.getMessage());
+			/*panel.updateContent("Player " + id + " has disconnected");
+			game.disconnectPlayer(id);*/
 		}
 
 	}

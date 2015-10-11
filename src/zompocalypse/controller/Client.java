@@ -62,8 +62,9 @@ public class Client extends GameListenerThread {
 			objectInput = new ObjectInputStream(input);
 			game = (World) objectInput.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Problem connect to Server, closing down Client");
-			System.exit(-1);
+			e.printStackTrace();
+			//System.out.println("Problem connect to Server, closing down Client");
+			//System.exit(-1);
 		}
 	}
 
@@ -95,8 +96,9 @@ public class Client extends GameListenerThread {
 			socket.close();
 
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Server disconnected, closing down Client");
-			System.exit(-1);
+			e.printStackTrace();
+			/*System.out.println("Server disconnected, closing down Client");
+			System.exit(-1);*/
 		}
 
 	}

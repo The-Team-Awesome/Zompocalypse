@@ -196,7 +196,10 @@ public class Container implements Item, Lockable{
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		// TODO Auto-generated method stub
+		if(imu == null) {
+			imu = ImageUtils.getImageUtilsObject();
+		}
+		
 		if (open) {
 			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
 					imagesOpen);

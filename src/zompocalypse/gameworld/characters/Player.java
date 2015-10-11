@@ -89,6 +89,9 @@ public final class Player extends MovingCharacter {
 	}
 	
 	public void takeQueued() {
+		
+		System.out.println("yes");
+		
 		if(queuedTake != null){
 			queuedTake.use(this);
 			queuedContainer.getHeldItems().remove(queuedTake);

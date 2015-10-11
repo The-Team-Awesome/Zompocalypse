@@ -70,9 +70,18 @@ public class HomerStrategy implements Strategy {
 		}
 	}
 	
-	private Orientation getPreferedDirection(World game, StrategyZombie zombie){		
-		int xdist = zombie.getX() - target.getX();
-		int ydist = zombie.getY() - target.getY();
+	private Orientation getPreferedDirection(World game, StrategyZombie zombie){	
+		
+		int xdist;
+		int ydist;
+		
+		if(target != null) {
+			xdist = zombie.getX() - target.getX();
+			ydist = zombie.getY() - target.getY();
+		} else {
+			xdist = 1;
+			ydist = 1;
+		}
 		
 		//try make some smart choices before defaulting
 		if(Math.abs(xdist) > Math.abs(ydist)){

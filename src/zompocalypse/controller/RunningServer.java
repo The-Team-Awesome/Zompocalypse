@@ -92,11 +92,11 @@ public class RunningServer extends Thread {
 		// TODO: the getPublicIp() method currently fails because it can't reach
 		// the url to get a public IP from. Not sure how to fix this, it seems
 		// like it is being blocked by a firewall. Will test at home!
-		String ip = getPublicIp();
+		/*String ip = getPublicIp();
 
 		if(ip != null) {
 			panel.updateContent("Server running on IP: " + ip);
-		}
+		}*/
 		panel.updateContent("Server listening on port " + port);
 		panel.updateContent("Server awaiting " + numClients + " clients");
 
