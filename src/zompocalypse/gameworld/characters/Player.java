@@ -206,7 +206,7 @@ public final class Player extends MovingCharacter {
 	 * Moves the camera.
 	 *
 	 * @param north
-	 * @param cameraDirection //TODO
+	 * @param cameraDirection 
 	 */
 	public void move(Orientation dir, Orientation cameraDirection) {
 		Orientation ori = Orientation.getCharacterOrientation(dir, cameraDirection);

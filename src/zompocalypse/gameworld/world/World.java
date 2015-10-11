@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Random;
 import java.util.Set;
 
 import zompocalypse.datastorage.WorldBuilder;
@@ -91,10 +92,10 @@ public class World implements Serializable {
 		for (Actor actor : idToActor.values()) {
 			actor.tick(this);
 		}
-		if (tickTimer % 100 == 0){
+		if (tickTimer % 10 == 0){
 			spawnZombie(new RandomStrategy());
 		}
-		if (tickTimer % 200 == 0){
+		if (tickTimer % 20 == 0){
 			spawnZombie(new HomerStrategy());
 		}		
 		tickTimer++;
@@ -229,7 +230,7 @@ public class World implements Serializable {
 	 */
 	public synchronized int registerPlayer() {
 		// A new player has been added
-		int x = 1, y = 1;
+		int x = width/2, y = height/2;
 
 		for (Point p : playerSpawnPoints) {
 			x = p.x;
@@ -254,6 +255,27 @@ public class World implements Serializable {
 
 	public void spawnZombie(Strategy strat){
 		int x = 1, y = 1;
+		Random rand = new Random(System.currentTimeMillis());
+		int choice = rand.nextInt(4);
+		
+		switch (choice) {
+		case 0:
+			x = 1;
+			y = 1;
+			break;
+		case 1:
+			x = width - 2;
+			y = 1;
+			break;
+		case 2:
+			x = width - 2;
+			y = height - 2;
+			break;
+		case 3:
+			x = 1;
+			y = height - 2;
+			break;
+		}
 		for (Point p : zombieSpawnPoints) {
 			x = p.x;
 			y = p.y;
