@@ -40,6 +40,7 @@ public class Loader {
 
 	public static final String mapFile = "map.xml";
 	public static final String testFile = "Test_Suite_Map.xml";
+	public static final String defaultEquipped = "fist.png";
 	public static final char separator = '/';
 
 	/**

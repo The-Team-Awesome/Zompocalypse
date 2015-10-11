@@ -2,6 +2,7 @@ package zompocalypse.ui.appwindow;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel {
 	private RenderPanel renderingPanel;
 
 	// menuPanel components
+	private ImageIcon itemImage;
 	private JLabel lblItem;
 	private JLabel lblBackpack;
 	private ZButton btnBackpack;
@@ -141,8 +143,12 @@ public class GamePanel extends JPanel {
 		this.menuPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c =  new GridBagConstraints();
 		int positionY = 0;
-
-		ImageIcon itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+		
+		if(player.getEquipped() != null) {
+			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+		} else {
+			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
+		}
 
 
 		Insets bottomInset = new Insets(0, 0, 40, 0);
@@ -194,11 +200,11 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnUse, c);
 
 		// BACKPACK HUB
-		lblItem = new JLabel("Backpack HUB");
+		lblBackpack = new JLabel("Backpack HUB");
 		c.gridx = 1;
 		c.gridy = positionY++;
 		c.insets = generalInset;
-		menuPanel.add(lblItem, c);
+		menuPanel.add(lblBackpack, c);
 
 		ImageIcon iconItemOne = new ImageIcon(ITEM);
 		btnItemOne = new ZButton(iconItemOne);
@@ -305,6 +311,19 @@ public class GamePanel extends JPanel {
 		c.insets = generalInset;
 		menuPanel.add(minimapPanel, c);*/
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		player = game.getPlayer(id);
+		
+		if(player.getEquipped() != null) {
+			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+		} else {
+			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
+		}
+		
+		lblItem.setIcon(itemImage);
+	}
 
 	/**
 	 * Updates the World for visualization at the renderingPanel.
@@ -313,6 +332,7 @@ public class GamePanel extends JPanel {
 	 */
 	public void updateGame(World game) {
 		this.game = game;
+		
 		renderingPanel.updateGame(game);
 	}
 

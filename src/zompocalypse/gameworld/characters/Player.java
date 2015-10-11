@@ -62,11 +62,11 @@ public final class Player extends MovingCharacter {
 
 		// TODO: This is just temporary, adding objects to the Players
 		// inventory so something is visible when viewing their backpack
-		inventory.add(new Key("gold_key_inv.png", 1));
+		/*inventory.add(new Key("gold_key_inv.png", 1));
 		inventory.add(new Key("gold_key_inv.png", 2));
 		inventory.add(new Torch("torch.png", 3));
-		inventory.add(new Money("coins_gold.png", 4, 10));
-		equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
+		inventory.add(new Money("coins_gold.png", 4, 10));*/
+		//equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
 	}
 
 	public void queueItem(Item item) {
@@ -77,6 +77,7 @@ public final class Player extends MovingCharacter {
 		if(queuedUse != null){
 			queuedUse.use(this);
 		}
+		queuedUse = null;
 	}
 
 	/**
@@ -194,6 +195,10 @@ public final class Player extends MovingCharacter {
 	 */
 	public Weapon getEquipped() {
 		return equipped;
+	}
+	
+	public void setEquipped(Weapon weapon) {
+		this.equipped = weapon;
 	}
 
 	/**

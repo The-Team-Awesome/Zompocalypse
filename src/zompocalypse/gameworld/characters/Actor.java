@@ -104,7 +104,7 @@ public abstract class Actor implements GameObject {
 	 * Returns the world
 	 * @return
 	 */
-	protected World getWorld() {
+	public World getWorld() {
 		return game;
 	}
 

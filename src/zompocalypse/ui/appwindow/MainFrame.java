@@ -113,60 +113,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 * Creates a frame that holds a World.
-	 *
-	 * @param id
-	 * @param game
-	 * @param listener
-	 */
-	public MainFrame(int id, World game, EventListener listener) {
-		super("Zompocalypse");
-
-		// Set up the given EventListener to process Key, Mouse and Action
-		// events
-		if (listener instanceof KeyListener) {
-			KeyListener key = (KeyListener) listener;
-			addKeyListener(key);
-		}
-
-		if (listener instanceof MouseListener) {
-			MouseListener mouse = (MouseListener) listener;
-			System.out.println(mouse);
-			addMouseListener(mouse);
-		}
-
-		if (listener instanceof ActionListener) {
-			action = (ActionListener) listener;
-		}
-
-		// creating default panel which uses cards
-		layout = new CardLayout();
-		cards = new JPanel(layout);
-
-		// adding GameScreen to content
-		gameCard = new GamePanel(id, game, action);
-		startCard = new StartPanel(action);
-		clientCard = new ClientPanel(action);
-		cards.add(gameCard, "1");
-		cards.add(startCard, "2");
-		cards.add(clientCard, "3");
-
-		// setting GameScreen to be the first thing to show up
-		layout.show(cards, "2");
-
-		// setting content as default content for this frame
-
-		setContentPane(cards);
-
-		customizeWindow();
-
-		setLocationRelativeTo(null); // center the screen
-
-		// TODO: From Sam. This is not always called successfully...
-		// this.requestFocus();
-	}
-
-	/**
 	 * Apply settings to this frame.
 	 */
 	private void customizeWindow() {
