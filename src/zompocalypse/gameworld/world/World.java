@@ -137,10 +137,6 @@ public class World implements Serializable {
 		return orientation;
 	}
 
-	private void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
-	}
-
 	public Set<Point> getPlayerSpawnPoints() {
 		return playerSpawnPoints;
 	}
@@ -279,7 +275,6 @@ public class World implements Serializable {
 		for (Point p : zombieSpawnPoints) {
 			x = p.x;
 			y = p.y;
-			System.out.println(p.toString());
 		}
 
 		String[] filenames = { "npc_zombie_n.png",
@@ -321,10 +316,8 @@ public class World implements Serializable {
 	 * @param key
 	 */
 	public synchronized void processCommand(int id, String key) {
-		// System.out.println(id + ", " + key);
 		Player player = (Player) idToActor.get(id);
-		// Remember that key is a String, so call .equals() instead of ==
-
+		
 		if (key.equals(UICommand.NORTH.getValue())) {
 			if (editMode) {
 				editor.y--;
@@ -356,45 +349,32 @@ public class World implements Serializable {
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
 			// TODO: Make this do something!
 		} else if (key.equals(UICommand.USE.getValue())) {
-			// Process any objects the player is standing on first
-			for (GameObject o : player.getObjectsHere()) {
-				if (o instanceof Item) {
-					((Item) o).use(player);
-					return;
-				}
-			}
-			// Then, if no objects were used before, process any in front of the
-			// player
-			for (GameObject o : player.getObjectsInfront()) {
-				if(o instanceof StrategyZombie) {
-					StrategyZombie zombie = (StrategyZombie) o;
-					int damage = player.calculateAttack();
-					zombie.damaged(damage);
-				} else if (o instanceof Item) {
-					((Item) o).use(player);
-					return;
-				}
-			}
+			player.use();
 		} else if (key.contains(UICommand.USEITEM.getValue())) {
-			String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
-			int itemId = Integer.parseInt(trimmed);
-			List<Item> inventory = player.getInventory();
-			Item using = null;
-
-			for (Item i : inventory) {
-				if (i.getUniqueID() == itemId) {
-					using = i;
-				}
-			}
-
-			player.queueItem(using);
+			useItem(player, key);
 		} else if(key.equals(UICommand.BACKPACK.getValue())) {
 			player.useQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			orientation = Orientation.getPrev(orientation);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			orientation = Orientation.getNext(orientation);
+		} else if (key.equals(UICommand.PICKUP.getValue())) {
+			//TODO pick up item
 		}
+	}
+	
+	private void useItem(Player player, String key){
+		String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
+		int itemId = Integer.parseInt(trimmed);
+		List<Item> inventory = player.getInventory();
+		Item using = null;
+
+		for (Item i : inventory) {
+			if (i.getUniqueID() == itemId) {
+				using = i;
+			}
+		}
+		player.queueItem(using);
 	}
 
 	// ***********************************************

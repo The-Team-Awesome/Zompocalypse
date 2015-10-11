@@ -155,12 +155,6 @@ public final class Player extends MovingCharacter {
 
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
-		// Hi, I'm Sam. I changed orientation to queued here because that
-		// represents the players actual direction. It may be that orientation
-		// was added as a double up, because MovingCharacter also has an
-		// orientation field. I'd like to suggest queued is renamed to direction,
-		// because it represents what it is more accurately :)
-
 		if (getOrientation() == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
 		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
@@ -223,6 +217,28 @@ public final class Player extends MovingCharacter {
 		case WEST:
 			this.moveWest();
 			break;
+		}
+	}
+	
+	public void use(){
+		// Process any objects the player is standing on first
+		for (GameObject o : getObjectsHere()) {
+			if (o instanceof Item) {
+				((Item) o).use(this);
+				return;
+			}
+		}
+		// Then, if no objects were used before, process any in front of the
+		// player
+		for (GameObject o : getObjectsInfront()) {
+			if(o instanceof StrategyZombie) {
+				StrategyZombie zombie = (StrategyZombie) o;
+				int damage = calculateAttack();
+				zombie.damaged(damage);
+			} else if (o instanceof Item) {
+				((Item) o).use(this);
+				return;
+			}
 		}
 	}
 
