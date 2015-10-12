@@ -246,6 +246,9 @@ public class Container implements Item, Lockable{
 		return open;
 	}
 
+	/**
+	 * Returns the name of this object as a String
+	 */
 	public String getName() {
 		return name;
 	}
@@ -276,6 +279,9 @@ public class Container implements Item, Lockable{
 		}
 	}
 
+	/**
+	 * Returns the object and information about it represented as a String
+	 */
 	@Override
 	public String toString() {
 		return "Container [size=" + size + ", movable=" + movable + ", locked="
