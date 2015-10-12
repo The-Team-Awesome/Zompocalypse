@@ -111,7 +111,7 @@ public class Loader {
 		try {
 			image = ImageIO.read(imageFile);
 		} catch (IOException e) {
-			System.out.println(e);
+			System.out.println("Couldn't load " + filename);
 		}
 
 		return image;
