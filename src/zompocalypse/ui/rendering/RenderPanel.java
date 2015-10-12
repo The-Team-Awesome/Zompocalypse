@@ -128,9 +128,10 @@ public class RenderPanel extends JPanel {
 		Floor[][] tempFloor = tiles;
 		PriorityQueue<GameObject>[][] tempObjects = objects;
 
-		tempFloor = clipFloor(tiles, DRAW_DISTANCE, focusX, focusY);
+		int doubleDrawDist = DRAW_DISTANCE*2;
+		tempFloor = clipFloor(tiles, DRAW_DISTANCE, focusX, focusY, doubleDrawDist);
 		tempObjects = clipObjects(objects, DRAW_DISTANCE, focusX,
-				focusY);
+				focusY, doubleDrawDist);
 
 		tempObjects = rotateObjects(tempObjects);
 		tempFloor = rotateFloor(tempFloor);
@@ -298,10 +299,10 @@ public class RenderPanel extends JPanel {
 	 */
 	private PriorityQueue<GameObject>[][] clipObjects(
 			PriorityQueue<GameObject>[][] objects, int drawDistance,
-			int focusX, int focusY) {
-		PriorityQueue<GameObject>[][] temp = new PriorityQueue[(drawDistance * 2) + 1][(drawDistance * 2) + 1];
-		for (int i = 0; i <= (drawDistance * 2); i++) {
-			for (int j = 0; j <= (drawDistance * 2); j++) {
+			int focusX, int focusY, int doubleDrawDist) {
+		PriorityQueue<GameObject>[][] temp = new PriorityQueue[doubleDrawDist + 1][doubleDrawDist + 1];
+		for (int i = 0; i <= doubleDrawDist; i++) {
+			for (int j = 0; j <= doubleDrawDist; j++) {
 				if (i + focusX - drawDistance < 0
 						|| j + focusY - drawDistance < 0
 						|| i + focusX - objects.length - drawDistance >= 0
@@ -324,10 +325,12 @@ public class RenderPanel extends JPanel {
 	 * @return
 	 */
 	private Floor[][] clipFloor(Floor[][] tiles, int drawDistance,
-			int focusX, int focusY) {
-		Floor[][] temp = new Floor[(drawDistance * 2) + 1][(drawDistance * 2) + 1];
-		for (int i = 0; i <= (drawDistance * 2); i++) {
-			for (int j = 0; j <= (drawDistance * 2); j++) {
+			int focusX, int focusY, int doubleDrawDist) {
+
+
+		Floor[][] temp = new Floor[doubleDrawDist + 1][doubleDrawDist + 1];
+		for (int i = 0; i <= doubleDrawDist; i++) {
+			for (int j = 0; j <= doubleDrawDist; j++) {
 				if (i + focusX - drawDistance < 0
 						|| j + focusY - drawDistance < 0
 						|| i + focusX - tiles.length - drawDistance >= 0
