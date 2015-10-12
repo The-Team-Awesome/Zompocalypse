@@ -38,6 +38,7 @@ public class Parser {
 	 *
 	 * @param mapFile
 	 *            source of CSV document
+	 * @param fileName
 	 * @return new World with width and height and 2D array of Tiles parsed from
 	 *         mapFile
 	 * @throws IOException
