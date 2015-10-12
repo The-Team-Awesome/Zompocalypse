@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -51,6 +52,7 @@ public class GamePanel extends JPanel {
 	private ZButton btnRotateClockwise;
 	private ZButton btnRotateAnticlockwise;
 	private ZButton btnOptions;
+	private JProgressBar progressDamage;
 
 	// dialogPanel components
 	private JTextArea txtDialog;
@@ -147,6 +149,9 @@ public class GamePanel extends JPanel {
 
 		Insets bottomInset = new Insets(0, 0, 40, 0);
 		Insets generalInset = new Insets(0,0,10,0);
+
+		progressDamage = new JProgressBar();
+		// TODO: keep on this thing
 
 		lblItem = new JLabel(itemImage);
 		lblItem.setText("Equipped");
@@ -343,6 +348,27 @@ public class GamePanel extends JPanel {
 		}
 
 		updateDialog(examineText);
+	}
+
+	/**
+	 * Updates player's life/damage.
+	 */
+	private void playersDamage() {
+		// TODO: get the player's damage and send to the progress bar
+	}
+
+	/**
+	 * Updates player's score.
+	 */
+	private void playersScore() {
+		// TODO: get the player's score and send to the progress bar
+	}
+
+	/**
+	 * Ends the game.
+	 */
+	public void endGame() {
+		// TODO: "game over -score" message and closes the client
 	}
 }
 
