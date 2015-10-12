@@ -170,19 +170,21 @@ public class RenderPanel extends JPanel {
 	}
 
 	private void drawObjects(Graphics g, boolean showWalls, PriorityQueue<GameObject>[][] tempObjects, int x, int y, int i,	int j) {
-		if (showWalls) {
-			for (Drawable dd : tempObjects[i][j]) {
-				if (dd != null) {
-					dd.draw(x, y, g, ori);
+		if (!showWalls) {
+			return;
+		}
 
-					if(!(dd instanceof MovingCharacter)){  //If they are not a moving character, nothing else to check for
-						continue;
-					}
-					else {
-						MovingCharacter ch = (MovingCharacter) dd;		//Otherwise, check to see if they were damaged
-						if(ch.tookDamage()){
-							drawDamage(x, y, g);
-						}
+		for (Drawable dd : tempObjects[i][j]) {
+			if (dd != null) {
+				dd.draw(x, y, g, ori);
+
+				if(!(dd instanceof MovingCharacter)){  //If they are not a moving character, nothing else to check for
+					continue;
+				}
+				else {
+					MovingCharacter ch = (MovingCharacter) dd;		//Otherwise, check to see if they were damaged and draw it
+					if(ch.tookDamage()){
+						drawDamage(x, y, g);
 					}
 				}
 			}
