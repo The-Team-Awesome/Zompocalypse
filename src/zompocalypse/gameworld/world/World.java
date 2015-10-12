@@ -395,12 +395,6 @@ public class World implements Serializable {
 			} else {
 				player.move(Orientation.EAST, orientation);
 			}
-		} else if (key.equals(UICommand.ITEMONE.getValue())) {
-			// TODO: Make this do something!
-		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
-			// TODO: Make this do something!
-		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
-			// TODO: Make this do something!
 		} else if (key.equals(UICommand.USE.getValue())) {
 			// The player uses something. This will be whatever
 			// is in front of the player, so its uses are limitless!
