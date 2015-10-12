@@ -15,8 +15,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
@@ -51,7 +53,13 @@ public class GamePanel extends JPanel {
 	private ZButton btnRotateClockwise;
 	private ZButton btnRotateAnticlockwise;
 	private ZButton btnOptions;
+
+	private JProgressBar progressDamage;
+	private ZButton btnExamine;
+	private JLabel lblScore;
+
 	private ZButton btnSavePlayer;
+
 
 	// dialogPanel components
 	private JTextArea txtDialog;
@@ -75,8 +83,6 @@ public class GamePanel extends JPanel {
 	private int id;
 	private Player player;
 	private String dialog = "Welcome to Zompocalypse!\n";
-	private ZButton btnExamine;
-
 
 	public GamePanel(int id, World game, ActionListener action) {
 		this.setSize(1000, 1000);
@@ -149,6 +155,35 @@ public class GamePanel extends JPanel {
 		Insets bottomInset = new Insets(0, 0, 40, 0);
 		Insets generalInset = new Insets(0,0,10,0);
 
+		int minimum = 0;
+	    int maximum = 100;
+		progressDamage = new JProgressBar(minimum, maximum);
+		progressDamage.setStringPainted(true);
+		progressDamage.setString("LIFE");
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 100;
+		c.ipady = 15;
+		c.insets = bottomInset;
+		menuPanel.add(progressDamage, c);
+
+		JPanel scoreDecoration = new JPanel();
+		scoreDecoration.setBackground(CustomUtils.blueBackground);
+		scoreDecoration.setSize(50,50);
+		lblScore = new JLabel();
+		lblScore.setText("Score\n");
+		lblScore.setBackground(CustomUtils.blueBackground);
+		lblScore.setOpaque(true);
+		lblScore.setForeground(CustomUtils.textInButton);
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.weightx = 1.0;
+		c.insets = bottomInset;
+		scoreDecoration.add(lblScore);
+		menuPanel.add(scoreDecoration, c);
+
 		lblItem = new JLabel(itemImage);
 		lblItem.setText("Equipped");
 		c.gridx = 1;
@@ -214,6 +249,7 @@ public class GamePanel extends JPanel {
 		btnNorth.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 1;
 		c.gridy = positionY;
+		c.insets = generalInset;
 		menuPanel.add(btnNorth, c);
 
 		ImageIcon iconClockwise = new ImageIcon(CLOCKWISE);
@@ -277,14 +313,9 @@ public class GamePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		player = game.getPlayer(id);
-
-		if(player.getEquipped() != null) {
-			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
-		} else {
-			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
-		}
-
-		lblItem.setIcon(itemImage);
+		updatePlayersEquipped();
+		updatePlayersDamage();
+		updatePlayersScore();
 	}
 
 	/**
@@ -365,6 +396,41 @@ public class GamePanel extends JPanel {
 		}
 
 		updateDialog(examineText);
+	}
+
+	/**
+	 * Updates player's health display.
+	 */
+	private void updatePlayersDamage() {
+		progressDamage.setValue(player.getHealth());
+	}
+
+	/**
+	 * Updates the equipment being used by the player in the display.
+	 */
+	private void updatePlayersEquipped() {
+		if(player.getEquipped() != null) {
+			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+		} else {
+			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
+		}
+
+		lblItem.setIcon(itemImage);
+	}
+
+	/**
+	 * Updates player's score.
+	 */
+	private void updatePlayersScore() {
+		String scoreText = "Score: "+player.getScore();
+		lblScore.setText(scoreText);
+	}
+
+	/**
+	 * Ends the game.
+	 */
+	public void endGame() {
+		// TODO: "game over -score" message and closes the client
 	}
 }
 

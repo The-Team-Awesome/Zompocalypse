@@ -455,8 +455,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (option == 0) {
 			dispose();
 			System.exit(0);
-			// TODO: Sam, is there anything to do with the server whenever the
-			// windows close?
 		}
 	}
 
