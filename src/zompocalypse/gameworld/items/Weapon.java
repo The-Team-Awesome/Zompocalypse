@@ -1,9 +1,10 @@
 package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.List;
 import java.util.PriorityQueue;
+
+import javax.swing.ImageIcon;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
@@ -21,7 +22,7 @@ import zompocalypse.gameworld.world.World;
 public class Weapon implements Item {
 
 	private static final long serialVersionUID = 1L;
-	private transient Image currentImage;
+	private ImageIcon currentImage;
 	private String filename;
 	private int uid;
 
@@ -31,7 +32,7 @@ public class Weapon implements Item {
 
 	public Weapon(String filename, String description, int uid, int strength) {
 		this.filename = filename;
-		currentImage = Loader.LoadSprite(filename);
+		currentImage = Loader.LoadSpriteIcon(filename);
 		this.description = description;
 		this.uid = uid;
 		this.strength = strength;
@@ -41,7 +42,7 @@ public class Weapon implements Item {
 		return strength;
 	}
 
-	public Image getImage() {
+	public ImageIcon getImage() {
 		return currentImage;
 	}
 
@@ -52,7 +53,7 @@ public class Weapon implements Item {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		g.drawImage(currentImage, x+OFFSET_X, y, null);
+		g.drawImage(currentImage.getImage(), x+OFFSET_X, y, null);
 	}
 
 	@Override
