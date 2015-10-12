@@ -2,11 +2,13 @@ package zompocalypse.gameworld.world;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Actor;
 import zompocalypse.gameworld.characters.HomerStrategy;
+import zompocalypse.gameworld.characters.MovingCharacter;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.characters.RandomStrategy;
 import zompocalypse.gameworld.characters.Strategy;
@@ -40,7 +43,7 @@ public class World implements Serializable {
 	private int width;
 	private int height;
 
-	//increments every game tick
+	// increments every game tick
 	private static int tickTimer;
 
 	private static int id;
@@ -91,12 +94,13 @@ public class World implements Serializable {
 	 */
 	public synchronized void clockTick() {
 		for (Actor actor : idToActor.values()) {
-			actor.tick(this);
+			if (!editMode)
+				actor.tick(this);
 		}
-		if (tickTimer % 10 == 0){
+		if (tickTimer % 10 == 0 && !editMode) {
 			spawnZombie(new RandomStrategy());
 		}
-		if (tickTimer % 20 == 0){
+		if (tickTimer % 20 == 0 && !editMode) {
 			spawnZombie(new HomerStrategy());
 		}
 		tickTimer++;
@@ -227,7 +231,7 @@ public class World implements Serializable {
 	 */
 	public synchronized int registerPlayer() {
 		// A new player has been added
-		int x = width/2, y = height/2;
+		int x = width / 2, y = height / 2;
 
 		for (Point p : playerSpawnPoints) {
 			x = p.x;
@@ -250,7 +254,7 @@ public class World implements Serializable {
 		return player.getUid();
 	}
 
-	public void spawnZombie(Strategy strat){
+	public void spawnZombie(Strategy strat) {
 		int x = 1, y = 1;
 		Random rand = new Random(System.currentTimeMillis());
 		int choice = rand.nextInt(4);
@@ -278,18 +282,16 @@ public class World implements Serializable {
 			y = p.y;
 		}
 
-		String[] filenames = { "npc_zombie_n.png",
-				"npc_zombie_e.png", "npc_zombie_s.png",
-				"npc_zombie_w.png" };
+		String[] filenames = { "npc_zombie_n.png", "npc_zombie_e.png",
+				"npc_zombie_s.png", "npc_zombie_w.png" };
 
-		String[] homerfilenames = { "npc_dragon_n.png",
-				"npc_dragon_e.png", "npc_dragon_s.png",
-				"npc_dragon_w.png" };
+		String[] homerfilenames = { "npc_dragon_n.png", "npc_dragon_e.png",
+				"npc_dragon_s.png", "npc_dragon_w.png" };
 
+		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id,
+				filenames);
 
-		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id, filenames);
-
-		if(strat instanceof HomerStrategy){
+		if (strat instanceof HomerStrategy) {
 			zombie = new StrategyZombie(this, x, y, strat, ++id, homerfilenames);
 		}
 
@@ -355,13 +357,13 @@ public class World implements Serializable {
 			player.use();
 		} else if (key.contains(UICommand.USEITEM.getValue())) {
 			useItem(player, key);
-		} else if(key.contains(UICommand.TAKEITEM.getValue())) {
+		} else if (key.contains(UICommand.TAKEITEM.getValue())) {
 			takeItem(player, key);
-		} else if(key.equals(UICommand.BACKPACKUSE.getValue())) {
+		} else if (key.equals(UICommand.BACKPACKUSE.getValue())) {
 			player.useQueued();
-		} else if(key.equals(UICommand.BACKPACKDROP.getValue())) {
+		} else if (key.equals(UICommand.BACKPACKDROP.getValue())) {
 			player.dropQueued();
-		} else if(key.equals(UICommand.CONTAINER.getValue())) {
+		} else if (key.equals(UICommand.CONTAINER.getValue())) {
 			player.takeQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
 			orientation = Orientation.getPrev(orientation);
@@ -370,7 +372,7 @@ public class World implements Serializable {
 		}
 	}
 
-	private void useItem(Player player, String key){
+	private void useItem(Player player, String key) {
 		String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
 		List<Item> inventory = player.getInventory();
@@ -384,22 +386,22 @@ public class World implements Serializable {
 		player.queueItem(using);
 	}
 
-	private void takeItem(Player player, String key){
+	private void takeItem(Player player, String key) {
 		String trimmed = key.replace(UICommand.TAKEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
 
 		PriorityQueue<GameObject> objects = player.getObjectsInfront();
-		for(GameObject object : objects) {
-			if(object instanceof Item) {
-				if(object instanceof Container) {
+		for (GameObject object : objects) {
+			if (object instanceof Item) {
+				if (object instanceof Container) {
 					Container container = (Container) object;
 					List<Item> items = container.getHeldItems();
 					Iterator<Item> iterator = items.iterator();
 					Item next;
 
-					while(iterator.hasNext()) {
+					while (iterator.hasNext()) {
 						next = iterator.next();
-						if(next.getUniqueID() == itemId) {
+						if (next.getUniqueID() == itemId) {
 							player.queueTake(next, container);
 							return;
 						}
@@ -426,11 +428,19 @@ public class World implements Serializable {
 
 	public void setEditMode() {
 		editMode = true;
-		for (int k : idToActor.keySet()) {
-			Actor a = idToActor.get(k);
-			objects[a.getX()][a.getY()].clear();
-		}
 		editor = new Point(0, 0);
+		Queue<GameObject> thingStack = new ArrayDeque<GameObject>();
+		for (int i = 0; i < objects.length; i++) {
+			for (int j = 0; j < objects[0].length; j++) {
+				while (!objects[i][j].isEmpty())
+					thingStack.add(objects[i][j].poll());
+				while (!thingStack.isEmpty()) {
+					GameObject thing = thingStack.poll();
+					if (!(thing instanceof Actor))
+						objects[i][j].add(thing);
+				}
+			}
+		}
 	}
 
 	public boolean getEditMode() {
@@ -559,15 +569,17 @@ public class World implements Serializable {
 		if (objectName[0].contains("chest")) {
 
 			String name = WorldBuilder.getString("Pliz give a name");
-			String description = WorldBuilder.getString("Pliz do a description");
+			String description = WorldBuilder
+					.getString("Pliz do a description");
 			int size = WorldBuilder.getInteger("Pliz put a size number");
 
-			Container c = new Container(objectName, size, name, description, false, false, false, id++);
+			Container c = new Container(objectName, size, name, description,
+					false, false, false, id++);
 
 			int i = 0;
-			while(i < size) {
+			while (i < size) {
 				Item item = editItem(true);
-				if(item != null) {
+				if (item != null) {
 					System.out.println(item);
 					c.add(item);
 				}
@@ -590,8 +602,10 @@ public class World implements Serializable {
 			// rating,
 			// to give the game different kinds of swords with different
 			// qualities.
-			String description = WorldBuilder.getString("Pliz do a description");
-			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
+			String description = WorldBuilder
+					.getString("Pliz do a description");
+			int strength = WorldBuilder
+					.getInteger("Pliz gimme a strength number");
 			objects[editor.x][editor.y].add(new Weapon(objectName[0],
 					description, id++, strength));
 		} else if (objectName[0].contains("torch")) {
@@ -621,12 +635,14 @@ public class World implements Serializable {
 			// rating,
 			// to give the game different kinds of swords with different
 			// qualities.
-			String description = WorldBuilder.getString("Pliz do a description");
-			int strength = WorldBuilder.getInteger("Pliz gimme a strength number");
+			String description = WorldBuilder
+					.getString("Pliz do a description");
+			int strength = WorldBuilder
+					.getInteger("Pliz gimme a strength number");
 
 			Weapon w = new Weapon(itemName, description, id++, strength);
 
-			if(inside) {
+			if (inside) {
 				return w;
 			} else {
 				objects[editor.x][editor.y].add(w);
@@ -636,7 +652,7 @@ public class World implements Serializable {
 
 			Torch t = new Torch(itemName, id++);
 
-			if(inside) {
+			if (inside) {
 				return t;
 			} else {
 				objects[editor.x][editor.y].add(t);
@@ -647,7 +663,7 @@ public class World implements Serializable {
 
 			Key k = new Key(itemName, id++);
 
-			if(inside) {
+			if (inside) {
 				return k;
 			} else {
 				objects[editor.x][editor.y].add(k);
@@ -657,7 +673,7 @@ public class World implements Serializable {
 
 			Money m = new Money(itemName, id++, amount);
 
-			if(inside) {
+			if (inside) {
 				return m;
 			} else {
 				objects[editor.x][editor.y].add(m);
@@ -703,7 +719,6 @@ public class World implements Serializable {
 	public Player getPlayer(int id) {
 		return (Player) idToActor.get(id);
 	}
-
 
 	/**
 	 * @return the idToActor

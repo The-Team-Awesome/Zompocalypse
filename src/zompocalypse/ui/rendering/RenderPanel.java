@@ -282,98 +282,98 @@ public class RenderPanel extends JPanel {
 		return temp;
 	}
 
-	private PriorityQueue[][] getDrawAreaObjects(int minI, int maxI, int minJ,
-			int maxJ, Orientation currentOrientation,
-			PriorityQueue<GameObject>[][] objects) {
+//	private PriorityQueue[][] getDrawAreaObjects(int minI, int maxI, int minJ,
+//			int maxJ, Orientation currentOrientation,
+//			PriorityQueue<GameObject>[][] objects) {
+//
+//		PriorityQueue<GameObject>[][] temp = objects;
+//
+//		switch (currentOrientation) {
+//		case NORTH:
+//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			break;// do nothing
+//		case EAST:
+//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+//			break;
+//		case SOUTH:
+//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			break;
+//		case WEST:
+//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
+//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			break;
+//		}
+//
+//		return temp;
+//	}
+//
+//	private PriorityQueue[][] rotateObject90(int minI, int maxI, int minJ,
+//			int maxJ, PriorityQueue<GameObject>[][] objects) {
+//		PriorityQueue<GameObject>[][] temp = new PriorityQueue[maxI - minI + 1][maxJ
+//				- minJ + 1];
+//		for (int i = minI; i <= maxI; ++i) {
+//			for (int j = minJ; j <= maxJ; j++) {
+//				temp[i - minI][j - minJ] = objects[maxJ - j][i];
+//			}
+//		}
+//		return temp;
+//	}
 
-		PriorityQueue<GameObject>[][] temp = objects;
+//	private Floor[][] getDrawAreaFloor(int minI, int maxI, int minJ, int maxJ,
+//			Orientation currentOrientation, Floor[][] tiles) {
+//		Floor[][] temp = tiles;
+//
+//		switch (currentOrientation) {
+//		case NORTH:
+//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			break;// do nothing
+//		case EAST:
+//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+//			break;
+//		case SOUTH:
+//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			break;
+//		case WEST:
+//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
+//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
+//					temp);
+//			break;
+//		}
+//		return temp;
+//	}
 
-		switch (currentOrientation) {
-		case NORTH:
-			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			break;// do nothing
-		case EAST:
-			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-			break;
-		case SOUTH:
-			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			break;
-		case WEST:
-			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			break;
-		}
-
-		return temp;
-	}
-
-	private PriorityQueue[][] rotateObject90(int minI, int maxI, int minJ,
-			int maxJ, PriorityQueue<GameObject>[][] objects) {
-		PriorityQueue<GameObject>[][] temp = new PriorityQueue[maxI - minI + 1][maxJ
-				- minJ + 1];
-		for (int i = minI; i <= maxI; ++i) {
-			for (int j = minJ; j <= maxJ; j++) {
-				temp[i - minI][j - minJ] = objects[maxJ - j][i];
-			}
-		}
-		return temp;
-	}
-
-	private Floor[][] getDrawAreaFloor(int minI, int maxI, int minJ, int maxJ,
-			Orientation currentOrientation, Floor[][] tiles) {
-		Floor[][] temp = tiles;
-
-		switch (currentOrientation) {
-		case NORTH:
-			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			break;// do nothing
-		case EAST:
-			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-			break;
-		case SOUTH:
-			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			break;
-		case WEST:
-			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-					temp);
-			break;
-		}
-		return temp;
-	}
-
-	private Floor[][] rotateFloor90(int minI, int maxI, int minJ, int maxJ,
-			Floor[][] tiles) {
-		Floor[][] temp = new Floor[maxI - minI + 1][maxJ - minJ + 1];
-		for (int i = minI; i <= maxI; ++i) {
-			for (int j = minJ; j <= maxJ; j++) {
-				temp[i - minI][j - minJ] = tiles[maxJ - j][i];
-			}
-		}
-
-		return temp;
-	}
+//	private Floor[][] rotateFloor90(int minI, int maxI, int minJ, int maxJ,
+//			Floor[][] tiles) {
+//		Floor[][] temp = new Floor[maxI - minI + 1][maxJ - minJ + 1];
+//		for (int i = minI; i <= maxI; ++i) {
+//			for (int j = minJ; j <= maxJ; j++) {
+//				temp[i - minI][j - minJ] = tiles[maxJ - j][i];
+//			}
+//		}
+//
+//		return temp;
+//	}
 
 	/**
 	 * Davids options for using the editor

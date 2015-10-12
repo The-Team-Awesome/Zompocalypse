@@ -37,18 +37,13 @@ public class GamePanel extends JPanel {
 	// Main panels
 	private JPanel dialoguePanel;
 	private JPanel menuPanel;
-	private JPanel minimapPanel;
 	private RenderPanel renderingPanel;
 
 	// menuPanel components
 	private ImageIcon itemImage;
 	private JLabel lblItem;
-	private JLabel lblBackpack;
 	private ZButton btnBackpack;
 	private ZButton btnUse;
-	private ZButton btnItemOne;
-	private ZButton btnItemTwo;
-	private ZButton btnItemThree;
 	private ZButton btnNorth;
 	private ZButton btnSouth;
 	private ZButton btnEast;
@@ -143,13 +138,12 @@ public class GamePanel extends JPanel {
 		this.menuPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c =  new GridBagConstraints();
 		int positionY = 0;
-		
+
 		if(player.getEquipped() != null) {
 			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
 		} else {
 			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
 		}
-
 
 		Insets bottomInset = new Insets(0, 0, 40, 0);
 		Insets generalInset = new Insets(0,0,10,0);
@@ -198,40 +192,6 @@ public class GamePanel extends JPanel {
 		c.gridy = positionY++;
 		c.insets = bottomInset;
 		menuPanel.add(btnUse, c);
-
-		// BACKPACK HUB
-		lblBackpack = new JLabel("Backpack HUB");
-		c.gridx = 1;
-		c.gridy = positionY++;
-		c.insets = generalInset;
-		menuPanel.add(lblBackpack, c);
-
-		ImageIcon iconItemOne = new ImageIcon(ITEM);
-		btnItemOne = new ZButton(iconItemOne);
-		btnItemOne.setActionCommand(UICommand.ITEMONE.getValue());
-		btnItemOne.addActionListener(action);
-		btnItemOne.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 1;
-		c.gridy = positionY++;
-		menuPanel.add(btnItemOne, c);
-
-		ImageIcon iconItemTwo = new ImageIcon(ITEM);
-		btnItemTwo = new ZButton(iconItemTwo);
-		btnItemTwo.setActionCommand(UICommand.ITEMTWO.getValue());
-		btnItemTwo.addActionListener(action);
-		btnItemTwo.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 1;
-		c.gridy = positionY++;
-		menuPanel.add(btnItemTwo, c);
-
-		ImageIcon iconItemThree = new ImageIcon(ITEM);
-		btnItemThree = new ZButton(iconItemThree);
-		btnItemThree.setActionCommand(UICommand.ITEMTHREE.getValue());
-		btnItemThree.addActionListener(action);
-		btnItemThree.setBorder(BorderFactory.createEmptyBorder());
-		c.gridx = 1;
-		c.gridy = positionY++;
-		menuPanel.add(btnItemThree, c);
 
 		Insets eastInset = new Insets(0, -50, 10, 0);
 		Insets westInset = new Insets(0, 0, 10, -50);
@@ -302,26 +262,18 @@ public class GamePanel extends JPanel {
 		c.gridy = positionY++;
 		c.ipadx = 2;
 		menuPanel.add(btnSouth, c);
-
-		/*minimapPanel = new JPanel();
-		minimapPanel.setSize(100, 100);
-		minimapPanel.setBackground(Color.cyan);
-		c.gridx = 1;
-		c.gridy = positionY++;
-		c.insets = generalInset;
-		menuPanel.add(minimapPanel, c);*/
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		player = game.getPlayer(id);
-		
+
 		if(player.getEquipped() != null) {
 			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
 		} else {
 			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
 		}
-		
+
 		lblItem.setIcon(itemImage);
 	}
 
@@ -332,7 +284,7 @@ public class GamePanel extends JPanel {
 	 */
 	public void updateGame(World game) {
 		this.game = game;
-		
+
 		renderingPanel.updateGame(game);
 	}
 

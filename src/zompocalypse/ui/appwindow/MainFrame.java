@@ -45,6 +45,7 @@ import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
  */
 public class MainFrame extends JFrame implements WindowListener {
 
+	private static final long serialVersionUID = 1L;
 	private CardLayout layout;
 	private GamePanel gameCard;
 	private StartPanel startCard;

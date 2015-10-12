@@ -7,20 +7,23 @@ import zompocalypse.gameworld.Orientation;
 
 /**
  * Uses the Singleton design pattern.
- * Loads in an image
+ * Provides a number of image utilities to assist in the rendering of the
+ * World.
  *
  * @author Pauline Kelly
  *
  */
 public class ImageUtils {
 
-	//private ClockwiseMap;
-	//private AnticlockWiseMap;
-
 	private static ImageUtils utils = new ImageUtils();
-
 	protected ImageUtils(){}  //Nothing else can instantiate  a new imageutils object
 
+	/**
+	 * A public method that can return an ImageUtils object to be used.
+	 * This is a safe way to access the object.
+	 *
+	 * @return The new ImageUtils object.
+	 */
 	public static ImageUtils getImageUtilsObject(){
 		return utils;
 	}
@@ -34,12 +37,12 @@ public class ImageUtils {
 	 * [N,E,S,W]
 	 *
 	 * @param filenames
+	 * @return An array of new ImageIcons for the Object.
 	 */
 	public ImageIcon[] setupImages(String[] filenames) {
 		ImageIcon[] images = new ImageIcon[filenames.length];  //image is same length as array
 
 		for(int i = 0; i < filenames.length; ++i){
-			//System.out.println(filenames[i]);
 			images[i] = Loader.LoadSpriteIcon(filenames[i]);
 		}
 		return images;
@@ -48,17 +51,21 @@ public class ImageUtils {
 	/**
 	 * If the orientation has changed, or if the player has changed direction,
 	 * then change the current image for the tile or game object.
+	 *
+	 * @param orientation The current orientation of the board
+	 * @param images The set of images to select from
+	 * @return The imageicon for the correct orientation
 	 */
-	public ImageIcon getCurrentImageForOrientation(Orientation orientation, ImageIcon[] images){
+	public ImageIcon getImageForOrientation(Orientation orientation, ImageIcon[] images){
 		switch(orientation){
 		case NORTH:
 			return images[0];
 		case SOUTH:
-			return getSouthOrientationImage(images);
+			return getSouthImage(images);
 		case EAST:
-			return getEastOrientationImage(images);
+			return getEastImage(images);
 		case WEST:
-			return getWestOrientationImage(images);
+			return getWestImage(images);
 		default:
 			throw new IllegalStateException("Orientation was abnormal: " + orientation);
 		}
@@ -66,9 +73,11 @@ public class ImageUtils {
 
 	/**
 	 * Get the orientation for the image when viewed from the South.
-	 * @return
+	 *
+	 * @param images The set of images to select from
+	 * @return The imageicon for the correct orientation
 	 */
-	public ImageIcon getSouthOrientationImage(ImageIcon[] images) {
+	public ImageIcon getSouthImage(ImageIcon[] images) {
 		switch(images.length){
 		case 1:
 			return images[0];  //same for all
@@ -83,9 +92,10 @@ public class ImageUtils {
 
 	/**
 	 * Get the orientation for the image when viewed from the East.
-	 * @return
+	 * @param images The set of images to select from
+	 * @return The imageicon for the correct orientation
 	 */
-	public ImageIcon getEastOrientationImage(ImageIcon[]images) {
+	public ImageIcon getEastImage(ImageIcon[]images) {
 		switch(images.length){
 		case 1:
 			return images[0];  //same for all
@@ -100,9 +110,10 @@ public class ImageUtils {
 
 	/**
 	 * Get the orientation for the image when viewed from the West.
-	 * @return Image as viewed from the west
+	 * @param images The set of images to select from
+	 * @return The imageicon for the correct orientation
 	 */
-	public ImageIcon getWestOrientationImage(ImageIcon[]images) {
+	public ImageIcon getWestImage(ImageIcon[]images) {
 		switch(images.length){
 		case 1:
 			return images[0];  //same for all
