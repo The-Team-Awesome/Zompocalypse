@@ -284,8 +284,7 @@ public class World implements Serializable {
 	 *
 	 * @return integer ID value
 	 */
-	public int registerLoadedPlayer(String name, int health, int score,
-			int speed, int strength) {
+	public int registerLoadedPlayer(Player player) {
 		// A new player has been added
 		int x = width / 2, y = height / 2;
 
@@ -293,45 +292,12 @@ public class World implements Serializable {
 			x = p.x;
 			y = p.y;
 		}
-		// A new player has been added! Create them and put them in the
-		// map of actors here.
 
-		String[] filenames = { "character_" + name + "_empty_n.png",
-				"character_" + name + "_empty_e.png",
-				"character_" + name + "_empty_s.png",
-				"character_" + name + "_empty_w.png" };
+		player.setUID(++id);
+		player.setWorld(this);
+		player.setX(x);
+		player.setY(y);
 
-		// TODO: This should really get valid information for name,
-		// as well as select their x, y co-ordinates based on a valid portal
-		Player player = new Player(x, y, Orientation.NORTH, ++id, score,
-				"Bibbly Bob", filenames, this);
-		player.setStrength(strength);
-		player.setHealth(health);
-		player.setSpeed(speed);
-
-		idToActor.put(id, player);
-		objects[player.getX()][player.getY()].add(player);
-
-		return player.getUid();
-	}
-
-	/**
-	 * As above, but with a loaded player
-	 *
-	 * @param player
-	 * @return
-	 */
-	public synchronized int loadPlayer(Player player) {
-		// A new player has been added
-		int x = width / 2, y = height / 2;
-
-		for (Point p : playerSpawnPoints) {
-			x = p.x;
-			y = p.y;
-		}
-		// A new player has been added! Create them and put them in the
-		// map of actors here.
-		player.setLocation(x, y);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 
@@ -831,5 +797,9 @@ public class World implements Serializable {
 		if (x instanceof Door) {
 			((Door) x).use(null);
 		}
+	}
+
+	public int getUID() {
+		return ++id;
 	}
 }

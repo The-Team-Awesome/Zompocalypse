@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -29,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import zompocalypse.controller.Client;
@@ -36,11 +38,13 @@ import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
+import zompocalypse.datastorage.PlayerFileManager;
 import zompocalypse.datastorage.SoundManager;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
@@ -207,7 +211,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 *
+	 * Loads a character for the single player game
 	 */
 	private void loadCharacter() {
 		JFileChooser chooser = new JFileChooser();
@@ -218,63 +222,41 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (value == JFileChooser.APPROVE_OPTION) {
 			fileName = chooser.getSelectedFile().getName();
 		} else {
-			singlePlayer("gina"); // because damn it
+			singlePlayer("gina"); // because damn it!
 		}
 
 		File playerFile = Loader.LoadFile(Loader.playersDir + Loader.separator
 				+ fileName);
 
-		try {
-
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(playerFile);
-
-			// remember, cool kids don't take drugs
-
-			Element playerXML = (Element) doc.getElementsByTagName("player").item(0);
-
-			int health = Integer.parseInt(playerXML.getAttribute("health"));
-			String name = playerXML.getAttribute("name");
-			int score = Integer.parseInt(playerXML.getAttribute("score"));
-			int speed = Integer.parseInt(playerXML.getAttribute("speed"));
-			int strength = Integer.parseInt(playerXML.getAttribute("strength"));
-
-			if (game == null) {
-				try {
-					game = Parser.ParseMap(Loader.mapFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		if (game == null) {
+			try {
+				game = Parser.ParseMap(Loader.mapFile);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-			int id = game.registerLoadedPlayer(name, health, score, speed, strength);
-
-			SinglePlayer player = new SinglePlayer(game, id);
-
-			player.setID(id);
-			player.setFrame(this);
-			player.setGame(game);
-			updateListeners(player);
-
-			gameCard = new GamePanel(id, game, player);
-
-			cards.add(gameCard, "1");
-
-			layout.show(cards, "1");
-
-			Clock clock = new Clock(this, game, gameClock);
-
-			clock.start();
-
-
-		} catch (IOException | SAXException | ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
+		Player player = PlayerFileManager.loadPlayer(playerFile, game);
 
+		int id = game.registerLoadedPlayer(player);
+		System.out.println(id);
+
+		SinglePlayer singlePlayer = new SinglePlayer(game, id);
+
+		singlePlayer.setID(id);
+		singlePlayer.setFrame(this);
+		singlePlayer.setGame(game);
+		updateListeners(singlePlayer);
+
+		gameCard = new GamePanel(id, game, singlePlayer);
+
+		cards.add(gameCard, "1");
+
+		layout.show(cards, "1");
+
+		Clock clock = new Clock(this, game, gameClock);
+
+		clock.start();
 	}
 
 	/**
@@ -394,6 +376,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		}
 
 		int id = game.registerPlayer(fileName);
+		System.out.println(id);
 
 		SinglePlayer player = new SinglePlayer(game, id);
 

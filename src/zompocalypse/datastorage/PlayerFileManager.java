@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -21,7 +22,10 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
@@ -31,6 +35,7 @@ import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.Wall;
+import zompocalypse.gameworld.world.World;
 
 public class PlayerFileManager {
 
@@ -159,5 +164,63 @@ public class PlayerFileManager {
 		}
 		throw new Error(
 				"Should not ever never get to this point unless someone did a bad");
+	}
+
+	public static Player loadPlayer(File playerFile, World game) {
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(playerFile);
+
+			// remember, cool kids don't take drugs
+
+			Element playerXML = (Element) doc.getElementsByTagName("player")
+					.item(0);
+
+			int health = Integer.parseInt(playerXML.getAttribute("health"));
+			String name = playerXML.getAttribute("name");
+			int score = Integer.parseInt(playerXML.getAttribute("score"));
+			int speed = Integer.parseInt(playerXML.getAttribute("speed"));
+			int strength = Integer.parseInt(playerXML.getAttribute("strength"));
+
+			String[] filenames = { "character_" + name + "_empty_n.png",
+					"character_" + name + "_empty_e.png",
+					"character_" + name + "_empty_s.png",
+					"character_" + name + "_empty_w.png" };
+
+			Weapon weapon = null;
+			List<Item> inventory = new ArrayList<Item>();
+
+			if (playerXML.hasChildNodes()) {
+				NodeList nList = playerXML.getChildNodes();
+				for (int x = 0; x < nList.getLength(); x++) {
+					Element node = (Element) nList.item(x);
+					// if (object.getNodeName().equals("container")) {
+					// cont.add(parseContainer(textTileMap, object));
+					if (node.getNodeName().equals("weapon")) {
+						String fileName = node.getAttribute("filename");
+						String description = node.getAttribute("description");
+						int damage = Integer.parseInt(node.getAttribute("strength"));
+						weapon = new Weapon(fileName, description, game.getUID(), damage);
+					}
+
+				}
+			}
+
+			Player player = new Player(0, 0, Orientation.NORTH, 0, score,
+					"Bibbly Bob", filenames, null);
+			player.setStrength(strength);
+			player.setHealth(health);
+			player.setSpeed(speed);
+			player.setEquipped(weapon);
+
+			return player;
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		throw new Error("Unable to load Player for some reason :(");
 	}
 }
