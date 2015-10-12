@@ -239,7 +239,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		Player player = PlayerFileManager.loadPlayer(playerFile, game);
 
 		int id = game.registerLoadedPlayer(player);
-		System.out.println(id);
 
 		SinglePlayer singlePlayer = new SinglePlayer(game, id);
 
@@ -376,7 +375,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		}
 
 		int id = game.registerPlayer(fileName);
-		System.out.println(id);
 
 		SinglePlayer player = new SinglePlayer(game, id);
 

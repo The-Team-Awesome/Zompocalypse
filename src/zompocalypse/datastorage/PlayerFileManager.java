@@ -201,10 +201,36 @@ public class PlayerFileManager {
 					if (node.getNodeName().equals("weapon")) {
 						String fileName = node.getAttribute("filename");
 						String description = node.getAttribute("description");
-						int damage = Integer.parseInt(node.getAttribute("strength"));
-						weapon = new Weapon(fileName, description, game.getUID(), damage);
+						int damage = Integer.parseInt(node
+								.getAttribute("strength"));
+						weapon = new Weapon(fileName, description,
+								game.getUID(), damage);
+					} else if (node.getNodeName().equals("inventory")) {
+						NodeList inventoryElem = node.getChildNodes();
+						for (int y = 0; y < inventoryElem.getLength(); y++) {
+							Element item = (Element) inventoryElem.item(y);
+							if (item.getNodeName().equals("key")) {
+								inventory.add(new Key(item
+										.getAttribute("filename"), game
+										.getUID()));
+							} else if (item.getNodeName().equals("money")) {
+								inventory.add(new Money(item
+										.getAttribute("filename"), game
+										.getUID(), Integer.parseInt(item
+										.getAttribute("amount"))));
+							} else if (item.getNodeName().equals("torch")) {
+								inventory.add(new Torch(item
+										.getAttribute("filename"), game
+										.getUID()));
+							} else if (item.getNodeName().equals("weapon")) {
+								inventory.add(new Weapon(item
+										.getAttribute("filename"), item
+										.getAttribute("description"), game
+										.getUID(), Integer.parseInt(item
+										.getAttribute("strength"))));
+							}
+						}
 					}
-
 				}
 			}
 
@@ -214,6 +240,8 @@ public class PlayerFileManager {
 			player.setHealth(health);
 			player.setSpeed(speed);
 			player.setEquipped(weapon);
+			for (Item i : inventory)
+				player.pickUp(i);
 
 			return player;
 		} catch (ParserConfigurationException | SAXException | IOException e) {

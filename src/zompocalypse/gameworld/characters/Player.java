@@ -317,9 +317,4 @@ public final class Player extends MovingCharacter {
 	public void setUID(int uid) {
 		this.uid = uid;
 	}
-
-	public void setWorld(World world) {
-		// TODO Auto-generated method stub
-
-	}
 }

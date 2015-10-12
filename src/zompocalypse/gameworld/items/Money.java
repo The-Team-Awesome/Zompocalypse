@@ -29,9 +29,7 @@ public class Money implements Item {
 		this.amount = amount;
 
 		type = string.replace("coins_", "");
-		System.out.println(type);
 		type = type.replace(".png", "");
-		System.out.println(type);
 
 		if(type.equals("silver")) {
 			this.amount = (amount) * 10;

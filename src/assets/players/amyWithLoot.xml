@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><player health="100" name="amy" score="0" speed="5" strength="20"><inventory><key filename="gold_key.png"/><weapon description="This sword is so radical" filename="sword_1.png" strength="9000"/><torch filename="torch.png"/><money amount="6" filename="coins_bronze.png"/></inventory></player>
