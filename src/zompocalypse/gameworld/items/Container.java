@@ -80,7 +80,7 @@ public class Container implements Item, Lockable{
 
 	@Override
 	public void use(Player player){
-		open(player);
+		//open(player);
 	}
 
 	@Override
@@ -88,25 +88,20 @@ public class Container implements Item, Lockable{
 		return movable;
 	}
 
-	private void open(Player player){
+	private void open(Player player) {
 		// TODO: Once containers are in the world, we can properly test this!
 		// It will need a valid action handler to pass to the ContainerPane,
 		// need to think about where this will come from!
-		int id = player.getUid();
-		ContainerPanel inventory = ContainerPanel.getContainerPanel(this.heldItems, UICommand.TAKEITEM.getValue());
-		
-		String[] options = {"Take"};
-		JOptionPane.showOptionDialog(null, inventory, name, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-		player.getWorld().processCommand(id, UICommand.CONTAINER.getValue());
+
 	}
 
 	public List<Item> getHeldItems() {
 		return heldItems;
 	}
-	
+
 	@Override
 	public boolean occupiable(){
-		//It makes sense if you cant move an item, 
+		//It makes sense if you cant move an item,
 		//you also can't occupy the same floor space (too big)
 		return movable;
 	}
@@ -199,7 +194,7 @@ public class Container implements Item, Lockable{
 		if(imu == null) {
 			imu = ImageUtils.getImageUtilsObject();
 		}
-		
+
 		if (open) {
 			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
 					imagesOpen);

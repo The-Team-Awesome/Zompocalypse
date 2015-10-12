@@ -12,17 +12,21 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.EventListener;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
 import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
+import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.characters.StrategyZombie;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.world.World;
@@ -81,7 +85,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
-		
+
 		ContainerPanel.setupContainerPanel(action);
 
 		// creating default panel which uses cards
@@ -174,6 +178,8 @@ public class MainFrame extends JFrame implements WindowListener {
 			saveGame();
 		} else if (command.equals(UICommand.EXAMINE.getValue())) {
 			gameCard.examine();
+		} else if(command.equals(UICommand.USE.getValue())) {
+			use(id);
 		}
 	}
 
@@ -305,7 +311,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (listener instanceof ActionListener) {
 			action = (ActionListener) listener;
 		}
-		
+
 		ContainerPanel.setupContainerPanel(action);
 	}
 
@@ -323,7 +329,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		ContainerPanel inventory = ContainerPanel.getContainerPanel(objects, UICommand.USEITEM.getValue());
 
-		String[] options = {"Use"};
+		String[] options = {"Drop", "Use"};
 
 		JOptionPane.showOptionDialog(null, inventory, "Player " + id
 				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
@@ -337,11 +343,24 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * @param id
 	 *            - The unique ID of the Container
 	 */
-	private void showContainer(int id) {
-		Container container = null; // get something from the game world here?
+	private void use(int id) {
+		Player player = (Player) game.getCharacterByID(id);
+		PriorityQueue<GameObject> objects = player.getObjectsInfront();
 
-		List<Item> object = container.getHeldItems();
+		for (GameObject o : player.getObjectsInfront()) {
+			if (o instanceof Container) {
+				showContainer((Container) o, id);
+				return;
+			}
+		}
+	}
 
+	private void showContainer(Container container, int id) {
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(container.getHeldItems(), UICommand.TAKEITEM.getValue());
+
+		String[] options = {"Take"};
+		JOptionPane.showOptionDialog(null, inventory, container.getName(), JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		game.processCommand(id, UICommand.CONTAINER.getValue());
 	}
 
 	/**

@@ -75,7 +75,7 @@ public final class Player extends MovingCharacter {
 	public void queueItem(Item item) {
 		queuedUse = item;
 	}
-	
+
 	public void queueTake(Item item, Container container) {
 		queuedTake = item;
 		queuedContainer = container;
@@ -87,16 +87,13 @@ public final class Player extends MovingCharacter {
 		}
 		queuedUse = null;
 	}
-	
+
 	public void takeQueued() {
-		
-		System.out.println("yes");
-		
 		if(queuedTake != null){
 			queuedTake.use(this);
 			queuedContainer.getHeldItems().remove(queuedTake);
 		}
-		
+
 		queuedTake = null;
 		queuedContainer = null;
 	}
@@ -217,7 +214,7 @@ public final class Player extends MovingCharacter {
 	public Weapon getEquipped() {
 		return equipped;
 	}
-	
+
 	public void setEquipped(Weapon weapon) {
 		this.equipped = weapon;
 	}
@@ -226,7 +223,7 @@ public final class Player extends MovingCharacter {
 	 * Moves the camera.
 	 *
 	 * @param north
-	 * @param cameraDirection 
+	 * @param cameraDirection
 	 */
 	public void move(Orientation dir, Orientation cameraDirection) {
 		Orientation ori = Orientation.getCharacterOrientation(dir, cameraDirection);
@@ -245,7 +242,7 @@ public final class Player extends MovingCharacter {
 			break;
 		}
 	}
-	
+
 	public void use(){
 		// Process any objects the player is standing on first
 		for (GameObject o : getObjectsHere()) {
