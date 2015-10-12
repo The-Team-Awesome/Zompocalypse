@@ -158,20 +158,27 @@ public class GamePanel extends JPanel {
 		progressDamage.setString("LIFE");
 		c.gridx = 1;
 		c.gridy = positionY++;
+		c.ipadx = 100;
+		c.ipady = 15;
 		c.insets = bottomInset;
 		menuPanel.add(progressDamage, c);
 
+		JPanel scoreDecoration = new JPanel();
+		scoreDecoration.setBackground(CustomUtils.blueBackground);
+		scoreDecoration.setSize(50,50);
 		lblScore = new JLabel();
-		lblScore.setText("155");
-		lblScore.setSize(20, 20);
+		lblScore.setText("Score\n");
 		lblScore.setBackground(CustomUtils.blueBackground);
+		lblScore.setOpaque(true);
+		lblScore.setForeground(CustomUtils.textInButton);
 		c.gridx = 1;
 		c.gridy = positionY++;
-		c.ipadx = 3;
+		c.ipadx = 0;
+		c.ipady = 0;
 		c.weightx = 1.0;
 		c.insets = bottomInset;
-		menuPanel.add(lblScore, c);
-
+		scoreDecoration.add(lblScore);
+		menuPanel.add(scoreDecoration, c);
 
 		lblItem = new JLabel(itemImage);
 		lblItem.setText("Equipped");
@@ -293,8 +300,9 @@ public class GamePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		player = game.getPlayer(id);
-		playersEquipped();
-		playersDamage();
+		updatePlayersEquipped();
+		updatePlayersDamage();
+		updatePlayersScore();
 	}
 
 	/**
@@ -368,14 +376,14 @@ public class GamePanel extends JPanel {
 	/**
 	 * Updates player's health display.
 	 */
-	private void playersDamage() {
+	private void updatePlayersDamage() {
 		progressDamage.setValue(player.getHealth());
 	}
 
 	/**
 	 * Updates the equipment being used by the player in the display.
 	 */
-	private void playersEquipped() {
+	private void updatePlayersEquipped() {
 		if(player.getEquipped() != null) {
 			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
 		} else {
@@ -388,8 +396,9 @@ public class GamePanel extends JPanel {
 	/**
 	 * Updates player's score.
 	 */
-	private void playersScore() {
-
+	private void updatePlayersScore() {
+		String scoreText = "Score: "+player.getScore();
+		lblScore.setText(scoreText);
 	}
 
 	/**
