@@ -26,7 +26,7 @@ public class SelectCharacterPanel extends JPanel {
 	private ActionListener action;
 
 	private static final Image BACKGROUND = Loader
-			.LoadImage("logo.jpg");
+			.LoadImage("logo.png");
 
 	public SelectCharacterPanel(ActionListener action) {
 		this.setSize(1000, 1000);
