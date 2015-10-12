@@ -54,6 +54,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private ClientPanel clientCard;
 	private ServerPanel serverCard;
 	private CustomServerPanel customServerCard;
+	private SelectCharacterPanel selectCharacterCard;
 	private JPanel cards;
 	private World game;
 
@@ -100,12 +101,14 @@ public class MainFrame extends JFrame implements WindowListener {
 		clientCard = new ClientPanel(action);
 		serverCard = new ServerPanel(port, gameClock, serverClock);
 		customServerCard = new CustomServerPanel(action);
+		selectCharacterCard = new SelectCharacterPanel(action);
 
 		cards.add(startCard, "2");
 		cards.add(multiplayerCard, "3");
 		cards.add(clientCard, "4");
 		cards.add(customServerCard, "5");
 		cards.add(serverCard, "6");
+		cards.add(selectCharacterCard, "7");
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
@@ -160,6 +163,7 @@ public class MainFrame extends JFrame implements WindowListener {
 			loadGame();
 		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
 			singlePlayer();
+//			selectCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
 		} else if (command.equals(UICommand.SERVER.getValue())) {
@@ -185,6 +189,10 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if(command.equals(UICommand.USE.getValue())) {
 			use(id);
 		}
+	}
+
+	private void selectCharacter() {
+		layout.show(cards, "7");
 	}
 
 	/**
