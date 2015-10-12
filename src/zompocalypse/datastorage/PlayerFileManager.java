@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.xml.parsers.DocumentBuilder;
@@ -23,6 +24,7 @@ import org.w3c.dom.Element;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Door;
+import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
@@ -61,8 +63,21 @@ public class PlayerFileManager {
 			Element xmlPlayer = doc.createElement("player");
 			doc.appendChild(xmlPlayer);
 
-			player.getEquipped();
-			player.getFileName();
+			//Get all the Player attributes
+			Weapon weapon = player.getEquipped();
+			String[] fileName = player.getFileName().split("_");
+			String name = fileName[1];
+			int health = player.getHealth();
+			List<Item> inventory = player.getInventory();
+			int speed = player.getSpeed();
+			int strength = player.getStrength();
+			int score = player.score();
+
+			xmlPlayer.setAttribute("name", name);
+			xmlPlayer.setAttribute("health", String.valueOf(health));
+			xmlPlayer.setAttribute("speed", String.valueOf(speed));
+			xmlPlayer.setAttribute("strength", String.valueOf(strength));
+			xmlPlayer.setAttribute("score", String.valueOf(score));
 
 
 

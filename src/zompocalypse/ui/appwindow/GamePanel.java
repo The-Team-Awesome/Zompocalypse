@@ -51,6 +51,7 @@ public class GamePanel extends JPanel {
 	private ZButton btnRotateClockwise;
 	private ZButton btnRotateAnticlockwise;
 	private ZButton btnOptions;
+	private ZButton btnSavePlayer;
 
 	// dialogPanel components
 	private JTextArea txtDialog;
@@ -166,6 +167,15 @@ public class GamePanel extends JPanel {
 		c.ipadx = 2;
 		c.insets = generalInset;
 		menuPanel.add(btnOptions, c);
+
+		btnSavePlayer = new ZButton("Save Player");
+		btnSavePlayer.setActionCommand(UICommand.SAVEPLAYER.getValue());
+		btnSavePlayer.addActionListener(action);
+		c.gridx = 1;
+		c.gridy = positionY++;
+		c.ipadx = 2;
+		c.insets = generalInset;
+		menuPanel.add(btnSavePlayer, c);
 
 		btnBackpack = new ZButton("Backpack");
 		btnBackpack.setActionCommand(UICommand.BACKPACK.getValue());
@@ -320,6 +330,18 @@ public class GamePanel extends JPanel {
 		} catch (IOException e) {
 			new JOptionPane("Something happened and we couldn't save your game :(", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Unexpected problem. Couldn't save the game. :(");
+		}
+	}
+
+	/**
+	 * Saves the current state of the Player in its file.
+	 */
+	public void savePlayer() {
+		try {
+			zompocalypse.datastorage.PlayerFileManager.savePlayer(this.game.getPlayer(id));
+		} catch (IOException e) {
+			new JOptionPane("Something happened and we couldn't save your player :(", JOptionPane.ERROR_MESSAGE);
+			System.out.println("Unexpected problem. Couldn't save the player. :(");
 		}
 	}
 
