@@ -431,13 +431,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		}
 	}
 
-	/**
-	 * Dialog prompts with options panel displayed.
-	 */
-	private void openOptions() {
-		new JOptionPane();
-	}
-
 	@Override
 	public void windowOpened(WindowEvent e) {
 	}

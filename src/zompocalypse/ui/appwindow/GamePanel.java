@@ -302,14 +302,6 @@ public class GamePanel extends JPanel {
 		c.gridy = positionY++;
 		c.ipadx = 2;
 		menuPanel.add(btnSouth, c);
-
-		/*minimapPanel = new JPanel();
-		minimapPanel.setSize(100, 100);
-		minimapPanel.setBackground(Color.cyan);
-		c.gridx = 1;
-		c.gridy = positionY++;
-		c.insets = generalInset;
-		menuPanel.add(minimapPanel, c);*/
 	}
 
 	@Override
