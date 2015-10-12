@@ -28,7 +28,7 @@ public class StartPanel extends JPanel {
 	private ActionListener action;
 
 	private static final Image BACKGROUND = Loader
-			.LoadImage("background02.jpg");
+			.LoadImage("logo.jpg");
 
 	public StartPanel(ActionListener action) {
 		this.setSize(1000, 1000);
@@ -75,6 +75,6 @@ public class StartPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBackground(CustomUtils.frameBackground);
-		// g.drawImage(BACKGROUND, 0, 0, null);
+		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 }

@@ -457,6 +457,24 @@ public class MainFrame extends JFrame implements WindowListener {
 		}
 	}
 
+	/**
+	 * Shows a message and closes the game for game over
+	 */
+	public void gameOver() {
+		Object[] options = { "end" };
+
+		int option = JOptionPane.showOptionDialog(null,
+				"YOU DIED!", "Game Over!",
+				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null,
+				options, // the titles of buttons
+				options[0]); // default button title
+
+		if (option == 0) {
+			dispose();
+			System.exit(0);
+		}
+	}
+
 	@Override
 	public void windowOpened(WindowEvent e) {
 	}

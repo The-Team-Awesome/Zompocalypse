@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
@@ -53,19 +52,15 @@ public class GamePanel extends JPanel {
 	private ZButton btnRotateClockwise;
 	private ZButton btnRotateAnticlockwise;
 	private ZButton btnOptions;
-
 	private JProgressBar progressDamage;
 	private ZButton btnExamine;
 	private JLabel lblScore;
-
 	private ZButton btnSavePlayer;
-
 
 	// dialogPanel components
 	private JTextArea txtDialog;
 
 	// icons
-	private static final Image ITEM = Loader.LoadIcon("sword.png");
 	private static final Image NORTH = Loader.LoadIcon("north.png");
 	private static final Image SOUTH = Loader.LoadIcon("south.png");
 	private static final Image WEST = Loader.LoadIcon("west.png");
@@ -159,6 +154,8 @@ public class GamePanel extends JPanel {
 	    int maximum = 100;
 		progressDamage = new JProgressBar(minimum, maximum);
 		progressDamage.setStringPainted(true);
+		progressDamage.setForeground(CustomUtils.buttonPressed);
+		progressDamage.setBorder(null);
 		progressDamage.setString("LIFE");
 		c.gridx = 1;
 		c.gridy = positionY++;
@@ -316,6 +313,7 @@ public class GamePanel extends JPanel {
 		updatePlayersEquipped();
 		updatePlayersDamage();
 		updatePlayersScore();
+
 	}
 
 	/**
@@ -424,13 +422,6 @@ public class GamePanel extends JPanel {
 	private void updatePlayersScore() {
 		String scoreText = "Score: "+player.getScore();
 		lblScore.setText(scoreText);
-	}
-
-	/**
-	 * Ends the game.
-	 */
-	public void endGame() {
-		// TODO: "game over -score" message and closes the client
 	}
 }
 
