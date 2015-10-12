@@ -203,10 +203,10 @@ public class Container implements Item, Lockable{
 		}
 
 		if (open) {
-			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+			currentImage = imu.getImageForOrientation(worldOrientation,
 					imagesOpen);
 		} else {
-			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+			currentImage = imu.getImageForOrientation(worldOrientation,
 				imagesClosed);
 		}
 		g.drawImage(currentImage.getImage(), x, y, null);

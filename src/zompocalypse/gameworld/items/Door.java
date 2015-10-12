@@ -85,10 +85,10 @@ public class Door implements Item, Lockable {
 		// System.out.println("drew current image" + currentImage.toString());
 		imu = ImageUtils.getImageUtilsObject();
 		if (open)
-			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+			currentImage = imu.getImageForOrientation(worldOrientation,
 					imagesOpen);
 		else
-			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
+			currentImage = imu.getImageForOrientation(worldOrientation,
 					imagesClosed);
 		g.drawImage(currentImage.getImage(), x, y - offset, null);
 	}

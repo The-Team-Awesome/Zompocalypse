@@ -133,7 +133,7 @@ public class Floor implements Drawable {
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		currentImage = imu.getCurrentImageForOrientation(worldOrientation, images);
+		currentImage = imu.getImageForOrientation(worldOrientation, images);
 
 		g.drawImage(currentImage.getImage(), x, y, null);
 	}

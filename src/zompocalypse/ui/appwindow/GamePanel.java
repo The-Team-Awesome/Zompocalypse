@@ -143,7 +143,7 @@ public class GamePanel extends JPanel {
 		this.menuPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c =  new GridBagConstraints();
 		int positionY = 0;
-		
+
 		if(player.getEquipped() != null) {
 			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
 		} else {
@@ -311,17 +311,17 @@ public class GamePanel extends JPanel {
 		c.insets = generalInset;
 		menuPanel.add(minimapPanel, c);*/
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		player = game.getPlayer(id);
-		
+
 		if(player.getEquipped() != null) {
 			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
 		} else {
 			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
 		}
-		
+
 		lblItem.setIcon(itemImage);
 	}
 
@@ -332,7 +332,7 @@ public class GamePanel extends JPanel {
 	 */
 	public void updateGame(World game) {
 		this.game = game;
-		
+
 		renderingPanel.updateGame(game);
 	}
 

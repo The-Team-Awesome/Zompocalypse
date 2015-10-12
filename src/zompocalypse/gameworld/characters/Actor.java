@@ -116,7 +116,7 @@ public abstract class Actor implements GameObject {
 		Orientation ord = Orientation.getCharacterOrientation(orientation,
 				worldOrientation);
 
-		currentImage = imu.getCurrentImageForOrientation(ord, images);
+		currentImage = imu.getImageForOrientation(ord, images);
 		g.drawImage(getCurrentImage().getImage(), realx, realy + offsetY, null);
 	}
 
