@@ -27,7 +27,7 @@ import javax.swing.JFileChooser;
  * Static functions used to Parse Maps for the World from a file, and can be
  * used to save Maps to File as well.
  *
- * @author thomsedavi
+ * @author David Thomsen
  */
 public class Parser {
 
