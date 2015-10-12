@@ -36,6 +36,7 @@ public class Loader {
 	public static final String spritesDir = "sprites";
 	public static final String iconsDir = "icons";
 	public static final String mapDir = "map";
+	public static final String playersDir = "players";
 	public static final String soundDir = "sounds";
 
 	public static final String mapFile = "map.xml";

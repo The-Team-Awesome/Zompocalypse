@@ -69,6 +69,22 @@ public abstract class Actor implements GameObject {
 	}
 
 	/**
+	 * set X coord of this character
+	 * @param x
+	 */
+	public void setX(int x) {
+		this.xCoord = x;
+	}
+
+	/**
+	 * set Y coord of this character
+	 * @param y
+	 */
+	public void setY(int y) {
+		this.yCoord = y;
+	}
+
+	/**
 	 * Get unique id
 	 * @return
 	 */
@@ -98,6 +114,14 @@ public abstract class Actor implements GameObject {
 	 */
 	public int getY() {
 		return yCoord;
+	}
+
+	/**
+	 * Returns the world
+	 * @return
+	 */
+	public void setWorld(World game) {
+		this.game = game;
 	}
 
 	/**

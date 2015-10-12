@@ -1,9 +1,17 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -304,5 +312,14 @@ public final class Player extends MovingCharacter {
 	public void setLocation(int x, int y) {
 		this.xCoord = x;
 		this.yCoord = y;
+	}
+
+	public void setUID(int uid) {
+		this.uid = uid;
+	}
+
+	public void setWorld(World world) {
+		// TODO Auto-generated method stub
+
 	}
 }

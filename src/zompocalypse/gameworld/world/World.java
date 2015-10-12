@@ -278,12 +278,13 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * As above, but with a loaded player
+	 * This method creates a loaded player on the game and returns the id value
+	 * which they were registered with. It is synchronized because it can be
+	 * called in a networked game by multiple Client/Server connections.
 	 *
-	 * @param player
-	 * @return
+	 * @return integer ID value
 	 */
-	public synchronized int loadPlayer(Player player) {
+	public int registerLoadedPlayer(Player player) {
 		// A new player has been added
 		int x = width / 2, y = height / 2;
 
@@ -291,9 +292,12 @@ public class World implements Serializable {
 			x = p.x;
 			y = p.y;
 		}
-		// A new player has been added! Create them and put them in the
-		// map of actors here.
-		player.setLocation(x, y);
+
+		player.setUID(++id);
+		player.setWorld(this);
+		player.setX(x);
+		player.setY(y);
+
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 
@@ -793,5 +797,9 @@ public class World implements Serializable {
 		if (x instanceof Door) {
 			((Door) x).use(null);
 		}
+	}
+
+	public int getUID() {
+		return ++id;
 	}
 }

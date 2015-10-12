@@ -200,7 +200,6 @@ public class Parser {
 				// cont.add(parseContainer(textTileMap, object));
 				if (node.getNodeName().equals("key")) {
 					cont.add(parseKey(textTileMap, node.getAttribute("img")));
-					System.out.println("adding key!");
 				} else if (node.getNodeName().equals("money")) {
 					cont.add(parseMoney(textTileMap, node.getAttribute("img"),
 							node.getAttribute("amount")));
