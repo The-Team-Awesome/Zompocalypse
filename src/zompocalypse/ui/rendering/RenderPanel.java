@@ -179,18 +179,26 @@ public class RenderPanel extends JPanel {
 						continue;
 					}
 					else {
-						//						MovingCharacter ch = (MovingCharacter) dd;		//Otherwise, check to see if they were damaged
-						//						if(ch.tookDamage()){
-						//							drawDamage(x, y, g);
-						//						}
+						MovingCharacter ch = (MovingCharacter) dd;		//Otherwise, check to see if they were damaged
+						if(ch.tookDamage()){
+							drawDamage(x, y, g);
+						}
 					}
 				}
 			}
 		}
 	}
 
-
-
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param g
+	 */
+	private void drawDamage(int x, int y, Graphics g) {
+		g.setColor(Color.RED);
+		g.drawOval(x, y, 5, 5);
+	}
 
 	private void drawFloor(Floor[][] tempFloor, int i, int j, int x, int y, Graphics g) {
 		if (tempFloor[i][j] instanceof Drawable) {

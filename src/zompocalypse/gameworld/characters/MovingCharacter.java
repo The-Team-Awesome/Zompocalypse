@@ -25,6 +25,8 @@ public abstract class MovingCharacter extends Actor {
 	protected Orientation queued; // queued direction change (moving)
 	protected boolean moving;
 
+	private boolean tookDamage;  //whether the character took damage this turn
+
 	public MovingCharacter(int uid, World game, int xCoord, int yCoord, Orientation direction,
 			String[] filenames) {
 		super(uid, game, xCoord, yCoord, direction, filenames);
@@ -216,5 +218,13 @@ public abstract class MovingCharacter extends Actor {
 	 */
 	protected void updateCurrentOrientationClockwise() {
 		setOrientation(Orientation.getNext(getOrientation()));
+	}
+
+	/**
+	 * Returns whether the character took damage this turn
+	 * @return
+	 */
+	public boolean tookDamage() {
+		return tookDamage;
 	}
 }
