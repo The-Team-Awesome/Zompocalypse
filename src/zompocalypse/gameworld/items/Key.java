@@ -20,6 +20,7 @@ import zompocalypse.gameworld.world.World;
  */
 public class Key implements Item{
 
+	private static final long serialVersionUID = 1L;
 	private transient Image currentImage;
 	private String filename;
 	private int uid;
@@ -33,12 +34,12 @@ public class Key implements Item{
 	@Override
 	public void use(Player player){
 		List<Item> inventory = player.getInventory();
-		
+
 		if(!inventory.contains(this)) {
 			player.pickUp(this);
 			World world = player.getWorld();
 			PriorityQueue<GameObject>[][] objects = world.getObjects();
-			
+
 			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
 			for(int x = 0; x < objects.length; x++) {
 				for(int y = 0; y < objects[0].length; y++) {
@@ -104,7 +105,7 @@ public class Key implements Item{
 	public String examine(){
 		return "A key. Perhaps this could unlock something....";
 	}
-	
+
 	@Override
 	public boolean occupiable(){
 		return true;

@@ -397,7 +397,6 @@ public class World implements Serializable {
 					Iterator<Item> iterator = items.iterator();
 					Item next;
 
-					// do while loop ensures the loop always gets run once.
 					while(iterator.hasNext()) {
 						next = iterator.next();
 						if(next.getUniqueID() == itemId) {

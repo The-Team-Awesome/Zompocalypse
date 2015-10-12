@@ -12,7 +12,8 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
 
 /** Weapons are used to damage enemies.
- *
+ *  The damage dealt to each enemy is a modifier based on the specific
+ *  players strength, in addition to the type of Weapon they are holding.
  *
  * @author Sam Costigan, Kieran McKay
  *

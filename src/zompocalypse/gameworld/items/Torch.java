@@ -13,6 +13,7 @@ import zompocalypse.gameworld.world.World;
 
 public class Torch implements Item {
 
+	private static final long serialVersionUID = 1L;
 	private transient Image currentImage;
 	private String filename;
 	private int uid;
@@ -47,7 +48,7 @@ public class Torch implements Item {
 			inventory.add(this);
 			World world = player.getWorld();
 			PriorityQueue<GameObject>[][] objects = world.getObjects();
-			
+
 			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
 			for(int x = 0; x < objects.length; x++) {
 				for(int y = 0; y < objects[0].length; y++) {
@@ -60,7 +61,7 @@ public class Torch implements Item {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean occupiable(){
 		return true;

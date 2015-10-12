@@ -13,6 +13,7 @@ import zompocalypse.gameworld.world.World;
 
 public class Money implements Item {
 
+	private static final long serialVersionUID = 1L;
 	private transient Image currentImage;
 	private String filename;
 	private int uid;
@@ -66,18 +67,18 @@ public class Money implements Item {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public boolean occupiable(){
 		return true;
 	}
-	
+
 	@Override
 	public void use(Player player) {
 		List<Item> inventory = player.getInventory();
-		
+
 		boolean added = false;
-		
+
 		if(!inventory.contains(this)) {
 			for(Item i : inventory) {
 				if(i instanceof Money) {
@@ -86,11 +87,11 @@ public class Money implements Item {
 					added = true;
 				}
 			}
-			
+
 			if(!added) {
 				player.pickUp(this);
 			}
-			
+
 			World world = player.getWorld();
 			PriorityQueue<GameObject>[][] objects = world.getObjects();
 			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
@@ -103,7 +104,7 @@ public class Money implements Item {
 					}
 				}
 			}
-			
+
 		}
 	}
 

@@ -21,52 +21,42 @@ import zompocalypse.gameworld.world.*;
  */
 public class RenderPanel extends JPanel {
 
-	/*
-	 * Application Canvas is a field - need one in the constructor for the
-	 * Renderer.
-	 *
-	 * Need the location passed in - make a new renderer per location or use
-	 * setLocation()?
-	 *
-	 * Need the 4 orientations - NSEW. A location that is entered from the north
-	 * is shown with the view facing south.
-	 *
-	 * Locations in the distance are shown in the background.
-	 */
-
 	private static final long serialVersionUID = 1L;
+	private static final int MAX_MOVES_RESET = 6; // player will move this many tiles from centre before centre is reset
+	private static final int DRAW_DISTANCE = 12;  //the number of tiles that appear outwards from the player
+	private static final int TILE_WIDTH = 64;
+	private static final int FLOOR_TILE_HEIGHT = 42;
 
+	private int centreX;
+	private int centreY;	//The coordinates of the player
+	private Orientation currentOrientation; //the current orientation of the view
+
+	private final int id;  //The Player's ID
 	private World game;
-	private final int id;
-
-	private int centreX, centreY;
-	private int MAX_MOVES_RESET = 6; // player will move this many tiles from
-										// centre before centre is reset
-	private final int DRAW_DISTANCE = 12;
-	private final int TILE_WIDTH = 64;
-	private final int FLOOR_TILE_HEIGHT = 42;
-	Floor blankTile;
-
-	private Orientation currentOrientation;
+	private Floor blankTile;
 
 	/**
 	 * Constructor. Takes the height and width of the canvas into account.
 	 *
-	 * @param wd
-	 *            Width of window
-	 * @param ht
-	 *            Height of window
+	 * @param wd Width of window
+	 * @param ht Height of window
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
 		this.currentOrientation = game.getOrientation();
 		this.id = id;
+
 		centreX = game.getPlayer(id).getX();
 		centreY = game.getPlayer(id).getY();
+
 		String[] blank = { "blank_tile.png" };
 		blankTile = new Floor(0, 0, blank);
 	}
 
+	/**
+	 * Updates the world with it's new state.
+	 * @param game
+	 */
 	public void updateGame(World game) {
 		this.game = game;
 	}
@@ -75,16 +65,16 @@ public class RenderPanel extends JPanel {
 	 * Rotates the rendering in the given direction. Updates the current
 	 * orientation in the rendering panel
 	 *
-	 * @param clockwise
+	 * @param dir The direction of the rotation to be updated
 	 */
 	public void rotate(Direction dir) {
 		switch (dir) {
 
 		case CLOCKWISE:
-			updateCurrentOrientationClockwise();
+			updateViewClockwise();
 			return;
 		case ANTICLOCKWISE:
-			updateCurrentOrientationAntiClockwise();
+			updateViewAntiClockwise();
 			return;
 		default:
 			throw new IllegalArgumentException(
@@ -96,7 +86,7 @@ public class RenderPanel extends JPanel {
 	 * Updates the current orientation of the viewer to its clockwise
 	 * counterpart.
 	 */
-	private void updateCurrentOrientationClockwise() {
+	private void updateViewClockwise() {
 		currentOrientation = Orientation.getNext(currentOrientation);
 	}
 
@@ -104,25 +94,27 @@ public class RenderPanel extends JPanel {
 	 * Updates the current orientation of the viewer to its anticlockwise
 	 * counterpart.
 	 */
-	private void updateCurrentOrientationAntiClockwise() {
+	private void updateViewAntiClockwise() {
 		currentOrientation = Orientation.getPrev(currentOrientation);
 	}
 
 	/**
 	 * Draws the background first, then draws the tiles and players.
+	 * Knowledge taken from
+	 * http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		// how many tiles across from the player should be displayed
-		boolean editMode = game.getEditMode();
-		boolean showWalls = game.getShowWalls();
+		boolean editMode = game.getEditMode();	//Whether you are creating the world or not
+		boolean showWalls = game.getShowWalls();	//whether the walls are showing(for placing items in edit mode)
 
 		Floor[][] tiles;
-		PriorityQueue<GameObject>[][] objects;
+		PriorityQueue<GameObject>[][] objects;	//2D array of PriorityQueues for arrangement of items
 
-		int actorX = 0, actorY = 0;
+		int actorX = 0;
+		int actorY = 0;
 
 		tiles = game.getMap();
 		objects = game.getObjects();
@@ -141,47 +133,16 @@ public class RenderPanel extends JPanel {
 				centreX = actorX;
 				centreY = actorY;
 			}
-		} else {
+		}
+		else {
 			Point p = game.getEditor();
 			centreX = p.x;
 			centreY = p.y;
 		}
 
-
-		// http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
-		// coords
-
 		// convert these to the players coordinates
 		int offsetX = getWidth() / 2;
 		int offsetY = getHeight() / 2 - DRAW_DISTANCE * FLOOR_TILE_HEIGHT;
-		//
-		// offsetX -= getWidth()/2;;
-		// offsetY -= getHeight()/2;;
-
-		// switch (currentOrientation) {
-		// case NORTH:
-		// int[] playerCoords = convertFromGameToScreen(actorX, actorY); //
-		// players
-		// offsetX = -playerCoords[0] + getWidth() / 2;
-		// offsetY = -playerCoords[1] + getHeight() / 2;
-		// break;
-		// case EAST:
-		// playerCoords = convertFromGameToScreen(actorY, actorX); // players
-		// System.out.println("East");
-		// offsetX = playerCoords[0] + getWidth() / 2;
-		// offsetY = -playerCoords[1] + getHeight() / 2;
-		// break;
-		// case SOUTH:
-		// playerCoords = convertFromGameToScreen(actorX, actorY); // players
-		// offsetX = -playerCoords[0] + getWidth() / 2;
-		// offsetY = -playerCoords[1] + getHeight() / 2;
-		// break;
-		// case WEST:
-		// playerCoords = convertFromGameToScreen(actorY, actorX); // players
-		// offsetX = playerCoords[0] + getWidth() / 2;
-		// offsetY = -playerCoords[1] + getHeight() / 2;
-		// break;
-		// }
 
 		// should be calculating the draw distance instead of using a constant
 
@@ -194,10 +155,6 @@ public class RenderPanel extends JPanel {
 
 		int x;
 		int y;
-		// / trial
-
-		// TODO fix the getDrawAreaFloor and getDrawAreaObjects methods and
-		// uncomment, but I will leave it this way for now because it works.
 
 		Floor[][] tempFloor = tiles;
 		PriorityQueue<GameObject>[][] tempObjects = objects;
@@ -263,37 +220,6 @@ public class RenderPanel extends JPanel {
 
 		editOptions(offsetX, offsetY + DRAW_DISTANCE * FLOOR_TILE_HEIGHT,
 				editMode, g);
-
-		// / end trial
-
-		// //Initialise draw values --WORKS
-
-		//
-		// //to draw everything its the height and width of the screen
-		// for (int i = minI; i < maxI; ++i) {
-		// for (int j = minJ; j < maxJ; j++) {
-		// //System.out.print("(" + i + "," + j + ")");
-		// if (tiles[i][j] instanceof Drawable) {
-		// Drawable d = tiles[i][j];
-		//
-		// int[] coords = convertFromGameToScreen(i,j);
-		// x = coords[0] + offsetX;
-		// y = coords[1] + offsetY;
-		//
-		// d.draw(x, y, g);
-		//
-		// if (showWalls) {
-		// for (Drawable dd : objects[i][j]) {
-		// if (dd != null) {
-		// dd.draw(x, y, g);
-		// }
-		// }
-		// }
-		// }
-		// }
-		// //System.out.println();
-		// }
-		// editOptions(offsetX, offsetY, editMode, g);
 	}
 
 	private PriorityQueue<GameObject>[][] daveRotateObjects(
@@ -507,5 +433,64 @@ public class RenderPanel extends JPanel {
 	public Orientation getCurrentOrientation() {
 		return currentOrientation;
 	}
+
+	//
+	// offsetX -= getWidth()/2;;
+	// offsetY -= getHeight()/2;;
+
+	// switch (currentOrientation) {
+	// case NORTH:
+	// int[] playerCoords = convertFromGameToScreen(actorX, actorY); //
+	// players
+	// offsetX = -playerCoords[0] + getWidth() / 2;
+	// offsetY = -playerCoords[1] + getHeight() / 2;
+	// break;
+	// case EAST:
+	// playerCoords = convertFromGameToScreen(actorY, actorX); // players
+	// System.out.println("East");
+	// offsetX = playerCoords[0] + getWidth() / 2;
+	// offsetY = -playerCoords[1] + getHeight() / 2;
+	// break;
+	// case SOUTH:
+	// playerCoords = convertFromGameToScreen(actorX, actorY); // players
+	// offsetX = -playerCoords[0] + getWidth() / 2;
+	// offsetY = -playerCoords[1] + getHeight() / 2;
+	// break;
+	// case WEST:
+	// playerCoords = convertFromGameToScreen(actorY, actorX); // players
+	// offsetX = playerCoords[0] + getWidth() / 2;
+	// offsetY = -playerCoords[1] + getHeight() / 2;
+	// break;
+	// }
+
+
+	// //Initialise draw values --WORKS
+
+	//
+	// //to draw everything its the height and width of the screen
+	// for (int i = minI; i < maxI; ++i) {
+	// for (int j = minJ; j < maxJ; j++) {
+	// //System.out.print("(" + i + "," + j + ")");
+	// if (tiles[i][j] instanceof Drawable) {
+	// Drawable d = tiles[i][j];
+	//
+	// int[] coords = convertFromGameToScreen(i,j);
+	// x = coords[0] + offsetX;
+	// y = coords[1] + offsetY;
+	//
+	// d.draw(x, y, g);
+	//
+	// if (showWalls) {
+	// for (Drawable dd : objects[i][j]) {
+	// if (dd != null) {
+	// dd.draw(x, y, g);
+	// }
+	// }
+	// }
+	// }
+	// }
+	// //System.out.println();
+	// }
+	// editOptions(offsetX, offsetY, editMode, g);
 
 }

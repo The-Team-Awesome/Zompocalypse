@@ -23,6 +23,8 @@ import zompocalypse.ui.rendering.ImageUtils;
  * @author Kieran Mckay, 300276166
  */
 public class Container implements Item, Lockable{
+
+	private static final long serialVersionUID = 1L;
 	private int size;
 	private boolean movable;
 	private boolean locked;
@@ -92,7 +94,12 @@ public class Container implements Item, Lockable{
 		// TODO: Once containers are in the world, we can properly test this!
 		// It will need a valid action handler to pass to the ContainerPane,
 		// need to think about where this will come from!
+		int id = player.getUid();
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(this.heldItems, UICommand.TAKEITEM.getValue());
 
+		String[] options = {"Take"};
+		JOptionPane.showOptionDialog(null, inventory, name, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		player.getWorld().processCommand(id, UICommand.CONTAINER.getValue());
 	}
 
 	public List<Item> getHeldItems() {
