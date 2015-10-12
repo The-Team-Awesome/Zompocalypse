@@ -296,4 +296,9 @@ public final class Player extends MovingCharacter {
 		// consider changing to false if we want players to be able to block
 		return true;
 	}
+
+	public void setLocation(int x, int y) {
+		this.xCoord = x;
+		this.yCoord = y;
+	}
 }
