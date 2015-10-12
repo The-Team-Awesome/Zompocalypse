@@ -158,24 +158,45 @@ public class RenderPanel extends JPanel {
 		int y;
 		for (int i = 0; i < tempFloor.length; ++i) {
 			for (int j = 0; j < tempFloor[0].length; j++) {
-				if (tempFloor[i][j] instanceof Drawable) {
-					Drawable d = tempFloor[i][j];
 
-					int[] coords = convertFromGameToScreen(i, j);
-					x = coords[0] + offsetX;
-					y = coords[1] + offsetY;
+				int[] coords = convertFromGameToScreen(i, j);
+				x = coords[0] + offsetX;
+				y = coords[1] + offsetY;
 
-					d.draw(x, y, g, ori);
+				drawFloor(tempFloor, i, j, x, y, g);
+				drawObjects(g, showWalls, tempObjects, x, y, i, j);
+			}
+		}
+	}
 
-					if (showWalls) {
-						for (Drawable dd : tempObjects[i][j]) {
-							if (dd != null) {
-								dd.draw(x, y, g, ori);
-							}
-						}
+	private void drawObjects(Graphics g, boolean showWalls, PriorityQueue<GameObject>[][] tempObjects, int x, int y, int i,	int j) {
+		if (showWalls) {
+			for (Drawable dd : tempObjects[i][j]) {
+				if (dd != null) {
+					dd.draw(x, y, g, ori);
+
+					if(!(dd instanceof MovingCharacter)){  //If they are not a moving character, nothing else to check for
+						continue;
+					}
+					else {
+						//						MovingCharacter ch = (MovingCharacter) dd;		//Otherwise, check to see if they were damaged
+						//						if(ch.tookDamage()){
+						//							drawDamage(x, y, g);
+						//						}
 					}
 				}
 			}
+		}
+	}
+
+
+
+
+	private void drawFloor(Floor[][] tempFloor, int i, int j, int x, int y, Graphics g) {
+		if (tempFloor[i][j] instanceof Drawable) {
+			Drawable d = tempFloor[i][j];
+			d.draw(x, y, g, ori);
+
 		}
 	}
 
@@ -301,6 +322,7 @@ public class RenderPanel extends JPanel {
 			PriorityQueue<GameObject>[][] objects, int drawDistance,
 			int focusX, int focusY, int doubleDrawDist) {
 		PriorityQueue<GameObject>[][] temp = new PriorityQueue[doubleDrawDist + 1][doubleDrawDist + 1];
+
 		for (int i = 0; i <= doubleDrawDist; i++) {
 			for (int j = 0; j <= doubleDrawDist; j++) {
 				if (i + focusX - drawDistance < 0
