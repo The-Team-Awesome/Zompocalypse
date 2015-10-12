@@ -2,13 +2,16 @@ package zompocalypse.datastorage;
 
 import javafx.scene.media.MediaPlayer;
 
+import javax.sound.sampled.Clip;
+
 public class SoundManager {
 
-	private static final String theme = "theme.mp3";
+	private static final String themeMP3 = "theme.mp3";
+	private static final String themeWav = "theme.wav";
 	
 	public static void playTheme() {
-		MediaPlayer theme = Loader.LoadMP3("theme.mp3");
-		theme.play();
+		Clip newTheme = Loader.LoadSound(themeWav);
+		newTheme.start();
 	}
 	
 }
