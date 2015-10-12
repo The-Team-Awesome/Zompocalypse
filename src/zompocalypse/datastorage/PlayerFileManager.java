@@ -20,6 +20,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
@@ -63,7 +64,7 @@ public class PlayerFileManager {
 			Element xmlPlayer = doc.createElement("player");
 			doc.appendChild(xmlPlayer);
 
-			//Get all the Player attributes
+			// Get all the Player attributes
 			Weapon weapon = player.getEquipped();
 			String[] fileName = player.getFileName().split("_");
 			String name = fileName[1];
@@ -79,71 +80,16 @@ public class PlayerFileManager {
 			xmlPlayer.setAttribute("strength", String.valueOf(strength));
 			xmlPlayer.setAttribute("score", String.valueOf(score));
 
+			if (weapon != null) {
+				xmlPlayer.appendChild(writeItem(weapon, doc));
+			}
 
+			Element xmlInventory = doc.createElement("inventory");
+			xmlPlayer.appendChild(xmlInventory);
 
-			// Create a Map with the (x,y) 'dimensions' of the Map.
-//			Element xmlMap = doc.createElement("map");
-//			xmlMap.setAttribute("dimensions",
-//					world.width() + "," + world.height());
-//			xmlPlayer.appendChild(xmlMap);
-
-//			// Read through the Map and create a Row for every row in the map,
-//			// and a
-//			// Cell for every cell in each row.
-//			for (int col = 0; col < y; col++) {
-//				Element xmlRow = doc.createElement("row");
-//				for (int row = 0; row < x; row++) {
-//					Element xmlCell = doc.createElement("cell");
-//					xmlCell.setAttribute("img",
-//							getCode(map[row][col].getFileName(), textTileMap));
-//					xmlRow.appendChild(xmlCell);
-//					if (objects[row][col] != null) {
-//						if (objects[row][col].peek() instanceof Wall) {
-//							Wall wall = (Wall) objects[row][col].peek();
-//							xmlCell.setAttribute("wall",
-//									getCode(wall.getFileName(), textTileMap));
-//							xmlCell.setAttribute("offset",
-//									String.valueOf(wall.getOffset()));
-//						} else if (objects[row][col].peek() instanceof Door) {
-//							Door door = (Door) objects[row][col].peek();
-//							xmlCell.setAttribute("door",
-//									getCode(door.getFileName(), textTileMap));
-//							xmlCell.setAttribute("offset",
-//									String.valueOf(door.getOffset()));
-//							xmlCell.setAttribute("open",
-//									String.valueOf(door.isOpen()));
-//							xmlCell.setAttribute("locked",
-//									String.valueOf(door.isLocked()));
-//						} else if (objects[row][col].peek() instanceof Key) {
-//							xmlCell.appendChild(writeKey(doc,
-//									(Key) objects[row][col].peek(), textTileMap));
-//						} else if (objects[row][col].peek() instanceof Money) {
-//							xmlCell.appendChild(writeMoney(doc,
-//									(Money) objects[row][col].peek(),
-//									textTileMap));
-//						} else if (objects[row][col].peek() instanceof Torch) {
-//							xmlCell.appendChild(writeTorch(doc,
-//									(Torch) objects[row][col].peek(),
-//									textTileMap));
-//						} else if (objects[row][col].peek() instanceof Weapon) {
-//							xmlCell.appendChild(writeWeapon(doc,
-//									(Weapon) objects[row][col].peek(),
-//									textTileMap));
-//						} else if (objects[row][col].peek() instanceof Container) {
-//							xmlCell.appendChild(writeContainer(doc,
-//									(Container) objects[row][col].peek(),
-//									textTileMap));
-//						}
-//					}
-//					if (zombieSpawnPoints.contains(new Point(row, col))) {
-//						xmlCell.setAttribute("zombieSpawnPoint", "");
-//					}
-//					if (playerSpawnPoints.contains(new Point(row, col))) {
-//						xmlCell.setAttribute("playerSpawnPoint", "");
-//					}
-//				}
-//				xmlMap.appendChild(xmlRow);
-//			}
+			for (Item i : inventory) {
+				xmlInventory.appendChild(writeItem(i, doc));
+			}
 
 			// Convert Doc to Source
 			TransformerFactory transformerFactory = TransformerFactory
@@ -162,5 +108,56 @@ public class PlayerFileManager {
 
 		// If we got here something went wrong!
 		return "Error: Unable to save the World";
+	}
+
+	private static Node writeItem(Item i, Document doc) {
+		if (i instanceof Container) {
+			Container container = (Container) i;
+			Element xmlContainer = doc.createElement("container");
+			xmlContainer.setAttribute("filename", container.getFileName());
+			xmlContainer.setAttribute("size",
+					String.valueOf(container.getSize()));
+			xmlContainer.setAttribute("movable",
+					String.valueOf(container.movable()));
+			xmlContainer.setAttribute("locked",
+					String.valueOf(container.isLocked()));
+			xmlContainer.setAttribute("open",
+					String.valueOf(container.isOpen()));
+			xmlContainer.setAttribute("name",
+					String.valueOf(container.getName()));
+			xmlContainer.setAttribute("description",
+					String.valueOf(container.examine()));
+			List<Item> inventory = container.getHeldItems();
+			for (Item j : inventory) {
+				xmlContainer.appendChild(writeItem(j, doc));
+			}
+			return xmlContainer;
+		} else if (i instanceof Key) {
+			Key key = (Key) i;
+			Element xmlMoney = doc.createElement("key");
+			xmlMoney.setAttribute("filename", key.getFileName());
+			return xmlMoney;
+		} else if (i instanceof Money) {
+			Money money = (Money) i;
+			Element xmlMoney = doc.createElement("money");
+			xmlMoney.setAttribute("filename", money.getFileName());
+			xmlMoney.setAttribute("amount", String.valueOf(money.getAmount()));
+			return xmlMoney;
+		} else if (i instanceof Torch) {
+			Torch torch = (Torch) i;
+			Element xmlTorch = doc.createElement("torch");
+			xmlTorch.setAttribute("filename", torch.getFileName());
+			return xmlTorch;
+		} else if (i instanceof Weapon) {
+			Weapon weapon = (Weapon) i;
+			Element xmlWeapon = doc.createElement("weapon");
+			xmlWeapon.setAttribute("strength",
+					String.valueOf(weapon.getStrength()));
+			xmlWeapon.setAttribute("filename", weapon.getFileName());
+			xmlWeapon.setAttribute("description", weapon.examine());
+			return xmlWeapon;
+		}
+		throw new Error(
+				"Should not ever never get to this point unless someone did a bad");
 	}
 }
