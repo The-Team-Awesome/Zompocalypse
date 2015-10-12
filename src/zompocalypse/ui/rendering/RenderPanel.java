@@ -22,18 +22,21 @@ import zompocalypse.gameworld.world.*;
 public class RenderPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
 	private static final int MAX_MOVES_RESET = 6; // player will move this many tiles from centre before centre is reset
 	private static final int DRAW_DISTANCE = 12;  //the number of tiles that appear outwards from the player
 	private static final int TILE_WIDTH = 64;
 	private static final int FLOOR_TILE_HEIGHT = 42;
 
-	private int centreX;
-	private int centreY;	//The coordinates of the player
-	private Orientation currentOrientation; //the current orientation of the view
+	private int centerX = 0;
+	private int centerY = 0;
+	private int focusX;
+	private int focusY;	//The coordinates of the player
+	private Orientation ori; //the current orientation of the view
 
 	private final int id;  //The Player's ID
 	private World game;
-	private Floor blankTile;
+	private Floor blankTile;  //If the tile is off the grid, then a blank tile is drawn. Could be invisible if expanded to include background.
 
 	/**
 	 * Constructor. Takes the height and width of the canvas into account.
@@ -43,18 +46,18 @@ public class RenderPanel extends JPanel {
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
-		this.currentOrientation = game.getOrientation();
+		this.ori = game.getOrientation();
 		this.id = id;
 
-		centreX = game.getPlayer(id).getX();
-		centreY = game.getPlayer(id).getY();
+		centerX = game.getPlayer(id).getX();
+		centerY = game.getPlayer(id).getY();
 
 		String[] blank = { "blank_tile.png" };
 		blankTile = new Floor(0, 0, blank);
 	}
 
 	/**
-	 * Updates the world with it's new state.
+	 * Updates the world with its new state. //TODO: is this necessary
 	 * @param game
 	 */
 	public void updateGame(World game) {
@@ -87,7 +90,7 @@ public class RenderPanel extends JPanel {
 	 * counterpart.
 	 */
 	private void updateViewClockwise() {
-		currentOrientation = Orientation.getNext(currentOrientation);
+		ori = Orientation.getNext(ori);
 	}
 
 	/**
@@ -95,7 +98,7 @@ public class RenderPanel extends JPanel {
 	 * counterpart.
 	 */
 	private void updateViewAntiClockwise() {
-		currentOrientation = Orientation.getPrev(currentOrientation);
+		ori = Orientation.getPrev(ori);
 	}
 
 	/**
@@ -111,92 +114,49 @@ public class RenderPanel extends JPanel {
 		boolean showWalls = game.getShowWalls();	//whether the walls are showing(for placing items in edit mode)
 
 		Floor[][] tiles;
-		PriorityQueue<GameObject>[][] objects;	//2D array of PriorityQueues for arrangement of items
-
-		int actorX = 0;
-		int actorY = 0;
+		PriorityQueue<GameObject>[][] objects;	//2D array of PriorityQueues for arrangement of items for displaying
 
 		tiles = game.getMap();
 		objects = game.getObjects();
-		int wd = tiles.length;
-		int ht = tiles[0].length;
 
-		// get the board coordinates of the player
-		if (!editMode) {
-			Actor c = game.getCharacterByID(id);
-			actorX = c.getX();
-			actorY = c.getY();
-			if (actorX - centreX > MAX_MOVES_RESET
-					|| centreX - actorX > MAX_MOVES_RESET
-					|| actorY - centreY > MAX_MOVES_RESET
-					|| centreY - actorY > MAX_MOVES_RESET) {
-				centreX = actorX;
-				centreY = actorY;
-			}
-		}
-		else {
-			Point p = game.getEditor();
-			centreX = p.x;
-			centreY = p.y;
-		}
+		setFocus(editMode);
 
 		// convert these to the players coordinates
 		int offsetX = getWidth() / 2;
 		int offsetY = getHeight() / 2 - DRAW_DISTANCE * FLOOR_TILE_HEIGHT;
 
-		// should be calculating the draw distance instead of using a constant
-
-		// can't draw a square that is a negative number, or bigger than the
-		// window
-		int minI = Math.max(0, centreX - DRAW_DISTANCE);
-		int minJ = Math.max(0, centreY - DRAW_DISTANCE);
-		int maxI = Math.min(ht - 1, centreX + DRAW_DISTANCE);
-		int maxJ = Math.min(wd - 1, centreY + DRAW_DISTANCE);
-
-		int x;
-		int y;
-
 		Floor[][] tempFloor = tiles;
 		PriorityQueue<GameObject>[][] tempObjects = objects;
 
-		tempFloor = daveEnsmallenFloor(tiles, DRAW_DISTANCE, centreX, centreY);
-		tempObjects = daveEnsmallenObjects(objects, DRAW_DISTANCE, centreX,
-				centreY);
+		tempFloor = clipFloor(tiles, DRAW_DISTANCE, focusX, focusY);
+		tempObjects = clipObjects(objects, DRAW_DISTANCE, focusX,
+				focusY);
 
-		switch (currentOrientation) {
-		case NORTH:
-			break;
-		case EAST:
-			tempFloor = daveRotateFloor(tempFloor);
-			tempObjects = daveRotateObjects(tempObjects);
-			break;
-		case SOUTH:
-			tempFloor = daveRotateFloor(tempFloor);
-			tempFloor = daveRotateFloor(tempFloor);
-			tempObjects = daveRotateObjects(tempObjects);
-			tempObjects = daveRotateObjects(tempObjects);
-			break;
-		case WEST:
-			tempFloor = daveRotateFloor(tempFloor);
-			tempFloor = daveRotateFloor(tempFloor);
-			tempFloor = daveRotateFloor(tempFloor);
-			tempObjects = daveRotateObjects(tempObjects);
-			tempObjects = daveRotateObjects(tempObjects);
-			tempObjects = daveRotateObjects(tempObjects);
-			break;
-		}
+		tempObjects = rotateObjects(tempObjects);
+		tempFloor = rotateFloor(tempFloor);
+		paintGameScreen(g, showWalls, offsetX, offsetY, tempFloor, tempObjects);
 
-		// Floor[][] tempFloor = getDrawAreaFloor(minI, maxI, minJ, maxJ,
-		// currentOrientation, tiles);
-		// PriorityQueue<GameObject>[][] tempObjects = getDrawAreaObjects(minI,
-		// maxI, minJ, maxJ, currentOrientation, objects);
+		editOptions(offsetX, offsetY + DRAW_DISTANCE * FLOOR_TILE_HEIGHT,
+				editMode, g);
+	}
 
-		// //Initialise draw values --WORKS
-
-		// to draw everything its the height and width of the screen
+	/**
+	 * Iterates through the Floor tiles and GameObjects, and draws them.
+	 *
+	 * @param g The Graphics object to draw things with
+	 * @param showWalls Whether the walls are showing for editing purposes
+	 * @param offsetX The X offset of the screen values
+	 * @param offsetY The Y offset of the screen values
+	 * @param tempFloor The Floor in the game
+	 * @param tempObjects The Objects in the game
+	 */
+	private void paintGameScreen(Graphics g, boolean showWalls, int offsetX,
+			int offsetY, Floor[][] tempFloor,
+			PriorityQueue<GameObject>[][] tempObjects) {
+		int x;
+		int y;
 		for (int i = 0; i < tempFloor.length; ++i) {
 			for (int j = 0; j < tempFloor[0].length; j++) {
-				// System.out.print("(" + i + "," + j + ")");
 				if (tempFloor[i][j] instanceof Drawable) {
 					Drawable d = tempFloor[i][j];
 
@@ -204,25 +164,103 @@ public class RenderPanel extends JPanel {
 					x = coords[0] + offsetX;
 					y = coords[1] + offsetY;
 
-					d.draw(x, y, g, currentOrientation);
+					d.draw(x, y, g, ori);
 
 					if (showWalls) {
 						for (Drawable dd : tempObjects[i][j]) {
 							if (dd != null) {
-//								System.out.println(dd.getFileName());
-								dd.draw(x, y, g, currentOrientation);
+								dd.draw(x, y, g, ori);
 							}
 						}
 					}
 				}
 			}
 		}
-
-		editOptions(offsetX, offsetY + DRAW_DISTANCE * FLOOR_TILE_HEIGHT,
-				editMode, g);
 	}
 
-	private PriorityQueue<GameObject>[][] daveRotateObjects(
+	/** Rotates the floor according to the current orientation
+	 *
+	 * @param tempFloor
+	 * @return The rotated 2D array of Floor tiles
+	 */
+	private Floor[][] rotateFloor(Floor[][] tempFloor) {
+		switch (ori) {
+		case NORTH:
+			break;
+		case EAST:
+			tempFloor = rotateFloor90(tempFloor);
+			break;
+		case SOUTH:
+			tempFloor = rotateFloor90(tempFloor);
+			tempFloor = rotateFloor90(tempFloor);
+			break;
+		case WEST:
+			tempFloor = rotateFloor90(tempFloor);
+			tempFloor = rotateFloor90(tempFloor);
+			tempFloor = rotateFloor90(tempFloor);
+			break;
+		}
+		return tempFloor;
+	}
+
+	/** Rotates the floor according to the current orientation
+	 *
+	 * @param tempObjects
+	 * @return The rotated 2D array of the Priority Queues with Gameobjects in them
+	 */
+	private PriorityQueue<GameObject>[][] rotateObjects(
+			PriorityQueue<GameObject>[][] tempObjects) {
+		switch (ori) {
+		case NORTH:
+			break;
+		case EAST:
+			tempObjects = rotateObjects90(tempObjects);
+			break;
+		case SOUTH:
+			tempObjects = rotateObjects90(tempObjects);
+			tempObjects = rotateObjects90(tempObjects);
+			break;
+		case WEST:
+			tempObjects = rotateObjects90(tempObjects);
+			tempObjects = rotateObjects90(tempObjects);
+			tempObjects = rotateObjects90(tempObjects);
+			break;
+		}
+		return tempObjects;
+	}
+
+	/**
+	 * Centers the map if the player/editor has moved too far away from the screen centre.
+	 *
+	 * @param editMode Whether it is in edit mode or not
+	 */
+	private void setFocus(boolean editMode) {
+		// get the board coordinates of the player
+		if (!editMode) {
+			Actor c = game.getCharacterByID(id);
+			centerX = c.getX();
+			centerY = c.getY();
+			if (centerX - focusX > MAX_MOVES_RESET
+					|| focusX - centerX > MAX_MOVES_RESET
+					|| centerY - focusY > MAX_MOVES_RESET
+					|| focusY - centerY > MAX_MOVES_RESET) {
+				focusX = centerX;
+				focusY = centerY;
+			}
+		}
+		else {
+			Point p = game.getEditor();
+			focusX = p.x;
+			focusY = p.y;
+		}
+	}
+
+	/**
+	 * Rotates the given 2D array by 90 degrees
+	 * @param tempObjects
+	 * @return The objects in their new locations
+	 */
+	private PriorityQueue<GameObject>[][] rotateObjects90(
 			PriorityQueue<GameObject>[][] tempObjects) {
 		int size = tempObjects.length;
 		PriorityQueue<GameObject>[][] temp = new PriorityQueue[size][size];
@@ -234,7 +272,12 @@ public class RenderPanel extends JPanel {
 		return temp;
 	}
 
-	private Floor[][] daveRotateFloor(Floor[][] tempFloor) {
+	/**
+	 * Rotates the given 2D array by 90 degrees
+	 * @param tempFloor
+	 * @return The objects in their new locations
+	 */
+	private Floor[][] rotateFloor90(Floor[][] tempFloor) {
 		int size = tempFloor.length;
 		Floor[][] temp = new Floor[size][size];
 		for (int x = 0; x < size; x++) {
@@ -245,138 +288,61 @@ public class RenderPanel extends JPanel {
 		return temp;
 	}
 
-	private PriorityQueue<GameObject>[][] daveEnsmallenObjects(
+	/**
+	 * Returns the selection of GameObjects around the centre of the focus at the size of the draw distance
+	 * @param objects The 2D objects array that requires clipping
+	 * @param drawDistance The number of tiles from the player that will be displayed
+	 * @param focusX The X position of the editor or player
+	 * @param focusY The Y position of the editor or player
+	 * @return
+	 */
+	private PriorityQueue<GameObject>[][] clipObjects(
 			PriorityQueue<GameObject>[][] objects, int drawDistance,
-			int actorX, int actorY) {
+			int focusX, int focusY) {
 		PriorityQueue<GameObject>[][] temp = new PriorityQueue[(drawDistance * 2) + 1][(drawDistance * 2) + 1];
 		for (int i = 0; i <= (drawDistance * 2); i++) {
 			for (int j = 0; j <= (drawDistance * 2); j++) {
-				if (i + actorX - drawDistance < 0
-						|| j + actorY - drawDistance < 0
-						|| i + actorX - objects.length - drawDistance >= 0
-						|| j + actorY - objects[0].length - drawDistance >= 0)
+				if (i + focusX - drawDistance < 0
+						|| j + focusY - drawDistance < 0
+						|| i + focusX - objects.length - drawDistance >= 0
+						|| j + focusY - objects[0].length - drawDistance >= 0)
 					temp[i][j] = new PriorityQueue<GameObject>();
 				else
-					temp[i][j] = objects[i + actorX - drawDistance][j + actorY
-							- drawDistance];
+					temp[i][j] = objects[i + focusX - drawDistance][j + focusY
+					                                                - drawDistance];
 			}
 		}
 		return temp;
 	}
 
-	private Floor[][] daveEnsmallenFloor(Floor[][] tiles, int drawDistance,
-			int actorX, int actorY) {
+	/**
+	 * Returns the selection of Floor tiles around the centre of the focus at the size of the draw distance
+	 * @param objects The 2D objects array that requires clipping
+	 * @param drawDistance The number of tiles from the player that will be displayed
+	 * @param focusX The X position of the editor or player
+	 * @param focusY The Y position of the editor or player
+	 * @return
+	 */
+	private Floor[][] clipFloor(Floor[][] tiles, int drawDistance,
+			int focusX, int focusY) {
 		Floor[][] temp = new Floor[(drawDistance * 2) + 1][(drawDistance * 2) + 1];
 		for (int i = 0; i <= (drawDistance * 2); i++) {
 			for (int j = 0; j <= (drawDistance * 2); j++) {
-				if (i + actorX - drawDistance < 0
-						|| j + actorY - drawDistance < 0
-						|| i + actorX - tiles.length - drawDistance >= 0
-						|| j + actorY - tiles[0].length - drawDistance >= 0)
+				if (i + focusX - drawDistance < 0
+						|| j + focusY - drawDistance < 0
+						|| i + focusX - tiles.length - drawDistance >= 0
+						|| j + focusY - tiles[0].length - drawDistance >= 0)
 					temp[i][j] = blankTile;
 				else
-					temp[i][j] = tiles[i + actorX - drawDistance][j + actorY
-							- drawDistance];
+					temp[i][j] = tiles[i + focusX - drawDistance][j + focusY
+					                                              - drawDistance];
 			}
 		}
 		return temp;
 	}
 
-//	private PriorityQueue[][] getDrawAreaObjects(int minI, int maxI, int minJ,
-//			int maxJ, Orientation currentOrientation,
-//			PriorityQueue<GameObject>[][] objects) {
-//
-//		PriorityQueue<GameObject>[][] temp = objects;
-//
-//		switch (currentOrientation) {
-//		case NORTH:
-//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			break;// do nothing
-//		case EAST:
-//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-//			break;
-//		case SOUTH:
-//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			break;
-//		case WEST:
-//			temp = rotateObject90(minI, maxI, minJ, maxJ, objects);
-//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			temp = rotateObject90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			break;
-//		}
-//
-//		return temp;
-//	}
-//
-//	private PriorityQueue[][] rotateObject90(int minI, int maxI, int minJ,
-//			int maxJ, PriorityQueue<GameObject>[][] objects) {
-//		PriorityQueue<GameObject>[][] temp = new PriorityQueue[maxI - minI + 1][maxJ
-//				- minJ + 1];
-//		for (int i = minI; i <= maxI; ++i) {
-//			for (int j = minJ; j <= maxJ; j++) {
-//				temp[i - minI][j - minJ] = objects[maxJ - j][i];
-//			}
-//		}
-//		return temp;
-//	}
-
-//	private Floor[][] getDrawAreaFloor(int minI, int maxI, int minJ, int maxJ,
-//			Orientation currentOrientation, Floor[][] tiles) {
-//		Floor[][] temp = tiles;
-//
-//		switch (currentOrientation) {
-//		case NORTH:
-//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			break;// do nothing
-//		case EAST:
-//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-//			break;
-//		case SOUTH:
-//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			break;
-//		case WEST:
-//			temp = rotateFloor90(minI, maxI, minJ, maxJ, tiles);
-//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			temp = rotateFloor90(0, temp[0].length - 1, 0, temp.length - 1,
-//					temp);
-//			break;
-//		}
-//		return temp;
-//	}
-
-//	private Floor[][] rotateFloor90(int minI, int maxI, int minJ, int maxJ,
-//			Floor[][] tiles) {
-//		Floor[][] temp = new Floor[maxI - minI + 1][maxJ - minJ + 1];
-//		for (int i = minI; i <= maxI; ++i) {
-//			for (int j = minJ; j <= maxJ; j++) {
-//				temp[i - minI][j - minJ] = tiles[maxJ - j][i];
-//			}
-//		}
-//
-//		return temp;
-//	}
-
 	/**
-	 * Davids options for using the editor
+	 * Options for using the editor
 	 *
 	 * @param offsetX
 	 * @param offsetY
@@ -410,15 +376,12 @@ public class RenderPanel extends JPanel {
 	 * Returns the screen coordinates, translated using an isometric formula
 	 * from the game coordinates.
 	 *
-	 * @param i
-	 *            Gamess x value
-	 * @param j
-	 *            Games y value
-	 * @return
+	 * @param i Gamess x value
+	 * @param j Games y value
+	 * @return The calculated X/Y values
 	 */
 	private int[] convertFromGameToScreen(int i, int j) {
 		int x = (i * TILE_WIDTH / 2) - (j * TILE_WIDTH / 2);
-
 		int y = (j * FLOOR_TILE_HEIGHT / 2) + (i * FLOOR_TILE_HEIGHT / 2);
 
 		return new int[] { x, y };
@@ -431,66 +394,6 @@ public class RenderPanel extends JPanel {
 	 * @return The current orientation
 	 */
 	public Orientation getCurrentOrientation() {
-		return currentOrientation;
+		return ori;
 	}
-
-	//
-	// offsetX -= getWidth()/2;;
-	// offsetY -= getHeight()/2;;
-
-	// switch (currentOrientation) {
-	// case NORTH:
-	// int[] playerCoords = convertFromGameToScreen(actorX, actorY); //
-	// players
-	// offsetX = -playerCoords[0] + getWidth() / 2;
-	// offsetY = -playerCoords[1] + getHeight() / 2;
-	// break;
-	// case EAST:
-	// playerCoords = convertFromGameToScreen(actorY, actorX); // players
-	// System.out.println("East");
-	// offsetX = playerCoords[0] + getWidth() / 2;
-	// offsetY = -playerCoords[1] + getHeight() / 2;
-	// break;
-	// case SOUTH:
-	// playerCoords = convertFromGameToScreen(actorX, actorY); // players
-	// offsetX = -playerCoords[0] + getWidth() / 2;
-	// offsetY = -playerCoords[1] + getHeight() / 2;
-	// break;
-	// case WEST:
-	// playerCoords = convertFromGameToScreen(actorY, actorX); // players
-	// offsetX = playerCoords[0] + getWidth() / 2;
-	// offsetY = -playerCoords[1] + getHeight() / 2;
-	// break;
-	// }
-
-
-	// //Initialise draw values --WORKS
-
-	//
-	// //to draw everything its the height and width of the screen
-	// for (int i = minI; i < maxI; ++i) {
-	// for (int j = minJ; j < maxJ; j++) {
-	// //System.out.print("(" + i + "," + j + ")");
-	// if (tiles[i][j] instanceof Drawable) {
-	// Drawable d = tiles[i][j];
-	//
-	// int[] coords = convertFromGameToScreen(i,j);
-	// x = coords[0] + offsetX;
-	// y = coords[1] + offsetY;
-	//
-	// d.draw(x, y, g);
-	//
-	// if (showWalls) {
-	// for (Drawable dd : objects[i][j]) {
-	// if (dd != null) {
-	// dd.draw(x, y, g);
-	// }
-	// }
-	// }
-	// }
-	// }
-	// //System.out.println();
-	// }
-	// editOptions(offsetX, offsetY, editMode, g);
-
 }
