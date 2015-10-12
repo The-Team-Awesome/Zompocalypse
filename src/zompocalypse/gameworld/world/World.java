@@ -93,10 +93,22 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (Actor actor : idToActor.values()) {
-			if (!editMode)
+
+		Iterator<Actor> actors = idToActor.values().iterator();
+		Actor actor;
+		while (actors.hasNext()) {
+			actor = actors.next();
+			if (!editMode) {
+				if (actor instanceof MovingCharacter) {
+					MovingCharacter character = (MovingCharacter) actor;
+					if (character.isDead()) {
+						removeCharacter(character);
+					}
+				}
 				actor.tick(this);
+			}
 		}
+
 		if (tickTimer % 10 == 0 && !editMode) {
 			spawnZombie(new RandomStrategy());
 		}
@@ -104,6 +116,16 @@ public class World implements Serializable {
 			spawnZombie(new HomerStrategy());
 		}
 		tickTimer++;
+	}
+
+	private void removeCharacter(MovingCharacter character) {
+		// TODO: At this point, we can remove a character if they are a zombie,
+		// or trigger a game over screen if they are a player
+		if (character.isDead() && character instanceof StrategyZombie) {
+			// TODO: This throws a concurrent modification exception at the
+			// moment
+			// idToActor.remove(character.getUid(), character);
+		}
 	}
 
 	/**
@@ -229,7 +251,7 @@ public class World implements Serializable {
 	 *
 	 * @return integer ID value
 	 */
-	public synchronized int registerPlayer() {
+	public synchronized int registerPlayer(String fileName) {
 		// A new player has been added
 		int x = width / 2, y = height / 2;
 
@@ -240,9 +262,10 @@ public class World implements Serializable {
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
 
-		String[] filenames = { "character_gina_empty_n.png",
-				"character_gina_empty_e.png", "character_gina_empty_s.png",
-				"character_gina_empty_w.png" };
+		String[] filenames = { "character_" + fileName + "_empty_n.png",
+				"character_" + fileName + "_empty_e.png",
+				"character_" + fileName + "_empty_s.png",
+				"character_" + fileName + "_empty_w.png" };
 
 		// TODO: This should really get valid information for name,
 		// as well as select their x, y co-ordinates based on a valid portal
@@ -256,6 +279,7 @@ public class World implements Serializable {
 
 	/**
 	 * As above, but with a loaded player
+	 *
 	 * @param player
 	 * @return
 	 */
@@ -269,7 +293,7 @@ public class World implements Serializable {
 		}
 		// A new player has been added! Create them and put them in the
 		// map of actors here.
-		player.setLocation(x,y);
+		player.setLocation(x, y);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 

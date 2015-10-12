@@ -1,6 +1,7 @@
 package zompocalypse.ui.appwindow;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import java.util.EventListener;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -54,6 +56,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private ClientPanel clientCard;
 	private ServerPanel serverCard;
 	private CustomServerPanel customServerCard;
+	private SelectCharacterPanel selectCharacterCard;
 	private JPanel cards;
 	private World game;
 
@@ -100,12 +103,14 @@ public class MainFrame extends JFrame implements WindowListener {
 		clientCard = new ClientPanel(action);
 		serverCard = new ServerPanel(port, gameClock, serverClock);
 		customServerCard = new CustomServerPanel(action);
+		selectCharacterCard = new SelectCharacterPanel(action);
 
 		cards.add(startCard, "2");
 		cards.add(multiplayerCard, "3");
 		cards.add(clientCard, "4");
 		cards.add(customServerCard, "5");
 		cards.add(serverCard, "6");
+		cards.add(selectCharacterCard, "7");
 
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
@@ -143,7 +148,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	 *            - updated instance of World.
 	 */
 	public void updateGame(World game) {
-//		this.game = game;
+		// this.game = game;
 		gameCard.updateGame(game);
 	}
 
@@ -159,7 +164,10 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
 		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
-			singlePlayer();
+//			singlePlayer("gina");
+			selectCharacter();
+		} else if (command.equals(UICommand.NEWCHARACTER.getValue())) {
+			newCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
 		} else if (command.equals(UICommand.SERVER.getValue())) {
@@ -182,9 +190,28 @@ public class MainFrame extends JFrame implements WindowListener {
 			savePlayer();
 		} else if (command.equals(UICommand.EXAMINE.getValue())) {
 			gameCard.examine();
-		} else if(command.equals(UICommand.USE.getValue())) {
+		} else if (command.equals(UICommand.USE.getValue())) {
 			use(id);
 		}
+	}
+
+	private void newCharacter() {
+		String result;
+		// this is ugly but would need to be stored in a file and parsed from it
+		// anyway
+		Object[] possibilities = { "amy", "bob", "cordi", "duncan",
+				"elizabeth", "fred", "gina", "harold" };
+		// TODO this works, but I am uncomfortable with these null values!
+		Component frame = null;
+		Icon icon = null;
+		String fileName = (String) JOptionPane.showInputDialog(frame,
+				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
+				icon, possibilities, "wall_brown_1_door_closed_ew.png");
+		singlePlayer(fileName);
+	}
+
+	private void selectCharacter() {
+		layout.show(cards, "7");
 	}
 
 	/**
@@ -264,8 +291,9 @@ public class MainFrame extends JFrame implements WindowListener {
 	/**
 	 * This method starts up a single player game. If a map has been loaded in,
 	 * it will use that, otherwise it will load the default map file.
+	 * @param fileName
 	 */
-	private void singlePlayer() {
+	private void singlePlayer(String fileName) {
 		if (game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);
@@ -274,7 +302,7 @@ public class MainFrame extends JFrame implements WindowListener {
 			}
 		}
 
-		int id = game.registerPlayer();
+		int id = game.registerPlayer(fileName);
 
 		SinglePlayer player = new SinglePlayer(game, id);
 
@@ -350,33 +378,39 @@ public class MainFrame extends JFrame implements WindowListener {
 		Player player = (Player) game.getCharacterByID(id);
 		List<Item> objects = player.getInventory();
 
-		ContainerPanel inventory = ContainerPanel.getContainerPanel(objects, UICommand.USEITEM.getValue());
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(objects,
+				UICommand.USEITEM.getValue());
 
-		String[] options = {"Drop", "Use"};
+		String[] options = { "Drop", "Use" };
 
-		int option = (int) JOptionPane.showOptionDialog(null, inventory, "Player " + id
-				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-				null, options, options[0]);
+		int option = (int) JOptionPane.showOptionDialog(null, inventory,
+				"Player " + id + "'s Inventory", JOptionPane.YES_NO_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 		String command;
 
-		if(option == 0) {
+		if (option == 0) {
 			command = UICommand.BACKPACKDROP.getValue();
 		} else {
 			command = UICommand.BACKPACKUSE.getValue();
 		}
 
-		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command);
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+				command);
 		action.actionPerformed(event);
 	}
 
 	private void showContainer(Container container, int id) {
-		ContainerPanel inventory = ContainerPanel.getContainerPanel(container.getHeldItems(), UICommand.TAKEITEM.getValue());
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(
+				container.getHeldItems(), UICommand.TAKEITEM.getValue());
 
-		String[] options = {"Take"};
-		JOptionPane.showOptionDialog(null, inventory, container.getName(), JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		String[] options = { "Take" };
+		JOptionPane.showOptionDialog(null, inventory, container.getName(),
+				JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+				options, options[0]);
 
-		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, UICommand.CONTAINER.getValue());
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+				UICommand.CONTAINER.getValue());
 		action.actionPerformed(event);
 	}
 
@@ -464,10 +498,10 @@ public class MainFrame extends JFrame implements WindowListener {
 	public void gameOver() {
 		Object[] options = { "end" };
 
-		int option = JOptionPane.showOptionDialog(null,
-				"YOU DIED!", "Game Over!",
-				JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null,
-				options, // the titles of buttons
+		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
+				"Game Over!", JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.PLAIN_MESSAGE, null, options, // the titles of
+															// buttons
 				options[0]); // default button title
 
 		if (option == 0) {

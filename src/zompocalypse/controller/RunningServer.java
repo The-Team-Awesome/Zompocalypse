@@ -127,7 +127,7 @@ public class RunningServer extends Thread {
 
 				panel.updateContent("Accepted client: " + socket.getInetAddress());
 
-				int id = game.registerPlayer();
+				int id = game.registerPlayer("gina");
 
 				connections[--numClients] = new Server(game, panel, socket, id, serverClock);
 				connections[numClients].start();
