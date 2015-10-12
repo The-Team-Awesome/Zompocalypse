@@ -350,6 +350,8 @@ public class World implements Serializable {
 		} else if (key.equals(UICommand.ITEMTHREE.getValue())) {
 			// TODO: Make this do something!
 		} else if (key.equals(UICommand.USE.getValue())) {
+			// The player uses something. This will be whatever
+			// is in front of the player, so its uses are limitless!
 			player.use();
 		} else if (key.contains(UICommand.USEITEM.getValue())) {
 			useItem(player, key);
@@ -363,8 +365,6 @@ public class World implements Serializable {
 			orientation = Orientation.getPrev(orientation);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			orientation = Orientation.getNext(orientation);
-		} else if (key.equals(UICommand.PICKUP.getValue())) {
-			//TODO pick up item
 		}
 	}
 
@@ -393,15 +393,23 @@ public class World implements Serializable {
 					Container container = (Container) object;
 					List<Item> items = container.getHeldItems();
 					Iterator<Item> iterator = items.iterator();
-					Item next = iterator.next();
+					Item next;
 
 					while(iterator.hasNext()) {
+						next = iterator.next();
+						if(next.getUniqueID() == itemId) {
+							player.queueTake(next, container);
+							return;
+						}
+					}
+
+					/*while(iterator.hasNext()) {
 						if(next.getUniqueID() == itemId) {
 							player.queueTake(next, container);
 							return;
 						}
 						next =  iterator.next();
-					}
+					}*/
 				}
 			}
 		}

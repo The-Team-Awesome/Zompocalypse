@@ -82,7 +82,7 @@ public class Container implements Item, Lockable{
 
 	@Override
 	public void use(Player player){
-		open(player);
+		//open(player);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class Container implements Item, Lockable{
 		return movable;
 	}
 
-	private void open(Player player){
+	private void open(Player player) {
 		// TODO: Once containers are in the world, we can properly test this!
 		// It will need a valid action handler to pass to the ContainerPane,
 		// need to think about where this will come from!

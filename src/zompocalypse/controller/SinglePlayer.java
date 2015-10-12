@@ -58,6 +58,7 @@ public class SinglePlayer extends GameListener {
 			game.processCommand(id, UICommand.SOUTH.getValue());
 
 		} else if(code == KeyEvent.VK_E || code == KeyEvent.VK_SPACE) { // player uses
+			frame.processCommand(id, UICommand.USE.getValue());
 			game.processCommand(id, UICommand.USE.getValue());
 		} else if ((code == KeyEvent.VK_S) && ((e.getModifiers() & InputEvent.CTRL_MASK) != 0)) {
 			frame.processCommand(id, UICommand.OPTIONS.getValue());
