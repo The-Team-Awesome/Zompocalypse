@@ -254,6 +254,28 @@ public class World implements Serializable {
 		return player.getUid();
 	}
 
+	/**
+	 * As above, but with a loaded player
+	 * @param player
+	 * @return
+	 */
+	public synchronized int loadPlayer(Player player) {
+		// A new player has been added
+		int x = width / 2, y = height / 2;
+
+		for (Point p : playerSpawnPoints) {
+			x = p.x;
+			y = p.y;
+		}
+		// A new player has been added! Create them and put them in the
+		// map of actors here.
+		player.setLocation(x,y);
+		idToActor.put(id, player);
+		objects[player.getX()][player.getY()].add(player);
+
+		return player.getUid();
+	}
+
 	public void spawnZombie(Strategy strat) {
 		int x = 1, y = 1;
 		Random rand = new Random(System.currentTimeMillis());
