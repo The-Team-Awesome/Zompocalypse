@@ -357,8 +357,10 @@ public class World implements Serializable {
 			useItem(player, key);
 		} else if(key.contains(UICommand.TAKEITEM.getValue())) {
 			takeItem(player, key);
-		} else if(key.equals(UICommand.BACKPACK.getValue())) {
+		} else if(key.equals(UICommand.BACKPACKUSE.getValue())) {
 			player.useQueued();
+		} else if(key.equals(UICommand.BACKPACKDROP.getValue())) {
+			player.dropQueued();
 		} else if(key.equals(UICommand.CONTAINER.getValue())) {
 			player.takeQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
@@ -403,14 +405,6 @@ public class World implements Serializable {
 							return;
 						}
 					}
-
-					/*while(iterator.hasNext()) {
-						if(next.getUniqueID() == itemId) {
-							player.queueTake(next, container);
-							return;
-						}
-						next =  iterator.next();
-					}*/
 				}
 			}
 		}

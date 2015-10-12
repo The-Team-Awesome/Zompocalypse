@@ -316,27 +316,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
-	 * This method displays the contents of the backpack for the Player which
-	 * belongs to the given id.
-	 *
-	 * @param id
-	 *            - The unique ID of the Player
-	 */
-	private void showBackpack(int id) {
-
-		Player player = (Player) game.getCharacterByID(id);
-		List<Item> objects = player.getInventory();
-
-		ContainerPanel inventory = ContainerPanel.getContainerPanel(objects, UICommand.USEITEM.getValue());
-
-		String[] options = {"Drop", "Use"};
-
-		JOptionPane.showOptionDialog(null, inventory, "Player " + id
-				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-				null, options, options[0]);
-	}
-
-	/**
 	 * This method opens up a new message dialog, just like the showBackpack
 	 * method, for a unique container with the given id.
 	 *
@@ -352,6 +331,33 @@ public class MainFrame extends JFrame implements WindowListener {
 				showContainer((Container) o, id);
 				return;
 			}
+		}
+	}
+
+	/**
+	 * This method displays the contents of the backpack for the Player which
+	 * belongs to the given id.
+	 *
+	 * @param id
+	 *            - The unique ID of the Player
+	 */
+	private void showBackpack(int id) {
+
+		Player player = (Player) game.getCharacterByID(id);
+		List<Item> objects = player.getInventory();
+
+		ContainerPanel inventory = ContainerPanel.getContainerPanel(objects, UICommand.USEITEM.getValue());
+
+		String[] options = {"Drop", "Use"};
+
+		int option = (int) JOptionPane.showOptionDialog(null, inventory, "Player " + id
+				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, options, options[0]);
+
+		if(option == 0) {
+			game.processCommand(id, UICommand.BACKPACKDROP.getValue());
+		} else {
+			game.processCommand(id, UICommand.BACKPACKUSE.getValue());
 		}
 	}
 

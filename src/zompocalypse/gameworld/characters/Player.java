@@ -88,6 +88,18 @@ public final class Player extends MovingCharacter {
 		queuedUse = null;
 	}
 
+	public void dropQueued() {
+
+		System.out.println(queuedUse);
+
+		if(queuedUse != null){
+			inventory.remove(queuedUse);
+			PriorityQueue<GameObject>[][] objects = game.getObjects();
+			objects[xCoord][yCoord].add(queuedUse);
+		}
+		queuedUse = null;
+	}
+
 	public void takeQueued() {
 		if(queuedTake != null){
 			queuedTake.use(this);
@@ -119,11 +131,17 @@ public final class Player extends MovingCharacter {
 	}
 
 	/**
-	 * Get this players speed
+	 * Get this players strength
 	 */
 	@Override
 	public int getStrength() {
-		return super.getStrength() + equipped.getStrength();
+		int strength = super.getStrength();
+
+		if(equipped != null) {
+			strength += equipped.getStrength();
+		}
+
+		return strength;
 	}
 
 	/**
