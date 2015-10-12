@@ -39,7 +39,7 @@ public class World implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
-	
+
 	//increments every game tick
 	private static int tickTimer;
 
@@ -98,7 +98,7 @@ public class World implements Serializable {
 		}
 		if (tickTimer % 20 == 0){
 			spawnZombie(new HomerStrategy());
-		}		
+		}
 		tickTimer++;
 	}
 
@@ -246,7 +246,7 @@ public class World implements Serializable {
 				"Bibbly Bob", filenames, this);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
-		
+
 		return player.getUid();
 	}
 
@@ -254,7 +254,7 @@ public class World implements Serializable {
 		int x = 1, y = 1;
 		Random rand = new Random(System.currentTimeMillis());
 		int choice = rand.nextInt(4);
-		
+
 		switch (choice) {
 		case 0:
 			x = 1;
@@ -281,14 +281,14 @@ public class World implements Serializable {
 		String[] filenames = { "npc_zombie_n.png",
 				"npc_zombie_e.png", "npc_zombie_s.png",
 				"npc_zombie_w.png" };
-		
+
 		String[] homerfilenames = { "npc_dragon_n.png",
 				"npc_dragon_e.png", "npc_dragon_s.png",
 				"npc_dragon_w.png" };
-		
+
 
 		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id, filenames);
-		
+
 		if(strat instanceof HomerStrategy){
 			zombie = new StrategyZombie(this, x, y, strat, ++id, homerfilenames);
 		}
@@ -318,7 +318,7 @@ public class World implements Serializable {
 	 */
 	public synchronized void processCommand(int id, String key) {
 		Player player = (Player) idToActor.get(id);
-		
+
 		if (key.equals(UICommand.NORTH.getValue())) {
 			if (editMode) {
 				editor.y--;
@@ -335,14 +335,14 @@ public class World implements Serializable {
 			if (editMode) {
 				editor.x++;
 			} else {
-				player.move(Orientation.WEST, orientation); 
-			} 
+				player.move(Orientation.WEST, orientation);
+			}
 		} else if (key.equals(UICommand.WEST.getValue())) {
 			if (editMode) {
 				editor.x--;
 			} else {
 				player.move(Orientation.EAST, orientation);
-			} 
+			}
 		} else if (key.equals(UICommand.ITEMONE.getValue())) {
 			// TODO: Make this do something!
 		} else if (key.equals(UICommand.ITEMTWO.getValue())) {
@@ -367,7 +367,7 @@ public class World implements Serializable {
 			//TODO pick up item
 		}
 	}
-	
+
 	private void useItem(Player player, String key){
 		String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
@@ -385,7 +385,7 @@ public class World implements Serializable {
 	private void takeItem(Player player, String key){
 		String trimmed = key.replace(UICommand.TAKEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
-		
+
 		PriorityQueue<GameObject> objects = player.getObjectsInfront();
 		for(GameObject object : objects) {
 			if(object instanceof Item) {
@@ -394,7 +394,7 @@ public class World implements Serializable {
 					List<Item> items = container.getHeldItems();
 					Iterator<Item> iterator = items.iterator();
 					Item next = iterator.next();
-					
+
 					while(iterator.hasNext()) {
 						if(next.getUniqueID() == itemId) {
 							player.queueTake(next, container);
@@ -406,7 +406,7 @@ public class World implements Serializable {
 			}
 		}
 	}
-	
+
 	// ***********************************************
 	// End of Networking Methods
 	// ***********************************************
@@ -701,7 +701,7 @@ public class World implements Serializable {
 	public Player getPlayer(int id) {
 		return (Player) idToActor.get(id);
 	}
-	
+
 
 	/**
 	 * @return the idToActor

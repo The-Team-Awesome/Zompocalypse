@@ -23,6 +23,8 @@ import zompocalypse.ui.rendering.ImageUtils;
  * @author Kieran Mckay, 300276166
  */
 public class Container implements Item, Lockable{
+
+	private static final long serialVersionUID = 1L;
 	private int size;
 	private boolean movable;
 	private boolean locked;
@@ -94,7 +96,7 @@ public class Container implements Item, Lockable{
 		// need to think about where this will come from!
 		int id = player.getUid();
 		ContainerPanel inventory = ContainerPanel.getContainerPanel(this.heldItems, UICommand.TAKEITEM.getValue());
-		
+
 		String[] options = {"Take"};
 		JOptionPane.showOptionDialog(null, inventory, name, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 		player.getWorld().processCommand(id, UICommand.CONTAINER.getValue());
@@ -103,10 +105,10 @@ public class Container implements Item, Lockable{
 	public List<Item> getHeldItems() {
 		return heldItems;
 	}
-	
+
 	@Override
 	public boolean occupiable(){
-		//It makes sense if you cant move an item, 
+		//It makes sense if you cant move an item,
 		//you also can't occupy the same floor space (too big)
 		return movable;
 	}
@@ -199,7 +201,7 @@ public class Container implements Item, Lockable{
 		if(imu == null) {
 			imu = ImageUtils.getImageUtilsObject();
 		}
-		
+
 		if (open) {
 			currentImage = imu.getCurrentImageForOrientation(worldOrientation,
 					imagesOpen);
