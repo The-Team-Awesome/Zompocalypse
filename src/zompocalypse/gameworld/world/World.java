@@ -278,6 +278,44 @@ public class World implements Serializable {
 	}
 
 	/**
+	 * This method creates a loaded player on the game and returns the id value
+	 * which they were registered with. It is synchronized because it can be
+	 * called in a networked game by multiple Client/Server connections.
+	 *
+	 * @return integer ID value
+	 */
+	public int registerLoadedPlayer(String name, int health, int score,
+			int speed, int strength) {
+		// A new player has been added
+		int x = width / 2, y = height / 2;
+
+		for (Point p : playerSpawnPoints) {
+			x = p.x;
+			y = p.y;
+		}
+		// A new player has been added! Create them and put them in the
+		// map of actors here.
+
+		String[] filenames = { "character_" + name + "_empty_n.png",
+				"character_" + name + "_empty_e.png",
+				"character_" + name + "_empty_s.png",
+				"character_" + name + "_empty_w.png" };
+
+		// TODO: This should really get valid information for name,
+		// as well as select their x, y co-ordinates based on a valid portal
+		Player player = new Player(x, y, Orientation.NORTH, ++id, score,
+				"Bibbly Bob", filenames, this);
+		player.setStrength(strength);
+		player.setHealth(health);
+		player.setSpeed(speed);
+
+		idToActor.put(id, player);
+		objects[player.getX()][player.getY()].add(player);
+
+		return player.getUid();
+	}
+
+	/**
 	 * As above, but with a loaded player
 	 *
 	 * @param player

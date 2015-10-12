@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.EventListener;
@@ -21,6 +23,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
@@ -164,10 +173,12 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
 		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
-//			singlePlayer("gina");
+			// singlePlayer("gina");
 			selectCharacter();
 		} else if (command.equals(UICommand.NEWCHARACTER.getValue())) {
 			newCharacter();
+		} else if (command.equals(UICommand.LOADCHARACTER.getValue())) {
+			loadCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
 		} else if (command.equals(UICommand.SERVER.getValue())) {
@@ -195,10 +206,82 @@ public class MainFrame extends JFrame implements WindowListener {
 		}
 	}
 
+	/**
+	 *
+	 */
+	private void loadCharacter() {
+		JFileChooser chooser = new JFileChooser();
+		int value = chooser.showOpenDialog(this);
+
+		String fileName = null;
+
+		if (value == JFileChooser.APPROVE_OPTION) {
+			fileName = chooser.getSelectedFile().getName();
+		} else {
+			singlePlayer("gina"); // because damn it
+		}
+
+		File playerFile = Loader.LoadFile(Loader.playersDir + Loader.separator
+				+ fileName);
+
+		try {
+
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(playerFile);
+
+			// remember, cool kids don't take drugs
+
+			Element playerXML = (Element) doc.getElementsByTagName("player").item(0);
+
+			int health = Integer.parseInt(playerXML.getAttribute("health"));
+			String name = playerXML.getAttribute("name");
+			int score = Integer.parseInt(playerXML.getAttribute("score"));
+			int speed = Integer.parseInt(playerXML.getAttribute("speed"));
+			int strength = Integer.parseInt(playerXML.getAttribute("strength"));
+
+			if (game == null) {
+				try {
+					game = Parser.ParseMap(Loader.mapFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			int id = game.registerLoadedPlayer(name, health, score, speed, strength);
+
+			SinglePlayer player = new SinglePlayer(game, id);
+
+			player.setID(id);
+			player.setFrame(this);
+			player.setGame(game);
+			updateListeners(player);
+
+			gameCard = new GamePanel(id, game, player);
+
+			cards.add(gameCard, "1");
+
+			layout.show(cards, "1");
+
+			Clock clock = new Clock(this, game, gameClock);
+
+			clock.start();
+
+
+		} catch (IOException | SAXException | ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+
+	/**
+	 * This displays a pop-up character selection box.
+	 */
 	private void newCharacter() {
 		String result;
-		// this is ugly but would need to be stored in a file and parsed from it
-		// anyway
 		Object[] possibilities = { "amy", "bob", "cordi", "duncan",
 				"elizabeth", "fred", "gina", "harold" };
 		// TODO this works, but I am uncomfortable with these null values!
@@ -207,9 +290,16 @@ public class MainFrame extends JFrame implements WindowListener {
 		String fileName = (String) JOptionPane.showInputDialog(frame,
 				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
 				icon, possibilities, "wall_brown_1_door_closed_ew.png");
-		singlePlayer(fileName);
+		if (fileName != null)
+			singlePlayer(fileName);
+		else
+			singlePlayer("gina");
 	}
 
+	/**
+	 * This method show the selection screen to create a new character or load
+	 * an old one.
+	 */
 	private void selectCharacter() {
 		layout.show(cards, "7");
 	}
@@ -291,6 +381,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	/**
 	 * This method starts up a single player game. If a map has been loaded in,
 	 * it will use that, otherwise it will load the default map file.
+	 *
 	 * @param fileName
 	 */
 	private void singlePlayer(String fileName) {
