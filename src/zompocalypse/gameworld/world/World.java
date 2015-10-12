@@ -93,10 +93,22 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
-		for (Actor actor : idToActor.values()) {
-			if (!editMode)
+		
+		Iterator<Actor> actors = idToActor.values().iterator();
+		Actor actor;
+		while(actors.hasNext()) {
+			actor = actors.next();
+			if (!editMode) {
+				if(actor instanceof MovingCharacter) {
+					MovingCharacter character = (MovingCharacter) actor;
+					if(character.isDead()) {
+						removeCharacter(character);
+					}
+				}
 				actor.tick(this);
+			}
 		}
+		
 		if (tickTimer % 10 == 0 && !editMode) {
 			spawnZombie(new RandomStrategy());
 		}
@@ -104,6 +116,15 @@ public class World implements Serializable {
 			spawnZombie(new HomerStrategy());
 		}
 		tickTimer++;
+	}
+
+	private void removeCharacter(MovingCharacter character) {
+		// TODO: At this point, we can remove a character if they are a zombie,
+		// or trigger a game over screen if they are a player
+		if(character.isDead() && character instanceof StrategyZombie) {
+			// TODO: This throws a concurrent modification exception at the moment
+			//idToActor.remove(character.getUid(), character);
+		}
 	}
 
 	/**
