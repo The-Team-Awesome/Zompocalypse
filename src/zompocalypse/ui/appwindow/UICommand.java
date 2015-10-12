@@ -20,6 +20,8 @@ public enum UICommand {
 	USEITEM("use-"),
 	TAKEITEM("take-"),
 	BACKPACK("Backpack"),
+	BACKPACKUSE("BackpackUse"),
+	BACKPACKDROP("BackpackDrop"),
 	CONTAINER("Chest"),
 	SINGLEPLAYER("SinglePlayer"),
 	MULTIPLAYER("Multiplayer"),
