@@ -355,27 +355,16 @@ public class MainFrame extends JFrame implements WindowListener {
 				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 				null, options, options[0]);
 
+		String command;
+
 		if(option == 0) {
-
-			/*try {
-				Robot r = new Robot();
-
-				KeyListener key;
-
-				if (action instanceof KeyListener) {
-					key = (KeyListener) action;
-				}
-
-				//r.
-			} catch (AWTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			//ActionEvent event = new ActionEvent(anchor, option, title);
-			game.processCommand(id, UICommand.BACKPACKDROP.getValue());
+			command = UICommand.BACKPACKDROP.getValue();
 		} else {
-			game.processCommand(id, UICommand.BACKPACKUSE.getValue());
+			command = UICommand.BACKPACKUSE.getValue();
 		}
+
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command);
+		action.actionPerformed(event);
 	}
 
 	private void showContainer(Container container, int id) {
@@ -383,7 +372,9 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		String[] options = {"Take"};
 		JOptionPane.showOptionDialog(null, inventory, container.getName(), JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-		game.processCommand(id, UICommand.CONTAINER.getValue());
+
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, UICommand.CONTAINER.getValue());
+		action.actionPerformed(event);
 	}
 
 	/**
