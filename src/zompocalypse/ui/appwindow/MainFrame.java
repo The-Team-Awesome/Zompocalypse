@@ -3,6 +3,7 @@ package zompocalypse.ui.appwindow;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -26,7 +27,6 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
-import zompocalypse.gameworld.characters.StrategyZombie;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.world.World;
@@ -355,6 +355,22 @@ public class MainFrame extends JFrame implements WindowListener {
 				null, options, options[0]);
 
 		if(option == 0) {
+
+			/*try {
+				Robot r = new Robot();
+
+				KeyListener key;
+
+				if (action instanceof KeyListener) {
+					key = (KeyListener) action;
+				}
+
+				//r.
+			} catch (AWTException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			//ActionEvent event = new ActionEvent(anchor, option, title);
 			game.processCommand(id, UICommand.BACKPACKDROP.getValue());
 		} else {
 			game.processCommand(id, UICommand.BACKPACKUSE.getValue());
