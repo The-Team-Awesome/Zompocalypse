@@ -3,6 +3,7 @@ package zompocalypse.ui.appwindow;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -26,7 +27,6 @@ import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
-import zompocalypse.gameworld.characters.StrategyZombie;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.world.World;
@@ -355,11 +355,16 @@ public class MainFrame extends JFrame implements WindowListener {
 				+ "'s Inventory", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 				null, options, options[0]);
 
+		String command;
+
 		if(option == 0) {
-			game.processCommand(id, UICommand.BACKPACKDROP.getValue());
+			command = UICommand.BACKPACKDROP.getValue();
 		} else {
-			game.processCommand(id, UICommand.BACKPACKUSE.getValue());
+			command = UICommand.BACKPACKUSE.getValue();
 		}
+
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command);
+		action.actionPerformed(event);
 	}
 
 	private void showContainer(Container container, int id) {
@@ -367,7 +372,9 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		String[] options = {"Take"};
 		JOptionPane.showOptionDialog(null, inventory, container.getName(), JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-		game.processCommand(id, UICommand.CONTAINER.getValue());
+
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, UICommand.CONTAINER.getValue());
+		action.actionPerformed(event);
 	}
 
 	/**
