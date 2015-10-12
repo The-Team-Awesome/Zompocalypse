@@ -30,7 +30,7 @@ public abstract class Actor implements GameObject {
 	private String[] filenames;
 	private ImageIcon[] images;
 	private ImageIcon currentImage;
-	protected Orientation orientation; 
+	protected Orientation orientation;
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character

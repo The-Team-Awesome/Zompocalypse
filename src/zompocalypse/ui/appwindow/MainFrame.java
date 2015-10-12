@@ -142,7 +142,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	 *            - updated instance of World.
 	 */
 	public void updateGame(World game) {
-		this.game = game;
+//		this.game = game;
 		gameCard.updateGame(game);
 	}
 
@@ -177,6 +177,8 @@ public class MainFrame extends JFrame implements WindowListener {
 			gameCard.rotateView(UICommand.ROTATEANTICLOCKWISE.getValue());
 		} else if (command.equals(UICommand.OPTIONS.getValue())) {
 			saveGame();
+		} else if (command.equals(UICommand.SAVEPLAYER.getValue())) {
+			savePlayer();
 		} else if (command.equals(UICommand.EXAMINE.getValue())) {
 			gameCard.examine();
 		} else if(command.equals(UICommand.USE.getValue())) {
@@ -417,6 +419,25 @@ public class MainFrame extends JFrame implements WindowListener {
 	}
 
 	/**
+	 * This method shows a dialog to ask the client if he wants to save the
+	 * game. In case the client chooses yes, it saves the game. Otherwise, it
+	 * does nothing.
+	 */
+	private void savePlayer() {
+		Object[] options = { "Yes, please", "No way!" };
+
+		int option = JOptionPane.showOptionDialog(this,
+				"Are you sure you wanna save the player?", "Save Player",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				options, // the titles of buttons
+				options[0]); // default button title
+
+		if (option == 0) {
+			gameCard.savePlayer();
+		}
+	}
+
+	/**
 	 * This method shows a dialog to ask the client if he wants to quit the
 	 * game. It disposes the window and exit the application when the player
 	 * chooses yes, otherwise it does nothing.
@@ -434,13 +455,6 @@ public class MainFrame extends JFrame implements WindowListener {
 			dispose();
 			System.exit(0);
 		}
-	}
-
-	/**
-	 * Dialog prompts with options panel displayed.
-	 */
-	private void openOptions() {
-		new JOptionPane();
 	}
 
 	@Override

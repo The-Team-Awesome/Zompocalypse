@@ -30,7 +30,8 @@ public enum UICommand {
 	CLIENT("Client"),
 	LOADGAME("LoadGame"),
 	ENTERIP("EnterIP"),
-	OPTIONS("Options");
+	OPTIONS("Options"),
+	SAVEPLAYER("SavePlayer");
 
 	private String value;
 

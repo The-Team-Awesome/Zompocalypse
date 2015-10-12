@@ -21,9 +21,11 @@ public abstract class MovingCharacter extends Actor {
 	private int health;
 	private int speed;   //non monving zomies have 0 speed?
 	private int strength;
+	protected boolean moving;
 
 	protected Orientation queued; // queued direction change (moving)
-	protected boolean moving;
+
+	private boolean tookDamage;  //whether the character took damage this turn
 
 	public MovingCharacter(int uid, World game, int xCoord, int yCoord, Orientation direction,
 			String[] filenames) {
@@ -59,6 +61,7 @@ public abstract class MovingCharacter extends Actor {
 	 */
 	public void damaged(int damage) {
 		setHealth(getHealth() - damage);
+		tookDamage = true;
 	}
 
 	/**
@@ -216,5 +219,17 @@ public abstract class MovingCharacter extends Actor {
 	 */
 	protected void updateCurrentOrientationClockwise() {
 		setOrientation(Orientation.getNext(getOrientation()));
+	}
+
+	/**
+	 * Returns whether the character took damage this turn
+	 * @return
+	 */
+	public boolean tookDamage() {
+		return tookDamage;
+	}
+
+	public void resetDamage() {
+		tookDamage = false;
 	}
 }

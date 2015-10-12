@@ -38,7 +38,7 @@ public class Loader {
 	public static final String mapDir = "map";
 	public static final String soundDir = "sounds";
 
-	public static final String mapFile = "test_map.xml";
+	public static final String mapFile = "map.xml";
 	public static final String testFile = "Test_Suite_Map.xml";
 	public static final String defaultEquipped = "fist.png";
 	public static final char separator = '/';
