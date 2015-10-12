@@ -144,6 +144,10 @@ public final class Player extends MovingCharacter {
 		return strength;
 	}
 
+	public int getScore() {
+		return score;
+	}
+
 	/**
 	 * Add to this players score.
 	 */
