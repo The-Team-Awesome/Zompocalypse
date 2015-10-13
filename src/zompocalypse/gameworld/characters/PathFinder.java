@@ -7,6 +7,11 @@ import java.util.Stack;
 
 import zompocalypse.gameworld.world.Floor;
 
+/**
+ * A class for the future implementation of A* Search algorithm
+ * 
+ * @author Kieran Mckay, 300276166
+ */
 public class PathFinder {
 	private Set<Node> visited = new HashSet<Node>();
 	private Stack<Floor> path = new Stack<Floor>();

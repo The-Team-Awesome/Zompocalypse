@@ -36,6 +36,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Check if this character is dead.
+	 * 
+	 * @return true if dead, false if alive
 	 */
 	public boolean isDead() {
 		return health <= 0;
@@ -43,6 +45,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters remaining health
+	 * 
+	 * @return int - the amount of health remaining 
 	 */
 	public int getHealth() {
 		return health;
@@ -50,6 +54,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters strength
+	 * 
+	 * @return int - the strength value of this Moving Character
 	 */
 	public int getStrength() {
 		return strength;
@@ -57,7 +63,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Updates the characters health after taking damage
-	 * @param damage
+	 * 
+	 * @param damage for this character to take
 	 */
 	public void damaged(int damage) {
 		if(game.GODMODE == true && this instanceof Player){
