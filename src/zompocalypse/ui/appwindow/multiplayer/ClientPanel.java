@@ -32,6 +32,8 @@ import zompocalypse.ui.appwindow.custom.ZButton;
  *
  */
 public class ClientPanel extends JPanel {
+
+	private static final long serialVersionUID = -5774750842625075768L;
 	private JTextField txtServerIp;
 	private ZButton btnEnter;
 	private JLabel lblInformation;
@@ -61,12 +63,10 @@ public class ClientPanel extends JPanel {
 	 */
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
-		int positionY = 0;
 
 		// creating and setting components
 		lblInformation = new JLabel("Insert IP address of the server:");
+		lblInformation.setForeground(CustomUtils.textInButton);
 
 		btnEnter = new ZButton("Enter");
 		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
@@ -77,7 +77,6 @@ public class ClientPanel extends JPanel {
 		txtServerIp.setColumns(20);
 		txtServerIp.setText("127.0.0.1");
 
-
 		// using listener to watch the user input dynamically
 		txtServerIp.getDocument().addDocumentListener(new DocumentListener() {
 			void checkDocument(DocumentEvent e) {
@@ -87,7 +86,7 @@ public class ClientPanel extends JPanel {
 					// enables button if IP matches pattern
 					btnEnter.setEnabled(checkIPString(text));
 				} catch (BadLocationException ex) {
-					
+
 				}
 			}
 
@@ -127,11 +126,17 @@ public class ClientPanel extends JPanel {
 			}
 		});
 
+		GridBagConstraints constraints = new GridBagConstraints();
+		Insets buttonsInset = new Insets(-10, 0, 30, 0);
+		Insets topInset = new Insets(-100, 0, 0, 0);
+		int positionY = 0;
+
 		// adding components to panel
-		constraints.insets = buttonsInset;
+		constraints.insets = topInset;
 		constraints.gridy = positionY++;
 		this.add(lblInformation, constraints);
 
+		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
 		this.add(txtServerIp, constraints);
 

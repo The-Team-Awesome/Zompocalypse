@@ -39,7 +39,7 @@ import zompocalypse.ui.appwindow.UICommand;
  * @author Kieran Mckay, 300276166
  */
 public class World implements Serializable {
-	public final boolean GODMODE = false;
+	public boolean godmode = false;
 
 	private static final long serialVersionUID = 1L;
 	private int width;
@@ -65,7 +65,6 @@ public class World implements Serializable {
 	 */
 	private Orientation orientation;
 
-
 	private String[] zombieFileNames = { "npc_zombie_n.png", "npc_zombie_e.png",
 			"npc_zombie_s.png", "npc_zombie_w.png" };
 
@@ -79,7 +78,7 @@ public class World implements Serializable {
 	private boolean editMode = false;
 	private boolean showWalls = true;
 	private Point editor = new Point(0, 0);
-	
+
 	private Map<Point, GameObject> itemsToRemove = new HashMap<Point, GameObject>();
 
 	public World(int width, int height, Floor[][] map,
@@ -113,6 +112,7 @@ public class World implements Serializable {
 					if (character.isDead()) {
 						//add to list to remove from game
 						dead.add(character);
+
 					} else {
 						//non-dead moving characters tick here
 						character.tick(this);
@@ -127,7 +127,7 @@ public class World implements Serializable {
 		for(MovingCharacter m : dead){
 			removeCharacter(m);
 		}
-		
+
 		for(Point p : itemsToRemove.keySet()) {
 			removeItem(p, itemsToRemove.get(p));
 		}
@@ -140,10 +140,10 @@ public class World implements Serializable {
 		}
 		tickTimer++;
 	}
-	
+
 	/**
 	 * This puts an item on the map to remove objects from the world.
-	 * 
+	 *
 	 * @param point
 	 * @param item
 	 */
@@ -158,8 +158,8 @@ public class World implements Serializable {
 			//remove character from map of active characters
 			idToActor.remove(zombie.getUid(), zombie);
 			//remove this character from the gameObjects array
-			objects[zombie.getX()][zombie.getY()].remove(zombie);		
-			
+			objects[zombie.getX()][zombie.getY()].remove(zombie);
+
 			//loop though all players in game and give them score based on what died
 			for (Actor a : idToActor.values()){
 				if (a instanceof Player){
@@ -175,13 +175,13 @@ public class World implements Serializable {
 			for (GameObject item : player.getInventory()){
 				objects[character.getX()][character.getY()].add(item);
 			}
-			
-			objects[player.getX()][player.getY()].remove(player);	
+
+			objects[player.getX()][player.getY()].remove(player);
 			idToActor.remove(player.getUid(), player);
 			*/
 		}
 	}
-	
+
 	private void removeItem(Point p, GameObject item) {
 		objects[p.x][p.y].remove(item);
 		itemsToRemove.remove(p);
@@ -423,7 +423,7 @@ public class World implements Serializable {
 	 */
 	public synchronized void processCommand(int id, String key) {
 		Player player = (Player) idToActor.get(id);
-		
+
 		if(player == null) return;
 
 		if (key.equals(UICommand.NORTH.getValue())) {
@@ -525,6 +525,10 @@ public class World implements Serializable {
 	// Everything below here is used for editing mode
 	// ***********************************************
 
+	public void toggleGodmode() {
+		godmode = !godmode;
+	}
+	
 	public void setEditMode() {
 		editMode = true;
 		editor = new Point(0, 0);

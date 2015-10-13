@@ -20,6 +20,8 @@ import zompocalypse.ui.appwindow.custom.ZButton;
  *
  */
 public class SelectCharacterPanel extends JPanel {
+
+	private static final long serialVersionUID = 4217331664151417371L;
 	private ZButton newCharacterButton;
 	private ZButton loadCharacterButton;
 	private ZButton previousPageButton;
@@ -42,8 +44,8 @@ public class SelectCharacterPanel extends JPanel {
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		Insets topInset = new Insets(400, 0, 0, 0);
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
+		Insets topInset = new Insets(-100, 0, 0, 0);
+		Insets buttonsInset = new Insets(0, 0, 40, 0);
 		int positionY = 0;
 
 		// NEW CHARACTER BUTTON
@@ -63,8 +65,8 @@ public class SelectCharacterPanel extends JPanel {
 		this.add(loadCharacterButton, c);
 
 		// BACK A PAGE BUTTON
-		previousPageButton = new ZButton("Back");
-		previousPageButton.setActionCommand(UICommand.BACK.getValue());
+		previousPageButton = new ZButton("Home");
+		previousPageButton.setActionCommand(UICommand.HOME.getValue());
 		c.insets = buttonsInset;
 		c.gridy = positionY++;
 		previousPageButton.addActionListener(action);

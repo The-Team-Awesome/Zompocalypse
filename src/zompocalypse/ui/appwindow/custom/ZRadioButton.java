@@ -16,6 +16,8 @@ import zompocalypse.gameworld.GameObject;
  */
 public class ZRadioButton extends JRadioButton {
 
+	private static final long serialVersionUID = -6271355627745921777L;
+
 	public ZRadioButton(GameObject object, ActionListener action) {
 		super();
 

@@ -174,7 +174,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			multi = true;
 			showMultiplayer();
-		} else if (command.equals(UICommand.BACK.getValue())) {
+		} else if (command.equals(UICommand.HOME.getValue())) {
 			layout.show(cards, "2");
 		} else if (command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();
@@ -233,26 +233,26 @@ public class MainFrame extends JFrame implements WindowListener {
 			showClient(); //TODO SAM can you plz help me here? :(
 		else {
 
-		Player player = PlayerFileManager.loadPlayer(playerFile, game);
-
-		int id = game.registerLoadedPlayer(player);
-
-		SinglePlayer singlePlayer = new SinglePlayer(game, id);
-
-		singlePlayer.setID(id);
-		singlePlayer.setFrame(this);
-		singlePlayer.setGame(game);
-		updateListeners(singlePlayer);
-
-		gameCard = new GamePanel(id, game, singlePlayer);
-
-		cards.add(gameCard, "1");
-
-		layout.show(cards, "1");
-
-		Clock clock = new Clock(this, game, gameClock);
-
-		clock.start();
+			Player player = PlayerFileManager.loadPlayer(playerFile, game);
+	
+			int id = game.registerLoadedPlayer(player);
+	
+			SinglePlayer singlePlayer = new SinglePlayer(game, id);
+	
+			singlePlayer.setID(id);
+			singlePlayer.setFrame(this);
+			singlePlayer.setGame(game);
+			updateListeners(singlePlayer);
+	
+			gameCard = new GamePanel(id, game, singlePlayer);
+	
+			cards.add(gameCard, "1");
+	
+			layout.show(cards, "1");
+	
+			Clock clock = new Clock(this, game, gameClock);
+	
+			clock.start();
 		}
 	}
 
@@ -355,8 +355,11 @@ public class MainFrame extends JFrame implements WindowListener {
 			client.start();
 
 		} catch (IOException e) {
-			System.out.println("I/O error: " + e.getMessage());
-			System.exit(1);
+			System.out.println("IO exception:" + e);
+			JOptionPane.showMessageDialog(this,
+					"Couldn't connect to server, check if the IP address is from an existing server!",
+					"Oooops!",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
