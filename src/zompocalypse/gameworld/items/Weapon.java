@@ -13,6 +13,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 /** Weapons are used to damage enemies.
  *  The damage dealt to each enemy is a modifier based on the specific
@@ -24,7 +25,8 @@ import zompocalypse.gameworld.world.World;
 public class Weapon implements Item {
 
 	private static final long serialVersionUID = 1L;
-	private ImageIcon currentImage;
+	private transient ImageIcon[] images;
+	private transient ImageIcon currentImage;
 	private String filename;
 	private int uid;
 
@@ -34,7 +36,10 @@ public class Weapon implements Item {
 
 	public Weapon(String filename, String description, int uid, int strength) {
 		this.filename = filename;
-		currentImage = Loader.LoadSpriteIcon(filename);
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
 		this.description = description;
 		this.uid = uid;
 		this.strength = strength;
@@ -55,6 +60,12 @@ public class Weapon implements Item {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
+		
 		g.drawImage(currentImage.getImage(), x+OFFSET_X, y, null);
 	}
 
