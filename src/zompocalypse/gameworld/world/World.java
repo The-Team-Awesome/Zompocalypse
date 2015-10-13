@@ -39,6 +39,7 @@ import zompocalypse.ui.appwindow.UICommand;
  * @author Kieran Mckay, 300276166
  */
 public class World implements Serializable {
+	public final boolean GODMODE = false;
 
 	private static final long serialVersionUID = 1L;
 	private int width;
