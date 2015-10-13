@@ -34,10 +34,10 @@ public class Parser {
 	private static int id;
 
 	/**
-	 * Parses a Map from a CSV file and returns a World with the new Map.
+	 * Parses a Map from a XML file and returns a World with the new Map.
 	 *
 	 * @param mapFile
-	 *            source of CSV document
+	 *            source of XML document
 	 * @param fileName
 	 * @return new World with width and height and 2D array of Tiles parsed from
 	 *         mapFile
@@ -77,23 +77,28 @@ public class Parser {
 		}
 
 		// Load file and parse each part of XML into cell of Map
-		File mapCSV = Loader.LoadFile(Loader.mapDir + Loader.separator
+		File mapXML = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ mapFile);
 		try {
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(mapCSV);
+			Document doc = dBuilder.parse(mapXML);
 
 			// remember, cool kids don't take drugs
 
 			Element nodeMap = (Element) doc.getElementsByTagName("map").item(0);
 
+			// Load the dimensions from XML document and create a new Map of
+			// those directions
+
 			String[] split = nodeMap.getAttribute("dimensions").split(",");
 			x = Integer.parseInt(split[0]);
 			y = Integer.parseInt(split[1]);
 			map = new Floor[x][y];
+
+			// create a grid of priority queues for the objects in the game
 
 			objects = new PriorityQueue[x][y];
 			for (int j = 0; j < y; j++) {
@@ -103,6 +108,9 @@ public class Parser {
 			}
 
 			NodeList rows = nodeMap.getElementsByTagName("row");
+
+			// go through each Row, and for each Row each Cell, parse the floor
+			// tile and the Object in each location
 
 			for (int row = 0; row < rows.getLength(); row++) {
 				Element cellMap = (Element) rows.item(row);
@@ -163,26 +171,83 @@ public class Parser {
 				playerSpawnPoints, id);
 	}
 
+	/**
+	 * returns a Weapon constructed from Strings read from XML document
+	 *
+	 * @param textTileMap
+	 *            map of codes to full word
+	 * @param img
+	 *            condensed image file name to be expanded using the codes in
+	 *            the above textTileMap
+	 * @param strength
+	 *            to be converted to Integer and loaded as sword strength
+	 * @param description
+	 *            of sword
+	 * @return
+	 */
 	private static Weapon parseWeapon(Map<String, String> textTileMap,
 			String img, String strength, String description) {
 		return new Weapon(expandCode(textTileMap, img)[0], description, id++,
 				Integer.parseInt(strength));
 	}
 
+	/**
+	 * returns a Torch constructed from Strings read from XML document
+	 *
+	 * @param textTileMap
+	 *            map of codes to full word
+	 * @param img
+	 *            condensed image file name to be expanded using the codes in
+	 *            the above textTileMap
+	 * @return
+	 */
 	private static Torch parseTorch(Map<String, String> textTileMap, String img) {
 		return new Torch(expandCode(textTileMap, img)[0], id++);
 	}
 
+	/**
+	 * returns a Money constructed from Strings read from XML document
+	 *
+	 * @param textTileMap
+	 *            map of codes to full word
+	 * @param img
+	 *            condensed image file name to be expanded using the codes in
+	 *            the above textTileMap
+	 * @param amount
+	 *            to be converted to Integer and loaded as money amount
+	 * @return
+	 */
 	private static Money parseMoney(Map<String, String> textTileMap,
 			String img, String amount) {
 		return new Money(expandCode(textTileMap, img)[0], id++,
 				Integer.parseInt(amount));
 	}
 
+	/**
+	 * returns a Key constructed from Strings read from XML document
+	 *
+	 * @param textTileMap
+	 *            map of codes to full word
+	 * @param img
+	 *            condensed image file name to be expanded using the codes in
+	 *            the above textTileMap
+	 * @return
+	 */
 	private static Key parseKey(Map<String, String> textTileMap, String img) {
 		return new Key(expandCode(textTileMap, img)[0], id++);
 	}
 
+	/**
+	 * returns a Key constructed from an Element read from XML document.
+	 * Recursively fills container with Game objects
+	 *
+	 * @param textTileMap
+	 *            map of codes to full word
+	 * @param img
+	 *            condensed image file name to be expanded using the codes in
+	 *            the above textTileMap
+	 * @return
+	 */
 	private static Container parseContainer(Map<String, String> textTileMap,
 			Element object) {
 		String[] container = expandCode(textTileMap, object.getAttribute("img"));
@@ -215,6 +280,22 @@ public class Parser {
 		return cont;
 	}
 
+	/**
+	 * Loads a Door into the array of Objects based on information taken from
+	 * XML document
+	 *
+	 * @param objects
+	 *            Door will be loaded into Objects at col and row coordinates
+	 * @param textTileMap
+	 *            map of codes to full word
+	 * @param img
+	 *            condensed image file name to be expanded using the codes in
+	 *            the above textTileMap
+	 * @param offset
+	 *            for door to draw
+	 * @param locked
+	 * @param open
+	 */
 	private static void parseDoor(PriorityQueue<GameObject>[][] objects,
 			Map<String, String> textTileMap, String string, String offset,
 			String locked, String open, int col, int row) {
@@ -250,6 +331,10 @@ public class Parser {
 		map[i][j] = new Floor(i, j, tile);
 	}
 
+	/**
+	 * Creates a full .png file name from a condensed file name using
+	 * abbreviated code names passed into a Map to get full String words
+	 */
 	private static String[] expandCode(Map<String, String> textTileMap,
 			String string) {
 		String[] tile = null;
@@ -453,6 +538,10 @@ public class Parser {
 		return "Error: Unable to save the World";
 	}
 
+	/**
+	 * Write a Container to XML, iterating through each object in the container
+	 * recursively, returning a Node representing that container
+	 */
 	private static Node writeContainer(Document doc, Container container,
 			Map<String, String> textTileMap) {
 		Element xmlContainer = doc.createElement("container");
@@ -488,6 +577,9 @@ public class Parser {
 		return xmlContainer;
 	}
 
+	/**
+	 * Returns a XML node representing a Weapon
+	 */
 	private static Node writeWeapon(Document doc, Weapon i,
 			Map<String, String> textTileMap) {
 		Element xmlWeapon = doc.createElement("weapon");
@@ -497,6 +589,9 @@ public class Parser {
 		return xmlWeapon;
 	}
 
+	/**
+	 * Returns a XML node representing a Torch
+	 */
 	private static Node writeTorch(Document doc, Torch i,
 			Map<String, String> textTileMap) {
 		Element xmlTorch = doc.createElement("torch");
@@ -504,6 +599,9 @@ public class Parser {
 		return xmlTorch;
 	}
 
+	/**
+	 * Returns a XML node representing a Money
+	 */
 	private static Node writeMoney(Document doc, Money i,
 			Map<String, String> textTileMap) {
 		Element xmlMoney = doc.createElement("money");
@@ -512,6 +610,9 @@ public class Parser {
 		return xmlMoney;
 	}
 
+	/**
+	 * Returns a XML node representing a Key
+	 */
 	private static Node writeKey(Document doc, Key i,
 			Map<String, String> textTileMap) {
 		Element xmlKey = doc.createElement("key");
@@ -519,6 +620,10 @@ public class Parser {
 		return xmlKey;
 	}
 
+	/**
+	 * Returns a String representing a condensed filename to save space when
+	 * saving the game
+	 */
 	private static String getCode(String string, Map<String, String> textTileMap) {
 		String result = "";
 		String[] tileCode = string.substring(0, string.length() - 4).split("_");
