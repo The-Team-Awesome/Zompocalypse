@@ -29,6 +29,7 @@ public class MultiplayerPanel extends JPanel {
 	private static final long serialVersionUID = -8665486495213250493L;
 	private ZButton btnServer;
 	private ZButton btnClient;
+	private ZButton previousPageButton;
 
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
 
@@ -60,12 +61,19 @@ public class MultiplayerPanel extends JPanel {
 		btnClient.setActionCommand(UICommand.CLIENT.getValue());
 		btnClient.addActionListener(action);
 
+		previousPageButton = new ZButton("Back");
+		previousPageButton.setActionCommand(UICommand.BACK.getValue());
+		previousPageButton.addActionListener(action);
+
 		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
 		this.add(btnServer, constraints);
 
 		constraints.gridy = positionY++;
 		this.add(btnClient, constraints);
+
+		constraints.gridy = positionY++;
+		this.add(previousPageButton, constraints);
 	}
 
 	@Override
