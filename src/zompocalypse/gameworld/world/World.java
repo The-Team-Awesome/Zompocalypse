@@ -45,7 +45,7 @@ public class World implements Serializable {
 	private int height;
 
 	// increments every game tick
-	public static int tickTimer;
+	public int tickTimer;
 
 	private static int id;
 	private Floor clipboardFloor;

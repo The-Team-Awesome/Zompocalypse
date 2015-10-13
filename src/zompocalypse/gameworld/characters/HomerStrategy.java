@@ -6,6 +6,7 @@ import zompocalypse.gameworld.world.World;
 
 public class HomerStrategy implements Strategy {
 	private final static int WAIT_TIME = 10;
+	private final int DAMAGE = 0;
 	private final int SPEED = 10;
 	private static int moveTimeCounter = WAIT_TIME;
 	private Player target;
@@ -24,6 +25,10 @@ public class HomerStrategy implements Strategy {
 
 	public int getPoints(){
 		return POINTS;
+	}
+	
+	public int getDamage(){
+		return DAMAGE;
 	}
 
 	@Override
@@ -49,6 +54,7 @@ public class HomerStrategy implements Strategy {
 			zombie.moveWest();
 			break;
 		}
+		zombie.attack();
 		moveTimeCounter = WAIT_TIME;
 	}
 	

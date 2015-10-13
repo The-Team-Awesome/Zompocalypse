@@ -13,6 +13,8 @@ public interface Strategy extends Serializable {
 	public void tick(World game, StrategyZombie Zombie);
 	
 	public int getPoints();
+	
+	public int getDamage();
 
 	//public void draw(Graphics g, StrategyZombie zombie);
 
