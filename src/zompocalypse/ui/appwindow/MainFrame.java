@@ -342,8 +342,11 @@ public class MainFrame extends JFrame implements WindowListener {
 			client.start();
 
 		} catch (IOException e) {
-			System.out.println("I/O error: " + e.getMessage());
-			System.exit(1);
+			System.out.println("IO exception:" + e);
+			JOptionPane.showMessageDialog(this,
+					"Couldn't connect to server, check if the IP address is from an existing server!",
+					"Oooops!",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 

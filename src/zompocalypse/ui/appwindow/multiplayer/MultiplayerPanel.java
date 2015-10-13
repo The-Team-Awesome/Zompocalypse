@@ -26,11 +26,12 @@ import zompocalypse.ui.appwindow.custom.ZButton;
  */
 public class MultiplayerPanel extends JPanel {
 
+	private static final long serialVersionUID = -8665486495213250493L;
 	private ZButton btnServer;
 	private ZButton btnClient;
 
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
-	
+
 	private ActionListener action;
 
 	public MultiplayerPanel(ActionListener action) {
@@ -66,7 +67,7 @@ public class MultiplayerPanel extends JPanel {
 		constraints.gridy = positionY++;
 		this.add(btnClient, constraints);
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
