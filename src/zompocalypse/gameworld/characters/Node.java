@@ -4,7 +4,11 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import zompocalypse.gameworld.world.Floor;
-
+/**
+ * A node for representing attributes required for the future implementation of A* Search algorithm
+ * 
+ * @author Kieran Mckay, 300276166
+ */
 public class Node{
 
 	public final int nodeID;

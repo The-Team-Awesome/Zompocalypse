@@ -43,8 +43,8 @@ public class StartPanel extends JPanel {
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		Insets topInset = new Insets(400, 0, 0, 0);
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
+		Insets topInset = new Insets(-100, 0, 0, 0);
+		Insets buttonsInset = new Insets(0, 0, 40, 0);
 		int positionY = 0;
 
 		// SINGLE PLAYER BUTTON
@@ -68,6 +68,7 @@ public class StartPanel extends JPanel {
 		loadGameButton.setActionCommand(UICommand.LOADGAME.getValue());
 		loadGameButton.addActionListener(action);
 		c.gridy = positionY++;
+		c.insets = buttonsInset;
 		this.add(loadGameButton, c);
 	}
 

@@ -39,7 +39,7 @@ import zompocalypse.ui.appwindow.UICommand;
  * @author Kieran Mckay, 300276166
  */
 public class World implements Serializable {
-	public final boolean GODMODE = false;
+	public boolean godmode = false;
 
 	private static final long serialVersionUID = 1L;
 	private int width;
@@ -64,7 +64,6 @@ public class World implements Serializable {
 	 * which can be moved through.
 	 */
 	private Orientation orientation;
-
 
 	private String[] zombieFileNames = { "npc_zombie_n.png", "npc_zombie_e.png",
 			"npc_zombie_s.png", "npc_zombie_w.png" };
@@ -526,6 +525,10 @@ public class World implements Serializable {
 	// Everything below here is used for editing mode
 	// ***********************************************
 
+	public void toggleGodmode() {
+		godmode = !godmode;
+	}
+	
 	public void setEditMode() {
 		editMode = true;
 		editor = new Point(0, 0);
