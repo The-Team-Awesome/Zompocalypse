@@ -136,6 +136,12 @@ public class World implements Serializable {
 		tickTimer++;
 	}
 	
+	/**
+	 * This puts an item on the map to remove objects from the world.
+	 * 
+	 * @param point
+	 * @param item
+	 */
 	public void addItemToRemove(Point point, GameObject item) {
 		itemsToRemove.put(point, item);
 	}
