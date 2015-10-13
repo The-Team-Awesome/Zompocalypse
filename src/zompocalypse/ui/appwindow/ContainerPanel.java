@@ -19,9 +19,11 @@ import zompocalypse.ui.appwindow.custom.ZRadioButton;
  *
  */
 public class ContainerPanel extends JPanel {
-	
+
+	private static final long serialVersionUID = 4299272622772973432L;
+
 	private static ActionListener constanctAction;
-	
+
 	private ActionListener action;
 	private List<? extends GameObject> objects;
 
@@ -32,11 +34,11 @@ public class ContainerPanel extends JPanel {
 
 		this.arrangeComponents(key);
 	}
-	
+
 	public static void setupContainerPanel(ActionListener action) {
 		constanctAction = action;
 	}
-	
+
 	public static ContainerPanel getContainerPanel(List<? extends GameObject> objects, String key) {
 		return new ContainerPanel(objects, constanctAction, key);
 	}

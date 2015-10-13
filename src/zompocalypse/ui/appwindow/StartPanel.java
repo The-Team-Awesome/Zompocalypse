@@ -20,10 +20,11 @@ import zompocalypse.ui.appwindow.custom.ZButton;
  *
  */
 public class StartPanel extends JPanel {
+
+	private static final long serialVersionUID = -4214067156057894477L;
 	private ZButton singlePlayerButton;
 	private ZButton multiplayerButton;
 	private ZButton loadGameButton;
-	private ZButton newGameButton;
 
 	private ActionListener action;
 
