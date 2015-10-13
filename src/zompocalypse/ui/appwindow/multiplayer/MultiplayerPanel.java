@@ -50,7 +50,8 @@ public class MultiplayerPanel extends JPanel {
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
+		Insets topInset = new Insets(-100, 0, 0, 0);
+		Insets buttonsInset = new Insets(0, 0, 40, 0);
 		int positionY = 0;
 
 		btnServer = new ZButton("Start Server");
@@ -65,10 +66,11 @@ public class MultiplayerPanel extends JPanel {
 		previousPageButton.setActionCommand(UICommand.HOME.getValue());
 		previousPageButton.addActionListener(action);
 
-		constraints.insets = buttonsInset;
+		constraints.insets = topInset;
 		constraints.gridy = positionY++;
 		this.add(btnServer, constraints);
 
+		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
 		this.add(btnClient, constraints);
 

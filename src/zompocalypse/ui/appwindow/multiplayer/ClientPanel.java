@@ -63,12 +63,10 @@ public class ClientPanel extends JPanel {
 	 */
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
-		int positionY = 0;
 
 		// creating and setting components
 		lblInformation = new JLabel("Insert IP address of the server:");
+		lblInformation.setForeground(CustomUtils.textInButton);
 
 		btnEnter = new ZButton("Enter");
 		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
@@ -128,11 +126,17 @@ public class ClientPanel extends JPanel {
 			}
 		});
 
+		GridBagConstraints constraints = new GridBagConstraints();
+		Insets buttonsInset = new Insets(-10, 0, 30, 0);
+		Insets topInset = new Insets(-100, 0, 0, 0);
+		int positionY = 0;
+
 		// adding components to panel
-		constraints.insets = buttonsInset;
+		constraints.insets = topInset;
 		constraints.gridy = positionY++;
 		this.add(lblInformation, constraints);
 
+		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
 		this.add(txtServerIp, constraints);
 

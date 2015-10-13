@@ -51,7 +51,7 @@ public class ServerPanel extends JPanel {
 	private void arrangeComponents() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
+		Insets buttonsInset = new Insets(175, 0, 0, 0);
 		int positionY = 0;
 
 		field = new JTextArea();
@@ -60,7 +60,7 @@ public class ServerPanel extends JPanel {
 
 		JScrollPane scroller = new JScrollPane(field);
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroller.setPreferredSize(new Dimension(800, 600));
+		scroller.setPreferredSize(new Dimension(800, 500));
 
 		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;

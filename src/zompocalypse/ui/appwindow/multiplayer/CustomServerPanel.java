@@ -42,16 +42,12 @@ public class CustomServerPanel extends JPanel {
 	 * Sets and arranges position of components into the content panel.
 	 */
 	private void arrangeComponents() {
-
 		this.setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		//Insets topInset = new Insets(400, 0, 0, 0);
-		Insets buttonsInset = new Insets(20, 0, 0, 0);
-		int positionY = 0;
 
 		NumberFormat clientFormat = NumberFormat.getNumberInstance();
 
 		clientsLabel = new JLabel("Enter the number of people to play:");
+		clientsLabel.setForeground(CustomUtils.textInButton);
 
 		clients = new JFormattedTextField(clientFormat);
 		clients.setValue(new Integer(1));
@@ -61,10 +57,16 @@ public class CustomServerPanel extends JPanel {
 		start.setActionCommand(UICommand.STARTSERVER.getValue());
 		start.addActionListener(action);
 
-		constraints.insets = buttonsInset;
+		GridBagConstraints constraints = new GridBagConstraints();
+		Insets buttonsInset = new Insets(-10, 0, 30, 0);
+		Insets topInset = new Insets(-100, 0, 0, 0);
+		int positionY = 0;
+
+		constraints.insets = topInset;
 		constraints.gridy = positionY++;
 		this.add(clientsLabel, constraints);
 
+		constraints.insets = buttonsInset;
 		constraints.gridy = positionY++;
 		this.add(clients, constraints);
 
