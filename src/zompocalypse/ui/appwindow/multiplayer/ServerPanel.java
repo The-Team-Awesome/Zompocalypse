@@ -1,8 +1,10 @@
 package zompocalypse.ui.appwindow.multiplayer;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.JPanel;
@@ -11,6 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import zompocalypse.controller.RunningServer;
+import zompocalypse.datastorage.Loader;
+import zompocalypse.datastorage.SoundManager;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 
@@ -26,6 +30,8 @@ public class ServerPanel extends JPanel {
 	private JTextArea field;
 	private String content = "";
 
+	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
+	
 	private RunningServer server;
 
 	public ServerPanel(int port, int gameClock, int serverClock) {
@@ -59,6 +65,13 @@ public class ServerPanel extends JPanel {
 		constraints.gridy = positionY++;
 		this.add(scroller, constraints);
 	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setBackground(CustomUtils.frameBackground);
+		g.drawImage(BACKGROUND, 0, 0, null);
+	}
 
 	/**
 	 * Send the number of clients to the server.
@@ -82,6 +95,7 @@ public class ServerPanel extends JPanel {
 	 * @param game - current game.
 	 */
 	public void startServer(World game) {
+		SoundManager.stopTheme();
 		server.startServer(game);
 	}
 

@@ -13,11 +13,13 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 public class Money implements Item {
 
 	private static final long serialVersionUID = 1L;
-	private ImageIcon currentImage;
+	private transient ImageIcon[] images;
+	private transient ImageIcon currentImage;
 	private String filename;
 	private int uid;
 
@@ -26,7 +28,10 @@ public class Money implements Item {
 
 	public Money(String string, int uid, int amount) {
 		this.filename = string;
-		currentImage = Loader.LoadSpriteIcon(string);
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
 		this.uid = uid;
 		this.amount = amount;
 
@@ -59,6 +64,11 @@ public class Money implements Item {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
+		
 		g.drawImage(currentImage.getImage(), x+16, y, null);
 
 	}
