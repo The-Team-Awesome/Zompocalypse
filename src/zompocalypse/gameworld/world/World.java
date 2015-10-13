@@ -144,14 +144,13 @@ public class World implements Serializable {
 	}
 
 	private void removeCharacter(MovingCharacter character) {
-		// TODO: At this point, we can remove a character if they are a zombie,
-		// or trigger a game over screen if they are a player
+		//handle removing zombies here
 		if (character.isDead() && character instanceof StrategyZombie) {
 			StrategyZombie zombie = (StrategyZombie) character;
 			//remove character from map of active characters
-			idToActor.remove(character.getUid(), character);
+			idToActor.remove(zombie.getUid(), zombie);
 			//remove this character from the gameObjects array
-			objects[character.getX()][character.getY()].remove(character);		
+			objects[zombie.getX()][zombie.getY()].remove(zombie);		
 			
 			//loop though all players in game and give them score based on what died
 			for (Actor a : idToActor.values()){
@@ -159,6 +158,19 @@ public class World implements Serializable {
 					((Player) a).addScore(zombie.getPoints());
 				}
 			}
+		}
+		//handle removing a player here
+		if (character.isDead() && character instanceof Player) {
+			Player player = (Player) character;
+			/*
+			objects[character.getX()][character.getY()].add(player.getEquipped());
+			for (GameObject item : player.getInventory()){
+				objects[character.getX()][character.getY()].add(item);
+			}
+			
+			objects[player.getX()][player.getY()].remove(player);	
+			idToActor.remove(player.getUid(), player);
+			*/
 		}
 	}
 	
@@ -409,6 +421,8 @@ public class World implements Serializable {
 	 */
 	public synchronized void processCommand(int id, String key) {
 		Player player = (Player) idToActor.get(id);
+		
+		if(player == null) return;
 
 		if (key.equals(UICommand.NORTH.getValue())) {
 			if (editMode) {
