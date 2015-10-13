@@ -1,12 +1,15 @@
 package zompocalypse.ui.appwindow.multiplayer;
 
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import zompocalypse.datastorage.Loader;
 import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
@@ -26,6 +29,8 @@ public class MultiplayerPanel extends JPanel {
 	private ZButton btnServer;
 	private ZButton btnClient;
 
+	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
+	
 	private ActionListener action;
 
 	public MultiplayerPanel(ActionListener action) {
@@ -60,6 +65,13 @@ public class MultiplayerPanel extends JPanel {
 
 		constraints.gridy = positionY++;
 		this.add(btnClient, constraints);
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setBackground(CustomUtils.frameBackground);
+		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 
 }

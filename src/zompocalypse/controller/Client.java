@@ -43,7 +43,6 @@ public class Client extends GameListenerThread {
 	}
 
 	public World game() {
-
 		return game;
 	}
 

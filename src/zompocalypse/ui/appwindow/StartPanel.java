@@ -27,7 +27,6 @@ public class StartPanel extends JPanel {
 
 	private ActionListener action;
 
-	//private static final Image BACKGROUND = Loader.LoadImage("logo.jpg");
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
 
 	public StartPanel(ActionListener action) {

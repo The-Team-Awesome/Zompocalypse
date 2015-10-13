@@ -24,8 +24,8 @@ public class Floor implements Drawable {
 	private int x;
 	private int y;
 
-	protected ImageIcon[] images;
-	protected ImageIcon currentImage;
+	protected transient ImageIcon[] images;
+	protected transient ImageIcon currentImage;
 	protected String imageName;
 	protected String[] filenames;
 
@@ -133,6 +133,7 @@ public class Floor implements Drawable {
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		images = imu.setupImages(filenames);
 		currentImage = imu.getImageForOrientation(worldOrientation, images);
 
 		g.drawImage(currentImage.getImage(), x, y, null);

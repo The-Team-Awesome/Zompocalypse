@@ -1,7 +1,9 @@
 package zompocalypse.ui.appwindow.multiplayer;
 
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+import zompocalypse.datastorage.Loader;
 import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
@@ -33,6 +36,8 @@ public class ClientPanel extends JPanel {
 	private ZButton btnEnter;
 	private JLabel lblInformation;
 
+	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
+	
 	private ActionListener action;
 
 	// IPv4 pattern for JTextField
@@ -129,6 +134,13 @@ public class ClientPanel extends JPanel {
 
 		constraints.gridy = positionY++;
 		this.add(btnEnter, constraints);
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setBackground(CustomUtils.frameBackground);
+		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 
 	/**

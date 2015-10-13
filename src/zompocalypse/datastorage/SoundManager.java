@@ -8,10 +8,14 @@ public class SoundManager {
 
 	private static final String themeMP3 = "theme.mp3";
 	private static final String themeWav = "theme.wav";
+	private static final Clip theme = Loader.LoadSound(themeWav);
 	
 	public static void playTheme() {
-		Clip newTheme = Loader.LoadSound(themeWav);
-		newTheme.start();
+		theme.start();
+	}
+	
+	public static void stopTheme() {
+		theme.stop();
 	}
 	
 }

@@ -1,5 +1,8 @@
 package zompocalypse.ui.rendering;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 
 import zompocalypse.datastorage.Loader;
@@ -16,6 +19,11 @@ import zompocalypse.gameworld.Orientation;
 public class ImageUtils {
 
 	private static ImageUtils utils = new ImageUtils();
+	private static int count = 0;
+	private static int calledCount = 0;
+	private Map<String, ImageIcon[]> stringsToImages = new HashMap<String, ImageIcon[]>();
+	
+	
 	protected ImageUtils(){}  //Nothing else can instantiate  a new imageutils object
 
 	/**
@@ -40,11 +48,23 @@ public class ImageUtils {
 	 * @return An array of new ImageIcons for the Object.
 	 */
 	public ImageIcon[] setupImages(String[] filenames) {
+		if(stringsToImages.containsKey(filenames[0])) {
+			count++;
+			System.out.println("saved " + count + " times!");
+			return stringsToImages.get(filenames[0]);
+		} else {
+			calledCount++;
+			System.out.println("setup " + calledCount + " times!");
+		}
+		
 		ImageIcon[] images = new ImageIcon[filenames.length];  //image is same length as array
 
 		for(int i = 0; i < filenames.length; ++i){
 			images[i] = Loader.LoadSpriteIcon(filenames[i]);
 		}
+		
+		stringsToImages.put(filenames[0], images);
+		
 		return images;
 	}
 
