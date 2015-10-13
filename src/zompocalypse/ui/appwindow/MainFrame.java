@@ -222,6 +222,11 @@ public class MainFrame extends JFrame implements WindowListener {
 		File playerFile = Loader.LoadFile(Loader.playersDir + Loader.separator
 				+ fileName);
 
+		if (playerFile == null) {
+			JOptionPane.showMessageDialog(null, "Failed to load Player");
+			return;
+		}
+
 		if (game == null) {
 			try {
 				game = Parser.ParseMap(Loader.mapFile);
@@ -231,10 +236,15 @@ public class MainFrame extends JFrame implements WindowListener {
 		}
 
 		if (multi)
-			showClient(); //TODO SAM can you plz help me here? :(
+			showClient(); // TODO SAM can you plz help me here? :(
 		else {
 
 			Player player = PlayerFileManager.loadPlayer(playerFile, game);
+
+			if (player == null) {
+				JOptionPane.showMessageDialog(null, "Failed to load Player");
+				return;
+			}
 
 			int id = game.registerLoadedPlayer(player);
 
@@ -272,7 +282,7 @@ public class MainFrame extends JFrame implements WindowListener {
 				"wall_brown_1_door_closed_ew.png");
 		if (fileName != null)
 			if (multi)
-				showClient(); //TODO Sam can you help me with this plz?
+				showClient(); // TODO Sam can you help me with this plz?
 			else
 				singlePlayer(fileName);
 		else
@@ -357,10 +367,11 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		} catch (IOException e) {
 			System.out.println("IO exception:" + e);
-			JOptionPane.showMessageDialog(this,
-					"Couldn't connect to server, check if the IP address is from an existing server!",
-					"Oooops!",
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Couldn't connect to server, check if the IP address is from an existing server!",
+							"Oooops!", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 

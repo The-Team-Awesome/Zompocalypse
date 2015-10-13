@@ -79,6 +79,9 @@ public class Parser {
 		// Load file and parse each part of XML into cell of Map
 		File mapXML = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ mapFile);
+		if (mapXML == null)
+			return null;
+
 		try {
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory

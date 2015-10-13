@@ -242,10 +242,7 @@ public class PlayerFileManager {
 
 			return player;
 		} catch (ParserConfigurationException | SAXException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
-
-		throw new Error("Unable to load Player for some reason :(");
 	}
 }

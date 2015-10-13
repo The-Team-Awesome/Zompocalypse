@@ -59,6 +59,9 @@ public class Loader {
 		// allows the Loader to work when exported to a .jar as well as in Eclipse.
 		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);
 
+		if (stream == null)
+			return null;
+
 		File file = null;
 		try {
 			// It just comes with the overhead of needing to read in the file this way!
