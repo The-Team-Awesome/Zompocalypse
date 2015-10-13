@@ -10,7 +10,7 @@ import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
- * A Character is a record of information about a particular character in the
+ * An Actor is a record of information about a particular character in the
  * game. There are essentially two kinds of characters: player controlled and
  * computer controlled.
  *
@@ -20,12 +20,12 @@ public abstract class Actor implements GameObject {
 
 	private static final long serialVersionUID = 1L;
 
-	protected int xCoord; // x-position
-	protected int yCoord; // y-position
-	protected int uid;
+	protected int xCoord; 	// x-position
+	protected int yCoord; 	// y-position
+	protected int uid;		//unique ID for actor
 
-	protected String filename;
-	protected World game;
+	protected String filename;	//the filename for this actor
+	protected World game;		//a reference to the world
 
 	private String[] filenames;
 	private transient ImageIcon[] images;
@@ -145,7 +145,8 @@ public abstract class Actor implements GameObject {
 	}
 
 	@Override
-	public int compareTo(GameObject o) {  //TODO
+	public int compareTo(GameObject o) {  
+		//always wants to be highest priority
 		return 0;
 	}
 
