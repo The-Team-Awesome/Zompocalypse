@@ -526,9 +526,7 @@ public class World implements Serializable {
 	// ***********************************************
 
 	public void toggleGodmode() {
-		System.out.println(godmode);
 		godmode = !godmode;
-		System.out.println(godmode);
 	}
 	
 	public void setEditMode() {
