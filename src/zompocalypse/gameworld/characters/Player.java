@@ -81,9 +81,6 @@ public final class Player extends MovingCharacter {
 	}
 
 	public void dropQueued() {
-
-		System.out.println(queuedUse);
-
 		if(queuedUse != null){
 			inventory.remove(queuedUse);
 			PriorityQueue<GameObject>[][] objects = game.getObjects();

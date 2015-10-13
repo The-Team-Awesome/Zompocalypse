@@ -4,6 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import zompocalypse.ui.appwindow.MainFrame;
 
+/**
+ * This is a simple listener which sends button clicks during the users
+ * navigation of the menu and setting up the game. It is replaced by
+ * a more intelligent listener as soon as the game starts running.
+ * 
+ * @author Sam Costigan
+ */
 public class MenuListener implements ActionListener {
 
 	private MainFrame frame;

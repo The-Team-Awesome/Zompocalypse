@@ -149,6 +149,10 @@ public abstract class Actor implements GameObject {
 		//always wants to be highest priority
 		return 0;
 	}
+	
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 
 	/**
 	 * Sets the orientation for the character

@@ -6,7 +6,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
 import java.net.Socket;
+
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.MainFrame;
 import zompocalypse.ui.appwindow.UICommand;
@@ -91,7 +93,14 @@ public class Client extends GameListenerThread {
 
 				if(changeNetwork > networkClock) {
 					// Read in the new world and update the frame and render panel with it
-					game = (World) objectInput.readObject();
+					// Sometimes, this might not be handled properly and will throw an 
+					// OptionalDataException, this can be caught and ignored safely....?
+					try {
+						game = (World) objectInput.readObject();
+					} catch(OptionalDataException e) {
+						System.out.println("can we recover?");
+					}
+					
 					frame.updateGame(game);
 
 					currentNetworkTime = (int) System.currentTimeMillis();
@@ -102,8 +111,9 @@ public class Client extends GameListenerThread {
 			socket.close();
 
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Server disconnected, closing down Client");
-			System.exit(-1);
+			e.printStackTrace();
+			/*System.out.println("Server disconnected, closing down Client");
+			System.exit(-1);*/
 		}
 
 	}
