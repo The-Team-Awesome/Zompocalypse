@@ -66,7 +66,7 @@ public class ClientPanel extends JPanel {
 		int positionY = 0;
 
 		// creating and setting components
-		lblInformation = new JLabel("Insert IP address of the server:");a
+		lblInformation = new JLabel("Insert IP address of the server:");
 
 		btnEnter = new ZButton("Enter");
 		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
