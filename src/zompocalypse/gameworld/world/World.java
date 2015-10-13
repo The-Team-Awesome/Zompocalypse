@@ -51,18 +51,17 @@ public class World implements Serializable {
 	private Floor clipboardFloor;
 	private Wall clipboardWall;
 
-	/**
+	/*
 	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
 	 */
 	private final Map<Integer, Actor> idToActor = new HashMap<Integer, Actor>();
 
-	/**
+	/*
 	 * This represents the entire world as 2D array of Tiles. Tiles can either
 	 * be standard floor Tiles, wall Tiles which block Players and door Tiles
 	 * which can be moved through.
 	 */
-
 	private Orientation orientation;
 
 	private Floor[][] map;
@@ -92,8 +91,6 @@ public class World implements Serializable {
 	 * The clock tick is essentially a clock trigger, which allows the world to
 	 * update the current state. The frequency with which this is called
 	 * determines the rate at which the game state is updated.
-	 *
-	 * @return
 	 */
 	public synchronized void clockTick() {
 		List<MovingCharacter> dead = new ArrayList<MovingCharacter>();
