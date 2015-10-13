@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.Direction;
@@ -309,12 +310,52 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnSouth, c);
 	}
 
+	private boolean flag = false;
+
 	@Override
 	public void paintComponent(Graphics g) {
 		player = game.getPlayer(id);
 		updatePlayersEquipped();
 		updatePlayersDamage();
 		updatePlayersScore();
+		if(!flag && isPlayerDead(player)) {
+			flag = true;
+			gameOver();
+		}
+	}
+
+	/**
+	 * Checks if the player is dead.
+	 * @param player
+	 * @return true if the player is dead.
+	 */
+	private boolean isPlayerDead(Player player) {
+		if(player.isDead()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Shows a message and closes the game for game over
+	 */
+	public void gameOver() {
+		SwingUtilities.invokeLater(new Runnable() {
+	        @Override
+	        public void run() {
+	        	Object[] options = { "end" };
+
+	    		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
+	    				"Game Over!", JOptionPane.PLAIN_MESSAGE,
+	    				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+	    		if (option == 0) {
+	    			System.exit(0);
+	    		}
+	        }
+	    });
+
 
 	}
 

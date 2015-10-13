@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import zompocalypse.datastorage.WorldBuilder;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
@@ -116,6 +118,7 @@ public class World implements Serializable {
 					} else {
 						//non-dead moving characters tick here
 						character.tick(this);
+
 					}
 				}else {
 					//non moving characters tick here
@@ -123,6 +126,7 @@ public class World implements Serializable {
 				}
 			}
 		}
+
 		//remove all dead moving characters
 		for(MovingCharacter m : dead){
 			removeCharacter(m);
@@ -528,7 +532,7 @@ public class World implements Serializable {
 	public void toggleGodmode() {
 		godmode = !godmode;
 	}
-	
+
 	public void setEditMode() {
 		editMode = true;
 		editor = new Point(0, 0);

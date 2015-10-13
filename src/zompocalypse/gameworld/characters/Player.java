@@ -30,7 +30,7 @@ public final class Player extends MovingCharacter {
 
 	private int score;
 	private final int OFFSETY = -20;
-	
+
 	private String playerName;
 
 	private Item queuedUse;
@@ -168,7 +168,7 @@ public final class Player extends MovingCharacter {
 				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
 	}
-	
+
 	/**
 	 * The name of the character this player is playing as
 	 * @return String - the name of this players character
@@ -273,7 +273,7 @@ public final class Player extends MovingCharacter {
 
 	/**
 	 * Set this players location
-	 * 
+	 *
 	 * @param x - x coordinate
 	 * @param y - y coordinate
 	 */
@@ -281,7 +281,7 @@ public final class Player extends MovingCharacter {
 		this.xCoord = x;
 		this.yCoord = y;
 	}
-	
+
 	/**
 	 * Sets this players unique identifier
 	 * @param uid - this players unique ID
