@@ -60,6 +60,9 @@ public abstract class MovingCharacter extends Actor {
 	 * @param damage
 	 */
 	public void damaged(int damage) {
+		if(game.GODMODE == true && this instanceof Player){
+			return;
+		}
 		setHealth(getHealth() - damage);
 		tookDamage = true;
 	}
