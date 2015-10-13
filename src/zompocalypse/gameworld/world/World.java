@@ -3,6 +3,7 @@ package zompocalypse.gameworld.world;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -93,6 +94,7 @@ public class World implements Serializable {
 	 * @return
 	 */
 	public synchronized void clockTick() {
+		List<MovingCharacter> dead = new ArrayList<MovingCharacter>();
 
 		Iterator<Actor> actors = idToActor.values().iterator();
 		Actor actor;
@@ -102,11 +104,21 @@ public class World implements Serializable {
 				if (actor instanceof MovingCharacter) {
 					MovingCharacter character = (MovingCharacter) actor;
 					if (character.isDead()) {
-						removeCharacter(character);
+						//add to list to remove from game
+						dead.add(character);
+					} else {
+						//non-dead moving characters tick here
+						character.tick(this);
 					}
+				}else {
+					//non moving characters tick here
+					actor.tick(this);
 				}
-				actor.tick(this);
 			}
+		}
+		//remove all dead moving characters
+		for(MovingCharacter m : dead){
+			removeCharacter(m);
 		}
 
 		if (tickTimer % 10 == 0 && !editMode) {
@@ -122,9 +134,10 @@ public class World implements Serializable {
 		// TODO: At this point, we can remove a character if they are a zombie,
 		// or trigger a game over screen if they are a player
 		if (character.isDead() && character instanceof StrategyZombie) {
-			// TODO: This throws a concurrent modification exception at the
-			// moment
-			// idToActor.remove(character.getUid(), character);
+			//remove character from map of active characters
+			idToActor.remove(character.getUid(), character);
+			//remove this character from the gameObjects array
+			objects[character.getX()][character.getY()].remove(character);
 		}
 	}
 
