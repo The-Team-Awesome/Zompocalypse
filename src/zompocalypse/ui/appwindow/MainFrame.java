@@ -88,8 +88,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private static final String icon = "zombie-icon.png";
 	private int port = 32768;
 	private int gameClock = 200;
-	private int clientClock = 100;
-	private int serverClock = 100;
+	private int networkClock = 50;
 
 	/**
 	 * Creates a frame without assigning a world. Used for the first time a
@@ -114,7 +113,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		startCard = new StartPanel(action);
 		multiplayerCard = new MultiplayerPanel(action);
 		clientCard = new ClientPanel(action);
-		serverCard = new ServerPanel(port, gameClock, serverClock);
+		serverCard = new ServerPanel(port, gameClock, networkClock);
 		customServerCard = new CustomServerPanel(action);
 		selectCharacterCard = new SelectCharacterPanel(action);
 
@@ -340,7 +339,7 @@ public class MainFrame extends JFrame implements WindowListener {
 			System.out.println("Client successfully connected to URL: " + ip
 					+ ", port: " + port);
 
-			Client client = new Client(socket, clientClock, this);
+			Client client = new Client(socket, gameClock, networkClock, this);
 
 			client.setup();
 			updateListeners(client);
