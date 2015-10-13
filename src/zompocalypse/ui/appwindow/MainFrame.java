@@ -115,7 +115,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
 
-		//SoundManager.playTheme();
+		// SoundManager.playTheme();
 
 		// setting content as default content for this frame
 		setContentPane(cards);
@@ -181,7 +181,8 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.STARTSERVER.getValue())) {
 			startServer();
 		} else if (command.equals(UICommand.CLIENT.getValue())) {
-			showClient();
+			// showClient();
+			selectCharacter();
 		} else if (command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
 		} else if (command.equals(UICommand.BACKPACK.getValue())) {
@@ -228,6 +229,10 @@ public class MainFrame extends JFrame implements WindowListener {
 			}
 		}
 
+		if (multi)
+			showClient(); //TODO SAM can you plz help me here? :(
+		else {
+
 		Player player = PlayerFileManager.loadPlayer(playerFile, game);
 
 		int id = game.registerLoadedPlayer(player);
@@ -248,6 +253,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		Clock clock = new Clock(this, game, gameClock);
 
 		clock.start();
+		}
 	}
 
 	/**
@@ -260,10 +266,14 @@ public class MainFrame extends JFrame implements WindowListener {
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a peeps", "Choice a peeps", JOptionPane.PLAIN_MESSAGE,
-				icon, possibilities, "wall_brown_1_door_closed_ew.png");
+				"Pliz choice a peeps", "Choice a peeps",
+				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
+				"wall_brown_1_door_closed_ew.png");
 		if (fileName != null)
-			singlePlayer(fileName);
+			if (multi)
+				showClient(); //TODO Sam can you help me with this plz?
+			else
+				singlePlayer(fileName);
 		else
 			selectCharacter();
 	}
@@ -562,8 +572,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
 				"Game Over!", JOptionPane.PLAIN_MESSAGE,
-				JOptionPane.PLAIN_MESSAGE, null, options,
-				options[0]);
+				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 		if (option == 0) {
 			dispose();
