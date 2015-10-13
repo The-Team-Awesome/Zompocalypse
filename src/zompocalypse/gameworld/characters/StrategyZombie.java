@@ -38,6 +38,10 @@ public class StrategyZombie extends MovingCharacter {
 			Orientation worldOrientation) {
 		super.draw(realx, realy, OFFSETY, g, worldOrientation);
 	}
+	
+	public int getPoints(){
+		return strategy.getPoints();
+	}
 
 	@Override
 	public int compareTo(GameObject o) {

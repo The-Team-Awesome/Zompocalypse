@@ -9,7 +9,9 @@ public class RandomStrategy implements Strategy{
 	private final static int WAIT_TIME = 10;
 	private final int SPEED = 10;
 	private static final Random random = new Random(System.currentTimeMillis());
-	private static int moveTimeCounter = WAIT_TIME;
+	private static int moveTimeCounter = WAIT_TIME;	
+
+	private static final int POINTS = 10;
 
 	@Override
 	public ActorType type() {
@@ -19,6 +21,10 @@ public class RandomStrategy implements Strategy{
 	@Override
 	public int speed() {
 		return SPEED;
+	}
+	
+	public int getPoints(){
+		return POINTS;
 	}
 
 	@Override

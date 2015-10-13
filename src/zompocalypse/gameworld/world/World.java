@@ -45,7 +45,7 @@ public class World implements Serializable {
 	private int height;
 
 	// increments every game tick
-	private static int tickTimer;
+	public static int tickTimer;
 
 	private static int id;
 	private Floor clipboardFloor;
@@ -134,10 +134,18 @@ public class World implements Serializable {
 		// TODO: At this point, we can remove a character if they are a zombie,
 		// or trigger a game over screen if they are a player
 		if (character.isDead() && character instanceof StrategyZombie) {
+			StrategyZombie zombie = (StrategyZombie) character;
 			//remove character from map of active characters
 			idToActor.remove(character.getUid(), character);
 			//remove this character from the gameObjects array
-			objects[character.getX()][character.getY()].remove(character);
+			objects[character.getX()][character.getY()].remove(character);		
+			
+			//loop though all players in game and give them score based on what died
+			for (Actor a : idToActor.values()){
+				if (a instanceof Player){
+					((Player) a).addScore(zombie.getPoints());
+				}
+			}
 		}
 	}
 

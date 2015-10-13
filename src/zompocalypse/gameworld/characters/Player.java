@@ -170,6 +170,10 @@ public final class Player extends MovingCharacter {
 	public void tick(World game) {
 		if (!isDead()) {
 			super.tick(game);
+			
+			if (game.tickTimer % 10 == 0) {
+				addScore(1);
+			}
 		}
 	}
 

@@ -10,6 +10,8 @@ public class HomerStrategy implements Strategy {
 	private static int moveTimeCounter = WAIT_TIME;
 	private Player target;
 
+	public static final int POINTS = 30;
+	
 	@Override
 	public ActorType type() {
 		return ActorType.HOMERZOMBIE;
@@ -18,6 +20,10 @@ public class HomerStrategy implements Strategy {
 	@Override
 	public int speed() {
 		return SPEED;
+	}	
+
+	public int getPoints(){
+		return POINTS;
 	}
 
 	@Override
