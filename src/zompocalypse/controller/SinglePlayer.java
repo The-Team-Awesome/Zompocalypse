@@ -73,6 +73,8 @@ public class SinglePlayer extends GameListener {
 			game.processCommand(id, UICommand.ROTATEANTICLOCKWISE.getValue());
 			// TODO this is just something for me to work with to be able to
 			// start editing screens
+		} else if(code == KeyEvent.VK_F9) {
+			game.toggleGodmode();
 		} else if (code == KeyEvent.VK_F8) { // expand north
 			game.setEditMode();
 		} else if (code == KeyEvent.VK_P && editable) { // expand north

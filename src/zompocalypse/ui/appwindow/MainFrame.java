@@ -233,26 +233,26 @@ public class MainFrame extends JFrame implements WindowListener {
 			showClient(); //TODO SAM can you plz help me here? :(
 		else {
 
-		Player player = PlayerFileManager.loadPlayer(playerFile, game);
-
-		int id = game.registerLoadedPlayer(player);
-
-		SinglePlayer singlePlayer = new SinglePlayer(game, id);
-
-		singlePlayer.setID(id);
-		singlePlayer.setFrame(this);
-		singlePlayer.setGame(game);
-		updateListeners(singlePlayer);
-
-		gameCard = new GamePanel(id, game, singlePlayer);
-
-		cards.add(gameCard, "1");
-
-		layout.show(cards, "1");
-
-		Clock clock = new Clock(this, game, gameClock);
-
-		clock.start();
+			Player player = PlayerFileManager.loadPlayer(playerFile, game);
+	
+			int id = game.registerLoadedPlayer(player);
+	
+			SinglePlayer singlePlayer = new SinglePlayer(game, id);
+	
+			singlePlayer.setID(id);
+			singlePlayer.setFrame(this);
+			singlePlayer.setGame(game);
+			updateListeners(singlePlayer);
+	
+			gameCard = new GamePanel(id, game, singlePlayer);
+	
+			cards.add(gameCard, "1");
+	
+			layout.show(cards, "1");
+	
+			Clock clock = new Clock(this, game, gameClock);
+	
+			clock.start();
 		}
 	}
 
