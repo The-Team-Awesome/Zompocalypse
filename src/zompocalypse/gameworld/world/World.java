@@ -41,14 +41,14 @@ import zompocalypse.ui.appwindow.UICommand;
  * @author Kieran Mckay, 300276166
  */
 public class World implements Serializable {
-	public boolean godmode = false;
+	public transient boolean godmode = false;
 
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
 
 	// increments every game tick
-	public int tickTimer;
+	public transient int tickTimer;
 
 	private static int id;
 	private Floor clipboardFloor;

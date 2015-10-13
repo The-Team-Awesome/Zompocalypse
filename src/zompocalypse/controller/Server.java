@@ -41,9 +41,11 @@ public class Server extends Thread {
 
 			boolean running = true;
 			output.writeInt(id);
+			output.flush();
 
 			ObjectOutputStream objOut = new ObjectOutputStream(output);
 			objOut.writeObject(game);
+			objOut.flush();
 
 			int time = (int) System.currentTimeMillis();
 			int gap = time - (int) System.currentTimeMillis();
@@ -83,12 +85,12 @@ public class Server extends Thread {
 					// The objOut stream needs to be reset in order to send the correct data.
 					// By default, serialized objects are cached for the duration of the output
 					// stream. Resetting the streams means the correctly updated info is sent!
-					objOut.reset();
 					objOut.writeObject(game);
+					//objOut.
+					objOut.flush();
+					objOut.reset();
 					time = (int) System.currentTimeMillis();
 				}
-
-				output.flush();
 			}
 
 			objOut.close();
