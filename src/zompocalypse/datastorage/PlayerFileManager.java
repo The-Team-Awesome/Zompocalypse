@@ -44,7 +44,7 @@ public class PlayerFileManager {
 
 		// Open dialog box and save XML file
 		JFileChooser c = new JFileChooser();
-		File f = new File("map.xml");
+		File f = new File(player.getFileName().split("_")[1] + ".xml");
 		c.setSelectedFile(f);
 		// TODO maybe should pass showSaveDialog a different parameter than
 		// itself? IDK does it make a difference? Should it be main window or
