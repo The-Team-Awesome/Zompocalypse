@@ -148,6 +148,10 @@ public abstract class Actor implements GameObject {
 	public int compareTo(GameObject o) {  //TODO
 		return 0;
 	}
+	
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 
 	/**
 	 * Sets the orientation for the character
