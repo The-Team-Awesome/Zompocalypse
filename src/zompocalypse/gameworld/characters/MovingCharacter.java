@@ -232,4 +232,43 @@ public abstract class MovingCharacter extends Actor {
 	public void resetDamage() {
 		tookDamage = false;
 	}
+
+
+	/**
+	 * Gets the priority queue
+	 */
+	public PriorityQueue<GameObject> getObjectsHere() {
+		int myX = getX();
+		int myY = getY();
+
+		World game = getWorld();
+		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+
+		return worldObs[myX][myY];
+	}
+
+	/**
+	 * Gets a priority queue of objects infront of the character.
+	 * @return
+	 */
+	public PriorityQueue<GameObject> getObjectsInfront() {
+		int frontX = getX();
+		int frontY = getY();
+
+		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+
+		if (getOrientation() == Orientation.NORTH && frontY > 0) {
+			return worldObs[frontX][frontY - 1];
+		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
+			return worldObs[frontX + 1][frontY];
+		} else if (getOrientation() == Orientation.SOUTH
+				&& frontY < game.height() - 1) {
+			return worldObs[frontX][frontY + 1];
+		} else if (getOrientation() == Orientation.WEST && frontX > 0) {
+			return worldObs[frontX - 1][frontY];
+		}
+		// if we are facing the edge of the world return an empty queue of
+		// objects
+		return new PriorityQueue<GameObject>();
+	}
 }

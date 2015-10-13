@@ -49,12 +49,7 @@ public class ImageUtils {
 	 */
 	public ImageIcon[] setupImages(String[] filenames) {
 		if(stringsToImages.containsKey(filenames[0])) {
-			count++;
-			System.out.println("saved " + count + " times!");
 			return stringsToImages.get(filenames[0]);
-		} else {
-			calledCount++;
-			System.out.println("setup " + calledCount + " times!");
 		}
 		
 		ImageIcon[] images = new ImageIcon[filenames.length];  //image is same length as array

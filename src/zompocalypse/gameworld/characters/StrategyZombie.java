@@ -1,6 +1,7 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
+import java.util.PriorityQueue;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -33,6 +34,19 @@ public class StrategyZombie extends MovingCharacter {
 		strategy.tick(game, this);
 	}
 
+	protected void attack(){
+		PriorityQueue<GameObject> targets = getObjectsInfront();
+		for (GameObject o : targets){
+			if (o instanceof Player){
+				((Player) o).damaged(calculateDamage());
+			}
+		}
+	}
+	
+	private int calculateDamage(){
+		return BASE_ATTACK + strategy.getDamage();
+	}
+	
 	@Override
 	public void draw(int realx, int realy, Graphics g,
 			Orientation worldOrientation) {

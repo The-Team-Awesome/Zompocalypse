@@ -45,25 +45,31 @@ public class World implements Serializable {
 	private int height;
 
 	// increments every game tick
-	public static int tickTimer;
+	public int tickTimer;
 
 	private static int id;
 	private Floor clipboardFloor;
 	private Wall clipboardWall;
 
-	/**
+	/*
 	 * The following is a map of ID's and characters in the game. This includes
 	 * players, zombies and other misc things.
 	 */
 	private final Map<Integer, Actor> idToActor = new HashMap<Integer, Actor>();
 
-	/**
+	/*
 	 * This represents the entire world as 2D array of Tiles. Tiles can either
 	 * be standard floor Tiles, wall Tiles which block Players and door Tiles
 	 * which can be moved through.
 	 */
-
 	private Orientation orientation;
+
+
+	private String[] zombieFileNames = { "npc_zombie_n.png", "npc_zombie_e.png",
+			"npc_zombie_s.png", "npc_zombie_w.png" };
+
+	private String[] dragonFileNames = { "npc_dragon_n.png", "npc_dragon_e.png",
+			"npc_dragon_s.png", "npc_dragon_w.png" };
 
 	private Floor[][] map;
 	private PriorityQueue<GameObject>[][] objects;
@@ -92,8 +98,6 @@ public class World implements Serializable {
 	 * The clock tick is essentially a clock trigger, which allows the world to
 	 * update the current state. The frequency with which this is called
 	 * determines the rate at which the game state is updated.
-	 *
-	 * @return
 	 */
 	public synchronized void clockTick() {
 		List<MovingCharacter> dead = new ArrayList<MovingCharacter>();
@@ -147,14 +151,13 @@ public class World implements Serializable {
 	}
 
 	private void removeCharacter(MovingCharacter character) {
-		// TODO: At this point, we can remove a character if they are a zombie,
-		// or trigger a game over screen if they are a player
+		//handle removing zombies here
 		if (character.isDead() && character instanceof StrategyZombie) {
 			StrategyZombie zombie = (StrategyZombie) character;
 			//remove character from map of active characters
-			idToActor.remove(character.getUid(), character);
+			idToActor.remove(zombie.getUid(), zombie);
 			//remove this character from the gameObjects array
-			objects[character.getX()][character.getY()].remove(character);		
+			objects[zombie.getX()][zombie.getY()].remove(zombie);		
 			
 			//loop though all players in game and give them score based on what died
 			for (Actor a : idToActor.values()){
@@ -162,6 +165,19 @@ public class World implements Serializable {
 					((Player) a).addScore(zombie.getPoints());
 				}
 			}
+		}
+		//handle removing a player here
+		if (character.isDead() && character instanceof Player) {
+			Player player = (Player) character;
+			/*
+			objects[character.getX()][character.getY()].add(player.getEquipped());
+			for (GameObject item : player.getInventory()){
+				objects[character.getX()][character.getY()].add(item);
+			}
+			
+			objects[player.getX()][player.getY()].remove(player);	
+			idToActor.remove(player.getUid(), player);
+			*/
 		}
 	}
 	
@@ -374,17 +390,11 @@ public class World implements Serializable {
 			y = p.y;
 		}
 
-		String[] filenames = { "npc_zombie_n.png", "npc_zombie_e.png",
-				"npc_zombie_s.png", "npc_zombie_w.png" };
-
-		String[] homerfilenames = { "npc_dragon_n.png", "npc_dragon_e.png",
-				"npc_dragon_s.png", "npc_dragon_w.png" };
-
 		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id,
-				filenames);
+				zombieFileNames);
 
 		if (strat instanceof HomerStrategy) {
-			zombie = new StrategyZombie(this, x, y, strat, ++id, homerfilenames);
+			zombie = new StrategyZombie(this, x, y, strat, ++id, dragonFileNames);
 		}
 
 		idToActor.put(id, zombie);
@@ -412,6 +422,8 @@ public class World implements Serializable {
 	 */
 	public synchronized void processCommand(int id, String key) {
 		Player player = (Player) idToActor.get(id);
+		
+		if(player == null) return;
 
 		if (key.equals(UICommand.NORTH.getValue())) {
 			if (editMode) {

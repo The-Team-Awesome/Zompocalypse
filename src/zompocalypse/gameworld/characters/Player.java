@@ -30,6 +30,8 @@ public final class Player extends MovingCharacter {
 
 	private int score;
 	private final int OFFSETY = -20;
+	
+	private String playerName;
 
 	private Item queuedUse;
 	private Item queuedTake;
@@ -53,6 +55,7 @@ public final class Player extends MovingCharacter {
 		super(uid, game, xCoord, yCoord, orientation, filenames);
 
 		this.score = score;
+		this.playerName = playerName;
 
 		setHealth(PLAYER_HEALTH);
 		setSpeed(PLAYER_SPEED);
@@ -175,43 +178,9 @@ public final class Player extends MovingCharacter {
 				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
 	}
-
-	/**
-	 * Gets the priority queue
-	 */
-	public PriorityQueue<GameObject> getObjectsHere() {
-		int myX = getX();
-		int myY = getY();
-
-		World game = getWorld();
-		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
-
-		return worldObs[myX][myY];
-	}
-
-	/**
-	 * Gets a priority queue for drawing the objects in the right order.
-	 * @return
-	 */
-	public PriorityQueue<GameObject> getObjectsInfront() {
-		int frontX = getX();
-		int frontY = getY();
-
-		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
-
-		if (getOrientation() == Orientation.NORTH && frontY > 0) {
-			return worldObs[frontX][frontY - 1];
-		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
-			return worldObs[frontX + 1][frontY];
-		} else if (getOrientation() == Orientation.SOUTH
-				&& frontY < game.height() - 1) {
-			return worldObs[frontX][frontY + 1];
-		} else if (getOrientation() == Orientation.WEST && frontX > 0) {
-			return worldObs[frontX - 1][frontY];
-		}
-		// if we are facing the edge of the world return an empty queue of
-		// objects
-		return new PriorityQueue<GameObject>();
+	
+	public String getName(){
+		return playerName;
 	}
 
 	/**

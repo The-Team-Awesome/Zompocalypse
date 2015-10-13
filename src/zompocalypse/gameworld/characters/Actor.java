@@ -28,8 +28,8 @@ public abstract class Actor implements GameObject {
 	protected World game;
 
 	private String[] filenames;
-	private ImageIcon[] images;
-	private ImageIcon currentImage;
+	private transient ImageIcon[] images;
+	private transient ImageIcon currentImage;
 	protected Orientation orientation;
 
 	/**
@@ -139,7 +139,7 @@ public abstract class Actor implements GameObject {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		Orientation ord = Orientation.getCharacterOrientation(orientation,
 				worldOrientation);
-
+		images = imu.setupImages(filenames);
 		currentImage = imu.getImageForOrientation(ord, images);
 		g.drawImage(getCurrentImage().getImage(), realx, realy + offsetY, null);
 	}
