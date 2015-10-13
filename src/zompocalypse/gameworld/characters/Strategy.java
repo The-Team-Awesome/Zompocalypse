@@ -24,7 +24,10 @@ public interface Strategy extends Serializable {
 	 * @return an int representing the Speed of the StrategyZombie
 	 */
 	public int speed();
-
+	
+	/**
+	 * Perform an update based on the world update tick for this specific strategy pattern.
+	 */
 	public void tick(World game, StrategyZombie Zombie);
 	
 	/**

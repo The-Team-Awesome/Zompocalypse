@@ -174,7 +174,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			multi = true;
 			showMultiplayer();
-		} else if (command.equals(UICommand.BACK.getValue())) {
+		} else if (command.equals(UICommand.HOME.getValue())) {
 			layout.show(cards, "2");
 		} else if (command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();

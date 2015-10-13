@@ -65,8 +65,8 @@ public class SelectCharacterPanel extends JPanel {
 		this.add(loadCharacterButton, c);
 
 		// BACK A PAGE BUTTON
-		previousPageButton = new ZButton("Back");
-		previousPageButton.setActionCommand(UICommand.BACK.getValue());
+		previousPageButton = new ZButton("Home");
+		previousPageButton.setActionCommand(UICommand.HOME.getValue());
 		c.insets = buttonsInset;
 		c.gridy = positionY++;
 		previousPageButton.addActionListener(action);
