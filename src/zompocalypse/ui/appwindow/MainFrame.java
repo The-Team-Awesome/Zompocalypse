@@ -234,24 +234,24 @@ public class MainFrame extends JFrame implements WindowListener {
 		else {
 
 			Player player = PlayerFileManager.loadPlayer(playerFile, game);
-	
+
 			int id = game.registerLoadedPlayer(player);
-	
+
 			SinglePlayer singlePlayer = new SinglePlayer(game, id);
-	
+
 			singlePlayer.setID(id);
 			singlePlayer.setFrame(this);
 			singlePlayer.setGame(game);
 			updateListeners(singlePlayer);
-	
+
 			gameCard = new GamePanel(id, game, singlePlayer);
-	
+
 			cards.add(gameCard, "1");
-	
+
 			layout.show(cards, "1");
-	
+
 			Clock clock = new Clock(this, game, gameClock);
-	
+
 			clock.start();
 		}
 	}
@@ -560,22 +560,6 @@ public class MainFrame extends JFrame implements WindowListener {
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				options, // the titles of buttons
 				options[0]); // default button title
-
-		if (option == 0) {
-			dispose();
-			System.exit(0);
-		}
-	}
-
-	/**
-	 * Shows a message and closes the game for game over
-	 */
-	public void gameOver() {
-		Object[] options = { "end" };
-
-		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
-				"Game Over!", JOptionPane.PLAIN_MESSAGE,
-				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 		if (option == 0) {
 			dispose();

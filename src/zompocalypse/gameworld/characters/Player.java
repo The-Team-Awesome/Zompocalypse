@@ -30,7 +30,7 @@ public final class Player extends MovingCharacter {
 
 	private int score;
 	private final int OFFSETY = -20;
-	
+
 	private String playerName;
 
 	private Item queuedUse;
@@ -166,8 +166,6 @@ public final class Player extends MovingCharacter {
 			if (game.tickTimer % 10 == 0) {
 				addScore(1);
 			}
-		} else {
-			// TODO: something to stop this player
 		}
 	}
 
@@ -178,7 +176,7 @@ public final class Player extends MovingCharacter {
 				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
 	}
-	
+
 	public String getName(){
 		return playerName;
 	}

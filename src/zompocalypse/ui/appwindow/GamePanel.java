@@ -309,13 +309,36 @@ public class GamePanel extends JPanel {
 		menuPanel.add(btnSouth, c);
 	}
 
+	private boolean over = false;
+
 	@Override
 	public void paintComponent(Graphics g) {
 		player = game.getPlayer(id);
 		updatePlayersEquipped();
 		updatePlayersDamage();
 		updatePlayersScore();
+		isPlayerDead(player);
+	}
 
+	private void isPlayerDead(Player player) {
+		if(player.isDead())
+			over = true;
+			gameOver();
+	}
+
+	/**
+	 * Shows a message and closes the game for game over
+	 */
+	public void gameOver() {
+		Object[] options = { "end" };
+
+		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
+				"Game Over!", JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+		if (option == 0) {
+			System.exit(0);
+		}
 	}
 
 	/**
