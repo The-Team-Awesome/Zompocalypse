@@ -165,7 +165,7 @@ public class Parser {
 			}
 		} catch (FileNotFoundException | ParserConfigurationException
 				| SAXException e) {
-			e.printStackTrace();
+			return null;
 		} finally {
 			mapReader.close();
 		}

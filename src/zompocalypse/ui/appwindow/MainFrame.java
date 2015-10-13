@@ -515,6 +515,9 @@ public class MainFrame extends JFrame implements WindowListener {
 
 			try {
 				game = Parser.ParseMap(filename);
+				JOptionPane.showMessageDialog(null,
+						"Failed to load Game, default map will be used");
+				return;
 			} catch (IOException e) {
 				System.out.println("Invalid game file! Try again");
 			}
