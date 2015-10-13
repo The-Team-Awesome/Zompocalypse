@@ -1,25 +1,14 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
-import zompocalypse.gameworld.items.Key;
-import zompocalypse.gameworld.items.Money;
-import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 
@@ -30,7 +19,7 @@ import zompocalypse.gameworld.world.World;
  */
 public final class Player extends MovingCharacter {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 9090914565024175293L;
 
 	private List<Item> inventory;
 
@@ -173,10 +162,12 @@ public final class Player extends MovingCharacter {
 	public void tick(World game) {
 		if (!isDead()) {
 			super.tick(game);
-			
+
 			if (game.tickTimer % 10 == 0) {
 				addScore(1);
 			}
+		} else {
+			// TODO: something to stop this player
 		}
 	}
 

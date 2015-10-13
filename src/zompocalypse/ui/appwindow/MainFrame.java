@@ -11,27 +11,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
@@ -39,12 +28,10 @@ import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.datastorage.PlayerFileManager;
-import zompocalypse.datastorage.SoundManager;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
-import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
@@ -61,7 +48,7 @@ import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
  */
 public class MainFrame extends JFrame implements WindowListener {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7712464743432107210L;
 	private CardLayout layout;
 	private GamePanel gameCard;
 	private StartPanel startCard;
@@ -267,7 +254,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	 * This displays a pop-up character selection box.
 	 */
 	private void newCharacter() {
-		String result;
 		Object[] possibilities = { "amy", "bob", "cordi", "duncan",
 				"elizabeth", "fred", "gina", "harold" };
 		// TODO this works, but I am uncomfortable with these null values!
@@ -433,7 +419,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	 */
 	private void use(int id) {
 		Player player = (Player) game.getCharacterByID(id);
-		PriorityQueue<GameObject> objects = player.getObjectsInfront();
 
 		for (GameObject o : player.getObjectsInfront()) {
 			if (o instanceof Container) {
@@ -577,9 +562,8 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
 				"Game Over!", JOptionPane.PLAIN_MESSAGE,
-				JOptionPane.PLAIN_MESSAGE, null, options, // the titles of
-															// buttons
-				options[0]); // default button title
+				JOptionPane.PLAIN_MESSAGE, null, options,
+				options[0]);
 
 		if (option == 0) {
 			dispose();
