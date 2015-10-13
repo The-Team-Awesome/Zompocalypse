@@ -19,10 +19,11 @@ import zompocalypse.ui.appwindow.custom.ZButton;
 
 public class CustomServerPanel extends JPanel {
 
+	private static final long serialVersionUID = 3418853607101157836L;
 	JLabel clientsLabel;
 	JFormattedTextField clients;
 	ZButton start;
-	
+
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
 
 	ActionListener action;
@@ -77,7 +78,7 @@ public class CustomServerPanel extends JPanel {
 		setBackground(CustomUtils.frameBackground);
 		g.drawImage(BACKGROUND, 0, 0, null);
 	}
-	
+
 	/**
 	 * Gets the number of clients from the text input.
 	 * @return number of clients.

@@ -27,11 +27,12 @@ import zompocalypse.ui.appwindow.custom.CustomUtils;
  */
 public class ServerPanel extends JPanel {
 
+	private static final long serialVersionUID = 8015424305325191781L;
 	private JTextArea field;
 	private String content = "";
 
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
-	
+
 	private RunningServer server;
 
 	public ServerPanel(int port, int gameClock, int serverClock) {
@@ -65,7 +66,7 @@ public class ServerPanel extends JPanel {
 		constraints.gridy = positionY++;
 		this.add(scroller, constraints);
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

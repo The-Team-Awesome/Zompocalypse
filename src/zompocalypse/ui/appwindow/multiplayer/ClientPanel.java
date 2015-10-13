@@ -32,6 +32,8 @@ import zompocalypse.ui.appwindow.custom.ZButton;
  *
  */
 public class ClientPanel extends JPanel {
+
+	private static final long serialVersionUID = -5774750842625075768L;
 	private JTextField txtServerIp;
 	private ZButton btnEnter;
 	private JLabel lblInformation;
@@ -77,7 +79,6 @@ public class ClientPanel extends JPanel {
 		txtServerIp.setColumns(20);
 		txtServerIp.setText("127.0.0.1");
 
-
 		// using listener to watch the user input dynamically
 		txtServerIp.getDocument().addDocumentListener(new DocumentListener() {
 			void checkDocument(DocumentEvent e) {
@@ -87,7 +88,7 @@ public class ClientPanel extends JPanel {
 					// enables button if IP matches pattern
 					btnEnter.setEnabled(checkIPString(text));
 				} catch (BadLocationException ex) {
-					
+
 				}
 			}
 

@@ -16,7 +16,7 @@ public enum UICommand {
 			"Multiplayer"), SERVER("Server"), STARTSERVER("StartServer"), CLIENT(
 			"Client"), LOADGAME("LoadGame"), ENTERIP("EnterIP"), OPTIONS(
 			"Options"), SAVEPLAYER("SavePlayer"), NEWCHARACTER("NewCharacter"), LOADCHARACTER(
-			"LoadCharacter"), BACK("FrontPage");
+			"LoadCharacter"), HOME("FrontPage");
 
 	private String value;
 
