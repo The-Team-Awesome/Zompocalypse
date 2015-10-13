@@ -35,6 +35,8 @@ import zompocalypse.ui.rendering.RenderPanel;
  *
  */
 public class GamePanel extends JPanel {
+
+	private static final long serialVersionUID = 6665042342705389929L;
 	// Main panels
 	private JPanel dialoguePanel;
 	private JPanel menuPanel;

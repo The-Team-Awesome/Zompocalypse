@@ -36,6 +36,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Check if this character is dead.
+	 * 
+	 * @return true if dead, false if alive
 	 */
 	public boolean isDead() {
 		return health <= 0;
@@ -43,6 +45,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters remaining health
+	 * 
+	 * @return int - the amount of health remaining 
 	 */
 	public int getHealth() {
 		return health;
@@ -50,6 +54,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters strength
+	 * 
+	 * @return int - the strength value of this Moving Character
 	 */
 	public int getStrength() {
 		return strength;
@@ -57,9 +63,13 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Updates the characters health after taking damage
-	 * @param damage
+	 * 
+	 * @param damage for this character to take
 	 */
 	public void damaged(int damage) {
+		if(game.godmode == true && this instanceof Player){
+			return;
+		}
 		setHealth(getHealth() - damage);
 		tookDamage = true;
 	}
@@ -231,5 +241,44 @@ public abstract class MovingCharacter extends Actor {
 
 	public void resetDamage() {
 		tookDamage = false;
+	}
+
+
+	/**
+	 * Gets the priority queue
+	 */
+	public PriorityQueue<GameObject> getObjectsHere() {
+		int myX = getX();
+		int myY = getY();
+
+		World game = getWorld();
+		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+
+		return worldObs[myX][myY];
+	}
+
+	/**
+	 * Gets a priority queue of objects infront of the character.
+	 * @return
+	 */
+	public PriorityQueue<GameObject> getObjectsInfront() {
+		int frontX = getX();
+		int frontY = getY();
+
+		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+
+		if (getOrientation() == Orientation.NORTH && frontY > 0) {
+			return worldObs[frontX][frontY - 1];
+		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
+			return worldObs[frontX + 1][frontY];
+		} else if (getOrientation() == Orientation.SOUTH
+				&& frontY < game.height() - 1) {
+			return worldObs[frontX][frontY + 1];
+		} else if (getOrientation() == Orientation.WEST && frontX > 0) {
+			return worldObs[frontX - 1][frontY];
+		}
+		// if we are facing the edge of the world return an empty queue of
+		// objects
+		return new PriorityQueue<GameObject>();
 	}
 }

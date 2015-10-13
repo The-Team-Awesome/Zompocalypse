@@ -5,13 +5,24 @@ import java.util.Random;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 
+/**
+ * A strategy pattern implementation.
+ * This strategy will move randomly and attack any Players in their way.
+ * 
+ * @author Kieran Mckay, 300276166
+ */
 public class RandomStrategy implements Strategy{
+	//the amount of game ticks before this pattern can act
 	private final static int WAIT_TIME = 10;
+	//damage this strategy adds to zombies base damage
+	private final int DAMAGE = 0;
+	//speed at which wait time is decremented to act
 	private final int SPEED = 10;
-	private static final Random random = new Random(System.currentTimeMillis());
-	private static int moveTimeCounter = WAIT_TIME;	
-
+	private static int moveTimeCounter = WAIT_TIME;
+	//the amount of points this zombie is worth
 	private static final int POINTS = 10;
+	//random object for determining a direction to move
+	private static final Random random = new Random(System.currentTimeMillis());
 
 	@Override
 	public ActorType type() {
@@ -25,6 +36,10 @@ public class RandomStrategy implements Strategy{
 	
 	public int getPoints(){
 		return POINTS;
+	}
+	
+	public int getDamage(){
+		return DAMAGE;
 	}
 
 	@Override
@@ -54,12 +69,7 @@ public class RandomStrategy implements Strategy{
 			zombie.moveWest();
 			break;
 		}
+		zombie.attack();
 		moveTimeCounter = WAIT_TIME;
 	}
-	/*
-	@Override
-	public void draw(Graphics g, StrategyZombie zombie) {
-		// TODO Auto-generated method stub
-	}
-	*/
 }

@@ -11,27 +11,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import zompocalypse.controller.Client;
 import zompocalypse.controller.Clock;
@@ -39,12 +28,10 @@ import zompocalypse.controller.SinglePlayer;
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.datastorage.PlayerFileManager;
-import zompocalypse.datastorage.SoundManager;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
-import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.multiplayer.ClientPanel;
@@ -61,7 +48,7 @@ import zompocalypse.ui.appwindow.multiplayer.ServerPanel;
  */
 public class MainFrame extends JFrame implements WindowListener {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7712464743432107210L;
 	private CardLayout layout;
 	private GamePanel gameCard;
 	private StartPanel startCard;
@@ -72,6 +59,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private SelectCharacterPanel selectCharacterCard;
 	private JPanel cards;
 	private World game;
+	private boolean multi;
 
 	/**
 	 * This will be the listener for all action events which are triggered, such
@@ -88,8 +76,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private static final String icon = "zombie-icon.png";
 	private int port = 32768;
 	private int gameClock = 200;
-	private int clientClock = 100;
-	private int serverClock = 100;
+	private int networkClock = 50;
 
 	/**
 	 * Creates a frame without assigning a world. Used for the first time a
@@ -114,7 +101,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		startCard = new StartPanel(action);
 		multiplayerCard = new MultiplayerPanel(action);
 		clientCard = new ClientPanel(action);
-		serverCard = new ServerPanel(port, gameClock, serverClock);
+		serverCard = new ServerPanel(port, gameClock, networkClock);
 		customServerCard = new CustomServerPanel(action);
 		selectCharacterCard = new SelectCharacterPanel(action);
 
@@ -128,7 +115,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		// setting Start menu to be the first thing to show up
 		layout.show(cards, "2");
 
-		//SoundManager.playTheme();
+		// SoundManager.playTheme();
 
 		// setting content as default content for this frame
 		setContentPane(cards);
@@ -177,6 +164,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
 		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
+			multi = false;
 			// singlePlayer("gina");
 			selectCharacter();
 		} else if (command.equals(UICommand.NEWCHARACTER.getValue())) {
@@ -184,13 +172,17 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADCHARACTER.getValue())) {
 			loadCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
+			multi = true;
 			showMultiplayer();
+		} else if (command.equals(UICommand.HOME.getValue())) {
+			layout.show(cards, "2");
 		} else if (command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();
 		} else if (command.equals(UICommand.STARTSERVER.getValue())) {
 			startServer();
 		} else if (command.equals(UICommand.CLIENT.getValue())) {
-			showClient();
+			// showClient();
+			selectCharacter();
 		} else if (command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
 		} else if (command.equals(UICommand.BACKPACK.getValue())) {
@@ -222,7 +214,8 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (value == JFileChooser.APPROVE_OPTION) {
 			fileName = chooser.getSelectedFile().getName();
 		} else {
-			singlePlayer("gina"); // because damn it!
+			selectCharacter(); // cancel and return ot this page
+			return;
 		}
 
 		File playerFile = Loader.LoadFile(Loader.playersDir + Loader.separator
@@ -236,45 +229,53 @@ public class MainFrame extends JFrame implements WindowListener {
 			}
 		}
 
-		Player player = PlayerFileManager.loadPlayer(playerFile, game);
+		if (multi)
+			showClient(); //TODO SAM can you plz help me here? :(
+		else {
 
-		int id = game.registerLoadedPlayer(player);
-
-		SinglePlayer singlePlayer = new SinglePlayer(game, id);
-
-		singlePlayer.setID(id);
-		singlePlayer.setFrame(this);
-		singlePlayer.setGame(game);
-		updateListeners(singlePlayer);
-
-		gameCard = new GamePanel(id, game, singlePlayer);
-
-		cards.add(gameCard, "1");
-
-		layout.show(cards, "1");
-
-		Clock clock = new Clock(this, game, gameClock);
-
-		clock.start();
+			Player player = PlayerFileManager.loadPlayer(playerFile, game);
+	
+			int id = game.registerLoadedPlayer(player);
+	
+			SinglePlayer singlePlayer = new SinglePlayer(game, id);
+	
+			singlePlayer.setID(id);
+			singlePlayer.setFrame(this);
+			singlePlayer.setGame(game);
+			updateListeners(singlePlayer);
+	
+			gameCard = new GamePanel(id, game, singlePlayer);
+	
+			cards.add(gameCard, "1");
+	
+			layout.show(cards, "1");
+	
+			Clock clock = new Clock(this, game, gameClock);
+	
+			clock.start();
+		}
 	}
 
 	/**
 	 * This displays a pop-up character selection box.
 	 */
 	private void newCharacter() {
-		String result;
 		Object[] possibilities = { "amy", "bob", "cordi", "duncan",
 				"elizabeth", "fred", "gina", "harold" };
 		// TODO this works, but I am uncomfortable with these null values!
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
-				icon, possibilities, "wall_brown_1_door_closed_ew.png");
+				"Pliz choice a peeps", "Choice a peeps",
+				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
+				"wall_brown_1_door_closed_ew.png");
 		if (fileName != null)
-			singlePlayer(fileName);
+			if (multi)
+				showClient(); //TODO Sam can you help me with this plz?
+			else
+				singlePlayer(fileName);
 		else
-			singlePlayer("gina");
+			selectCharacter();
 	}
 
 	/**
@@ -340,7 +341,7 @@ public class MainFrame extends JFrame implements WindowListener {
 			System.out.println("Client successfully connected to URL: " + ip
 					+ ", port: " + port);
 
-			Client client = new Client(socket, clientClock, this);
+			Client client = new Client(socket, gameClock, networkClock, this);
 
 			client.setup();
 			updateListeners(client);
@@ -354,8 +355,11 @@ public class MainFrame extends JFrame implements WindowListener {
 			client.start();
 
 		} catch (IOException e) {
-			System.out.println("I/O error: " + e.getMessage());
-			System.exit(1);
+			System.out.println("IO exception:" + e);
+			JOptionPane.showMessageDialog(this,
+					"Couldn't connect to server, check if the IP address is from an existing server!",
+					"Oooops!",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -428,7 +432,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	 */
 	private void use(int id) {
 		Player player = (Player) game.getCharacterByID(id);
-		PriorityQueue<GameObject> objects = player.getObjectsInfront();
 
 		for (GameObject o : player.getObjectsInfront()) {
 			if (o instanceof Container) {
@@ -456,7 +459,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		String[] options = { "Drop", "Use" };
 
 		int option = (int) JOptionPane.showOptionDialog(null, inventory,
-				"Player " + id + "'s Inventory", JOptionPane.YES_NO_OPTION,
+				player.getName() + "'s Inventory", JOptionPane.YES_NO_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 		String command;
@@ -572,9 +575,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
 				"Game Over!", JOptionPane.PLAIN_MESSAGE,
-				JOptionPane.PLAIN_MESSAGE, null, options, // the titles of
-															// buttons
-				options[0]); // default button title
+				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 		if (option == 0) {
 			dispose();

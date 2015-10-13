@@ -23,7 +23,9 @@ public class Client extends GameListenerThread {
 
 	private final Socket socket;
 	private final int gameClock;
-	private int currentTime;
+	private final int networkClock;
+	private int currentGameTime;
+	private int currentNetworkTime;
 	private int id;
 	private MainFrame frame;
 	private World game;
@@ -32,9 +34,10 @@ public class Client extends GameListenerThread {
 	private DataOutputStream output;
 	private ObjectInputStream objectInput;
 
-	public Client(Socket socket, int gameClock, MainFrame frame) {
+	public Client(Socket socket, int gameClock, int networkClock, MainFrame frame) {
 		this.socket = socket;
 		this.gameClock = gameClock;
+		this.networkClock = networkClock;
 		this.frame = frame;
 	}
 
@@ -61,9 +64,8 @@ public class Client extends GameListenerThread {
 			objectInput = new ObjectInputStream(input);
 			game = (World) objectInput.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-			//System.out.println("Problem connect to Server, closing down Client");
-			//System.exit(-1);
+			System.out.println("Problem connect to Server, closing down Client");
+			System.exit(-1);
 		}
 	}
 
@@ -71,23 +73,28 @@ public class Client extends GameListenerThread {
 	public void run() {
 		try {
 			boolean running = true;
-			currentTime = (int) System.currentTimeMillis();
+			currentGameTime = (int) System.currentTimeMillis();
+			currentNetworkTime = (int) System.currentTimeMillis();
 
 			while(running) {
 				int nextTime = (int) System.currentTimeMillis();
-				int change = (nextTime - currentTime);
+				int changeGame = (nextTime - currentGameTime);
+				int changeNetwork = (nextTime - currentNetworkTime);
 
-				if(change > gameClock) {
+				if(changeGame > gameClock) {
 					// Make sure the frame is in focus, so key presses are processed
 					frame.requestFocus();
+					frame.repaint();
 
+					currentGameTime = (int) System.currentTimeMillis();
+				}
+
+				if(changeNetwork > networkClock) {
 					// Read in the new world and update the frame and render panel with it
 					game = (World) objectInput.readObject();
 					frame.updateGame(game);
 
-					frame.repaint();
-
-					currentTime = (int) System.currentTimeMillis();
+					currentNetworkTime = (int) System.currentTimeMillis();
 				}
 			}
 
@@ -95,9 +102,8 @@ public class Client extends GameListenerThread {
 			socket.close();
 
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-			/*System.out.println("Server disconnected, closing down Client");
-			System.exit(-1);*/
+			System.out.println("Server disconnected, closing down Client");
+			System.exit(-1);
 		}
 
 	}

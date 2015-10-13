@@ -12,6 +12,8 @@ import javax.swing.JButton;
  */
 public class ZButton extends JButton {
 
+	private static final long serialVersionUID = 9092344271771295021L;
+
 	public ZButton(String name) {
 		super(name);
 		super.setContentAreaFilled(false);

@@ -14,6 +14,7 @@ import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 /**
  * A key used to open a locked item such as a door or chest etc.
@@ -24,13 +25,17 @@ import zompocalypse.gameworld.world.World;
 public class Key implements Item{
 
 	private static final long serialVersionUID = 1L;
-	private ImageIcon currentImage;
+	private transient ImageIcon[] images;
+	private transient ImageIcon currentImage;
 	private String filename;
 	private int uid;
 
 	public Key(String filename, int uid) {
 		this.filename = filename;
-		currentImage = Loader.LoadSpriteIcon(filename);
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
 		this.uid = uid;
 	}
 
@@ -90,6 +95,12 @@ public class Key implements Item{
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
+		
 		g.drawImage(currentImage.getImage(), x, y-18, null);
 
 	}

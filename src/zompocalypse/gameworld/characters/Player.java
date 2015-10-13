@@ -1,25 +1,14 @@
 package zompocalypse.gameworld.characters;
 
 import java.awt.Graphics;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
-import zompocalypse.gameworld.items.Key;
-import zompocalypse.gameworld.items.Money;
-import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 
@@ -30,7 +19,7 @@ import zompocalypse.gameworld.world.World;
  */
 public final class Player extends MovingCharacter {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 9090914565024175293L;
 
 	private List<Item> inventory;
 
@@ -41,6 +30,8 @@ public final class Player extends MovingCharacter {
 
 	private int score;
 	private final int OFFSETY = -20;
+	
+	private String playerName;
 
 	private Item queuedUse;
 	private Item queuedTake;
@@ -64,20 +55,13 @@ public final class Player extends MovingCharacter {
 		super(uid, game, xCoord, yCoord, orientation, filenames);
 
 		this.score = score;
+		this.playerName = playerName;
 
 		setHealth(PLAYER_HEALTH);
 		setSpeed(PLAYER_SPEED);
 		setStrength(PLAYER_STRENGTH);
 
 		this.inventory = new ArrayList<Item>();
-
-		// TODO: This is just temporary, adding objects to the Players
-		// inventory so something is visible when viewing their backpack
-		/*inventory.add(new Key("gold_key_inv.png", 1));
-		inventory.add(new Key("gold_key_inv.png", 2));
-		inventory.add(new Torch("torch.png", 3));
-		inventory.add(new Money("coins_gold.png", 4, 10));*/
-		//equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
 	}
 
 	public void queueItem(Item item) {
@@ -170,7 +154,7 @@ public final class Player extends MovingCharacter {
 	public void tick(World game) {
 		if (!isDead()) {
 			super.tick(game);
-			
+
 			if (game.tickTimer % 10 == 0) {
 				addScore(1);
 			}
@@ -184,43 +168,13 @@ public final class Player extends MovingCharacter {
 				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
 	}
-
+	
 	/**
-	 * Gets the priority queue
+	 * The name of the character this player is playing as
+	 * @return String - the name of this players character
 	 */
-	public PriorityQueue<GameObject> getObjectsHere() {
-		int myX = getX();
-		int myY = getY();
-
-		World game = getWorld();
-		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
-
-		return worldObs[myX][myY];
-	}
-
-	/**
-	 * Gets a priority queue for drawing the objects in the right order.
-	 * @return
-	 */
-	public PriorityQueue<GameObject> getObjectsInfront() {
-		int frontX = getX();
-		int frontY = getY();
-
-		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
-
-		if (getOrientation() == Orientation.NORTH && frontY > 0) {
-			return worldObs[frontX][frontY - 1];
-		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
-			return worldObs[frontX + 1][frontY];
-		} else if (getOrientation() == Orientation.SOUTH
-				&& frontY < game.height() - 1) {
-			return worldObs[frontX][frontY + 1];
-		} else if (getOrientation() == Orientation.WEST && frontX > 0) {
-			return worldObs[frontX - 1][frontY];
-		}
-		// if we are facing the edge of the world return an empty queue of
-		// objects
-		return new PriorityQueue<GameObject>();
+	public String getName(){
+		return playerName;
 	}
 
 	/**
@@ -277,6 +231,10 @@ public final class Player extends MovingCharacter {
 		}
 	}
 
+	/**
+	 * The player uses the first item where they are standing, or infront of them.
+	 * Also used for attacking all Zombies infront of the player.
+	 */
 	public void use(){
 		// Process any objects the player is standing on first
 		for (GameObject o : getObjectsHere()) {
@@ -313,11 +271,21 @@ public final class Player extends MovingCharacter {
 		return true;
 	}
 
+	/**
+	 * Set this players location
+	 * 
+	 * @param x - x coordinate
+	 * @param y - y coordinate
+	 */
 	public void setLocation(int x, int y) {
 		this.xCoord = x;
 		this.yCoord = y;
 	}
-
+	
+	/**
+	 * Sets this players unique identifier
+	 * @param uid - this players unique ID
+	 */
 	public void setUID(int uid) {
 		this.uid = uid;
 	}

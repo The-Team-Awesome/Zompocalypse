@@ -12,17 +12,22 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
+import zompocalypse.ui.rendering.ImageUtils;
 
 public class Torch implements Item {
 
 	private static final long serialVersionUID = 1L;
-	private ImageIcon currentImage;
+	private transient ImageIcon[] images;
+	private transient ImageIcon currentImage;
 	private String filename;
 	private int uid;
 
 	public Torch(String filename, int uid) {
 		this.filename = filename;
-		currentImage = Loader.LoadSpriteIcon(filename);
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
 		this.uid = uid;
 	}
 
@@ -33,13 +38,17 @@ public class Torch implements Item {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
+		String[] filenames = {filename};
+		images = imu.setupImages(filenames);
+		currentImage = images[0];
+		
 		g.drawImage(currentImage.getImage(), x+10, y, null);
 
 	}
 
 	@Override
 	public int compareTo(GameObject o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

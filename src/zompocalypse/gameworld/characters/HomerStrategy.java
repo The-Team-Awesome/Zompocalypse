@@ -1,16 +1,29 @@
 package zompocalypse.gameworld.characters;
 
 import java.util.Map;
+
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.world.World;
 
+/**
+ * A strategy pattern implementation.
+ * This strategy finds a target Player and continuously moves towards them.
+ * 
+ * @author Kieran Mckay, 300276166
+ */
 public class HomerStrategy implements Strategy {
+	
+	//the amount of game ticks before this pattern can act
 	private final static int WAIT_TIME = 10;
+	//damage this strategy adds to zombies base damage
+	private final int DAMAGE = 0;
+	//speed at which wait time is decremented to act
 	private final int SPEED = 10;
 	private static int moveTimeCounter = WAIT_TIME;
+	//the target of this zombie
 	private Player target;
-
-	public static final int POINTS = 30;
+	//the amount of points this zombie is worth
+	private static final int POINTS = 30;
 	
 	@Override
 	public ActorType type() {
@@ -25,15 +38,22 @@ public class HomerStrategy implements Strategy {
 	public int getPoints(){
 		return POINTS;
 	}
+	
+	public int getDamage(){
+		return DAMAGE;
+	}
 
+	
 	@Override
 	public void tick(World game, StrategyZombie zombie) {
+		//if we still have to wait before acting then decrement wait counter and return
 		if(moveTimeCounter > 0){
 			moveTimeCounter -= speed();
 			return;
 		}
 		updateTarget(game, zombie);
 		
+		//move in appropriate direction
 		Orientation direction = getPreferedDirection(game, zombie); 
 		switch (direction) {
 		case NORTH:
@@ -49,9 +69,19 @@ public class HomerStrategy implements Strategy {
 			zombie.moveWest();
 			break;
 		}
+		//attack a player if we can
+		zombie.attack();
+		
+		//reset the timer before zombie can act again
 		moveTimeCounter = WAIT_TIME;
 	}
 	
+	/**
+	 * Finds the location of the closest Player and targets it.
+	 * 
+	 * @param game - the game world acting upon
+	 * @param zombie - the StrategyZombie implementing this Strategy
+	 */
 	private void updateTarget(World game, StrategyZombie zombie){
 		
 		Map<Integer, Actor> characters = game.getIdToActor();
@@ -76,6 +106,13 @@ public class HomerStrategy implements Strategy {
 		}
 	}
 	
+	/**
+	 * Finds the direction for this StrategyZombie to move in towards its target
+	 * 
+	 * @param game - the world upon which we are acting
+	 * @param zombie - the StrategyZombie implementing this strategy 
+	 * @return Orientation, direction in which this StrategyZombie wants to move to
+	 */
 	private Orientation getPreferedDirection(World game, StrategyZombie zombie){	
 		
 		int xdist;
@@ -138,147 +175,4 @@ public class HomerStrategy implements Strategy {
 		//future implementations may be smarter but for now zombie just turns around 180degrees
 		return Orientation.getNext(Orientation.getNext(zombie.getOrientation()));
 	}
-	
-	/*
-	@Override
-	public void draw(Graphics g, StrategyZombie ghost) {
-		// TODO Auto-generated method stub
-
-	}
-	*/
-	/*
-
-	@Override
-	public void tick(World game, StrategyZombie zombie) {
-		// check whether we are at an intersection.
-		if (zombie.direction() == MovingCharacter.DOWN
-				|| zombie.direction() == MovingCharacter.UP) {
-			// ok, moving in up/down direction
-			if (!game.canMoveLeft(zombie) && !game.canMoveRight(zombie)) {
-				return; // no horizontal movement possible
-			}
-		} else if (zombie.direction() == MovingCharacter.RIGHT
-				|| zombie.direction() == MovingCharacter.LEFT) {
-			// ok, moving in left/right direction
-			if (!game.canMoveUp(zombie) && !game.canMoveDown(zombie)) {
-				return; // no horizontal movement possible
-			}
-		}
-
-		// yes, we're at an intersection. Now, flip a coin to see if we're
-		// really homing or going to move randomly. This is kinda important, as
-		// otherwise having multiple homing ghosts just means they all act in
-		// exactly the same manner.
-		if(random.nextInt(10) > 7) {
-			zombie.setQueued(random.nextInt(4)+1); // don't stop
-			return;
-		}
-
-		double targetDistance = 10000;
-		int targetDeltaX=-1;
-		int targetDeltaY=-1;
-
-		// home in on target
-		synchronized(game) {
-			for(Character c : game.characters()) {
-				if(c instanceof Pacman && !((Pacman)c).isDead()) {
-					// potential target
-					int deltaX = Math.abs(c.realX() - ghost.realX());
-					int deltaY = Math.abs(c.realY() - ghost.realY());
-					double distance = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
-					if(distance < targetDistance) {
-						targetDeltaX = c.realX() - ghost.realX();
-						targetDeltaY = c.realY() - ghost.realY();
-						targetDistance = distance;
-					}
-				}
-			}
-		}
-		
-		if(targetDeltaX != -1) {
-			int deltaX = Math.abs(targetDeltaX);
-			int deltaY = Math.abs(targetDeltaY);
-			if(deltaX < deltaY) {
-				// prefer to move north-south
-				if(targetDeltaY < 0) {
-					tryMoveUp(targetDeltaX < 0, game, zombie);
-				} else {
-					tryMoveDown(targetDeltaX < 0, game, zombie);
-				}
-			} else {
-				// prefer to move east-west
-				if(targetDeltaX < 0) {
-					tryMoveLeft(targetDeltaY < 0, game, zombie);
-				} else {
-					tryMoveRight(targetDeltaY < 0, game, zombie);
-				}
-			}
-		}
-	}
-	*/
-	/*
-	private void tryMoveUp(boolean preferLeft, World game, StrategyZombie zombie) {
-		if(game.canMoveUp(zombie)) {
-			zombie.moveUp();
-		} else if(preferLeft && game.canMoveLeft(zombie)) {
-			zombie.moveLeft();
-		} else if(!preferLeft && game.canMoveRight(zombie)) {
-			zombie.moveRight();
-		} else if(game.canMoveRight(zombie)) {
-			zombie.moveRight();
-		} else if(game.canMoveLeft(zombie)) {
-			zombie.moveLeft();
-		} else {
-			zombie.moveDown(); // last resort
-		}
-	}
-
-	private void tryMoveDown(boolean preferLeft, World game, StrategyZombie zombie) {
-		if(game.canMoveDown(zombie)) {
-			zombie.moveDown();
-		} else if(preferLeft && game.canMoveLeft(zombie)) {
-			zombie.moveLeft();
-		} else if(!preferLeft && game.canMoveRight(zombie)) {
-			zombie.moveRight();
-		} else if(preferLeft && game.canMoveRight(zombie)) {
-			zombie.moveRight();
-		} else if(!preferLeft && game.canMoveLeft(zombie)) {
-			zombie.moveLeft();
-		} else {
-			zombie.moveUp(); // last resort
-		}
-	}
-
-	private void tryMoveLeft(boolean preferUp, World game, StrategyZombie zombie) {
-		if(game.canMoveLeft(zombie)) {
-			zombie.moveLeft();
-		} else if(preferUp && game.canMoveUp(zombie)) {
-			zombie.moveUp();
-		} else if(!preferUp && game.canMoveDown(zombie)) {
-			zombie.moveDown();
-		} else if(game.canMoveUp(zombie)) {
-			zombie.moveUp();
-		} else if(game.canMoveDown(zombie)) {
-			zombie.moveDown();
-		} else {
-			zombie.moveRight(); // last resort
-		}
-	}
-
-	private void tryMoveRight(boolean preferUp, World game, StrategyZombie zombie) {
-		if(game.canMoveRight(zombie)) {
-			zombie.moveRight();
-		} else if(preferUp && game.canMoveUp(zombie)) {
-			zombie.moveUp();
-		} else if(!preferUp && game.canMoveDown(zombie)) {
-			zombie.moveDown();
-		} else if(game.canMoveUp(zombie)) {
-			zombie.moveUp();
-		} else if(game.canMoveDown(zombie)) {
-			zombie.moveDown();
-		} else {
-			zombie.moveLeft(); // last resort
-		}
-	}
-	*/
 }

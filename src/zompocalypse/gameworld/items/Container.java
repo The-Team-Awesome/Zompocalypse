@@ -36,9 +36,9 @@ public class Container implements Item, Lockable{
 
 	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
 
-	protected ImageIcon[] imagesOpen;
-	protected ImageIcon[] imagesClosed;
-	protected ImageIcon currentImage;
+	protected transient ImageIcon[] imagesOpen;
+	protected transient ImageIcon[] imagesClosed;
+	protected transient ImageIcon currentImage;
 	private String[] fileNamesOpen;
 	private String[] fileNamesClosed;
 
@@ -201,6 +201,9 @@ public class Container implements Item, Lockable{
 		if(imu == null) {
 			imu = ImageUtils.getImageUtilsObject();
 		}
+		
+		imagesClosed = imu.setupImages(fileNamesClosed);
+		imagesOpen = imu.setupImages(fileNamesOpen);
 
 		if (open) {
 			currentImage = imu.getImageForOrientation(worldOrientation,
@@ -219,7 +222,6 @@ public class Container implements Item, Lockable{
 
 	@Override
 	public int compareTo(GameObject o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

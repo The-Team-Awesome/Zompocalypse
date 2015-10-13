@@ -2,12 +2,15 @@ package zompocalypse.ui.rendering;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.*;
 import zompocalypse.gameworld.characters.*;
 import zompocalypse.gameworld.world.*;
@@ -38,6 +41,7 @@ public class RenderPanel extends JPanel {
 	private World game;
 	private Floor blankTile;  //If the tile is off the grid, then a blank tile is drawn. Could be invisible if expanded to include background.
 
+	private ImageIcon blood;
 	/**
 	 * Constructor. Takes the height and width of the canvas into account.
 	 *
@@ -54,6 +58,9 @@ public class RenderPanel extends JPanel {
 
 		String[] blank = { "blank_tile.png" };
 		blankTile = new Floor(0, 0, blank);
+
+		this.blood = Loader.LoadSpriteIcon("bloodsplatter.png");
+
 	}
 
 	/**
@@ -209,9 +216,8 @@ public class RenderPanel extends JPanel {
 	 * @param y
 	 * @param g
 	 */
-	private void drawDamage(int x, int y, Graphics g) {  //TODO
-		g.setColor(Color.RED);
-		g.fillOval(x + 10, y + 5, 10, 10);
+	private void drawDamage(int x, int y, Graphics g) {
+		g.drawImage(blood.getImage(), x, y + 10, null);
 	}
 
 	/**
