@@ -171,6 +171,8 @@ public class MainFrame extends JFrame implements WindowListener {
 			loadCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
 			showMultiplayer();
+		} else if (command.equals(UICommand.BACK.getValue())) {
+			layout.show(cards, "2");
 		} else if (command.equals(UICommand.SERVER.getValue())) {
 			customiseServer();
 		} else if (command.equals(UICommand.STARTSERVER.getValue())) {
@@ -208,7 +210,8 @@ public class MainFrame extends JFrame implements WindowListener {
 		if (value == JFileChooser.APPROVE_OPTION) {
 			fileName = chooser.getSelectedFile().getName();
 		} else {
-			singlePlayer("gina"); // because damn it!
+			selectCharacter(); // cancel and return ot this page
+			return;
 		}
 
 		File playerFile = Loader.LoadFile(Loader.playersDir + Loader.separator
@@ -254,12 +257,12 @@ public class MainFrame extends JFrame implements WindowListener {
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a dur", "Choice a dur", JOptionPane.PLAIN_MESSAGE,
+				"Pliz choice a peeps", "Choice a peeps", JOptionPane.PLAIN_MESSAGE,
 				icon, possibilities, "wall_brown_1_door_closed_ew.png");
 		if (fileName != null)
 			singlePlayer(fileName);
 		else
-			singlePlayer("gina");
+			selectCharacter();
 	}
 
 	/**
