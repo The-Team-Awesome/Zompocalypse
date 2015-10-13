@@ -1,7 +1,8 @@
 package zompocalypse.gameworld;
 
 /**
- *
+ * An interface implemented by any Game Object which can be locked.
+ * Locked items require keys to be unlocked.
  *
  * @author Kieran Mckay, 300276166
  */
