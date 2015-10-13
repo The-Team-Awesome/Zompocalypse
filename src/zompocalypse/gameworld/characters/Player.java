@@ -41,6 +41,8 @@ public final class Player extends MovingCharacter {
 
 	private int score;
 	private final int OFFSETY = -20;
+	
+	private String playerName;
 
 	private Item queuedUse;
 	private Item queuedTake;
@@ -64,6 +66,7 @@ public final class Player extends MovingCharacter {
 		super(uid, game, xCoord, yCoord, orientation, filenames);
 
 		this.score = score;
+		this.playerName = playerName;
 
 		setHealth(PLAYER_HEALTH);
 		setSpeed(PLAYER_SPEED);
@@ -183,6 +186,10 @@ public final class Player extends MovingCharacter {
 				+ ", score=" + score + ", health=" + getHealth() + ", speed="
 				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
+	}
+	
+	public String getName(){
+		return playerName;
 	}
 
 	/**

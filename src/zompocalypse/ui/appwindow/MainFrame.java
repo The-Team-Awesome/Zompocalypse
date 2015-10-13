@@ -455,7 +455,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		String[] options = { "Drop", "Use" };
 
 		int option = (int) JOptionPane.showOptionDialog(null, inventory,
-				"Player " + id + "'s Inventory", JOptionPane.YES_NO_OPTION,
+				player.getName() + "'s Inventory", JOptionPane.YES_NO_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 		String command;

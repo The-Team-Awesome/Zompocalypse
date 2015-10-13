@@ -64,6 +64,13 @@ public class World implements Serializable {
 	 */
 	private Orientation orientation;
 
+
+	private String[] zombieFileNames = { "npc_zombie_n.png", "npc_zombie_e.png",
+			"npc_zombie_s.png", "npc_zombie_w.png" };
+
+	private String[] dragonFileNames = { "npc_dragon_n.png", "npc_dragon_e.png",
+			"npc_dragon_s.png", "npc_dragon_w.png" };
+
 	private Floor[][] map;
 	private PriorityQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
@@ -383,17 +390,11 @@ public class World implements Serializable {
 			y = p.y;
 		}
 
-		String[] filenames = { "npc_zombie_n.png", "npc_zombie_e.png",
-				"npc_zombie_s.png", "npc_zombie_w.png" };
-
-		String[] homerfilenames = { "npc_dragon_n.png", "npc_dragon_e.png",
-				"npc_dragon_s.png", "npc_dragon_w.png" };
-
 		StrategyZombie zombie = new StrategyZombie(this, x, y, strat, ++id,
-				filenames);
+				zombieFileNames);
 
 		if (strat instanceof HomerStrategy) {
-			zombie = new StrategyZombie(this, x, y, strat, ++id, homerfilenames);
+			zombie = new StrategyZombie(this, x, y, strat, ++id, dragonFileNames);
 		}
 
 		idToActor.put(id, zombie);
