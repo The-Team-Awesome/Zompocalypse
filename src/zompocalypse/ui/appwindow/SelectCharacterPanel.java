@@ -22,6 +22,7 @@ import zompocalypse.ui.appwindow.custom.ZButton;
 public class SelectCharacterPanel extends JPanel {
 	private ZButton newCharacterButton;
 	private ZButton loadCharacterButton;
+	private ZButton previousPageButton;
 
 	private ActionListener action;
 
@@ -60,6 +61,14 @@ public class SelectCharacterPanel extends JPanel {
 		c.gridy = positionY++;
 		loadCharacterButton.addActionListener(action);
 		this.add(loadCharacterButton, c);
+
+		// BACK A PAGE BUTTON
+		previousPageButton = new ZButton("Back");
+		previousPageButton.setActionCommand(UICommand.BACK.getValue());
+		c.insets = buttonsInset;
+		c.gridy = positionY++;
+		previousPageButton.addActionListener(action);
+		this.add(previousPageButton, c);
 	}
 
 	@Override
