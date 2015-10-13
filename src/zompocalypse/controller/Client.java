@@ -88,12 +88,12 @@ public class Client extends GameListenerThread {
 
 					currentGameTime = (int) System.currentTimeMillis();
 				}
-				
+
 				if(changeNetwork > networkClock) {
 					// Read in the new world and update the frame and render panel with it
 					game = (World) objectInput.readObject();
 					frame.updateGame(game);
-					
+
 					currentNetworkTime = (int) System.currentTimeMillis();
 				}
 			}

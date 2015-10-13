@@ -60,8 +60,8 @@ public class MultiplayerPanel extends JPanel {
 		btnClient.setActionCommand(UICommand.CLIENT.getValue());
 		btnClient.addActionListener(action);
 
-		previousPageButton = new ZButton("Back");
-		previousPageButton.setActionCommand(UICommand.BACK.getValue());
+		previousPageButton = new ZButton("Home");
+		previousPageButton.setActionCommand(UICommand.HOME.getValue());
 		previousPageButton.addActionListener(action);
 
 		constraints.insets = buttonsInset;
