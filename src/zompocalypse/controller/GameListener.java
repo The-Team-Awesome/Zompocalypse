@@ -24,5 +24,4 @@ public abstract class GameListener implements KeyListener, ActionListener {
 	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void keyReleased(KeyEvent e) {}
-
 }

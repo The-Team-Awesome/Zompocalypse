@@ -1,6 +1,5 @@
 package zompocalypse.datastorage;
 
-import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -28,13 +27,11 @@ import org.xml.sax.SAXException;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Container;
-import zompocalypse.gameworld.items.Door;
 import zompocalypse.gameworld.items.Item;
 import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Money;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
-import zompocalypse.gameworld.world.Wall;
 import zompocalypse.gameworld.world.World;
 
 public class PlayerFileManager {
