@@ -161,7 +161,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	 *            - updated instance of World.
 	 */
 	public void updateGame(World game) {
-		// this.game = game;
+		this.game = game;
 		gameCard.updateGame(game);
 	}
 

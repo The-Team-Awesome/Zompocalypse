@@ -72,6 +72,8 @@ public class World implements Serializable {
 	private boolean editMode = false;
 	private boolean showWalls = true;
 	private Point editor = new Point(0, 0);
+	
+	private Map<Point, GameObject> itemsToRemove = new HashMap<Point, GameObject>();
 
 	public World(int width, int height, Floor[][] map,
 			PriorityQueue<GameObject>[][] objects,
@@ -120,6 +122,10 @@ public class World implements Serializable {
 		for(MovingCharacter m : dead){
 			removeCharacter(m);
 		}
+		
+		for(Point p : itemsToRemove.keySet()) {
+			removeItem(p, itemsToRemove.get(p));
+		}
 
 		if (tickTimer % 10 == 0 && !editMode) {
 			spawnZombie(new RandomStrategy());
@@ -128,6 +134,10 @@ public class World implements Serializable {
 			spawnZombie(new HomerStrategy());
 		}
 		tickTimer++;
+	}
+	
+	public void addItemToRemove(Point point, GameObject item) {
+		itemsToRemove.put(point, item);
 	}
 
 	private void removeCharacter(MovingCharacter character) {
@@ -147,6 +157,11 @@ public class World implements Serializable {
 				}
 			}
 		}
+	}
+	
+	private void removeItem(Point p, GameObject item) {
+		objects[p.x][p.y].remove(item);
+		itemsToRemove.remove(p);
 	}
 
 	/**

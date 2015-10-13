@@ -1,6 +1,8 @@
 package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
+import java.awt.Point;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -42,11 +44,12 @@ public class Key implements Item{
 			PriorityQueue<GameObject>[][] objects = world.getObjects();
 
 			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
+			
 			for(int x = 0; x < objects.length; x++) {
 				for(int y = 0; y < objects[0].length; y++) {
 					for(GameObject object : objects[x][y]) {
 						if(object.equals(this)) {
-							objects[x][y].remove(object);
+							world.addItemToRemove(new Point(x, y), object);
 						}
 					}
 				}
