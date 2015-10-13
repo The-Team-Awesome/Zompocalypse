@@ -72,6 +72,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private SelectCharacterPanel selectCharacterCard;
 	private JPanel cards;
 	private World game;
+	private boolean multi;
 
 	/**
 	 * This will be the listener for all action events which are triggered, such
@@ -176,6 +177,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
 		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
+			multi = false;
 			// singlePlayer("gina");
 			selectCharacter();
 		} else if (command.equals(UICommand.NEWCHARACTER.getValue())) {
@@ -183,6 +185,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADCHARACTER.getValue())) {
 			loadCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
+			multi = true;
 			showMultiplayer();
 		} else if (command.equals(UICommand.BACK.getValue())) {
 			layout.show(cards, "2");
