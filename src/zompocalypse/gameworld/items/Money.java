@@ -75,7 +75,6 @@ public class Money implements Item {
 
 	@Override
 	public int compareTo(GameObject o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

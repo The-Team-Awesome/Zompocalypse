@@ -62,14 +62,6 @@ public final class Player extends MovingCharacter {
 		setStrength(PLAYER_STRENGTH);
 
 		this.inventory = new ArrayList<Item>();
-
-		// TODO: This is just temporary, adding objects to the Players
-		// inventory so something is visible when viewing their backpack
-		/*inventory.add(new Key("gold_key_inv.png", 1));
-		inventory.add(new Key("gold_key_inv.png", 2));
-		inventory.add(new Torch("torch.png", 3));
-		inventory.add(new Money("coins_gold.png", 4, 10));*/
-		//equipped = new Weapon("sword_1.png", "A curved blade. Vicious!", 5, 5);
 	}
 
 	public void queueItem(Item item) {
@@ -177,6 +169,10 @@ public final class Player extends MovingCharacter {
 				+ "]";
 	}
 
+	/**
+	 * The name of the character this player is playing as
+	 * @return String - the name of this players character
+	 */
 	public String getName(){
 		return playerName;
 	}
@@ -235,6 +231,10 @@ public final class Player extends MovingCharacter {
 		}
 	}
 
+	/**
+	 * The player uses the first item where they are standing, or infront of them.
+	 * Also used for attacking all Zombies infront of the player.
+	 */
 	public void use(){
 		// Process any objects the player is standing on first
 		for (GameObject o : getObjectsHere()) {
@@ -271,11 +271,21 @@ public final class Player extends MovingCharacter {
 		return true;
 	}
 
+	/**
+	 * Set this players location
+	 *
+	 * @param x - x coordinate
+	 * @param y - y coordinate
+	 */
 	public void setLocation(int x, int y) {
 		this.xCoord = x;
 		this.yCoord = y;
 	}
 
+	/**
+	 * Sets this players unique identifier
+	 * @param uid - this players unique ID
+	 */
 	public void setUID(int uid) {
 		this.uid = uid;
 	}
