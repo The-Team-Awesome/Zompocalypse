@@ -1,13 +1,10 @@
 package zompocalypse.tests.logic;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import zompocalypse.datastorage.Loader;
-import zompocalypse.datastorage.Parser;
+import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 
@@ -47,22 +44,13 @@ public class WeaponTests {
 	}
 
 	@Test public void weaponUseTest() {
-		World game = getGame();
+		World game = LogicTestUtility.getGame();
+		Player p = LogicTestUtility.getPlayer(game);
+		Weapon w = LogicTestUtility.getWeapon(game);
 
-		int id = game.registerPlayer("elizabeth");
+		w.use(p);
 
-		game.getPlayer(id);
-
-	}
-
-	private World getGame() {
-		try {
-			World game = Parser.ParseMap(Loader.testFile, false);
-			return game;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		assertTrue(p.getInventory().contains(w));
 	}
 
 }
