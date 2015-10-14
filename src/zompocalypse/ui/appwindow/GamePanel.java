@@ -63,6 +63,9 @@ public class GamePanel extends JPanel {
 	// dialogPanel components
 	private JTextArea txtDialog;
 
+	// ticking for animation
+	private static int state;
+
 	// icons
 	private static final Image NORTH = Loader.LoadIcon("north.png");
 	private static final Image SOUTH = Loader.LoadIcon("south.png");
@@ -70,6 +73,7 @@ public class GamePanel extends JPanel {
 	private static final Image EAST = Loader.LoadIcon("east.png");
 	private static final Image CLOCKWISE = Loader.LoadIcon("turnClockwise.png");
 	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnAnticlockwise.png");
+	private static final Image GAMEOVER = Loader.LoadSprite("gameover.png");
 
 	/**
 	 * This will be the listener for all action events which are triggered,
@@ -337,26 +341,43 @@ public class GamePanel extends JPanel {
 		return false;
 	}
 
+	public void tick(World game) {
+		if (state >= 15) {
+			state = 0;
+		} else {
+			state = state + 1;
+		}
+	}
+
 	/**
 	 * Shows a message and closes the game for game over
 	 */
-	public void gameOver() {
+	public static void gameOver() {
 		SwingUtilities.invokeLater(new Runnable() {
 	        @Override
 	        public void run() {
 	        	Object[] options = { "end" };
 
-	    		int option = JOptionPane.showOptionDialog(null, "YOU DIED!",
-	    				"Game Over!", JOptionPane.PLAIN_MESSAGE,
-	    				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
-	    		if (option == 0) {
+	    		JPanel panel = new JPanel() {
+	    			private int status;
+	    			@Override
+	    			protected void paintComponent(Graphics g) {
+	    				super.paintComponent(g);
+	    				g.drawImage(GAMEOVER, 0, 0, CustomUtils.buttonPressed, null);
+	    			}
+	    		};
+
+	    		JLabel image = new JLabel();
+	    		panel.setPreferredSize(new Dimension(400,467));
+	    		panel.add(image);
+
+	    		int option = JOptionPane.showOptionDialog(null, panel, "Game Over!"
+                        ,JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, "end");
+
 	    			System.exit(0);
-	    		}
 	        }
 	    });
-
-
 	}
 
 	/**
@@ -466,5 +487,7 @@ public class GamePanel extends JPanel {
 		String scoreText = "Score: "+player.getScore();
 		lblScore.setText(scoreText);
 	}
+
 }
+
 
