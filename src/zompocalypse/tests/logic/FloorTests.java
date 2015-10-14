@@ -1,37 +1,36 @@
 package zompocalypse.tests.logic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import zompocalypse.gameworld.items.Door;
+import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.world.Floor;
 
 public class FloorTests {
 
-	/*String[] test = {"wall_grey_1_door_closed_ew.png", "wall_grey_1_door_closed_ns.png"};
+	String[] floorFile = {"ground_grey_road_end_1_n.png", "ground_grey_road_end_1_e.png",
+			"ground_grey_road_end_1_s.png", "ground_grey_road_end_1_w.png"};
+	Floor floor;
 
-	@Test public void doorValidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void floorRotateTest() {
+		floor.rotate();
 
-		assertTrue(d.unlock(true));
+		assertTrue(floor.getFileName().equals("ground_grey_road_end_1_e.png"));
 	}
 
-	@Test public void doorValidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
-
-		assertTrue(d.unlock(true));
+	@Test public void floorXTest() {
+		assertTrue(floor.getX() == 0);
 	}
 
-	@Test public void doorInvalidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
-
-		assertFalse(d.unlock(false));
+	@Test public void floorYTest() {
+		assertTrue(floor.getY() == 0);
 	}
 
-	@Test public void doorInvalidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
-
-		assertFalse(d.unlock(false));
-	}*/
+	@Before
+	public void init() {
+		floor = new Floor(0, 0, floorFile);
+	}
 
 }
