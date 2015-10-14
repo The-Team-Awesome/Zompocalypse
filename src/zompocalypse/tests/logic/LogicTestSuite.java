@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 	PlayerTests.class,
 	ZombieTests.class,
 	ContainerTests.class,
-	DoorTests.class
+	DoorTests.class,
+	OrientationTests.class
 })
 public class LogicTestSuite {
 }
