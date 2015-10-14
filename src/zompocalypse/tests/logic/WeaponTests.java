@@ -5,12 +5,19 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 
 public class WeaponTests {
 
 	private String weaponFile = "sword_12.png";
+
+	@Test public void weaponUidTest() {
+		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
+
+		assertTrue(w.getUniqueID() == 0);
+	}
 
 	@Test public void weaponStrengthTest() {
 		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
