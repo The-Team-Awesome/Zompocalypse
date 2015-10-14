@@ -201,6 +201,12 @@ public class RenderPanel extends JPanel {
 			if (dd == null) {
 				continue;
 			}
+			//do not draw dead characters
+			if (dd instanceof Player){				
+				if (((Player) dd).isDead()){
+					continue;
+				}
+			}
 			dd.draw(x, y, g, ori);
 
 			if(!(dd instanceof MovingCharacter)){  //If they are not a moving character, nothing else to check for
