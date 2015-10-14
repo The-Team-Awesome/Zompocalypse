@@ -99,7 +99,6 @@ public class Client extends GameListenerThread {
 						game = (World) objectInput.readObject();
 					} catch(OptionalDataException e) {
 						e.printStackTrace();
-						System.exit(-1);
 					}
 
 					frame.updateGame(game);
@@ -112,9 +111,7 @@ public class Client extends GameListenerThread {
 			socket.close();
 
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-			/*System.out.println("Server disconnected, closing down Client");
-			System.exit(-1);*/
+			System.out.println("Server disconnected, closing down Client");
 		}
 
 	}
