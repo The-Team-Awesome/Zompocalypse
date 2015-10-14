@@ -1,27 +1,48 @@
 package zompocalypse.datastorage;
 
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import zompocalypse.gameworld.*;
-import zompocalypse.gameworld.items.*;
-import zompocalypse.gameworld.world.*;
-
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.StreamResult;
-
 import java.awt.Point;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.swing.JFileChooser;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.items.Container;
+import zompocalypse.gameworld.items.Door;
+import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Money;
+import zompocalypse.gameworld.items.Torch;
+import zompocalypse.gameworld.items.Weapon;
+import zompocalypse.gameworld.world.Floor;
+import zompocalypse.gameworld.world.Wall;
+import zompocalypse.gameworld.world.World;
 
 /**
  * Static functions used to Parse Maps for the World from a file, and can be
@@ -47,7 +68,7 @@ public class Parser {
 	public static World ParseMap(String mapFile) throws IOException {
 
 		Floor[][] map = new Floor[1][1];
-		PriorityQueue<GameObject>[][] objects = null;
+		PriorityBlockingQueue<GameObject>[][] objects = null;
 		Set<Point> zombieSpawnPoints = new HashSet<Point>();
 		Set<Point> playerSpawnPoints = new HashSet<Point>();
 		int x = 0, y = 0;
@@ -103,10 +124,10 @@ public class Parser {
 
 			// create a grid of priority queues for the objects in the game
 
-			objects = new PriorityQueue[x][y];
+			objects = new PriorityBlockingQueue[x][y];
 			for (int j = 0; j < y; j++) {
 				for (int i = 0; i < x; i++) {
-					objects[i][j] = new PriorityQueue<GameObject>();
+					objects[i][j] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 
@@ -299,7 +320,7 @@ public class Parser {
 	 * @param locked
 	 * @param open
 	 */
-	private static void parseDoor(PriorityQueue<GameObject>[][] objects,
+	private static void parseDoor(PriorityBlockingQueue<GameObject>[][] objects,
 			Map<String, String> textTileMap, String string, String offset,
 			String locked, String open, int col, int row) {
 		String[] door = expandCode(textTileMap, string);
@@ -316,7 +337,7 @@ public class Parser {
 	 * Parses a Wall from a String and places it on 2D array of GameObjects at
 	 * (i,j) with the offset it is to be drawn at
 	 */
-	private static void parseWall(PriorityQueue<GameObject>[][] objectz,
+	private static void parseWall(PriorityBlockingQueue<GameObject>[][] objectz,
 			Map<String, String> textTileMap, String string, String offset,
 			int i, int j) {
 		String[] wall = expandCode(textTileMap, string);
@@ -420,7 +441,7 @@ public class Parser {
 	private static String getXMLMap(World world) throws IOException {
 
 		Floor[][] map = world.getMap();
-		PriorityQueue<GameObject>[][] objects = world.getObjects();
+		PriorityBlockingQueue<GameObject>[][] objects = world.getObjects();
 		int x = world.width();
 		int y = world.height();
 		Set<Point> zombieSpawnPoints = world.getZombieSpawnPoints();

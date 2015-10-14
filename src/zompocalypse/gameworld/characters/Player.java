@@ -3,7 +3,7 @@ package zompocalypse.gameworld.characters;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
@@ -84,7 +84,7 @@ public final class Player extends MovingCharacter {
 	public void dropQueued() {
 		if(queuedUse != null){
 			inventory.remove(queuedUse);
-			PriorityQueue<GameObject>[][] objects = game.getObjects();
+			PriorityBlockingQueue<GameObject>[][] objects = game.getObjects();
 			objects[xCoord][yCoord].add(queuedUse);
 		}
 		queuedUse = null;

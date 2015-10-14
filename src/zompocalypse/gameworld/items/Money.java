@@ -3,7 +3,7 @@ package zompocalypse.gameworld.items;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.swing.ImageIcon;
 
@@ -98,7 +98,7 @@ public class Money implements Item, Stackable {
 			}
 
 			World world = player.getWorld();
-			PriorityQueue<GameObject>[][] objects = world.getObjects();
+			PriorityBlockingQueue<GameObject>[][] objects = world.getObjects();
 			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
 			for(int x = 0; x < objects.length; x++) {
 				for(int y = 0; y < objects[0].length; y++) {

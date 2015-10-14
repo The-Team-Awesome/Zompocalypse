@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import zompocalypse.datastorage.WorldBuilder;
 import zompocalypse.gameworld.Direction;
@@ -72,7 +72,7 @@ public class World implements Serializable {
 			"npc_dragon_s.png", "npc_dragon_w.png" };
 
 	private Floor[][] map;
-	private PriorityQueue<GameObject>[][] objects;
+	private PriorityBlockingQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
 	private boolean editMode = false;
@@ -82,7 +82,7 @@ public class World implements Serializable {
 	private Map<Point, GameObject> itemsToRemove = new HashMap<Point, GameObject>();
 
 	public World(int width, int height, Floor[][] map,
-			PriorityQueue<GameObject>[][] objects,
+			PriorityBlockingQueue<GameObject>[][] objects,
 			Set<Point> zombieSpawnPoints, Set<Point> playerSpawnPoints, int id) {
 		this.width = width;
 		this.height = height;
@@ -213,7 +213,7 @@ public class World implements Serializable {
 		if (x < 0 || y < 0 || x >= width || y >= height) {
 			return true;
 		}
-		PriorityQueue<GameObject> obj = objects[x][y];
+		PriorityBlockingQueue<GameObject> obj = objects[x][y];
 		for (GameObject o : obj) {
 			if (o != null)
 				return !o.occupiable();
@@ -254,7 +254,7 @@ public class World implements Serializable {
 		return map;
 	}
 
-	public PriorityQueue<GameObject>[][] getObjects() {
+	public PriorityBlockingQueue<GameObject>[][] getObjects() {
 		return objects;
 	}
 
@@ -497,7 +497,7 @@ public class World implements Serializable {
 		String trimmed = key.replace(UICommand.TAKEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
 
-		PriorityQueue<GameObject> objects = player.getObjectsInfront();
+		PriorityBlockingQueue<GameObject> objects = player.getObjectsInfront();
 		for (GameObject object : objects) {
 			if (object instanceof Item) {
 				if (object instanceof Container) {

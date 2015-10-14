@@ -2,18 +2,22 @@ package zompocalypse.ui.rendering;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
-import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import zompocalypse.datastorage.Loader;
-import zompocalypse.gameworld.*;
-import zompocalypse.gameworld.characters.*;
-import zompocalypse.gameworld.world.*;
+import zompocalypse.gameworld.Direction;
+import zompocalypse.gameworld.Drawable;
+import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.characters.MovingCharacter;
+import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.world.Floor;
+import zompocalypse.gameworld.world.World;
 
 /**
  * Provides a 3D view of the world, with locations that are presented from a
@@ -123,7 +127,7 @@ public class RenderPanel extends JPanel {
 		boolean showWalls = game.getShowWalls();	//whether the walls are showing(for placing items in edit mode)
 
 		Floor[][] tiles;
-		PriorityQueue<GameObject>[][] objects;	//2D array of PriorityQueues for arrangement of items for displaying
+		PriorityBlockingQueue<GameObject>[][] objects;	//2D array of PriorityBlockingQueues for arrangement of items for displaying
 
 		tiles = game.getMap();
 		objects = game.getObjects();
@@ -135,7 +139,7 @@ public class RenderPanel extends JPanel {
 		int offsetY = getHeight() / 2 - drawDistance * FLOOR_TILE_HEIGHT;
 
 		Floor[][] tempFloor = tiles;
-		PriorityQueue<GameObject>[][] tempObjects = objects;
+		PriorityBlockingQueue<GameObject>[][] tempObjects = objects;
 
 		int doubleDrawDist = drawDistance*2;
 		tempFloor = clipFloor(tiles, drawDistance, focusX, focusY, doubleDrawDist);
@@ -162,7 +166,7 @@ public class RenderPanel extends JPanel {
 	 */
 	private void paintGameScreen(Graphics g, boolean showWalls, int offsetX,
 			int offsetY, Floor[][] tempFloor,
-			PriorityQueue<GameObject>[][] tempObjects) {
+			PriorityBlockingQueue<GameObject>[][] tempObjects) {
 		int x;
 		int y;
 		for (int i = 0; i < tempFloor.length; ++i) {
@@ -188,7 +192,7 @@ public class RenderPanel extends JPanel {
 	 * @param i
 	 * @param j
 	 */
-	private void drawObjects(Graphics g, boolean showWalls, PriorityQueue<GameObject>[][] tempObjects, int x, int y, int i,	int j) {
+	private void drawObjects(Graphics g, boolean showWalls, PriorityBlockingQueue<GameObject>[][] tempObjects, int x, int y, int i,	int j) {
 		if (!showWalls) {
 			return;
 		}
@@ -269,8 +273,8 @@ public class RenderPanel extends JPanel {
 	 * @param tempObjects
 	 * @return The rotated 2D array of the Priority Queues with Gameobjects in them
 	 */
-	private PriorityQueue<GameObject>[][] rotateObjects(
-			PriorityQueue<GameObject>[][] tempObjects) {
+	private PriorityBlockingQueue<GameObject>[][] rotateObjects(
+			PriorityBlockingQueue<GameObject>[][] tempObjects) {
 		switch (ori) {
 		case NORTH:
 			break;
@@ -328,10 +332,10 @@ public class RenderPanel extends JPanel {
 	 * @param tempObjects
 	 * @return The objects in their new locations
 	 */
-	private PriorityQueue<GameObject>[][] rotateObjects90(
-			PriorityQueue<GameObject>[][] tempObjects) {
+	private PriorityBlockingQueue<GameObject>[][] rotateObjects90(
+			PriorityBlockingQueue<GameObject>[][] tempObjects) {
 		int size = tempObjects.length;
-		PriorityQueue<GameObject>[][] temp = new PriorityQueue[size][size];
+		PriorityBlockingQueue<GameObject>[][] temp = new PriorityBlockingQueue[size][size];
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				temp[x][y] = tempObjects[size - y - 1][x];
@@ -364,10 +368,10 @@ public class RenderPanel extends JPanel {
 	 * @param focusY The Y position of the editor or player
 	 * @return
 	 */
-	private PriorityQueue<GameObject>[][] clipObjects(
-			PriorityQueue<GameObject>[][] objects, int drawDistance,
+	private PriorityBlockingQueue<GameObject>[][] clipObjects(
+			PriorityBlockingQueue<GameObject>[][] objects, int drawDistance,
 			int focusX, int focusY, int doubleDrawDist) {
-		PriorityQueue<GameObject>[][] temp = new PriorityQueue[doubleDrawDist + 1][doubleDrawDist + 1];
+		PriorityBlockingQueue<GameObject>[][] temp = new PriorityBlockingQueue[doubleDrawDist + 1][doubleDrawDist + 1];
 
 		for (int i = 0; i <= doubleDrawDist; i++) {
 			for (int j = 0; j <= doubleDrawDist; j++) {
@@ -375,7 +379,7 @@ public class RenderPanel extends JPanel {
 						|| j + focusY - drawDistance < 0
 						|| i + focusX - objects.length - drawDistance >= 0
 						|| j + focusY - objects[0].length - drawDistance >= 0)
-					temp[i][j] = new PriorityQueue<GameObject>();
+					temp[i][j] = new PriorityBlockingQueue<GameObject>();
 				else
 					temp[i][j] = objects[i + focusX - drawDistance][j + focusY
 					                                                - drawDistance];

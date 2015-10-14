@@ -1,22 +1,22 @@
 package zompocalypse.gameworld.characters;
 
 import java.util.HashSet;
-import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import zompocalypse.gameworld.world.Floor;
 
 /**
  * A class for the future implementation of A* Search algorithm
- * 
+ *
  * @author Kieran Mckay, 300276166
  */
 public class PathFinder {
 	private Set<Node> visited = new HashSet<Node>();
 	private Stack<Floor> path = new Stack<Floor>();
 
-	private PriorityQueue<AStarNode> fringe;
+	private PriorityBlockingQueue<AStarNode> fringe;
 
 	private Node end;
 	private double estimate;
@@ -26,7 +26,7 @@ public class PathFinder {
 		this.end = end;
 
 		estimate = estimate(start);
-		fringe = new PriorityQueue<AStarNode>();
+		fringe = new PriorityBlockingQueue<AStarNode>();
 
 		data = new AStarNode(start, null, 0, estimate);
 		fringe.add(data);
@@ -53,7 +53,7 @@ public class PathFinder {
 					}
 					break;
 				}
-			/*	
+			/*
 				for (Floor exit : current.floors) {
 					Node neigh = exit.end;
 					if (!neigh.isVisited()) {

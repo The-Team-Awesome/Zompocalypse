@@ -1,13 +1,13 @@
 package zompocalypse.datastorage;
 
 import java.awt.Component;
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 import zompocalypse.gameworld.GameObject;
-import zompocalypse.gameworld.world.*;
+import zompocalypse.gameworld.world.Floor;
 
 /**
  * Static tools for editing the World maps and other tiles. Currently contains a
@@ -93,18 +93,18 @@ public class WorldBuilder {
 	 *            - north, south, east or west
 	 * @return
 	 */
-	public static PriorityQueue<GameObject>[][] expandObjects(
-			PriorityQueue<GameObject>[][] objects, String direction) {
+	public static PriorityBlockingQueue<GameObject>[][] expandObjects(
+			PriorityBlockingQueue<GameObject>[][] objects, String direction) {
 		// TODO Auto-generated method stub
-		PriorityQueue<GameObject>[][] returnObjects = null;
+		PriorityBlockingQueue<GameObject>[][] returnObjects = null;
 		int x, y;
 
 		switch (direction) {
 		case "north":
-			returnObjects = new PriorityQueue[objects.length][objects[0].length + 1];
+			returnObjects = new PriorityBlockingQueue[objects.length][objects[0].length + 1];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < objects[0].length; y++) {
@@ -114,10 +114,10 @@ public class WorldBuilder {
 			}
 			break;
 		case "south":
-			returnObjects = new PriorityQueue[objects.length][objects[0].length + 1];
+			returnObjects = new PriorityBlockingQueue[objects.length][objects[0].length + 1];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < objects[0].length; y++) {
@@ -127,10 +127,10 @@ public class WorldBuilder {
 			}
 			break;
 		case "east":
-			returnObjects = new PriorityQueue[objects.length + 1][objects[0].length];
+			returnObjects = new PriorityBlockingQueue[objects.length + 1][objects[0].length];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < objects[0].length; y++) {
@@ -140,10 +140,10 @@ public class WorldBuilder {
 			}
 			break;
 		case "west":
-			returnObjects = new PriorityQueue[objects.length + 1][objects[0].length];
+			returnObjects = new PriorityBlockingQueue[objects.length + 1][objects[0].length];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < objects[0].length; y++) {
@@ -216,18 +216,18 @@ public class WorldBuilder {
 	 * @return
 	 */
 
-	public static PriorityQueue<GameObject>[][] shrinkObjects(
-			PriorityQueue<GameObject>[][] objects, String direction) {
+	public static PriorityBlockingQueue<GameObject>[][] shrinkObjects(
+			PriorityBlockingQueue<GameObject>[][] objects, String direction) {
 		// TODO Auto-generated method stub
-		PriorityQueue<GameObject>[][] returnObjects = null;
+		PriorityBlockingQueue<GameObject>[][] returnObjects = null;
 		int x, y;
 
 		switch (direction) {
 		case "north":
-			returnObjects = new PriorityQueue[objects.length][objects[0].length - 1];
+			returnObjects = new PriorityBlockingQueue[objects.length][objects[0].length - 1];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < returnObjects[0].length; y++) {
@@ -237,10 +237,10 @@ public class WorldBuilder {
 			}
 			break;
 		case "south":
-			returnObjects = new PriorityQueue[objects.length][objects[0].length - 1];
+			returnObjects = new PriorityBlockingQueue[objects.length][objects[0].length - 1];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < returnObjects[0].length; y++) {
@@ -250,10 +250,10 @@ public class WorldBuilder {
 			}
 			break;
 		case "east":
-			returnObjects = new PriorityQueue[objects.length - 1][objects[0].length];
+			returnObjects = new PriorityBlockingQueue[objects.length - 1][objects[0].length];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < returnObjects[0].length; y++) {
@@ -263,10 +263,10 @@ public class WorldBuilder {
 			}
 			break;
 		case "west":
-			returnObjects = new PriorityQueue[objects.length - 1][objects[0].length];
+			returnObjects = new PriorityBlockingQueue[objects.length - 1][objects[0].length];
 			for (y = 0; y < returnObjects[0].length; y++) {
 				for (x = 0; x < returnObjects.length; x++) {
-					returnObjects[x][y] = new PriorityQueue<GameObject>();
+					returnObjects[x][y] = new PriorityBlockingQueue<GameObject>();
 				}
 			}
 			for (y = 0; y < returnObjects[0].length; y++) {

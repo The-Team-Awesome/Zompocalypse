@@ -2,13 +2,11 @@ package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.swing.ImageIcon;
 
-import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
@@ -46,10 +44,10 @@ public class Key implements Item{
 		if(!inventory.contains(this)) {
 			player.pickUp(this);
 			World world = player.getWorld();
-			PriorityQueue<GameObject>[][] objects = world.getObjects();
+			PriorityBlockingQueue<GameObject>[][] objects = world.getObjects();
 
 			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
-			
+
 			for(int x = 0; x < objects.length; x++) {
 				for(int y = 0; y < objects[0].length; y++) {
 					for(GameObject object : objects[x][y]) {
@@ -60,7 +58,7 @@ public class Key implements Item{
 				}
 			}
 		} else {
-			PriorityQueue<GameObject> obs = player.getObjectsHere();
+			PriorityBlockingQueue<GameObject> obs = player.getObjectsHere();
 			for(GameObject o : obs){
 				if(o instanceof Lockable){
 					boolean keyUsed = ((Lockable) o).unlock(true);
@@ -95,12 +93,12 @@ public class Key implements Item{
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		
+
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		String[] filenames = {filename};
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
-		
+
 		g.drawImage(currentImage.getImage(), x, y-18, null);
 
 	}

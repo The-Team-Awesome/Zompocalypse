@@ -95,13 +95,12 @@ public class Client extends GameListenerThread {
 					// Read in the new world and update the frame and render panel with it
 					// Sometimes, this might not be handled properly and will throw an
 					// OptionalDataException, this can be caught and ignored safely....?
-					//try {
+					try {
 						game = (World) objectInput.readObject();
-					/*} catch(OptionalDataException e) {
-						//System.out.println(objectInput.);
-						//System.exit(-1);
-						//System.out.println("can we recover?");
-					}*/
+					} catch(OptionalDataException e) {
+						e.printStackTrace();
+						System.exit(-1);
+					}
 
 					frame.updateGame(game);
 

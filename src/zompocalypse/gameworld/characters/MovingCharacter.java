@@ -1,6 +1,6 @@
 package zompocalypse.gameworld.characters;
 
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
@@ -36,7 +36,7 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Check if this character is dead.
-	 * 
+	 *
 	 * @return true if dead, false if alive
 	 */
 	public boolean isDead() {
@@ -45,8 +45,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters remaining health
-	 * 
-	 * @return int - the amount of health remaining 
+	 *
+	 * @return int - the amount of health remaining
 	 */
 	public int getHealth() {
 		return health;
@@ -54,7 +54,7 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters strength
-	 * 
+	 *
 	 * @return int - the strength value of this Moving Character
 	 */
 	public int getStrength() {
@@ -63,7 +63,7 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Updates the characters health after taking damage
-	 * 
+	 *
 	 * @param damage for this character to take
 	 */
 	public void damaged(int damage) {
@@ -127,7 +127,7 @@ public abstract class MovingCharacter extends Actor {
 
 		//If the game is not blocked, then the position can be updated
 		if(!game.isBlocked(newX,newY)) {
-			PriorityQueue<GameObject> objects[][] = game.getObjects();
+			PriorityBlockingQueue<GameObject> objects[][] = game.getObjects();
 
 			xCoord = newX;
 			yCoord = newY;
@@ -247,12 +247,12 @@ public abstract class MovingCharacter extends Actor {
 	/**
 	 * Gets the priority queue
 	 */
-	public PriorityQueue<GameObject> getObjectsHere() {
+	public PriorityBlockingQueue<GameObject> getObjectsHere() {
 		int myX = getX();
 		int myY = getY();
 
 		World game = getWorld();
-		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+		PriorityBlockingQueue<GameObject>[][] worldObs = game.getObjects();
 
 		return worldObs[myX][myY];
 	}
@@ -261,11 +261,11 @@ public abstract class MovingCharacter extends Actor {
 	 * Gets a priority queue of objects infront of the character.
 	 * @return
 	 */
-	public PriorityQueue<GameObject> getObjectsInfront() {
+	public PriorityBlockingQueue<GameObject> getObjectsInfront() {
 		int frontX = getX();
 		int frontY = getY();
 
-		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
+		PriorityBlockingQueue<GameObject>[][] worldObs = game.getObjects();
 
 		if (getOrientation() == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
@@ -279,6 +279,6 @@ public abstract class MovingCharacter extends Actor {
 		}
 		// if we are facing the edge of the world return an empty queue of
 		// objects
-		return new PriorityQueue<GameObject>();
+		return new PriorityBlockingQueue<GameObject>();
 	}
 }
