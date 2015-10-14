@@ -30,6 +30,10 @@ public class RunningServer extends Thread {
 	// threads with it when appropriate
 	private World game;
 
+	private String[] names = { "amy", "bob", "cordi", "duncan",
+			"elizabeth", "fred", "gina", "harold" };
+	private int nameCount;
+
 	private int port;
 	private int numClients;
 	private int gameClock;
@@ -46,6 +50,7 @@ public class RunningServer extends Thread {
 		this.port = port;
 		this.gameClock = gameClock;
 		this.serverClock = serverClock;
+		nameCount = 0;
 	}
 
 	public void updateNumClients(int numClients) {
@@ -127,7 +132,8 @@ public class RunningServer extends Thread {
 
 				panel.updateContent("Accepted client: " + socket.getInetAddress());
 
-				int id = game.registerPlayer("gina");
+				int id = game.registerPlayer(names[nameCount]);
+				nameCount = (nameCount + 1) % names.length;
 
 				connections[--numClients] = new Server(game, panel, socket, id, serverClock);
 				connections[numClients].start();

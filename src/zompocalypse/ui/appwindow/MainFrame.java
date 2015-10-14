@@ -272,7 +272,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
-				"Pliz choice a peeps", "Choice a peeps",
+				"Please Choose a Character", "Choose a Character",
 				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
 				"wall_brown_1_door_closed_ew.png");
 		if (fileName != null)
