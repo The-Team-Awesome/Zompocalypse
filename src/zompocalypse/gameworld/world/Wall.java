@@ -9,7 +9,7 @@ import zompocalypse.gameworld.Orientation;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
- *
+ * Wall represents a wall in the World. A wall cannot be occupied.
  *
  * @author Pauline Kelly
  *
@@ -54,7 +54,7 @@ public class Wall implements GameObject {
 	}
 
 	/**
-	 * Returns the offset for the
+	 * Returns the offset for the wall.
 	 *
 	 * @return
 	 */
@@ -80,6 +80,11 @@ public class Wall implements GameObject {
 		this.imageName = rotate[0];
 	}
 
+	/**
+	 * Returns a wall with the same asset and offset from this.
+	 *
+	 * @return Wall - a wall that's similar to this.	 *
+	 */
 	public Wall cloneMe() {
 		return new Wall(filenames, offset);
 	}
@@ -89,8 +94,23 @@ public class Wall implements GameObject {
 		return 0;
 	}
 
+	/**
+	 * Returns if the wall is occupiable.
+	 *
+	 * @return false - a door can never be occupied.
+	 */
 	@Override
 	public boolean occupiable() {
 		return false;
 	}
+
+	/**
+	 * Return the file names of the images for the walls.
+	 *
+	 * @return a String array with the file names of the images available for walls.
+	 */
+	public String[] getFilenames() {
+		return filenames;
+	}
+
 }

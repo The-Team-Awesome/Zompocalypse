@@ -460,7 +460,7 @@ public class World implements Serializable {
 			}
 		} else if (key.equals(UICommand.USE.getValue())) {
 			// The player uses something. This will be whatever
-			// is in front of the player, so its uses are limitless!
+			// is in front of the player, so its uses are unlimited!
 			player.use();
 		} else if (key.contains(UICommand.USEITEM.getValue())) {
 			useItem(player, key);

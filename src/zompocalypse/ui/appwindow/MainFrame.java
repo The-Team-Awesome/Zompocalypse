@@ -131,8 +131,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private void customizeWindow() {
 		Image img = Loader.LoadImage(icon);
 		setIconImage(img);
-		// TODO: bring DO_NOTHING_ON_EXIT back when we finish testing
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(new Dimension(1000, 750));
 		setResizable(false);
 		addWindowListener(this);
@@ -266,7 +265,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private void newCharacter() {
 		Object[] possibilities = { "amy", "bob", "cordi", "duncan",
 				"elizabeth", "fred", "gina", "harold" };
-		// TODO this works, but I am uncomfortable with these null values!
+
 		Component frame = null;
 		Icon icon = null;
 		String fileName = (String) JOptionPane.showInputDialog(frame,
@@ -579,8 +578,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO: bring this method back when we finish testing
-		// quitGame();
+		quitGame();
 	}
 
 	@Override
