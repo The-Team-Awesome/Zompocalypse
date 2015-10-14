@@ -214,8 +214,6 @@ public class MainFrame extends JFrame implements WindowListener {
 			return;
 		}
 
-		System.out.println(fileName);
-
 		// File playerFile = Loader.LoadFile(Loader.playersDir +
 		// Loader.separator
 		// + fileName);
@@ -229,7 +227,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		if (game == null) {
 			try {
-				game = Parser.ParseMap(Loader.mapFile);
+				game = Parser.ParseMap(Loader.mapFile, false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -321,7 +319,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 		if (game == null) {
 			try {
-				game = Parser.ParseMap(Loader.mapFile);
+				game = Parser.ParseMap(Loader.mapFile, false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -376,7 +374,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private void singlePlayer(String fileName) {
 		if (game == null) {
 			try {
-				game = Parser.ParseMap(Loader.mapFile);
+				game = Parser.ParseMap(Loader.mapFile, false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -503,15 +501,16 @@ public class MainFrame extends JFrame implements WindowListener {
 		int value = chooser.showOpenDialog(this);
 
 		if (value == JFileChooser.APPROVE_OPTION) {
-			String filename = chooser.getSelectedFile().getName();
+			String filename = chooser.getSelectedFile().getAbsolutePath();
 
 			try {
-				game = Parser.ParseMap(filename);
+				game = Parser.ParseMap(filename, true);
+				if (game == null)
+					JOptionPane.showMessageDialog(null,
+							"Failed to load Game, default map will be used");
+			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,
 						"Failed to load Game, default map will be used");
-				return;
-			} catch (IOException e) {
-				System.out.println("Invalid game file! Try again");
 			}
 		}
 	}
