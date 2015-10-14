@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -65,7 +66,7 @@ public class Parser {
 	 * @throws IOException
 	 *             such sad
 	 */
-	public static World ParseMap(String mapFile) throws IOException {
+	public static World ParseMap(String mapFile, boolean absolute) throws IOException {
 
 		Floor[][] map = new Floor[1][1];
 		PriorityBlockingQueue<GameObject>[][] objects = null;
@@ -98,8 +99,16 @@ public class Parser {
 		}
 
 		// Load file and parse each part of XML into cell of Map
-		File mapXML = Loader.LoadFile(Loader.mapDir + Loader.separator
+		File mapXML = null;
+
+		System.out.println(mapFile);
+
+		if (absolute)
+			mapXML = Loader.LoadFile(mapFile, true);
+		else
+		mapXML = Loader.LoadFile(Loader.mapDir + Loader.separator
 				+ mapFile, false);
+
 		if (mapXML == null)
 			return null;
 
