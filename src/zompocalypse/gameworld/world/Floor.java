@@ -37,6 +37,7 @@ public class Floor implements Drawable {
 
 		this.filenames = filenames;
 		this.images = imu.setupImages(filenames);
+
 		this.currentImage = images[0];
 		this.imageName = filenames[0];
 	}
@@ -46,73 +47,21 @@ public class Floor implements Drawable {
 	 * then change the current image.
 	 */
 	public void setCurrentImage(Orientation orientation){
+		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		//Changes the current image if the board is rotated
 		switch(orientation){
 		case NORTH:
 			currentImage = images[0];  //Will always be the first image
 			return;
 		case SOUTH:
-			currentImage =
-			getSouthOrientationImage();
+			currentImage = imu.getSouthImage(images);
 			return;
 		case EAST:
-			currentImage =
-			getEastOrientationImage();
+			currentImage = imu.getEastImage(images);
 			return;
 		case WEST:
-			currentImage =
-			getWestOrientationImage();
+			currentImage = imu.getWestImage(images);
 			return;
-		}
-	}
-	/**
-	 * Get the orientation for the image when viewed from the South.
-	 * @return
-	 */
-	private ImageIcon getSouthOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[0];
-		case 4:
-			return images[1];  //get the 2nd image
-		default:
-			throw new IllegalStateException("Shouldn't get this far - SOUTH");
-		}
-	}
-
-	/**
-	 * Get the orientation for the image when viewed from the East.
-	 * @return
-	 */
-	private ImageIcon getEastOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[1];
-		case 4:
-			return images[2];  //get the 3rd image
-		default:
-			throw new IllegalStateException("Shouldn't get this far - EAST");
-		}
-	}
-
-	/**
-	 * Get the orientation for the image when viewed from the West.
-	 * @return
-	 */
-	private ImageIcon getWestOrientationImage() {
-		switch(images.length){
-		case 1:
-			return images[0];  //same for all
-		case 2:
-			return images[1];
-		case 4:
-			return images[3];  //get the 4th image
-		default:
-			throw new IllegalStateException("Shouldn't get this far - WEST");
 		}
 	}
 
