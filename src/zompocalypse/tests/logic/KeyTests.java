@@ -47,11 +47,11 @@ public class KeyTests {
 	@Test public void keyUseTest() {
 		World game = LogicTestUtility.getGame();
 		Player p = LogicTestUtility.getPlayer(game);
-		Torch t = LogicTestUtility.getTorch(game);
+		Key k = LogicTestUtility.getKey(game);
 
-		t.use(p);
+		k.use(p);
 
-		assertTrue(p.getInventory().contains(t));
+		assertTrue(p.getInventory().contains(k));
 	}
 
 }
