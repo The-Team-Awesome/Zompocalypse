@@ -1,12 +1,12 @@
 package zompocalypse.tests.logic;
 
-import java.io.IOException;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.datastorage.Parser;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Key;
 import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
@@ -42,6 +42,22 @@ public class LogicTestUtility {
 				for(GameObject object : objects[x][y]) {
 					if(object instanceof Torch) {
 						return (Torch) object;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static Key getKey(World game) {
+		PriorityBlockingQueue<GameObject>[][] objects = game.getObjects();
+
+		for(int x = 0; x < objects.length; x++) {
+			for(int y = 0; y < objects[0].length; y++) {
+				for(GameObject object : objects[x][y]) {
+					if(object instanceof Key) {
+						return (Key) object;
 					}
 				}
 			}

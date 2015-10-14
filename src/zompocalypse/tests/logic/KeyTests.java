@@ -1,37 +1,57 @@
 package zompocalypse.tests.logic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import zompocalypse.gameworld.items.Door;
+import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Key;
+import zompocalypse.gameworld.items.Torch;
+import zompocalypse.gameworld.world.World;
 
 public class KeyTests {
 
-	/*String[] test = {"wall_grey_1_door_closed_ew.png", "wall_grey_1_door_closed_ns.png"};
+	private String keyFile = "gold_key.png";
+	private String keyDesc = "A key. Perhaps this could unlock something....";
 
-	@Test public void doorValidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void keyUidTest() {
+		Key k = new Key(keyFile, 0);
 
-		assertTrue(d.unlock(true));
+		assertTrue(k.getUniqueID() == 0);
 	}
 
-	@Test public void doorValidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
+	@Test public void keyFilenameTest() {
+		Key k = new Key(keyFile, 0);
 
-		assertTrue(d.unlock(true));
+		assertTrue(k.getFileName() == keyFile);
 	}
 
-	@Test public void doorInvalidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void keyOccupiableTest() {
+		Key k = new Key(keyFile, 0);
 
-		assertFalse(d.unlock(false));
+		assertTrue(k.occupiable() == true);
 	}
 
-	@Test public void doorInvalidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
+	@Test public void keyMovableTest() {
+		Key k = new Key(keyFile, 0);
 
-		assertFalse(d.unlock(false));
-	}*/
+		assertTrue(k.movable() == true);
+	}
+
+	@Test public void keyExamineTest() {
+		Key k = new Key(keyFile, 0);
+
+		assertTrue(k.examine().equals(keyDesc));
+	}
+
+	@Test public void keyUseTest() {
+		World game = LogicTestUtility.getGame();
+		Player p = LogicTestUtility.getPlayer(game);
+		Torch t = LogicTestUtility.getTorch(game);
+
+		t.use(p);
+
+		assertTrue(p.getInventory().contains(t));
+	}
 
 }
