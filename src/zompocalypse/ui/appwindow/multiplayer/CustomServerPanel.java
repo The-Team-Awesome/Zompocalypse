@@ -23,6 +23,7 @@ public class CustomServerPanel extends JPanel {
 	JLabel clientsLabel;
 	JFormattedTextField clients;
 	ZButton start;
+	ZButton homeButton;
 
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
 
@@ -57,6 +58,10 @@ public class CustomServerPanel extends JPanel {
 		start.setActionCommand(UICommand.STARTSERVER.getValue());
 		start.addActionListener(action);
 
+		homeButton = new ZButton("Home");
+		homeButton.setActionCommand(UICommand.HOME.getValue());
+		homeButton.addActionListener(action);
+
 		GridBagConstraints constraints = new GridBagConstraints();
 		Insets buttonsInset = new Insets(-10, 0, 30, 0);
 		Insets topInset = new Insets(-100, 0, 0, 0);
@@ -72,6 +77,9 @@ public class CustomServerPanel extends JPanel {
 
 		constraints.gridy = positionY++;
 		this.add(start, constraints);
+
+		constraints.gridy = positionY++;
+		this.add(homeButton, constraints);
 	}
 
 	@Override
