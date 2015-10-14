@@ -9,12 +9,14 @@ import zompocalypse.gameworld.Orientation;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
- * Walls can have
- * @author kellypaul1
+ *
+ *
+ * @author Pauline Kelly
  *
  */
 public class Wall implements GameObject {
 
+	private static final long serialVersionUID = 1L;
 	protected ImageIcon[] images;
 	protected ImageIcon currentImage;
 	protected transient ImageUtils imu = ImageUtils.getImageUtilsObject();
@@ -41,11 +43,9 @@ public class Wall implements GameObject {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		//System.out.println("drew current image" + currentImage.toString());
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		currentImage = imu.getImageForOrientation(worldOrientation, images);
 
-		// TODO: This is hacky, yuck!
 		if(imageName.contains("plant")) {
 			g.drawImage(currentImage.getImage(), x + offset, y - offset, null);
 		} else {
@@ -53,12 +53,19 @@ public class Wall implements GameObject {
 		}
 	}
 
+	/**
+	 * Returns the offset for the
+	 *
+	 * @return
+	 */
 	public int getOffset() {
 		return offset;
 	}
 
+	/**
+	 * Rotates the wall to a different angle.
+	 */
 	public void rotate() {
-
 		String[] rotate = new String[filenames.length];
 		for (int x = 0; x < rotate.length - 1; x ++) {
 			rotate[x] = filenames[x + 1];
@@ -79,7 +86,6 @@ public class Wall implements GameObject {
 
 	@Override
 	public int compareTo(GameObject o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
