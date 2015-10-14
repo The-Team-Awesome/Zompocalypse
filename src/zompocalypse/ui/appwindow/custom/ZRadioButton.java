@@ -7,6 +7,7 @@ import javax.swing.JRadioButton;
 
 import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
+import zompocalypse.gameworld.Stackable;
 
 /**
  * This is a custom radio button used for the game. It displays an
@@ -23,6 +24,11 @@ public class ZRadioButton extends JRadioButton {
 
 		setIcon(Loader.LoadSpriteIcon(object.getFileName()));
 		addActionListener(action);
+
+		if(object instanceof Stackable) {
+			Stackable stack = (Stackable) object;
+			setText(Integer.toString(stack.getCount()));
+		}
 	}
 
 	@Override
@@ -34,6 +40,8 @@ public class ZRadioButton extends JRadioButton {
 		} else {
 			setBackground(CustomUtils.radioUnselected);
 		}
+
+
 	}
 
 }
