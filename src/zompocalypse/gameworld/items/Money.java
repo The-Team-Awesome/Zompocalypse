@@ -87,8 +87,10 @@ public class Money implements Item {
 			for(Item i : inventory) {
 				if(i instanceof Money) {
 					Money money = (Money) i;
-					money.add(amount);
-					added = true;
+					if(type.equals(money.getType())) {
+						money.add(amount);
+						added = true;
+					}
 				}
 			}
 
