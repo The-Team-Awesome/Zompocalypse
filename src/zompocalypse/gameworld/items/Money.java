@@ -37,12 +37,6 @@ public class Money implements Item {
 
 		type = string.replace("coins_", "");
 		type = type.replace(".png", "");
-
-		if(type.equals("silver")) {
-			this.amount = (amount) * 10;
-		} else if(type.equals("gold")) {
-			this.amount = (amount) * 100;
-		}
 	}
 
 	public int getAmount() {
@@ -68,7 +62,7 @@ public class Money implements Item {
 		String[] filenames = {filename};
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
-		
+
 		g.drawImage(currentImage.getImage(), x+16, y, null);
 
 	}
@@ -130,14 +124,6 @@ public class Money implements Item {
 
 	@Override
 	public String examine() {
-		int amount = this.amount;
-
-		if(type.equals("silver")) {
-			amount = amount / 10;
-		} else if(type.equals("gold")) {
-			amount = amount / 100;
-		}
-
 		return "A stack of " + amount + " " + type + " coins.";
 	}
 
