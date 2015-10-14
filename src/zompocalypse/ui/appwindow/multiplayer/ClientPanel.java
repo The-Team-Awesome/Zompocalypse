@@ -56,7 +56,7 @@ public class ClientPanel extends JPanel {
 
 		arrangeComponents();
 
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class ClientPanel extends JPanel {
 
 		// creating and setting components
 		lblInformation = new JLabel("Insert IP address of the server:");
-		lblInformation.setForeground(CustomUtils.textInButton);
+		lblInformation.setForeground(CustomUtils.white);
 
 		btnEnter = new ZButton("Enter");
 		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
@@ -151,12 +151,12 @@ public class ClientPanel extends JPanel {
 
 		constraints.gridy = positionY++;
 		this.add(homeButton, constraints);
-}
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 

@@ -27,16 +27,16 @@ public class ZButton extends JButton {
 	@Override
 	public void paintComponent(Graphics g) {
 		//setBackground(CustomUtils.button);
-		setForeground(CustomUtils.textInButton);
+		setForeground(CustomUtils.white);
 
 		if(getModel().isPressed()) {
-			g.setColor(CustomUtils.buttonPressed);
+			g.setColor(CustomUtils.redTwo);
 		} else if (getModel().isRollover()) {
-			g.setColor(CustomUtils.buttonRollover);
+			g.setColor(CustomUtils.redOne);
 		} else if (!getModel().isEnabled()) {
-			g.setColor(CustomUtils.buttonUnabled);
+			g.setColor(CustomUtils.blueFive);
 		} else {
-			g.setColor(CustomUtils.button);
+			g.setColor(CustomUtils.redThree);
 		}
 		g.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);

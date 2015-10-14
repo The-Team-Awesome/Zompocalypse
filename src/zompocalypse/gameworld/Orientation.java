@@ -1,24 +1,24 @@
 package zompocalypse.gameworld;
+
 /**
- *	Represents the current orientation of the camera for a Player,
- *	or the orientation of an object in space.
+ * Represents the current orientation of the camera for a Player, or the
+ * orientation of an object in space.
  *
  * @author Pauline Kelly
  *
  */
 public enum Orientation {
-	NORTH,
-	EAST,
-	SOUTH,
-	WEST;
+	NORTH, EAST, SOUTH, WEST;
 
 	/**
-	 * Combines the orientation of the object in space with the
-	 * orientation of the object in the view to gets the orientation
-	 * of the character/gameobject to be displayed.
+	 * Combines the orientation of the object in space with the orientation of
+	 * the object in the view to gets the orientation of the
+	 * character/gameobject to be displayed.
 	 *
-	 * @param queued Orientation of the object in space
-	 * @param worldOrientation Orientation of the camera
+	 * @param queued
+	 *            Orientation of the object in space
+	 * @param worldOrientation
+	 *            Orientation of the camera
 	 * @return The resulting orientation.
 	 */
 	public static Orientation getCharacterOrientation(Orientation queued,
@@ -43,34 +43,36 @@ public enum Orientation {
 
 	/**
 	 * Get clockwise orientation
-	 * @param current
-	 * @return
-	 */
-	public static Orientation getNext(Orientation current){
-		if(current == NORTH){
-			return EAST;
-		}else if(current == EAST){
-			return SOUTH;
-		}else if(current == SOUTH){
-			return WEST;
-		}else {
-			return NORTH;
-		}
-	}
-
-	/** Get anticlockwise orientation
 	 *
 	 * @param current
 	 * @return
 	 */
-	public static Orientation getPrev(Orientation current){
-		if(current == NORTH){
-			return WEST;
-		}else if(current == WEST){
-			return SOUTH;
-		}else if(current == SOUTH){
+	public static Orientation getNext(Orientation current) {
+		if (current == NORTH) {
 			return EAST;
-		}else {
+		} else if (current == EAST) {
+			return SOUTH;
+		} else if (current == SOUTH) {
+			return WEST;
+		} else {
+			return NORTH;
+		}
+	}
+
+	/**
+	 * Get anticlockwise orientation
+	 *
+	 * @param current
+	 * @return
+	 */
+	public static Orientation getPrev(Orientation current) {
+		if (current == NORTH) {
+			return WEST;
+		} else if (current == WEST) {
+			return SOUTH;
+		} else if (current == SOUTH) {
+			return EAST;
+		} else {
 			return NORTH;
 		}
 	}

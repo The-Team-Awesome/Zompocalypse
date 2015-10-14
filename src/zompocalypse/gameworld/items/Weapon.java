@@ -13,9 +13,10 @@ import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
 
-/** Weapons are used to damage enemies.
- *  The damage dealt to each enemy is a modifier based on the specific
- *  players strength, in addition to the type of Weapon they are holding.
+/**
+ * Weapons are used to damage enemies. The damage dealt to each enemy is a
+ * modifier based on the specific players strength, in addition to the type of
+ * Weapon they are holding.
  *
  * @author Sam Costigan, Kieran McKay
  *
@@ -35,7 +36,7 @@ public class Weapon implements Item {
 	public Weapon(String filename, String description, int uid, int strength) {
 		this.filename = filename;
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		String[] filenames = {filename};
+		String[] filenames = { filename };
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
 		this.description = description;
@@ -60,11 +61,11 @@ public class Weapon implements Item {
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		String[] filenames = {filename};
+		String[] filenames = { filename };
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
 
-		g.drawImage(currentImage.getImage(), x+OFFSET_X, y, null);
+		g.drawImage(currentImage.getImage(), x + OFFSET_X, y, null);
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class Weapon implements Item {
 	}
 
 	@Override
-	public boolean occupiable(){
+	public boolean occupiable() {
 		return true;
 	}
 
@@ -82,23 +83,24 @@ public class Weapon implements Item {
 	public void use(Player player) {
 		List<Item> inventory = player.getInventory();
 
-		if(!inventory.contains(this)) {
+		if (!inventory.contains(this)) {
 			player.pickUp(this);
 			World world = player.getWorld();
 			PriorityBlockingQueue<GameObject>[][] objects = world.getObjects();
 
-			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
-			for(int x = 0; x < objects.length; x++) {
-				for(int y = 0; y < objects[0].length; y++) {
-					for(GameObject object : objects[x][y]) {
-						if(object.equals(this)) {
+			// TODO: This would be much nicer if objects could be retrieved from
+			// a map of ids to GameObjects
+			for (int x = 0; x < objects.length; x++) {
+				for (int y = 0; y < objects[0].length; y++) {
+					for (GameObject object : objects[x][y]) {
+						if (object.equals(this)) {
 							world.addItemToRemove(new Point(x, y), object);
 						}
 					}
 				}
 			}
 		} else {
-			if(player.getEquipped() != null) {
+			if (player.getEquipped() != null) {
 				player.pickUp(player.getEquipped());
 			}
 

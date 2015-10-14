@@ -32,6 +32,7 @@ import zompocalypse.ui.rendering.RenderPanel;
 
 /**
  * Contains the components for the main game screen.
+ *
  * @author Danielle Emygdio
  *
  */
@@ -72,12 +73,13 @@ public class GamePanel extends JPanel {
 	private static final Image WEST = Loader.LoadIcon("west.png");
 	private static final Image EAST = Loader.LoadIcon("east.png");
 	private static final Image CLOCKWISE = Loader.LoadIcon("turnClockwise.png");
-	private static final Image ANTICLOCKWISE = Loader.LoadIcon("turnAnticlockwise.png");
+	private static final Image ANTICLOCKWISE = Loader
+			.LoadIcon("turnAnticlockwise.png");
 	private static final Image GAMEOVER = Loader.LoadSprite("gameover.png");
 
 	/**
-	 * This will be the listener for all action events which are triggered,
-	 * such as button clicks or field entries. For example, when creating a button,
+	 * This will be the listener for all action events which are triggered, such
+	 * as button clicks or field entries. For example, when creating a button,
 	 * it should be added using button.addActionListener(action);
 	 */
 	private ActionListener action;
@@ -94,11 +96,12 @@ public class GamePanel extends JPanel {
 
 		this.player = game.getPlayer(id);
 
-		this.setBackground(CustomUtils.frameBackground);
+		this.setBackground(CustomUtils.yellowTwo);
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		renderingPanel = new RenderPanel(id, game);  //TODO background img goes here
+		renderingPanel = new RenderPanel(id, game); // TODO background img goes
+													// here
 		renderingPanel.setPreferredSize(new Dimension(800, 600));
 		renderingPanel.setBackground(Color.BLACK);
 		c.fill = GridBagConstraints.NONE;
@@ -108,7 +111,7 @@ public class GamePanel extends JPanel {
 
 		menuPanel = new JPanel();
 		menuPanel.setPreferredSize(new Dimension(150, 700));
-		menuPanel.setBackground(CustomUtils.menuPanelBackground);
+		menuPanel.setBackground(CustomUtils.yellowOne);
 		c.fill = GridBagConstraints.NONE;
 		c.gridheight = 2;
 		c.gridx = 1;
@@ -118,7 +121,7 @@ public class GamePanel extends JPanel {
 
 		dialoguePanel = new JPanel();
 		dialoguePanel.setPreferredSize(new Dimension(800, 100));
-		dialoguePanel.setBackground(CustomUtils.blueBackground);
+		dialoguePanel.setBackground(CustomUtils.blueTwo);
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -134,7 +137,7 @@ public class GamePanel extends JPanel {
 		txtDialog.setFont(CustomUtils.textAreaFont);
 		txtDialog.setText(dialog);
 		txtDialog.setEditable(false);
-		txtDialog.setBackground(CustomUtils.lightYellow);
+		txtDialog.setBackground(CustomUtils.blueFive);
 		txtDialog.setVisible(true);
 		JScrollPane dialog = new JScrollPane(txtDialog);
 		dialoguePanel.add(dialog);
@@ -145,23 +148,24 @@ public class GamePanel extends JPanel {
 	 */
 	private void addMenuPanelComponents() {
 		this.menuPanel.setLayout(new GridBagLayout());
-		GridBagConstraints c =  new GridBagConstraints();
+		GridBagConstraints c = new GridBagConstraints();
 		int positionY = 0;
 
-		if(player.getEquipped() != null) {
-			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+		if (player.getEquipped() != null) {
+			itemImage = Loader.LoadSpriteIcon(player.getEquipped()
+					.getFileName());
 		} else {
 			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
 		}
 
 		Insets bottomInset = new Insets(0, 0, 40, 0);
-		Insets generalInset = new Insets(0,0,10,0);
+		Insets generalInset = new Insets(0, 0, 10, 0);
 
 		int minimum = 0;
-	    int maximum = 100;
+		int maximum = 100;
 		progressDamage = new JProgressBar(minimum, maximum);
 		progressDamage.setStringPainted(true);
-		progressDamage.setForeground(CustomUtils.buttonPressed);
+		progressDamage.setForeground(CustomUtils.redTwo);
 		progressDamage.setBorder(null);
 		progressDamage.setString("LIFE");
 		c.gridx = 1;
@@ -172,13 +176,13 @@ public class GamePanel extends JPanel {
 		menuPanel.add(progressDamage, c);
 
 		JPanel scoreDecoration = new JPanel();
-		scoreDecoration.setBackground(CustomUtils.blueBackground);
-		scoreDecoration.setSize(50,50);
+		scoreDecoration.setBackground(CustomUtils.blueTwo);
+		scoreDecoration.setSize(50, 50);
 		lblScore = new JLabel();
 		lblScore.setText("Score\n");
-		lblScore.setBackground(CustomUtils.blueBackground);
+		lblScore.setBackground(CustomUtils.blueTwo);
 		lblScore.setOpaque(true);
-		lblScore.setForeground(CustomUtils.textInButton);
+		lblScore.setForeground(CustomUtils.white);
 		c.gridx = 1;
 		c.gridy = positionY++;
 		c.ipadx = 0;
@@ -258,7 +262,8 @@ public class GamePanel extends JPanel {
 
 		ImageIcon iconClockwise = new ImageIcon(CLOCKWISE);
 		btnRotateClockwise = new ZButton(iconClockwise);
-		btnRotateClockwise.setActionCommand(UICommand.ROTATECLOCKWISE.getValue());
+		btnRotateClockwise.setActionCommand(UICommand.ROTATECLOCKWISE
+				.getValue());
 		btnRotateClockwise.addActionListener(action);
 		btnRotateClockwise.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 0;
@@ -269,7 +274,8 @@ public class GamePanel extends JPanel {
 
 		ImageIcon iconAnticlockwise = new ImageIcon(ANTICLOCKWISE);
 		btnRotateAnticlockwise = new ZButton(iconAnticlockwise);
-		btnRotateAnticlockwise.setActionCommand(UICommand.ROTATEANTICLOCKWISE.getValue());
+		btnRotateAnticlockwise.setActionCommand(UICommand.ROTATEANTICLOCKWISE
+				.getValue());
 		btnRotateAnticlockwise.addActionListener(action);
 		btnRotateAnticlockwise.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 3;
@@ -280,7 +286,8 @@ public class GamePanel extends JPanel {
 
 		ImageIcon iconWest = new ImageIcon(WEST);
 		btnWest = new ZButton(iconWest);
-		btnWest.setActionCommand(UICommand.WEST.getValue());;
+		btnWest.setActionCommand(UICommand.WEST.getValue());
+		;
 		btnWest.addActionListener(action);
 		btnWest.setBorder(BorderFactory.createEmptyBorder());
 		c.gridx = 0;
@@ -322,7 +329,7 @@ public class GamePanel extends JPanel {
 		updatePlayersEquipped();
 		updatePlayersDamage();
 		updatePlayersScore();
-		if(!flag && isPlayerDead(player)) {
+		if (!flag && isPlayerDead(player)) {
 			flag = true;
 			gameOver();
 		}
@@ -330,11 +337,12 @@ public class GamePanel extends JPanel {
 
 	/**
 	 * Checks if the player is dead.
+	 *
 	 * @param player
 	 * @return true if the player is dead.
 	 */
 	private boolean isPlayerDead(Player player) {
-		if(player.isDead()) {
+		if (player.isDead()) {
 			return true;
 		}
 
@@ -354,36 +362,38 @@ public class GamePanel extends JPanel {
 	 */
 	public static void gameOver() {
 		SwingUtilities.invokeLater(new Runnable() {
-	        @Override
-	        public void run() {
-	        	Object[] options = { "end" };
+			@Override
+			public void run() {
+				Object[] options = { "end" };
 
+				JPanel panel = new JPanel() {
+					private int status;
 
-	    		JPanel panel = new JPanel() {
-	    			private int status;
-	    			@Override
-	    			protected void paintComponent(Graphics g) {
-	    				super.paintComponent(g);
-	    				g.drawImage(GAMEOVER, 0, 0, CustomUtils.buttonPressed, null);
-	    			}
-	    		};
+					@Override
+					protected void paintComponent(Graphics g) {
+						super.paintComponent(g);
+						g.drawImage(GAMEOVER, 0, 0, CustomUtils.redTwo, null);
+					}
+				};
 
-	    		JLabel image = new JLabel();
-	    		panel.setPreferredSize(new Dimension(400,467));
-	    		panel.add(image);
+				JLabel image = new JLabel();
+				panel.setPreferredSize(new Dimension(400, 467));
+				panel.add(image);
 
-	    		int option = JOptionPane.showOptionDialog(null, panel, "Game Over!"
-                        ,JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, "end");
+				int option = JOptionPane.showOptionDialog(null, panel,
+						"Game Over!", JOptionPane.OK_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, options, "end");
 
-	    			System.exit(0);
-	        }
-	    });
+				System.exit(0);
+			}
+		});
 	}
 
 	/**
 	 * Updates the World for visualization at the renderingPanel.
 	 *
-	 * @param game in the current state.
+	 * @param game
+	 *            in the current state.
 	 */
 	public void updateGame(World game) {
 		this.game = game;
@@ -394,7 +404,8 @@ public class GamePanel extends JPanel {
 	/**
 	 * Updated dialog text in the text area.
 	 *
-	 * @param text to be inserted into the dialog.
+	 * @param text
+	 *            to be inserted into the dialog.
 	 */
 	public void updateDialog(String text) {
 		dialog += text + "\n";
@@ -404,10 +415,11 @@ public class GamePanel extends JPanel {
 	/**
 	 * Rotates the rendered world at the renderingPanel.
 	 *
-	 * @param command is the actionCommand of the button pressed.
+	 * @param command
+	 *            is the actionCommand of the button pressed.
 	 */
 	public void rotateView(String command) {
-		if(command == UICommand.ROTATECLOCKWISE.getValue()) {
+		if (command.equals(UICommand.ROTATECLOCKWISE.getValue())) {
 			renderingPanel.rotate(Direction.CLOCKWISE);
 		} else {
 			renderingPanel.rotate(Direction.ANTICLOCKWISE);
@@ -421,8 +433,11 @@ public class GamePanel extends JPanel {
 		try {
 			zompocalypse.datastorage.Parser.SaveMap(this.game);
 		} catch (IOException e) {
-			new JOptionPane("Something happened and we couldn't save your game :(", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Unexpected problem. Couldn't save the game. :(");
+			new JOptionPane(
+					"Something happened and we couldn't save your game :(",
+					JOptionPane.ERROR_MESSAGE);
+			System.out
+					.println("Unexpected problem. Couldn't save the game. :(");
 		}
 	}
 
@@ -431,10 +446,14 @@ public class GamePanel extends JPanel {
 	 */
 	public void savePlayer() {
 		try {
-			zompocalypse.datastorage.PlayerFileManager.savePlayer(this.game.getPlayer(id));
+			zompocalypse.datastorage.PlayerFileManager.savePlayer(this.game
+					.getPlayer(id));
 		} catch (IOException e) {
-			new JOptionPane("Something happened and we couldn't save your player :(", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Unexpected problem. Couldn't save the player. :(");
+			new JOptionPane(
+					"Something happened and we couldn't save your player :(",
+					JOptionPane.ERROR_MESSAGE);
+			System.out
+					.println("Unexpected problem. Couldn't save the player. :(");
 		}
 	}
 
@@ -450,7 +469,8 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-		// Then, if no objects were used before, process any in front of the player
+		// Then, if no objects were used before, process any in front of the
+		// player
 		for (GameObject o : player.getObjectsInfront()) {
 			if (o instanceof Item) {
 				examineText = ((Item) o).examine();
@@ -471,8 +491,9 @@ public class GamePanel extends JPanel {
 	 * Updates the equipment being used by the player in the display.
 	 */
 	private void updatePlayersEquipped() {
-		if(player.getEquipped() != null) {
-			itemImage = Loader.LoadSpriteIcon(player.getEquipped().getFileName());
+		if (player.getEquipped() != null) {
+			itemImage = Loader.LoadSpriteIcon(player.getEquipped()
+					.getFileName());
 		} else {
 			itemImage = Loader.LoadSpriteIcon(Loader.defaultEquipped);
 		}
@@ -484,10 +505,8 @@ public class GamePanel extends JPanel {
 	 * Updates player's score.
 	 */
 	private void updatePlayersScore() {
-		String scoreText = "Score: "+player.getScore();
+		String scoreText = "Score: " + player.getScore();
 		lblScore.setText(scoreText);
 	}
 
 }
-
-

@@ -33,24 +33,31 @@ public class RenderPanel extends JPanel {
 	private static final int TILE_WIDTH = 64;
 	private static final int FLOOR_TILE_HEIGHT = 42;
 
-	private static int maxMovesReset; // player will move this many tiles from centre before centre is reset
-	private static int drawDistance;  //the number of tiles that appear outwards from the player
+	private static int maxMovesReset; // player will move this many tiles from
+										// centre before centre is reset
+	private static int drawDistance; // the number of tiles that appear outwards
+										// from the player
 	private int centerX = 0;
 	private int centerY = 0;
 	private int focusX;
-	private int focusY;	//The coordinates of the player
-	private Orientation ori; //the current orientation of the view
+	private int focusY; // The coordinates of the player
+	private Orientation ori; // the current orientation of the view
 
-	private final int id;  //The Player's ID
+	private final int id; // The Player's ID
 	private World game;
-	private Floor blankTile;  //If the tile is off the grid, then a blank tile is drawn. Could be invisible if expanded to include background.
+	private Floor blankTile; // If the tile is off the grid, then a blank tile
+								// is drawn. Could be invisible if expanded to
+								// include background.
 
 	private ImageIcon blood;
+
 	/**
 	 * Constructor. Takes the height and width of the canvas into account.
 	 *
-	 * @param wd Width of window
-	 * @param ht Height of window
+	 * @param wd
+	 *            Width of window
+	 * @param ht
+	 *            Height of window
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
@@ -71,6 +78,7 @@ public class RenderPanel extends JPanel {
 
 	/**
 	 * Updates the world with its new state. //TODO: is this necessary
+	 *
 	 * @param game
 	 */
 	public void updateGame(World game) {
@@ -81,7 +89,8 @@ public class RenderPanel extends JPanel {
 	 * Rotates the rendering in the given direction. Updates the current
 	 * orientation in the rendering panel
 	 *
-	 * @param dir The direction of the rotation to be updated
+	 * @param dir
+	 *            The direction of the rotation to be updated
 	 */
 	public void rotate(Direction dir) {
 		switch (dir) {
@@ -115,19 +124,26 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Draws the background first, then draws the tiles and players.
-	 * Knowledge taken from
-	 * http://gamedev.stackexchange.com/questions/25982/how-do-i-determine-the-draw-order-in-an-isometric-view-flash-game
+	 * Draws the background first, then draws the tiles and players. Knowledge
+	 * taken from
+	 * http://gamedev.stackexchange.com/questions/25982/how-do-i-determine
+	 * -the-draw-order-in-an-isometric-view-flash-game
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		boolean editMode = game.getEditMode();	//Whether you are creating the world or not
-		boolean showWalls = game.getShowWalls();	//whether the walls are showing(for placing items in edit mode)
+		boolean editMode = game.getEditMode(); // Whether you are creating the
+												// world or not
+		boolean showWalls = game.getShowWalls(); // whether the walls are
+													// showing(for placing items
+													// in edit mode)
 
 		Floor[][] tiles;
-		PriorityBlockingQueue<GameObject>[][] objects;	//2D array of PriorityBlockingQueues for arrangement of items for displaying
+		PriorityBlockingQueue<GameObject>[][] objects; // 2D array of
+														// PriorityBlockingQueues
+														// for arrangement of
+														// items for displaying
 
 		tiles = game.getMap();
 		objects = game.getObjects();
@@ -141,10 +157,11 @@ public class RenderPanel extends JPanel {
 		Floor[][] tempFloor = tiles;
 		PriorityBlockingQueue<GameObject>[][] tempObjects = objects;
 
-		int doubleDrawDist = drawDistance*2;
-		tempFloor = clipFloor(tiles, drawDistance, focusX, focusY, doubleDrawDist);
-		tempObjects = clipObjects(objects, drawDistance, focusX,
-				focusY, doubleDrawDist);
+		int doubleDrawDist = drawDistance * 2;
+		tempFloor = clipFloor(tiles, drawDistance, focusX, focusY,
+				doubleDrawDist);
+		tempObjects = clipObjects(objects, drawDistance, focusX, focusY,
+				doubleDrawDist);
 
 		tempObjects = rotateObjects(tempObjects);
 		tempFloor = rotateFloor(tempFloor);
@@ -157,12 +174,18 @@ public class RenderPanel extends JPanel {
 	/**
 	 * Iterates through the Floor tiles and GameObjects, and draws them.
 	 *
-	 * @param g The Graphics object to draw things with
-	 * @param showWalls Whether the walls are showing for editing purposes
-	 * @param offsetX The X offset of the screen values
-	 * @param offsetY The Y offset of the screen values
-	 * @param tempFloor The Floor in the game
-	 * @param tempObjects The Objects in the game
+	 * @param g
+	 *            The Graphics object to draw things with
+	 * @param showWalls
+	 *            Whether the walls are showing for editing purposes
+	 * @param offsetX
+	 *            The X offset of the screen values
+	 * @param offsetY
+	 *            The Y offset of the screen values
+	 * @param tempFloor
+	 *            The Floor in the game
+	 * @param tempObjects
+	 *            The Objects in the game
 	 */
 	private void paintGameScreen(Graphics g, boolean showWalls, int offsetX,
 			int offsetY, Floor[][] tempFloor,
@@ -184,6 +207,7 @@ public class RenderPanel extends JPanel {
 
 	/**
 	 * Draws the objects in the game.
+	 *
 	 * @param g
 	 * @param showWalls
 	 * @param tempObjects
@@ -192,7 +216,9 @@ public class RenderPanel extends JPanel {
 	 * @param i
 	 * @param j
 	 */
-	private void drawObjects(Graphics g, boolean showWalls, PriorityBlockingQueue<GameObject>[][] tempObjects, int x, int y, int i,	int j) {
+	private void drawObjects(Graphics g, boolean showWalls,
+			PriorityBlockingQueue<GameObject>[][] tempObjects, int x, int y,
+			int i, int j) {
 		if (!showWalls) {
 			return;
 		}
@@ -209,12 +235,16 @@ public class RenderPanel extends JPanel {
 			}
 			dd.draw(x, y, g, ori);
 
-			if(!(dd instanceof MovingCharacter)){  //If they are not a moving character, nothing else to check for
+			if (!(dd instanceof MovingCharacter)) { // If they are not a moving
+													// character, nothing else
+													// to check for
 				continue;
-			}
-			else {
-				MovingCharacter ch = (MovingCharacter) dd;		//Otherwise, check to see if they were damaged and draw it
-				if(ch.tookDamage()){
+			} else {
+				MovingCharacter ch = (MovingCharacter) dd; // Otherwise, check
+															// to see if they
+															// were damaged and
+															// draw it
+				if (ch.tookDamage()) {
 					drawDamage(x, y, g);
 					ch.resetDamage();
 				}
@@ -234,6 +264,7 @@ public class RenderPanel extends JPanel {
 
 	/**
 	 * Draws the flooring
+	 *
 	 * @param tempFloor
 	 * @param i
 	 * @param j
@@ -241,7 +272,8 @@ public class RenderPanel extends JPanel {
 	 * @param y
 	 * @param g
 	 */
-	private void drawFloor(Floor[][] tempFloor, int i, int j, int x, int y, Graphics g) {
+	private void drawFloor(Floor[][] tempFloor, int i, int j, int x, int y,
+			Graphics g) {
 		if (tempFloor[i][j] instanceof Drawable) {
 			Drawable d = tempFloor[i][j];
 			d.draw(x, y, g, ori);
@@ -249,7 +281,8 @@ public class RenderPanel extends JPanel {
 		}
 	}
 
-	/** Rotates the floor according to the current orientation
+	/**
+	 * Rotates the floor according to the current orientation
 	 *
 	 * @param tempFloor
 	 * @return The rotated 2D array of Floor tiles
@@ -274,10 +307,12 @@ public class RenderPanel extends JPanel {
 		return tempFloor;
 	}
 
-	/** Rotates the floor according to the current orientation
+	/**
+	 * Rotates the floor according to the current orientation
 	 *
 	 * @param tempObjects
-	 * @return The rotated 2D array of the Priority Queues with Gameobjects in them
+	 * @return The rotated 2D array of the Priority Queues with Gameobjects in
+	 *         them
 	 */
 	private PriorityBlockingQueue<GameObject>[][] rotateObjects(
 			PriorityBlockingQueue<GameObject>[][] tempObjects) {
@@ -301,9 +336,11 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Centers the map if the player/editor has moved too far away from the screen centre.
+	 * Centers the map if the player/editor has moved too far away from the
+	 * screen centre.
 	 *
-	 * @param editMode Whether it is in edit mode or not
+	 * @param editMode
+	 *            Whether it is in edit mode or not
 	 */
 	private void setFocus(boolean editMode) {
 		// get the board coordinates of the player
@@ -325,8 +362,7 @@ public class RenderPanel extends JPanel {
 				focusX = centerX;
 				focusY = centerY;
 			}
-		}
-		else {
+		} else {
 			Point p = game.getEditor();
 			focusX = p.x;
 			focusY = p.y;
@@ -335,6 +371,7 @@ public class RenderPanel extends JPanel {
 
 	/**
 	 * Rotates the given 2D array by 90 degrees
+	 *
 	 * @param tempObjects
 	 * @return The objects in their new locations
 	 */
@@ -352,6 +389,7 @@ public class RenderPanel extends JPanel {
 
 	/**
 	 * Rotates the given 2D array by 90 degrees
+	 *
 	 * @param tempFloor
 	 * @return The objects in their new locations
 	 */
@@ -367,11 +405,17 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the selection of GameObjects around the centre of the focus at the size of the draw distance
-	 * @param objects The 2D objects array that requires clipping
-	 * @param drawDistance The number of tiles from the player that will be displayed
-	 * @param focusX The X position of the editor or player
-	 * @param focusY The Y position of the editor or player
+	 * Returns the selection of GameObjects around the centre of the focus at
+	 * the size of the draw distance
+	 *
+	 * @param objects
+	 *            The 2D objects array that requires clipping
+	 * @param drawDistance
+	 *            The number of tiles from the player that will be displayed
+	 * @param focusX
+	 *            The X position of the editor or player
+	 * @param focusY
+	 *            The Y position of the editor or player
 	 * @return
 	 */
 	private PriorityBlockingQueue<GameObject>[][] clipObjects(
@@ -388,23 +432,28 @@ public class RenderPanel extends JPanel {
 					temp[i][j] = new PriorityBlockingQueue<GameObject>();
 				else
 					temp[i][j] = objects[i + focusX - drawDistance][j + focusY
-					                                                - drawDistance];
+							- drawDistance];
 			}
 		}
 		return temp;
 	}
 
 	/**
-	 * Returns the selection of Floor tiles around the centre of the focus at the size of the draw distance
-	 * @param objects The 2D objects array that requires clipping
-	 * @param drawDistance The number of tiles from the player that will be displayed
-	 * @param focusX The X position of the editor or player
-	 * @param focusY The Y position of the editor or player
+	 * Returns the selection of Floor tiles around the centre of the focus at
+	 * the size of the draw distance
+	 *
+	 * @param objects
+	 *            The 2D objects array that requires clipping
+	 * @param drawDistance
+	 *            The number of tiles from the player that will be displayed
+	 * @param focusX
+	 *            The X position of the editor or player
+	 * @param focusY
+	 *            The Y position of the editor or player
 	 * @return
 	 */
-	private Floor[][] clipFloor(Floor[][] tiles, int drawDistance,
-			int focusX, int focusY, int doubleDrawDist) {
-
+	private Floor[][] clipFloor(Floor[][] tiles, int drawDistance, int focusX,
+			int focusY, int doubleDrawDist) {
 
 		Floor[][] temp = new Floor[doubleDrawDist + 1][doubleDrawDist + 1];
 		for (int i = 0; i <= doubleDrawDist; i++) {
@@ -416,7 +465,7 @@ public class RenderPanel extends JPanel {
 					temp[i][j] = blankTile;
 				else
 					temp[i][j] = tiles[i + focusX - drawDistance][j + focusY
-					                                              - drawDistance];
+							- drawDistance];
 			}
 		}
 		return temp;
@@ -457,8 +506,10 @@ public class RenderPanel extends JPanel {
 	 * Returns the screen coordinates, translated using an isometric formula
 	 * from the game coordinates.
 	 *
-	 * @param i Gamess x value
-	 * @param j Games y value
+	 * @param i
+	 *            Gamess x value
+	 * @param j
+	 *            Games y value
 	 * @return The calculated X/Y values
 	 */
 	private int[] convertFromGameToScreen(int i, int j) {

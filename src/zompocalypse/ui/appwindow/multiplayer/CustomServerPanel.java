@@ -17,6 +17,13 @@ import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 import zompocalypse.ui.appwindow.custom.ZButton;
 
+/**
+ * Interface for client to input how many players are gonna be accepted for the
+ * starting server.
+ *
+ * @author Danielle Emygdio and Sam Costigan
+ *
+ */
 public class CustomServerPanel extends JPanel {
 
 	private static final long serialVersionUID = 3418853607101157836L;
@@ -36,7 +43,7 @@ public class CustomServerPanel extends JPanel {
 
 		arrangeComponents();
 
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 	}
 
 	/**
@@ -48,7 +55,7 @@ public class CustomServerPanel extends JPanel {
 		NumberFormat clientFormat = NumberFormat.getNumberInstance();
 
 		clientsLabel = new JLabel("Enter the number of people to play:");
-		clientsLabel.setForeground(CustomUtils.textInButton);
+		clientsLabel.setForeground(CustomUtils.white);
 
 		clients = new JFormattedTextField(clientFormat);
 		clients.setValue(new Integer(1));
@@ -85,12 +92,13 @@ public class CustomServerPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 
 	/**
 	 * Gets the number of clients from the text input.
+	 *
 	 * @return number of clients.
 	 */
 	public int getNumClients() {

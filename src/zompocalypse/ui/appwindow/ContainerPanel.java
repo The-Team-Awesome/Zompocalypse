@@ -27,7 +27,8 @@ public class ContainerPanel extends JPanel {
 	private ActionListener action;
 	private List<? extends GameObject> objects;
 
-	private ContainerPanel(List<? extends GameObject> objects, ActionListener action, String key) {
+	private ContainerPanel(List<? extends GameObject> objects,
+			ActionListener action, String key) {
 		super();
 		this.objects = objects;
 		this.action = action;
@@ -39,7 +40,8 @@ public class ContainerPanel extends JPanel {
 		constanctAction = action;
 	}
 
-	public static ContainerPanel getContainerPanel(List<? extends GameObject> objects, String key) {
+	public static ContainerPanel getContainerPanel(
+			List<? extends GameObject> objects, String key) {
 		return new ContainerPanel(objects, constanctAction, key);
 	}
 
@@ -53,7 +55,8 @@ public class ContainerPanel extends JPanel {
 			if (object instanceof Item) {
 				Item item = (Item) object;
 				JRadioButton button = new ZRadioButton(object, action);
-				button.setActionCommand(key + Integer.toString(item.getUniqueID()));
+				button.setActionCommand(key
+						+ Integer.toString(item.getUniqueID()));
 				add(button, null);
 				options.add(button);
 			}

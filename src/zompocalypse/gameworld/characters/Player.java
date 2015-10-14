@@ -75,14 +75,14 @@ public final class Player extends MovingCharacter {
 	}
 
 	public void useQueued() {
-		if(queuedUse != null){
+		if (queuedUse != null) {
 			queuedUse.use(this);
 		}
 		queuedUse = null;
 	}
 
 	public void dropQueued() {
-		if(queuedUse != null){
+		if (queuedUse != null) {
 			inventory.remove(queuedUse);
 			PriorityBlockingQueue<GameObject>[][] objects = game.getObjects();
 			//try to place in a container infront of player first
@@ -101,7 +101,7 @@ public final class Player extends MovingCharacter {
 	}
 
 	public void takeQueued() {
-		if(queuedTake != null){
+		if (queuedTake != null) {
 			queuedTake.use(this);
 			queuedContainer.getHeldItems().remove(queuedTake);
 		}
@@ -119,9 +119,10 @@ public final class Player extends MovingCharacter {
 
 	/**
 	 * Calculates the players attack damage. This is a product of a random
-	 * number multiplied by their strength, with their base attack added to the end.
+	 * number multiplied by their strength, with their base attack added to the
+	 * end.
 	 *
-	 * @return
+	 * @return the attack amount of damage.
 	 */
 	public int calculateAttack() {
 		int attack = (int) (Math.random() * (getStrength()));
@@ -137,7 +138,7 @@ public final class Player extends MovingCharacter {
 	public int getStrength() {
 		int strength = super.getStrength();
 
-		if(equipped != null) {
+		if (equipped != null) {
 			strength += equipped.getStrength();
 		}
 
@@ -173,39 +174,43 @@ public final class Player extends MovingCharacter {
 	public String toString() {
 		return "Player [uid=" + getUid() + ", orientation=" + getOrientation()
 				+ ", score=" + score + ", health=" + getHealth() + ", speed="
-				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
-				+ "]";
+				+ getSpeed() + ", strength=" + getStrength()
+				+ ", charactername=" + getFileName() + "]";
 	}
 
 	/**
 	 * The name of the character this player is playing as
+	 *
 	 * @return String - the name of this players character
 	 */
-	public String getName(){
+	public String getName() {
 		return playerName;
 	}
 
 	/**
 	 * Picks up the item and puts it in the inventory.
+	 *
 	 * @param item
-	 * @return
+	 * @return true if the item could be added to the inventory, false
+	 *         otherwise.
 	 */
 	public boolean pickUp(Item item) {
 		return inventory.add(item);
 	}
 
 	/**
-	 * This players inventory items
+	 * This players inventory items.
 	 *
-	 * @return An Arraylist containing this players inventory
+	 * @return An Arraylist containing this players inventory.
 	 */
 	public List<Item> getInventory() {
 		return inventory;
 	}
 
 	/**
-	 * Gets the equipped weapon
-	 * @return
+	 * Gets the equipped weapon.
+	 *
+	 * @return the item the player is equipped with.
 	 */
 	public Weapon getEquipped() {
 		return equipped;
@@ -222,7 +227,8 @@ public final class Player extends MovingCharacter {
 	 * @param cameraDirection
 	 */
 	public void move(Orientation dir, Orientation cameraDirection) {
-		Orientation ori = Orientation.getCharacterOrientation(dir, cameraDirection);
+		Orientation ori = Orientation.getCharacterOrientation(dir,
+				cameraDirection);
 		switch (ori) {
 		case NORTH:
 			this.moveNorth();
@@ -240,10 +246,10 @@ public final class Player extends MovingCharacter {
 	}
 
 	/**
-	 * The player uses the first item where they are standing, or infront of them.
-	 * Also used for attacking all Zombies infront of the player.
+	 * The player uses the first item where they are standing, or infront of
+	 * them. Also used for attacking all Zombies infront of the player.
 	 */
-	public void use(){
+	public void use() {
 		// Process any objects the player is standing on first
 		for (GameObject o : getObjectsHere()) {
 			if (o instanceof Item) {
@@ -254,7 +260,7 @@ public final class Player extends MovingCharacter {
 		// Then, if no objects were used before, process any in front of the
 		// player
 		for (GameObject o : getObjectsInfront()) {
-			if(o instanceof StrategyZombie) {
+			if (o instanceof StrategyZombie) {
 				StrategyZombie zombie = (StrategyZombie) o;
 				int damage = calculateAttack();
 				zombie.damaged(damage);
@@ -282,8 +288,10 @@ public final class Player extends MovingCharacter {
 	/**
 	 * Set this players location
 	 *
-	 * @param x - x coordinate
-	 * @param y - y coordinate
+	 * @param x
+	 *            - x coordinate
+	 * @param y
+	 *            - y coordinate
 	 */
 	public void setLocation(int x, int y) {
 		this.xCoord = x;
@@ -292,7 +300,9 @@ public final class Player extends MovingCharacter {
 
 	/**
 	 * Sets this players unique identifier
-	 * @param uid - this players unique ID
+	 *
+	 * @param uid
+	 *            - this players unique ID
 	 */
 	public void setUID(int uid) {
 		this.uid = uid;

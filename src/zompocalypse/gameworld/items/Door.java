@@ -88,8 +88,7 @@ public class Door implements Item, Lockable {
 		if (open) {
 			currentImage = imu.getImageForOrientation(worldOrientation,
 					imagesOpen);
-		}
-		else {
+		} else {
 			currentImage = imu.getImageForOrientation(worldOrientation,
 					imagesClosed);
 		}
@@ -148,7 +147,6 @@ public class Door implements Item, Lockable {
 
 	@Override
 	public int compareTo(GameObject o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -170,13 +168,13 @@ public class Door implements Item, Lockable {
 		return new Door(x, y, fileNamesClosed, offset, locked, uid);
 	}
 
-
 	public int getOffset() {
 		return offset;
 	}
 
 	/**
 	 * Returns whether the door is open or not.
+	 *
 	 * @return
 	 */
 	public boolean isOpen() {

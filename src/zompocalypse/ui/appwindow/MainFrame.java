@@ -135,7 +135,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		setPreferredSize(new Dimension(1000, 750));
 		setResizable(false);
 		addWindowListener(this);
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 		pack();
 		setVisible(true);
 	}

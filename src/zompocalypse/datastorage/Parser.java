@@ -110,8 +110,8 @@ public class Parser {
 		if (absolute)
 			mapXML = Loader.LoadFile(mapFile, true);
 		else
-		mapXML = Loader.LoadFile(Loader.mapDir + Loader.separator
-				+ mapFile, false);
+			mapXML = Loader.LoadFile(
+					Loader.mapDir + Loader.separator + mapFile, false);
 
 		if (mapXML == null)
 			return null;
@@ -197,8 +197,7 @@ public class Parser {
 					}
 				}
 			}
-		} catch (ParserConfigurationException
-				| SAXException | IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			return null;
 		} finally {
 			try {
@@ -337,7 +336,8 @@ public class Parser {
 	 * @param locked
 	 * @param open
 	 */
-	private static void parseDoor(PriorityBlockingQueue<GameObject>[][] objects,
+	private static void parseDoor(
+			PriorityBlockingQueue<GameObject>[][] objects,
 			Map<String, String> textTileMap, String string, String offset,
 			String locked, String open, int col, int row) {
 		String[] door = expandCode(textTileMap, string);
@@ -354,7 +354,8 @@ public class Parser {
 	 * Parses a Wall from a String and places it on 2D array of GameObjects at
 	 * (i,j) with the offset it is to be drawn at
 	 */
-	private static void parseWall(PriorityBlockingQueue<GameObject>[][] objectz,
+	private static void parseWall(
+			PriorityBlockingQueue<GameObject>[][] objectz,
 			Map<String, String> textTileMap, String string, String offset,
 			int i, int j) {
 		String[] wall = expandCode(textTileMap, string);

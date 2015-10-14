@@ -36,9 +36,9 @@ public class ZRadioButton extends JRadioButton {
 		super.paintComponent(g);
 
 		if(isSelected()) {
-			setBackground(CustomUtils.radioSelected);
+			setBackground(CustomUtils.redThree);
 		} else {
-			setBackground(CustomUtils.radioUnselected);
+			setBackground(CustomUtils.gray);
 		}
 
 

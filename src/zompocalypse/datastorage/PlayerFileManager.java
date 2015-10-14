@@ -34,8 +34,21 @@ import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 
+/**
+ * Manages the files for saving a player.
+ *
+ * @author David Thomsen
+ *
+ */
 public class PlayerFileManager {
 
+	/**
+	 * Saves a player into a file.
+	 *
+	 * @param player
+	 *            - player to be saved.
+	 * @throws IOException
+	 */
 	public static void savePlayer(Player player) throws IOException {
 		String saveResult = getXMLPlayer(player);
 
@@ -56,8 +69,14 @@ public class PlayerFileManager {
 		}
 	}
 
+	/**
+	 * Gets a String with player information.
+	 *
+	 * @param player
+	 * @return
+	 */
 	private static String getXMLPlayer(Player player) {
-		// Create XML Doc of World
+		// Create XML Doc of Player
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
@@ -104,14 +123,20 @@ public class PlayerFileManager {
 			transformer.transform(source, result);
 			return result.getWriter().toString();
 		} catch (ParserConfigurationException | TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// If we got here something went wrong!
-		return "Error: Unable to save the World";
+		return "Error: Unable to save the Player";
 	}
 
+	/**
+	 * Adds an item to a specified XML document.
+	 *
+	 * @param i
+	 * @param doc
+	 * @return
+	 */
 	private static Node writeItem(Item i, Document doc) {
 		if (i instanceof Container) {
 			Container container = (Container) i;
@@ -163,6 +188,13 @@ public class PlayerFileManager {
 				"Should not ever never get to this point unless someone did a bad");
 	}
 
+	/**
+	 * Loads a player from a XML file.
+	 *
+	 * @param playerFile
+	 * @param game
+	 * @return player loaded.
+	 */
 	public static Player loadPlayer(File playerFile, World game) {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
