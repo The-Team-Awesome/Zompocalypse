@@ -18,7 +18,7 @@ Once the players have your IP address, they can connect to the game by clicking 
 
 You've just been dumped into the world of Zompocalypse. Be careful, hungry Zombies and Dragons roam the World and they will kill you if they get the chance. First things first, find yourself a weapon! Look around in chests and houses to arm yourself, and watch for hidden items. You will also want to get a torch so you can see them coming sooner. If you can't handle them on your own, start up a server and get some friends to help you.
 
-Eventually, they will overwhelm you, but the longer you survive and the more you kill, the higher your score becomes. If you find the game too hard, enable godmode using F8 and you will be invulnerable against the Zombie's attacks.
+Eventually, they will overwhelm you, but the longer you survive and the more you kill, the higher your score becomes. If you find the game too hard, enable godmode using F9 and you will be invulnerable against the Zombie's attacks.
 
 ## Controls
 
