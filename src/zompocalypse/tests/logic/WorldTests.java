@@ -13,7 +13,8 @@ import zompocalypse.gameworld.world.World;
 
 public class WorldTests {
 
-	@Test public void worldRemoveCharacterTest() {
+	@Test
+	public void worldRemoveCharacterTest() {
 		World game = getGame();
 		int id = game.registerPlayer("elizabeth");
 
@@ -24,13 +25,8 @@ public class WorldTests {
 	}
 
 	private World getGame() {
-		try {
-			World game = Parser.ParseMap(Loader.testFile, false);
-			return game;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		World game = Parser.ParseMap(Loader.testFile, false);
+		return game;
 	}
 
 }

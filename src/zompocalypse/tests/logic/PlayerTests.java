@@ -17,24 +17,24 @@ import zompocalypse.gameworld.world.World;
 public class PlayerTests {
 
 	World game;
-	String[] test = {"wall_grey_1_door_closed_ew.png", "wall_grey_1_door_closed_ns.png"};
+	String[] test = { "wall_grey_1_door_closed_ew.png",
+			"wall_grey_1_door_closed_ns.png" };
 
 	public PlayerTests() {
-		try {
-			/**
-			 * TODO: Ideally, we should create a Test map file that can be loaded in here. That
-			 * file would have an instance of each object to test within the smallest possible space.
-			 */
-			game = Parser.ParseMap(Loader.testFile, false);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		/**
+		 * TODO: Ideally, we should create a Test map file that can be loaded in
+		 * here. That file would have an instance of each object to test within
+		 * the smallest possible space.
+		 */
+		game = Parser.ParseMap(Loader.testFile, false);
 	}
 
 	/**
-	 * Tests that a Player is left with the expected number of points after having 5 points added.
+	 * Tests that a Player is left with the expected number of points after
+	 * having 5 points added.
 	 */
-	@Test public void playerValidPointsTest1() {
+	@Test
+	public void playerValidPointsTest1() {
 		Player p = generatePlayer(3, 3);
 		p.addScore(5);
 
@@ -42,11 +42,14 @@ public class PlayerTests {
 	}
 
 	/**
-	 * A Player starting at position 3, 3 should be able to move down to valid nearby squares.
+	 * A Player starting at position 3, 3 should be able to move down to valid
+	 * nearby squares.
 	 */
 
-	@Test public void playerValidMoveTest1() {
-		// TODO: This test currently fails, which means movement is not correctly implemented!
+	@Test
+	public void playerValidMoveTest1() {
+		// TODO: This test currently fails, which means movement is not
+		// correctly implemented!
 		Player p = generatePlayer(3, 3);
 		p.moveSouth();
 
@@ -55,8 +58,10 @@ public class PlayerTests {
 		assertTrue(p.getY() == 4);
 	}
 
-	@Test public void playerValidMoveTest2() {
-		// TODO: This test currently fails, which means movement is not correctly implemented!
+	@Test
+	public void playerValidMoveTest2() {
+		// TODO: This test currently fails, which means movement is not
+		// correctly implemented!
 		Player p = generatePlayer(3, 3);
 		p.moveSouth();
 		p.tick(game);
@@ -70,10 +75,12 @@ public class PlayerTests {
 	}
 
 	/**
-	 * A Player starting at the edge of the map shouldn't be able to move past the edge
+	 * A Player starting at the edge of the map shouldn't be able to move past
+	 * the edge
 	 */
 
-	@Test public void playerInvalidMoveTest1() {
+	@Test
+	public void playerInvalidMoveTest1() {
 		Player p = generatePlayer(0, 0);
 		p.moveNorth();
 
@@ -84,7 +91,8 @@ public class PlayerTests {
 
 	}
 
-	@Test public void playerInvalidMoveTest2() {
+	@Test
+	public void playerInvalidMoveTest2() {
 		Player p = generatePlayer(0, 5);
 		p.moveWest();
 
@@ -94,17 +102,20 @@ public class PlayerTests {
 		assertTrue(p.getX() == 0);
 	}
 
-	@Test public void playerValidKeyTest1() {
+	@Test
+	public void playerValidKeyTest1() {
 		Player p = generatePlayer(0, 0);
 		Key k = new Key("gold_key_inv.png", 0);
 
 		k.use(p);
 
-		// TODO: At this point, it is expected that the key will be in the Players inventory.
+		// TODO: At this point, it is expected that the key will be in the
+		// Players inventory.
 		// Inventories aren't yet implemented, so can't be checked! But soon....
 	}
 
-	@Test public void playerValidDoorTest1() {
+	@Test
+	public void playerValidDoorTest1() {
 		Player p = generatePlayer(0, 0);
 		Door d = new Door(0, 0, test, 55, false, 0);
 
@@ -113,7 +124,8 @@ public class PlayerTests {
 		assertTrue(d.occupiable());
 	}
 
-	@Test public void playerValidDoorTest2() {
+	@Test
+	public void playerValidDoorTest2() {
 		Player p = generatePlayer(0, 0);
 		Door d = new Door(0, 0, test, 55, true, 0);
 
@@ -123,7 +135,8 @@ public class PlayerTests {
 		assertTrue(d.occupiable());
 	}
 
-	@Test public void playerInvalidDoorTest1() {
+	@Test
+	public void playerInvalidDoorTest1() {
 		Player p = generatePlayer(0, 0);
 		Door d = new Door(0, 0, test, 55, true, 0);
 
@@ -132,14 +145,16 @@ public class PlayerTests {
 		assertFalse(d.occupiable());
 	}
 
-	@Test public void playerInvalidDoorTest2() {
+	@Test
+	public void playerInvalidDoorTest2() {
 		Player p = generatePlayer(0, 0);
 		Door d = new Door(0, 0, test, 55, true, 0);
 
 		assertFalse(d.occupiable());
 	}
 
-	// TODO: Following more implementation, there will be more zompocalypse.tests here for interaction with Items
+	// TODO: Following more implementation, there will be more
+	// zompocalypse.tests here for interaction with Items
 
 	/**
 	 * Utility method to return a Test Player at x and y position.
@@ -149,13 +164,11 @@ public class PlayerTests {
 	 * @return
 	 */
 	private Player generatePlayer(int x, int y) {
-		String[] filenames = {
-				"character_gina_empty_n.png",
-				"character_gina_empty_s.png",
-				"character_gina_empty_e.png",
-				"character_gina_empty_w.png"
-		};
-		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob", filenames, game);
+		String[] filenames = { "character_gina_empty_n.png",
+				"character_gina_empty_s.png", "character_gina_empty_e.png",
+				"character_gina_empty_w.png" };
+		Player p = new Player(x, y, Orientation.NORTH, 1, 0, "Bibbly Bob",
+				filenames, game);
 
 		return p;
 	}

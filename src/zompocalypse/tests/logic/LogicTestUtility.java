@@ -14,22 +14,17 @@ import zompocalypse.gameworld.world.World;
 public class LogicTestUtility {
 
 	public static World getGame() {
-		try {
-			World game = Parser.ParseMap(Loader.testFile, false);
-			return game;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		World game = Parser.ParseMap(Loader.testFile, false);
+		return game;
 	}
 
 	public static Weapon getWeapon(World game) {
 		PriorityBlockingQueue<GameObject>[][] objects = game.getObjects();
 
-		for(int x = 0; x < objects.length; x++) {
-			for(int y = 0; y < objects[0].length; y++) {
-				for(GameObject object : objects[x][y]) {
-					if(object instanceof Weapon) {
+		for (int x = 0; x < objects.length; x++) {
+			for (int y = 0; y < objects[0].length; y++) {
+				for (GameObject object : objects[x][y]) {
+					if (object instanceof Weapon) {
 						return (Weapon) object;
 					}
 				}
