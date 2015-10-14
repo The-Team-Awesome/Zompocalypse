@@ -28,8 +28,7 @@ public class SelectCharacterPanel extends JPanel {
 
 	private ActionListener action;
 
-	private static final Image BACKGROUND = Loader
-			.LoadImage("logo.png");
+	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
 
 	public SelectCharacterPanel(ActionListener action) {
 		this.setSize(1000, 1000);
@@ -58,7 +57,8 @@ public class SelectCharacterPanel extends JPanel {
 
 		// LOAD CHARACTER BUTTON
 		loadCharacterButton = new ZButton("Load Character");
-		loadCharacterButton.setActionCommand(UICommand.LOADCHARACTER.getValue());
+		loadCharacterButton
+				.setActionCommand(UICommand.LOADCHARACTER.getValue());
 		c.insets = buttonsInset;
 		c.gridy = positionY++;
 		loadCharacterButton.addActionListener(action);
@@ -76,7 +76,7 @@ public class SelectCharacterPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 }

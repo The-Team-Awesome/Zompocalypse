@@ -10,19 +10,20 @@ import zompocalypse.gameworld.world.World;
 public class StrategyZombie extends MovingCharacter {
 
 	private static final long serialVersionUID = 1L;
-	//the base stats of a zombie
+	// the base stats of a zombie
 	private final int ZOMBIE_HEALTH = 100;
 	private final int ZOMBIE_SPEED = 5;
 	private final int ZOMBIE_STRENGTH = 20;
 	private final int BASE_ATTACK = 10;
 
-	//offset for drawing a character
+	// offset for drawing a character
 	private final int OFFSETY = -20;
 
-	//this zombies implemented strategy (strategy design pattern)
+	// this zombies implemented strategy (strategy design pattern)
 	private Strategy strategy;
 
-	public StrategyZombie(World game, int realX, int realY, Strategy strategy, int uid, String[] filenames) {
+	public StrategyZombie(World game, int realX, int realY, Strategy strategy,
+			int uid, String[] filenames) {
 		super(uid, game, realX, realY, Orientation.NORTH, filenames);
 		this.strategy = strategy;
 		this.uid = uid;
@@ -38,22 +39,25 @@ public class StrategyZombie extends MovingCharacter {
 		strategy.tick(game, this);
 	}
 
-	protected void attack(){
+	/**
+	 * Causes damage to the attacked player.
+	 */
+	protected void attack() {
 		PriorityBlockingQueue<GameObject> targets = getObjectsInfront();
-		for (GameObject o : targets){
-			if (o instanceof Player){
+		for (GameObject o : targets) {
+			if (o instanceof Player) {
 				((Player) o).damaged(calculateDamage());
 			}
 		}
 	}
 
 	/**
-	 * Calculates how much damage this zombie does.
-	 * Based on zombie base damage + any extra damage granted from strategy.
+	 * Calculates how much damage this zombie does. Based on zombie base damage
+	 * + any extra damage granted from strategy.
 	 *
 	 * @return int - the amount of damage this zombie inflicts
 	 */
-	private int calculateDamage(){
+	private int calculateDamage() {
 		return BASE_ATTACK + strategy.getDamage();
 	}
 
@@ -68,7 +72,7 @@ public class StrategyZombie extends MovingCharacter {
 	 *
 	 * @return - int score for killing
 	 */
-	public int getPoints(){
+	public int getPoints() {
 		return strategy.getPoints();
 	}
 

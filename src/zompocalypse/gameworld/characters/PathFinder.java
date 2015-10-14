@@ -53,35 +53,30 @@ public class PathFinder {
 					}
 					break;
 				}
-			/*
-				for (Floor exit : current.floors) {
-					Node neigh = exit.end;
-					if (!neigh.isVisited()) {
-						double costToNeigh = current.getCost() + exit.length;
-						double estTotal = costToNeigh + estimate(neigh);
-						data = new AStarNode(neigh, current, costToNeigh,
-								estTotal);
-						fringe.add(data);
-					}
-				}
-				*/
+				/*
+				 * for (Floor exit : current.floors) { Node neigh = exit.end; if
+				 * (!neigh.isVisited()) { double costToNeigh = current.getCost()
+				 * + exit.length; double estTotal = costToNeigh +
+				 * estimate(neigh); data = new AStarNode(neigh, current,
+				 * costToNeigh, estTotal); fringe.add(data); } }
+				 */
 			}
 		}
 	}
 
 	public Floor getConnectingFloor(Node start, Node end) {
 		for (Floor exit : start.floors) {
-		//	if (exit.end.equals(end)) {
-				return exit;
-		//	}
+			// if (exit.end.equals(end)) {
+			return exit;
+			// }
 		}
 		return null;
 	}
 
 	public double estimate(Node current) {
-		//int xdif = end.
-		//return end.location.distance(current.location);
-				return 0;
+		// int xdif = end.
+		// return end.location.distance(current.location);
+		return 0;
 	}
 
 	public Set<Node> getVisited() {

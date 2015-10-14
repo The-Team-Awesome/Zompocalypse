@@ -19,7 +19,7 @@ public abstract class MovingCharacter extends Actor {
 	private static final long serialVersionUID = 1L;
 
 	private int health;
-	private int speed;   //non monving zombies have 0 speed?
+	private int speed;
 	private int strength;
 	protected boolean moving;
 

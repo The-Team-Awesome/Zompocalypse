@@ -19,9 +19,9 @@ import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.appwindow.custom.CustomUtils;
 
 /**
- * The ServerPanel is what a user sees when they start a server running.
- * It creates the server and starts it when appropriate, and relays information
- * to the user from the server when it is received.
+ * The ServerPanel is what a user sees when they start a server running. It
+ * creates the server and starts it when appropriate, and relays information to
+ * the user from the server when it is received.
  *
  * @author Sam Costigan
  */
@@ -42,7 +42,7 @@ public class ServerPanel extends JPanel {
 
 		arrangeComponents();
 
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 	}
 
 	/**
@@ -70,13 +70,15 @@ public class ServerPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 
 	/**
 	 * Send the number of clients to the server.
-	 * @param numClients - number of clients.
+	 *
+	 * @param numClients
+	 *            - number of clients.
 	 */
 	public void setNumClients(int numClients) {
 		server.updateNumClients(numClients);
@@ -84,6 +86,7 @@ public class ServerPanel extends JPanel {
 
 	/**
 	 * Updates the content on the text area.
+	 *
 	 * @param text
 	 */
 	public void updateContent(String text) {
@@ -93,7 +96,9 @@ public class ServerPanel extends JPanel {
 
 	/**
 	 * Starts a server.
-	 * @param game - current game.
+	 *
+	 * @param game
+	 *            - current game.
 	 */
 	public void startServer(World game) {
 		SoundManager.stopTheme();

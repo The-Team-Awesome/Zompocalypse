@@ -9,8 +9,8 @@ import zompocalypse.gameworld.Orientation;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
- * The Floor class is a tile on the board, which is responsible for drawing
- * the ground and the items that are situated on this part of the Floor.
+ * The Floor class is a tile on the board, which is responsible for drawing the
+ * ground and the items that are situated on this part of the Floor.
  *
  * Drawables that the floor contains can be:
  *
@@ -46,12 +46,12 @@ public class Floor implements Drawable {
 	 * If the orientation has changed, or if the player has changed direction,
 	 * then change the current image.
 	 */
-	public void setCurrentImage(Orientation orientation){
+	public void setCurrentImage(Orientation orientation) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		//Changes the current image if the board is rotated
-		switch(orientation){
+		// Changes the current image if the board is rotated
+		switch (orientation) {
 		case NORTH:
-			currentImage = images[0];  //Will always be the first image
+			currentImage = images[0]; // Will always be the first image
 			return;
 		case SOUTH:
 			currentImage = imu.getSouthImage(images);
@@ -66,14 +66,16 @@ public class Floor implements Drawable {
 	}
 
 	/**
-	 * Returns the X co-ordinate of this tile's position in the 2D map of the world
+	 * Returns the X co-ordinate of this tile's position in the 2D map of the
+	 * world
 	 */
 	public int getX() {
 		return x;
 	}
 
 	/**
-	 * Returns the Y co-ordinate of this tile's position in the 2D map of the world
+	 * Returns the Y co-ordinate of this tile's position in the 2D map of the
+	 * world
 	 */
 	public int getY() {
 		return y;
@@ -95,7 +97,7 @@ public class Floor implements Drawable {
 
 	public void rotate() {
 		String[] rotate = new String[filenames.length];
-		for (int x = 0; x < rotate.length - 1; x ++) {
+		for (int x = 0; x < rotate.length - 1; x++) {
 			rotate[x] = filenames[x + 1];
 		}
 		rotate[rotate.length - 1] = filenames[0];

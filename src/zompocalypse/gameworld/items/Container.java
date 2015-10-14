@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Lockable;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.characters.Player;
-import zompocalypse.ui.appwindow.ContainerPanel;
-import zompocalypse.ui.appwindow.UICommand;
 import zompocalypse.ui.rendering.ImageUtils;
 
 /**
- * A container is a type of item which can hold other items, including other containers.
- * It represents the composite class from the composite pattern.
+ * A container is a type of item which can hold other items, including other
+ * containers. It represents the composite class from the composite pattern.
  *
  * @author Kieran Mckay, 300276166
  */
@@ -46,9 +43,10 @@ public class Container implements Item, Lockable {
 	private int uid;
 
 	/**
-	 * Requires a size for the amount of items it can hold.
-	 * NOTE: if size is less than the amount of items passed in then: this.size == items.size()
+	 * Requires a size for the amount of items it can hold. NOTE: if size is
+	 * less than the amount of items passed in then: this.size == items.size()
 	 * Requires a boolean to determine if the container is movable or not.
+	 *
 	 * @param fileNames
 	 * @param offset
 	 * @param size
@@ -56,15 +54,16 @@ public class Container implements Item, Lockable {
 	 * @param locked
 	 * @param uid
 	 */
-	public Container(String[] fileNames, int size, String name, String description,
-			boolean movable, boolean locked, boolean open, int uid) {
+	public Container(String[] fileNames, int size, String name,
+			String description, boolean movable, boolean locked, boolean open,
+			int uid) {
 		fileNamesClosed = fileNames;
 		this.filename = fileNames[0];
 		imagesClosed = imu.setupImages(fileNames);
 
 		fileNamesOpen = new String[fileNames.length];
 
-		for(int i = 0; i < fileNames.length; i++) {
+		for (int i = 0; i < fileNames.length; i++) {
 			fileNamesOpen[i] = fileNames[i].replace("closed", "open");
 		}
 
@@ -80,9 +79,9 @@ public class Container implements Item, Lockable {
 		this.uid = uid;
 	}
 
-	@Override  //TODO
-	public void use(Player player){
-		//open(player);
+	@Override
+	public void use(Player player) {
+
 	}
 
 	@Override
@@ -90,26 +89,14 @@ public class Container implements Item, Lockable {
 		return movable;
 	}
 
-	private void open(Player player) {
-		// TODO: Once containers are in the world, we can properly test this!
-		// It will need a valid action handler to pass to the ContainerPane,
-		// need to think about where this will come from!
-		int id = player.getUid();
-		ContainerPanel inventory = ContainerPanel.getContainerPanel(this.heldItems, UICommand.TAKEITEM.getValue());
-
-		String[] options = {"Take"};
-		JOptionPane.showOptionDialog(null, inventory, name, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-		player.getWorld().processCommand(id, UICommand.CONTAINER.getValue());
-	}
-
 	public List<Item> getHeldItems() {
 		return heldItems;
 	}
 
 	@Override
-	public boolean occupiable(){
-		//It makes sense if you cant move an item,
-		//you also can't occupy the same floor space (too big)
+	public boolean occupiable() {
+		// It makes sense if you cant move an item,
+		// you also can't occupy the same floor space (too big)
 		return movable;
 	}
 
@@ -118,32 +105,37 @@ public class Container implements Item, Lockable {
 	 *
 	 * @return true if this container is full, false if there is more room
 	 */
-	public boolean isFull(){
+	public boolean isFull() {
 		return size == heldItems.size();
 	}
 
 	/**
-	 * Returns a boolean determining whether or not an item exists at a given index in this container.
+	 * Returns a boolean determining whether or not an item exists at a given
+	 * index in this container.
 	 *
-	 * @param index - position in the containiner to find item
+	 * @param index
+	 *            - position in the containiner to find item
 	 * @return True if item exists at index, False if no item at index
 	 */
-	public boolean hasItemAtIndex(int index){
-		if (index < heldItems.size()){
+	public boolean hasItemAtIndex(int index) {
+		if (index < heldItems.size()) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Returns the item at a given index in this container.
-	 * The item is removed from the container.
-	 * @param index - the position at which to retrieve an item from.
+	 * Returns the item at a given index in this container. The item is removed
+	 * from the container.
+	 *
+	 * @param index
+	 *            - the position at which to retrieve an item from.
 	 * @return the item at the given index of this container.
 	 */
-	public Item getItemAtIndex(int index){
-		if (index >= heldItems.size()){
-			throw new InvalidParameterException("Trying to retrieve Item from Container that does not exist.");
+	public Item getItemAtIndex(int index) {
+		if (index >= heldItems.size()) {
+			throw new InvalidParameterException(
+					"Trying to retrieve Item from Container that does not exist.");
 		}
 
 		Item item = heldItems.remove(index);
@@ -152,17 +144,19 @@ public class Container implements Item, Lockable {
 	}
 
 	/**
-	 * Used to check if this container has an item.
-	 * If it contains the item, it will return the index of the first occurrence of the item
-	 * If it does not contain it, it will return -1.
+	 * Used to check if this container has an item. If it contains the item, it
+	 * will return the index of the first occurrence of the item If it does not
+	 * contain it, it will return -1.
 	 *
-	 * @param item - an item to see if this container is holding
-	 * @return index of the first occurrence of item if it is contained, or -1 if it is not contained
+	 * @param item
+	 *            - an item to see if this container is holding
+	 * @return index of the first occurrence of item if it is contained, or -1
+	 *         if it is not contained
 	 */
-	public int hasItem(Item item){
-		for (int i = 0; i < heldItems.size(); i++){
+	public int hasItem(Item item) {
+		for (int i = 0; i < heldItems.size(); i++) {
 			Item current = heldItems.get(i);
-			if (current.equals(item)){
+			if (current.equals(item)) {
 				return i;
 			}
 		}
@@ -172,11 +166,12 @@ public class Container implements Item, Lockable {
 	/**
 	 * Attempt to add an item to this container.
 	 *
-	 * @param item - the item to add to the container
+	 * @param item
+	 *            - the item to add to the container
 	 * @return true if add successful, false if unsuccessful
 	 */
-	public boolean add(Item item){
-		if(isFull()){
+	public boolean add(Item item) {
+		if (isFull()) {
 			return false;
 		}
 		heldItems.add(item);
@@ -185,9 +180,10 @@ public class Container implements Item, Lockable {
 
 	/**
 	 * Get the maximum capacity of this container
+	 *
 	 * @return integer - how many items this container can store
 	 */
-	public int getSize(){
+	public int getSize() {
 		return size;
 	}
 
@@ -198,7 +194,7 @@ public class Container implements Item, Lockable {
 
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
-		if(imu == null) {
+		if (imu == null) {
 			imu = ImageUtils.getImageUtilsObject();
 		}
 
@@ -210,7 +206,7 @@ public class Container implements Item, Lockable {
 					imagesOpen);
 		} else {
 			currentImage = imu.getImageForOrientation(worldOrientation,
-				imagesClosed);
+					imagesClosed);
 		}
 		g.drawImage(currentImage.getImage(), x, y, null);
 	}
@@ -232,7 +228,7 @@ public class Container implements Item, Lockable {
 
 	@Override
 	public boolean unlock(boolean hasKey) {
-		if(locked && hasKey){
+		if (locked && hasKey) {
 			locked = false;
 			return true;
 		}
@@ -240,10 +236,14 @@ public class Container implements Item, Lockable {
 	}
 
 	@Override
-	public String examine(){
+	public String examine() {
 		return description;
 	}
 
+	/**
+	 * Returns if the container is open.
+	 * @return true if it's opened, false otherwise.
+	 */
 	public boolean isOpen() {
 		return open;
 	}

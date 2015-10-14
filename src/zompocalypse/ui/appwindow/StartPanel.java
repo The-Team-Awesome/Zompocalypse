@@ -75,7 +75,7 @@ public class StartPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(CustomUtils.frameBackground);
+		setBackground(CustomUtils.yellowTwo);
 		g.drawImage(BACKGROUND, 0, 0, null);
 	}
 }

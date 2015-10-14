@@ -25,8 +25,7 @@ public class Wall implements GameObject {
 	protected int offset;
 	private String[] filenames;
 
-
-	public Wall(String[] filenames, int offset){
+	public Wall(String[] filenames, int offset) {
 		imu = ImageUtils.getImageUtilsObject();
 
 		images = imu.setupImages(filenames);
@@ -46,7 +45,7 @@ public class Wall implements GameObject {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
 		currentImage = imu.getImageForOrientation(worldOrientation, images);
 
-		if(imageName.contains("plant")) {
+		if (imageName.contains("plant")) {
 			g.drawImage(currentImage.getImage(), x + offset, y - offset, null);
 		} else {
 			g.drawImage(currentImage.getImage(), x, y - offset, null);
@@ -67,7 +66,7 @@ public class Wall implements GameObject {
 	 */
 	public void rotate() {
 		String[] rotate = new String[filenames.length];
-		for (int x = 0; x < rotate.length - 1; x ++) {
+		for (int x = 0; x < rotate.length - 1; x++) {
 			rotate[x] = filenames[x + 1];
 		}
 		rotate[rotate.length - 1] = filenames[0];
@@ -83,7 +82,7 @@ public class Wall implements GameObject {
 	/**
 	 * Returns a wall with the same asset and offset from this.
 	 *
-	 * @return Wall - a wall that's similar to this.	 *
+	 * @return Wall - a wall that's similar to this. *
 	 */
 	public Wall cloneMe() {
 		return new Wall(filenames, offset);
@@ -107,7 +106,8 @@ public class Wall implements GameObject {
 	/**
 	 * Return the file names of the images for the walls.
 	 *
-	 * @return a String array with the file names of the images available for walls.
+	 * @return a String array with the file names of the images available for
+	 *         walls.
 	 */
 	public String[] getFilenames() {
 		return filenames;

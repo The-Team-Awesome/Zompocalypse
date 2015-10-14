@@ -24,7 +24,7 @@ public class Torch implements Item {
 	public Torch(String filename, int uid) {
 		this.filename = filename;
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		String[] filenames = {filename};
+		String[] filenames = { filename };
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
 		this.uid = uid;
@@ -38,11 +38,11 @@ public class Torch implements Item {
 	@Override
 	public void draw(int x, int y, Graphics g, Orientation worldOrientation) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		String[] filenames = {filename};
+		String[] filenames = { filename };
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
 
-		g.drawImage(currentImage.getImage(), x+10, y, null);
+		g.drawImage(currentImage.getImage(), x + 10, y, null);
 
 	}
 
@@ -54,16 +54,17 @@ public class Torch implements Item {
 	@Override
 	public void use(Player player) {
 		List<Item> inventory = player.getInventory();
-		if(!inventory.contains(this)) {
+		if (!inventory.contains(this)) {
 			inventory.add(this);
 			World world = player.getWorld();
 			PriorityBlockingQueue<GameObject>[][] objects = world.getObjects();
 
-			// TODO: This would be much nicer if objects could be retrieved from a map of ids to GameObjects
-			for(int x = 0; x < objects.length; x++) {
-				for(int y = 0; y < objects[0].length; y++) {
-					for(GameObject object : objects[x][y]) {
-						if(object.equals(this)) {
+			// TODO: This would be much nicer if objects could be retrieved from
+			// a map of ids to GameObjects
+			for (int x = 0; x < objects.length; x++) {
+				for (int y = 0; y < objects[0].length; y++) {
+					for (GameObject object : objects[x][y]) {
+						if (object.equals(this)) {
 							world.addItemToRemove(new Point(x, y), object);
 						}
 					}
@@ -73,7 +74,7 @@ public class Torch implements Item {
 	}
 
 	@Override
-	public boolean occupiable(){
+	public boolean occupiable() {
 		return true;
 	}
 

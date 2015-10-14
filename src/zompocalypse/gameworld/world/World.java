@@ -34,7 +34,7 @@ import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.ui.appwindow.UICommand;
 
 /**
- * The World class representing the world in which Zompocolypse takes place.
+ * The World class representing the world in which Zompocalypse takes place.
  *
  * @author Kieran Mckay, 300276166
  */
@@ -65,11 +65,11 @@ public class World implements Serializable {
 	 */
 	private Orientation orientation;
 
-	private String[] zombieFileNames = { "npc_zombie_n.png", "npc_zombie_e.png",
-			"npc_zombie_s.png", "npc_zombie_w.png" };
+	private String[] zombieFileNames = { "npc_zombie_n.png",
+			"npc_zombie_e.png", "npc_zombie_s.png", "npc_zombie_w.png" };
 
-	private String[] dragonFileNames = { "npc_dragon_n.png", "npc_dragon_e.png",
-			"npc_dragon_s.png", "npc_dragon_w.png" };
+	private String[] dragonFileNames = { "npc_dragon_n.png",
+			"npc_dragon_e.png", "npc_dragon_s.png", "npc_dragon_w.png" };
 
 	private Floor[][] map;
 	private PriorityBlockingQueue<GameObject>[][] objects;
@@ -110,27 +110,27 @@ public class World implements Serializable {
 				if (actor instanceof MovingCharacter) {
 					MovingCharacter character = (MovingCharacter) actor;
 					if (character.isDead()) {
-						//add to list to remove from game
+						// add to list to remove from game
 						dead.add(character);
 
 					} else {
-						//non-dead moving characters tick here
+						// non-dead moving characters tick here
 						character.tick(this);
 
 					}
-				}else {
-					//non moving characters tick here
+				} else {
+					// non moving characters tick here
 					actor.tick(this);
 				}
 			}
 		}
 
-		//remove all dead moving characters
-		for(MovingCharacter m : dead){
+		// remove all dead moving characters
+		for (MovingCharacter m : dead) {
 			removeCharacter(m);
 		}
 
-		for(Point p : itemsToRemove.keySet()) {
+		for (Point p : itemsToRemove.keySet()) {
 			removeItem(p, itemsToRemove.get(p));
 		}
 
@@ -153,37 +153,39 @@ public class World implements Serializable {
 		itemsToRemove.put(point, item);
 	}
 
+	/**
+	 * Removes a MovingCharacter from the World.
+	 *
+	 * @param character
+	 *            - MovingCharacter to be removed.
+	 */
 	private void removeCharacter(MovingCharacter character) {
-		//handle removing zombies here
+		// handle removing zombies here
 		if (character.isDead() && character instanceof StrategyZombie) {
 			StrategyZombie zombie = (StrategyZombie) character;
-			//remove character from map of active characters
+			// remove character from map of active characters
 			idToActor.remove(zombie.getUid(), zombie);
-			//remove this character from the gameObjects array
+			// remove this character from the gameObjects array
 			objects[zombie.getX()][zombie.getY()].remove(zombie);
 
-			//loop though all players in game and give them score based on what died
-			for (Actor a : idToActor.values()){
-				if (a instanceof Player){
+			// loop though all players in game and give them score based on what
+			// died
+			for (Actor a : idToActor.values()) {
+				if (a instanceof Player) {
 					((Player) a).addScore(zombie.getPoints());
 				}
 			}
 		}
-		//handle removing a player here
-		if (character.isDead() && character instanceof Player) {
-			//Player player = (Player) character;
-			/*
-			objects[character.getX()][character.getY()].add(player.getEquipped());
-			for (GameObject item : player.getInventory()){
-				objects[character.getX()][character.getY()].add(item);
-			}
-
-			objects[player.getX()][player.getY()].remove(player);
-			idToActor.remove(player.getUid(), player);
-			*/
-		}
 	}
 
+	/**
+	 * Removes item from the World.
+	 *
+	 * @param p
+	 *            - Point where the item is located.
+	 * @param item
+	 *            - item to be removed.
+	 */
 	private void removeItem(Point p, GameObject item) {
 		objects[p.x][p.y].remove(item);
 		itemsToRemove.remove(p);
@@ -207,6 +209,15 @@ public class World implements Serializable {
 		return height;
 	}
 
+	/**
+	 * Checks if the position is blocked, not being available to be occupied.
+	 *
+	 * @param x
+	 *            - position x desired.
+	 * @param y
+	 *            - position y desired.
+	 * @return true - if it's blocked, false otherwise.
+	 */
 	public boolean isBlocked(int x, int y) {
 
 		// everything off the map is treated as a wall
@@ -330,8 +341,8 @@ public class World implements Serializable {
 
 		// TODO: This should really get valid information for name,
 		// as well as select their x, y co-ordinates based on a valid portal
-		Player player = new Player(x, y, Orientation.NORTH, ++id, 0,
-				fileName, filenames, this);
+		Player player = new Player(x, y, Orientation.NORTH, ++id, 0, fileName,
+				filenames, this);
 		idToActor.put(id, player);
 		objects[player.getX()][player.getY()].add(player);
 
@@ -367,7 +378,9 @@ public class World implements Serializable {
 
 	/**
 	 * Spawns a type of zombie according to the strategy given.
-	 * @param strat Strategy that was included
+	 *
+	 * @param strat
+	 *            Strategy that was included
 	 */
 	public void spawnZombie(Strategy strat) {
 		int x = 1;
@@ -403,7 +416,8 @@ public class World implements Serializable {
 				zombieFileNames);
 
 		if (strat instanceof HomerStrategy) {
-			zombie = new StrategyZombie(this, x, y, strat, ++id, dragonFileNames);
+			zombie = new StrategyZombie(this, x, y, strat, ++id,
+					dragonFileNames);
 		}
 
 		idToActor.put(id, zombie);
@@ -425,14 +439,18 @@ public class World implements Serializable {
 	}
 
 	/**
+	 * Processes the commands sent from the user input.
 	 *
 	 * @param id
+	 *            - id of the current player.
 	 * @param key
+	 *            - command sent from the user.
 	 */
 	public synchronized void processCommand(int id, String key) {
 		Player player = (Player) idToActor.get(id);
 
-		if(player == null) return;
+		if (player == null)
+			return;
 
 		if (key.equals(UICommand.NORTH.getValue())) {
 			if (editMode) {
@@ -479,6 +497,14 @@ public class World implements Serializable {
 		}
 	}
 
+	/**
+	 * Performs an user using an item.
+	 *
+	 * @param player
+	 *            - player using the item.
+	 * @param key
+	 *            - command from user.
+	 */
 	private void useItem(Player player, String key) {
 		String trimmed = key.replace(UICommand.USEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
@@ -493,6 +519,14 @@ public class World implements Serializable {
 		player.queueItem(using);
 	}
 
+	/**
+	 * Performs player taking an item.
+	 *
+	 * @param player
+	 *            - player taking an item.
+	 * @param key
+	 *            - command sent from the user.
+	 */
 	private void takeItem(Player player, String key) {
 		String trimmed = key.replace(UICommand.TAKEITEM.getValue(), "");
 		int itemId = Integer.parseInt(trimmed);
@@ -533,6 +567,9 @@ public class World implements Serializable {
 	// Everything below here is used for editing mode
 	// ***********************************************
 
+	/**
+	 * Enables god mode!
+	 */
 	public void toggleGodmode() {
 		godmode = !godmode;
 	}
@@ -562,6 +599,9 @@ public class World implements Serializable {
 		return editor;
 	}
 
+	/**
+	 * Changes the state of the walls in edit world mode.
+	 */
 	public void toggleWalls() {
 		if (editMode)
 			showWalls = !showWalls;
@@ -571,6 +611,12 @@ public class World implements Serializable {
 		return showWalls;
 	}
 
+	/**
+	 * Expands the map in edit world mode.
+	 *
+	 * @param direction
+	 *            - direction to be expanded.
+	 */
 	public void expandMap(String direction) {
 		if (editMode) {
 			switch (direction) {
@@ -600,6 +646,11 @@ public class World implements Serializable {
 		}
 	}
 
+	/**
+	 * Reduces the world map in edit mode.
+	 *
+	 * @param direction
+	 */
 	public void shrinkMap(String direction) {
 		if (editMode) {
 			switch (direction) {
@@ -628,6 +679,9 @@ public class World implements Serializable {
 		objects = WorldBuilder.shrinkObjects(objects, direction);
 	}
 
+	/**
+	 * Toggles zombie spawn point into world edit mode.
+	 */
 	public void toggleZombieSpawnPoint() {
 		if (zombieSpawnPoints.contains(editor))
 			zombieSpawnPoints.remove(editor);
@@ -635,6 +689,9 @@ public class World implements Serializable {
 			zombieSpawnPoints.add(new Point(editor.x, editor.y));
 	}
 
+	/**
+	 * Toggles player spawn point into world edit mode.
+	 */
 	public void togglePlayerSpawnPoint() {
 		if (playerSpawnPoints.contains(editor))
 			playerSpawnPoints.remove(editor);
@@ -642,6 +699,9 @@ public class World implements Serializable {
 			playerSpawnPoints.add(new Point(editor.x, editor.y));
 	}
 
+	/**
+	 * Edits a tile into world edit mode.
+	 */
 	public void editTile() {
 		String[] tileName = WorldBuilder.getFloorFileName();
 		System.out.println(tileName[0]);
@@ -649,6 +709,9 @@ public class World implements Serializable {
 
 	}
 
+	/**
+	 * Edits a wall into world edit mode.
+	 */
 	public void editWall() {
 		while (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
@@ -735,7 +798,9 @@ public class World implements Serializable {
 
 	/**
 	 * Edits the item, if using the Editor.
-	 * @param inside Whether it is inside that particular tile
+	 *
+	 * @param inside
+	 *            Whether it is inside that particular tile
 	 * @return
 	 */
 	public Item editItem(boolean inside) {
@@ -753,8 +818,7 @@ public class World implements Serializable {
 			// qualities.
 			String description = WorldBuilder
 					.getString("Provide a description:");
-			int strength = WorldBuilder
-					.getInteger("Strength number:");
+			int strength = WorldBuilder.getInteger("Strength number:");
 
 			Weapon w = new Weapon(itemName, description, id++, strength);
 
@@ -822,6 +886,9 @@ public class World implements Serializable {
 			objects[editor.x][editor.y].add(clipboardWall.cloneMe());
 	}
 
+	/**
+	 * Rotates an object into world edit mode.
+	 */
 	public void rotateObject() {
 		GameObject x = objects[editor.x][editor.y].peek();
 		if (x instanceof Wall) {
@@ -833,6 +900,12 @@ public class World implements Serializable {
 		}
 	}
 
+	/**
+	 * Rotates player perspective into world edit mode.
+	 *
+	 * @param id
+	 * @param value
+	 */
 	public void rotatePlayerPerspective(int id, Direction value) {
 		Player player = (Player) idToActor.get(id);
 		player.rotatePerspective(value);
@@ -844,12 +917,16 @@ public class World implements Serializable {
 
 	/**
 	 * Returns the map to getting the actor IDs/ Actors.
+	 *
 	 * @return
 	 */
 	public Map<Integer, Actor> getIdToActor() {
 		return idToActor;
 	}
 
+	/**
+	 * Edits a door into world edit mode.
+	 */
 	public void editDoor() {
 		while (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
