@@ -10,7 +10,13 @@ import org.junit.runners.Suite;
 	ZombieTests.class,
 	ContainerTests.class,
 	DoorTests.class,
-	OrientationTests.class
+	OrientationTests.class,
+	WeaponTests.class,
+	MoneyTests.class,
+	KeyTests.class,
+	TorchTests.class,
+	WallTests.class,
+	FloorTests.class
 })
 public class LogicTestSuite {
 }

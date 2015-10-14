@@ -66,7 +66,7 @@ public class Parser {
 	 * @throws IOException
 	 *             such sad
 	 */
-	public static World ParseMap(String mapFile, boolean absolute) throws IOException {
+	public static World ParseMap(String mapFile, boolean absolute) {
 
 		Floor[][] map = new Floor[1][1];
 		PriorityBlockingQueue<GameObject>[][] objects = null;
@@ -92,10 +92,14 @@ public class Parser {
 				split = line.split(",");
 				textTileMap.put(split[0], split[1]);
 			}
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			mapReader.close();
+			try {
+				mapReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		// Load file and parse each part of XML into cell of Map
@@ -193,11 +197,15 @@ public class Parser {
 					}
 				}
 			}
-		} catch (FileNotFoundException | ParserConfigurationException
-				| SAXException e) {
+		} catch (ParserConfigurationException
+				| SAXException | IOException e) {
 			return null;
 		} finally {
-			mapReader.close();
+			try {
+				mapReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return new World(x, y, map, objects, zombieSpawnPoints,

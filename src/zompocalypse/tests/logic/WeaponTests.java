@@ -1,37 +1,63 @@
 package zompocalypse.tests.logic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import zompocalypse.gameworld.items.Door;
+import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Torch;
+import zompocalypse.gameworld.items.Weapon;
+import zompocalypse.gameworld.world.World;
 
 public class WeaponTests {
 
-	/*String[] test = {"wall_grey_1_door_closed_ew.png", "wall_grey_1_door_closed_ns.png"};
+	private String weaponFile = "sword_12.png";
 
-	@Test public void doorValidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void weaponUidTest() {
+		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
 
-		assertTrue(d.unlock(true));
+		assertTrue(w.getUniqueID() == 0);
 	}
 
-	@Test public void doorValidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
+	@Test public void weaponStrengthTest() {
+		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
 
-		assertTrue(d.unlock(true));
+		assertTrue(w.getStrength() == 5);
 	}
 
-	@Test public void doorInvalidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void weaponFilenameTest() {
+		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
 
-		assertFalse(d.unlock(false));
+		assertTrue(w.getFileName() == weaponFile);
 	}
 
-	@Test public void doorInvalidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
+	@Test public void weaponOccupiableTest() {
+		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
 
-		assertFalse(d.unlock(false));
-	}*/
+		assertTrue(w.occupiable() == true);
+	}
+
+	@Test public void weaponMovableTest() {
+		Weapon w = new Weapon(weaponFile, "A sharp sword", 0, 5);
+
+		assertTrue(w.movable() == true);
+	}
+
+	@Test public void weaponExamineTest() {
+		String desc = "A razor sharp sword";
+		Weapon w = new Weapon(weaponFile, desc, 0, 5);
+
+		assertTrue(w.examine().equals(desc));
+	}
+
+	@Test public void weaponUseTest() {
+		World game = LogicTestUtility.getGame();
+		Player p = LogicTestUtility.getPlayer(game);
+		Weapon w = LogicTestUtility.getWeapon(game);
+
+		w.use(p);
+
+		assertTrue(p.getInventory().contains(w));
+	}
 
 }

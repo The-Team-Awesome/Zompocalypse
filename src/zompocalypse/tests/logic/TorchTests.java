@@ -1,37 +1,67 @@
 package zompocalypse.tests.logic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import zompocalypse.gameworld.items.Door;
+import zompocalypse.gameworld.characters.Player;
+import zompocalypse.gameworld.items.Torch;
+import zompocalypse.gameworld.items.Weapon;
+import zompocalypse.gameworld.world.World;
 
 public class TorchTests {
 
-	/*String[] test = {"wall_grey_1_door_closed_ew.png", "wall_grey_1_door_closed_ns.png"};
+	private String torchFile = "torch.png";
+	private String torchDesc = "A torch. You could use this to light the way!";
 
-	@Test public void doorValidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void torchUidTest() {
+		Torch t = new Torch(torchFile, 0);
 
-		assertTrue(d.unlock(true));
+		assertTrue(t.getUniqueID() == 0);
 	}
 
-	@Test public void doorValidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
+	@Test public void torchFilenameTest() {
+		Torch t = new Torch(torchFile, 0);
 
-		assertTrue(d.unlock(true));
+		assertTrue(t.getFileName() == torchFile);
 	}
 
-	@Test public void doorInvalidUnlockTest1() {
-		Door d = new Door(0, 0, test, 55, true, 0);
+	@Test public void torchOccupiableTest() {
+		Torch t = new Torch(torchFile, 0);
 
-		assertFalse(d.unlock(false));
+		assertTrue(t.occupiable() == true);
 	}
 
-	@Test public void doorInvalidUnlockTest2() {
-		Door d = new Door(0, 0, test, 55, false, 0);
+	@Test public void torchMovableTest() {
+		Torch t = new Torch(torchFile, 0);
 
-		assertFalse(d.unlock(false));
-	}*/
+		assertTrue(t.movable() == true);
+	}
+
+	@Test public void torchExamineTest() {
+		Torch t = new Torch(torchFile, 0);
+
+		assertTrue(t.examine().equals(torchDesc));
+	}
+
+	@Test public void torchUseTest() {
+		World game = LogicTestUtility.getGame();
+		Player p = LogicTestUtility.getPlayer(game);
+		Torch t = LogicTestUtility.getTorch(game);
+
+		t.use(p);
+
+		assertTrue(p.getInventory().contains(t));
+	}
+
+	@Test public void torchLitTest() {
+		World game = LogicTestUtility.getGame();
+		Player p = LogicTestUtility.getPlayer(game);
+		Torch t = LogicTestUtility.getTorch(game);
+
+		t.use(p);
+
+		assertTrue(p.hasTorch());
+	}
 
 }
