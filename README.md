@@ -22,9 +22,9 @@ Eventually, they will overwhelm you, but the longer you survive and the more you
 
 ## Controls
 
-To move, you can use WASD, the arrow keys or the buttons on the right panel. To use objects or attack, you can press E, spacebar or click the Use button on the right panel. If you're standing on anything, you'll use that first, otherwise you will use or attack whatever is in front of you.
+To move, you can use WASD, the arrow keys or the buttons on the right panel. To use objects or attack, you can press E, spacebar or click the Use button on the right panel. If you're standing on anything, you'll use that first, otherwise you will use or attack whatever is in front of you. The world can be rotated anticlockwise and clockwise with < and > respectively, or you can use the GUI arrows.
 
-If you pick something up like a key and find yourself in front of locked door, you can unlock that door by opening up your Backpack with the Backpack button, selecting the key and then clicking the Use button within the Backpack view.
+If you pick something up like a key and find yourself in front of locked door, you can unlock that door by opening up your Backpack with the Backpack button, selecting the key and then clicking the Use button within the Backpack view. Items can be dropped into a container from your backpack if there is one immediatly infront of your character, if not the item will be dropped at your characters feet.
 
 ## Credits
 
