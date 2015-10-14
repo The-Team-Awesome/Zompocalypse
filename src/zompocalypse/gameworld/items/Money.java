@@ -2,20 +2,19 @@ package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
 
-import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.Stackable;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
 
-public class Money implements Item {
+public class Money implements Item, Stackable {
 
 	private static final long serialVersionUID = 1L;
 	private transient ImageIcon[] images;
@@ -127,6 +126,11 @@ public class Money implements Item {
 	@Override
 	public String examine() {
 		return "A stack of " + amount + " " + type + " coins.";
+	}
+
+	@Override
+	public int getCount() {
+		return amount;
 	}
 
 }
