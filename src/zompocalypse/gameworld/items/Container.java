@@ -22,7 +22,7 @@ import zompocalypse.ui.rendering.ImageUtils;
  *
  * @author Kieran Mckay, 300276166
  */
-public class Container implements Item, Lockable{
+public class Container implements Item, Lockable {
 
 	private static final long serialVersionUID = 1L;
 	private int size;
@@ -80,7 +80,7 @@ public class Container implements Item, Lockable{
 		this.uid = uid;
 	}
 
-	@Override
+	@Override  //TODO
 	public void use(Player player){
 		//open(player);
 	}
@@ -201,7 +201,7 @@ public class Container implements Item, Lockable{
 		if(imu == null) {
 			imu = ImageUtils.getImageUtilsObject();
 		}
-		
+
 		imagesClosed = imu.setupImages(fileNamesClosed);
 		imagesOpen = imu.setupImages(fileNamesOpen);
 

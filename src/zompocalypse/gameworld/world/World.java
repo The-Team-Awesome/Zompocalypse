@@ -13,8 +13,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import zompocalypse.datastorage.WorldBuilder;
 import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
@@ -173,7 +171,7 @@ public class World implements Serializable {
 		}
 		//handle removing a player here
 		if (character.isDead() && character instanceof Player) {
-			Player player = (Player) character;
+			//Player player = (Player) character;
 			/*
 			objects[character.getX()][character.getY()].add(player.getEquipped());
 			for (GameObject item : player.getInventory()){
@@ -367,8 +365,14 @@ public class World implements Serializable {
 		return player.getUid();
 	}
 
+	/**
+	 * Spawns a type of zombie according to the strategy given.
+	 * @param strat Strategy that was included
+	 */
 	public void spawnZombie(Strategy strat) {
-		int x = 1, y = 1;
+		int x = 1;
+		int y = 1;
+
 		Random rand = new Random(System.currentTimeMillis());
 		int choice = rand.nextInt(4);
 
@@ -729,6 +733,11 @@ public class World implements Serializable {
 
 	}
 
+	/**
+	 * Edits the item, if using the Editor.
+	 * @param inside Whether it is inside that particular tile
+	 * @return
+	 */
 	public Item editItem(boolean inside) {
 		while (!objects[editor.x][editor.y].isEmpty())
 			objects[editor.x][editor.y].poll();
@@ -743,9 +752,9 @@ public class World implements Serializable {
 			// to give the game different kinds of swords with different
 			// qualities.
 			String description = WorldBuilder
-					.getString("Pliz do a description");
+					.getString("Provide a description:");
 			int strength = WorldBuilder
-					.getInteger("Pliz gimme a strength number");
+					.getInteger("Strength number:");
 
 			Weapon w = new Weapon(itemName, description, id++, strength);
 
@@ -776,7 +785,7 @@ public class World implements Serializable {
 				objects[editor.x][editor.y].add(k);
 			}
 		} else if (itemName.contains("coins")) {
-			int amount = WorldBuilder.getInteger("Pliz gimme a amount number");
+			int amount = WorldBuilder.getInteger("Amount number:");
 
 			Money m = new Money(itemName, id++, amount);
 
@@ -790,10 +799,16 @@ public class World implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Rotates the tile around.
+	 */
 	public void rotateTile() {
 		map[editor.x][editor.y].rotate();
 	}
 
+	/**
+	 * Copies the location of the selected item.
+	 */
 	public void copyLocation() {
 		clipboardFloor = map[editor.x][editor.y];
 		clipboardWall = ((Wall) objects[editor.x][editor.y].peek());
@@ -828,7 +843,8 @@ public class World implements Serializable {
 	}
 
 	/**
-	 * @return the idToActor
+	 * Returns the map to getting the actor IDs/ Actors.
+	 * @return
 	 */
 	public Map<Integer, Actor> getIdToActor() {
 		return idToActor;
@@ -849,6 +865,9 @@ public class World implements Serializable {
 					doorName, offset, false, id++));
 	}
 
+	/**
+	 * Provides the open/close functionality.
+	 */
 	public void toggleDoor() {
 		GameObject x = objects[editor.x][editor.y].peek();
 		if (x instanceof Door) {
