@@ -59,7 +59,7 @@ public class Parser {
 		// strings
 		BufferedReader mapReader = null;
 		File textTiles = Loader.LoadFile(Loader.mapDir + Loader.separator
-				+ "tile_types.txt");
+				+ "tile_types.txt", false);
 
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
@@ -78,7 +78,7 @@ public class Parser {
 
 		// Load file and parse each part of XML into cell of Map
 		File mapXML = Loader.LoadFile(Loader.mapDir + Loader.separator
-				+ mapFile);
+				+ mapFile, false);
 		if (mapXML == null)
 			return null;
 
@@ -433,7 +433,7 @@ public class Parser {
 
 		BufferedReader mapReader = null;
 		File textTiles = Loader.LoadFile(Loader.mapDir + Loader.separator
-				+ "tile_types.txt");
+				+ "tile_types.txt", false);
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
 
@@ -648,7 +648,7 @@ public class Parser {
 
 		BufferedReader mapReader = null;
 		File textTiles = Loader.LoadFile(Loader.mapDir + Loader.separator
-				+ "tile_types.txt");
+				+ "tile_types.txt", false);
 		try {
 			mapReader = new BufferedReader(new FileReader(textTiles));
 

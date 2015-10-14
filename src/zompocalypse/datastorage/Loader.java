@@ -2,10 +2,13 @@ package zompocalypse.datastorage;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.stream.Stream;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
@@ -52,15 +55,32 @@ public class Loader {
 	 * @param filename - A string representing the files name.
 	 * @return The loaded file using the given string
 	 */
-	public static File LoadFile(String filename) {
-		String name = assetsDir + separator + filename;
+	public static File LoadFile(String filename, boolean absolute) {
+		String name;
+
+		if (absolute)
+			name = filename;
+		else
+			name = assetsDir + separator + filename;
 
 		// Using an InputStream rather than simply loading files by filename
 		// allows the Loader to work when exported to a .jar as well as in Eclipse.
-		InputStream stream = Loader.class.getClassLoader().getResourceAsStream(name);
+		InputStream stream = null;
 
-		if (stream == null)
+		if (absolute) {
+			try {
+				stream = new FileInputStream(name);
+			} catch (FileNotFoundException e) {
+				return null;
+			}
+		} else {
+			stream = Loader.class.getClassLoader().getResourceAsStream(name);
+		}
+
+		if (stream == null) {
+			System.out.println("Wjhat?");
 			return null;
+		}
 
 		File file = null;
 		try {
@@ -107,7 +127,7 @@ public class Loader {
 	}
 
 	public static Image LoadImage(String filename) {
-		File imageFile = LoadFile(filename);
+		File imageFile = LoadFile(filename, false);
 
 		Image image = null;
 
@@ -141,7 +161,7 @@ public class Loader {
 		try {
 			String name = soundDir + separator + filename;
 			Clip clip = AudioSystem.getClip();
-			File soundFile = LoadFile(name);
+			File soundFile = LoadFile(name, false);
 	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(soundFile);
 			clip.open(inputStream);
 
@@ -166,7 +186,7 @@ public class Loader {
 	public static MediaPlayer LoadMP3(String filename) {
 		JFXPanel fxPanel = new JFXPanel();
 		String name = soundDir + separator + filename;
-		File soundFile = LoadFile(name);
+		File soundFile = LoadFile(name, false);
 		Media hit = new Media(soundFile.toURI().toString());
 		MediaPlayer mediaPlayer = new MediaPlayer(hit);
 

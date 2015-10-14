@@ -208,14 +208,19 @@ public class MainFrame extends JFrame implements WindowListener {
 		String fileName = null;
 
 		if (value == JFileChooser.APPROVE_OPTION) {
-			fileName = chooser.getSelectedFile().getName();
+			fileName = chooser.getSelectedFile().getAbsolutePath();
 		} else {
 			selectCharacter(); // cancel and return ot this page
 			return;
 		}
 
-		File playerFile = Loader.LoadFile(Loader.playersDir + Loader.separator
-				+ fileName);
+		System.out.println(fileName);
+
+		// File playerFile = Loader.LoadFile(Loader.playersDir +
+		// Loader.separator
+		// + fileName);
+
+		File playerFile = Loader.LoadFile(fileName, true);
 
 		if (playerFile == null) {
 			JOptionPane.showMessageDialog(null, "Failed to load Player");
