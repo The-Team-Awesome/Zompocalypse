@@ -1,5 +1,7 @@
 package zompocalypse.tests.logic;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 
 import org.junit.Test;
@@ -18,7 +20,7 @@ public class WorldTests {
 		Player p = game.getPlayer(id);
 		game.disconnectPlayer(id);
 
-		assert(game.getPlayer(id) == null);
+		assertTrue(game.getPlayer(id) == null);
 	}
 
 	private World getGame() {
