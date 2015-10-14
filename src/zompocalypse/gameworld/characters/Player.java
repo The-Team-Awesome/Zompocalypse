@@ -85,6 +85,16 @@ public final class Player extends MovingCharacter {
 		if(queuedUse != null){
 			inventory.remove(queuedUse);
 			PriorityBlockingQueue<GameObject>[][] objects = game.getObjects();
+			//try to place in a container infront of player first
+			for (GameObject o : getObjectsInfront()) {
+				if (o instanceof Container){
+					Container container = (Container) o;
+					container.add(queuedUse);
+					queuedUse = null;
+					return;
+				}
+			}
+			//drop on the players location
 			objects[xCoord][yCoord].add(queuedUse);
 		}
 		queuedUse = null;
