@@ -173,6 +173,6 @@ public class HomerStrategy implements Strategy {
 
 		//if we are reaching this point our two preferred directions are unavailable
 		//future implementations may be smarter but for now zombie just turns around 180degrees
-		return Orientation.getNext(Orientation.getNext(zombie.getOrientation()));
+		return Orientation.getNext(Orientation.getNext(zombie.getFacing()));
 	}
 }

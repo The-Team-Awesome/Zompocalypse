@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import zompocalypse.gameworld.Direction;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Container;
@@ -40,6 +41,8 @@ public final class Player extends MovingCharacter {
 	// This is the currently equipped Item
 	private Weapon equipped;
 
+	private Orientation worldView;
+
 	/**
 	 * @param uid
 	 * @param score
@@ -53,6 +56,8 @@ public final class Player extends MovingCharacter {
 	public Player(int xCoord, int yCoord, Orientation orientation, int uid,
 			int score, String playerName, String[] filenames, World game) {
 		super(uid, game, xCoord, yCoord, orientation, filenames);
+
+		worldView = Orientation.NORTH;
 
 		this.score = score;
 		this.playerName = playerName;
@@ -160,7 +165,7 @@ public final class Player extends MovingCharacter {
 
 	@Override
 	public String toString() {
-		return "Player [uid=" + getUid() + ", orientation=" + getOrientation()
+		return "Player [uid=" + getUid() + ", orientation=" + getFacing()
 				+ ", score=" + score + ", health=" + getHealth() + ", speed="
 				+ getSpeed() + ", strength=" + getStrength() + ", charactername=" + getFileName()
 				+ "]";
@@ -210,9 +215,14 @@ public final class Player extends MovingCharacter {
 	 * @param north
 	 * @param cameraDirection
 	 */
-	public void move(Orientation dir, Orientation cameraDirection) {
-		Orientation ori = Orientation.getCharacterOrientation(dir, cameraDirection);
-		switch (ori) {
+	public void move(Orientation direction) {
+		Orientation newDirection = Orientation.getCharacterOrientation(direction, worldView);
+
+		System.out.println("direction "+direction.toString());
+		System.out.println("world view  "+worldView.toString());
+		System.out.println("new direction "+newDirection.toString());
+
+		switch (newDirection) {
 		case NORTH:
 			this.moveNorth();
 			break;
@@ -267,6 +277,51 @@ public final class Player extends MovingCharacter {
 		// consider changing to false if we want players to be able to block
 		return true;
 	}
+
+	public Orientation getWorldView(){
+		return worldView;
+	}
+
+	public void setWorldView(Orientation worldView){
+		this.worldView = worldView;
+	}
+
+	/**
+	 * Rotates the perspective of the player view
+	 * @param value
+	 */
+	public void rotatePerspective(Direction value) {
+		switch (value) {
+
+		case CLOCKWISE:
+			updateCurrentOrientationClockwise();
+			return;
+		case ANTICLOCKWISE:
+			updateCurrentOrientationAntiClockwise();
+			return;
+		default:
+			throw new IllegalArgumentException(
+					"Direction wasn't clockwise or anticlockwise");
+		}
+	}
+
+
+	/**
+	 * Updates the current orientation of the viewer to its anticlockwise
+	 * counterpart.
+	 */
+	protected void updateCurrentOrientationAntiClockwise() {
+		worldView = Orientation.getPrev(getFacing());
+	}
+
+	/**
+	 * Updates the current orientation of the viewer to its clockwise
+	 * counterpart.
+	 */
+	protected void updateCurrentOrientationClockwise() {
+		worldView = Orientation.getNext(getFacing());
+	}
+
 
 	/**
 	 * Set this players location

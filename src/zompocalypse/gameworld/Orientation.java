@@ -25,7 +25,7 @@ public enum Orientation {
 			Orientation worldOrientation) {
 
 		// some sweet modulus action, I <3 maths
-		int mer = (worldOrientation.ordinal() - queued.ordinal() + 4) % 4;
+		int mer = (- worldOrientation.ordinal() + queued.ordinal() + 4) % 4;
 
 		switch (mer) {
 		case 0:

@@ -60,12 +60,7 @@ public class World implements Serializable {
 	 */
 	private final Map<Integer, Actor> idToActor = new HashMap<Integer, Actor>();
 
-	/*
-	 * This represents the entire world as 2D array of Tiles. Tiles can either
-	 * be standard floor Tiles, wall Tiles which block Players and door Tiles
-	 * which can be moved through.
-	 */
-	private Orientation orientation;
+	private PriorityQueue<GameObject>[][] objects;
 
 	private String[] zombieFileNames = { "npc_zombie_n.png", "npc_zombie_e.png",
 			"npc_zombie_s.png", "npc_zombie_w.png" };
@@ -74,7 +69,6 @@ public class World implements Serializable {
 			"npc_dragon_s.png", "npc_dragon_w.png" };
 
 	private Floor[][] map;
-	private PriorityQueue<GameObject>[][] objects;
 	private Set<Point> playerSpawnPoints;
 	private Set<Point> zombieSpawnPoints;
 	private boolean editMode = false;
@@ -90,7 +84,7 @@ public class World implements Serializable {
 		this.height = height;
 		this.map = map;
 		this.objects = objects;
-		this.orientation = Orientation.NORTH;
+	//	this.orientation = Orientation.NORTH;
 		this.zombieSpawnPoints = zombieSpawnPoints;
 		this.playerSpawnPoints = playerSpawnPoints;
 		World.id = id;
@@ -223,9 +217,9 @@ public class World implements Serializable {
 		return false;
 	}
 
-	public Orientation getOrientation() {
-		return orientation;
-	}
+//	public Orientation getOrientation() {
+	//	return orientation;
+//	}
 
 	public Set<Point> getPlayerSpawnPoints() {
 		return playerSpawnPoints;
@@ -330,8 +324,6 @@ public class World implements Serializable {
 				"character_" + fileName + "_empty_s.png",
 				"character_" + fileName + "_empty_w.png" };
 
-		// TODO: This should really get valid information for name,
-		// as well as select their x, y co-ordinates based on a valid portal
 		Player player = new Player(x, y, Orientation.NORTH, ++id, 0,
 				fileName, filenames, this);
 		idToActor.put(id, player);
@@ -434,25 +426,25 @@ public class World implements Serializable {
 			if (editMode) {
 				editor.y--;
 			} else {
-				player.move(Orientation.NORTH, orientation);
+				player.move(Orientation.NORTH);
 			}
 		} else if (key.equals(UICommand.SOUTH.getValue())) {
 			if (editMode) {
 				editor.y++;
 			} else {
-				player.move(Orientation.SOUTH, orientation);
+				player.move(Orientation.SOUTH);
 			}
 		} else if (key.equals(UICommand.EAST.getValue())) {
 			if (editMode) {
 				editor.x++;
 			} else {
-				player.move(Orientation.WEST, orientation);
+				player.move(Orientation.EAST);
 			}
 		} else if (key.equals(UICommand.WEST.getValue())) {
 			if (editMode) {
 				editor.x--;
 			} else {
-				player.move(Orientation.EAST, orientation);
+				player.move(Orientation.WEST);
 			}
 		} else if (key.equals(UICommand.USE.getValue())) {
 			// The player uses something. This will be whatever
@@ -469,9 +461,9 @@ public class World implements Serializable {
 		} else if (key.equals(UICommand.CONTAINER.getValue())) {
 			player.takeQueued();
 		} else if (key.equals(UICommand.ROTATEANTICLOCKWISE.getValue())) {
-			orientation = Orientation.getPrev(orientation);
+			player.rotatePerspective(Direction.ANTICLOCKWISE);
 		} else if (key.equals(UICommand.ROTATECLOCKWISE.getValue())) {
-			orientation = Orientation.getNext(orientation);
+			player.rotatePerspective(Direction.CLOCKWISE);
 		}
 	}
 

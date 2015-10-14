@@ -36,7 +36,7 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Check if this character is dead.
-	 * 
+	 *
 	 * @return true if dead, false if alive
 	 */
 	public boolean isDead() {
@@ -45,8 +45,8 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters remaining health
-	 * 
-	 * @return int - the amount of health remaining 
+	 *
+	 * @return int - the amount of health remaining
 	 */
 	public int getHealth() {
 		return health;
@@ -54,7 +54,7 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Get this characters strength
-	 * 
+	 *
 	 * @return int - the strength value of this Moving Character
 	 */
 	public int getStrength() {
@@ -63,7 +63,7 @@ public abstract class MovingCharacter extends Actor {
 
 	/**
 	 * Updates the characters health after taking damage
-	 * 
+	 *
 	 * @param damage for this character to take
 	 */
 	public void damaged(int damage) {
@@ -100,22 +100,22 @@ public abstract class MovingCharacter extends Actor {
 		if(queued == Orientation.NORTH) {
 			newX = xCoord;
 			newY = yCoord -1;
-			orientation = queued;
+			facing = queued;
 		}
 		else if(queued == Orientation.SOUTH) {
 			newX = xCoord;
 			newY = yCoord +1;
-			orientation = queued;
+			facing = queued;
 		}
 		else if(queued == Orientation.EAST) {
 			newX = xCoord + 1;
 			newY = yCoord;
-			orientation = queued;
+			facing = queued;
 		}
 		else if(queued == Orientation.WEST) {
 			newX = xCoord - 1;
 			newY = yCoord;
-			orientation = queued;
+			facing = queued;
 		}
 		else {
 			throw new IllegalStateException();
@@ -197,41 +197,6 @@ public abstract class MovingCharacter extends Actor {
 	}
 
 	/**
-	 * Rotates the perspective of the player view
-	 * @param value
-	 */
-	public void rotatePerspective(Direction value) {
-		switch (value) {
-
-		case CLOCKWISE:
-			updateCurrentOrientationClockwise();
-			return;
-		case ANTICLOCKWISE:
-			updateCurrentOrientationAntiClockwise();
-			return;
-		default:
-			throw new IllegalArgumentException(
-					"Direction wasn't clockwise or anticlockwise");
-		}
-	}
-
-	/**
-	 * Updates the current orientation of the viewer to its anticlockwise
-	 * counterpart.
-	 */
-	protected void updateCurrentOrientationAntiClockwise() {
-		setOrientation(Orientation.getPrev(getOrientation()));
-	}
-
-	/**
-	 * Updates the current orientation of the viewer to its clockwise
-	 * counterpart.
-	 */
-	protected void updateCurrentOrientationClockwise() {
-		setOrientation(Orientation.getNext(getOrientation()));
-	}
-
-	/**
 	 * Returns whether the character took damage this turn
 	 * @return
 	 */
@@ -267,14 +232,14 @@ public abstract class MovingCharacter extends Actor {
 
 		PriorityQueue<GameObject>[][] worldObs = game.getObjects();
 
-		if (getOrientation() == Orientation.NORTH && frontY > 0) {
+		if (getFacing() == Orientation.NORTH && frontY > 0) {
 			return worldObs[frontX][frontY - 1];
-		} else if (getOrientation() == Orientation.EAST && frontX < game.width() - 1) {
+		} else if (getFacing() == Orientation.EAST && frontX < game.width() - 1) {
 			return worldObs[frontX + 1][frontY];
-		} else if (getOrientation() == Orientation.SOUTH
+		} else if (getFacing() == Orientation.SOUTH
 				&& frontY < game.height() - 1) {
 			return worldObs[frontX][frontY + 1];
-		} else if (getOrientation() == Orientation.WEST && frontX > 0) {
+		} else if (getFacing() == Orientation.WEST && frontX > 0) {
 			return worldObs[frontX - 1][frontY];
 		}
 		// if we are facing the edge of the world return an empty queue of

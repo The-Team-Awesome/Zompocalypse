@@ -30,7 +30,7 @@ public abstract class Actor implements GameObject {
 	private String[] filenames;
 	private transient ImageIcon[] images;
 	private transient ImageIcon currentImage;
-	protected Orientation orientation;
+	protected Orientation facing;
 
 	/**
 	 * Constructor taking an X and Y co-ordinate for the current character
@@ -40,7 +40,7 @@ public abstract class Actor implements GameObject {
 
 		this.game = game;
 
-		this.orientation = direction;
+		this.facing = direction;
 		this.filenames = filenames;
 
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
@@ -135,21 +135,22 @@ public abstract class Actor implements GameObject {
 	/**
 	 * Sets up the drawing for the character, to be overridden using the specific offset
 	 */
-	public void draw(int realx, int realy, int offsetY, Graphics g, Orientation worldOrientation) {
+	public void draw(int realx, int realy, int offsetY, Graphics g, Orientation worldView) {
 		ImageUtils imu = ImageUtils.getImageUtilsObject();
-		Orientation ord = Orientation.getCharacterOrientation(orientation,
-				worldOrientation);
+		Orientation drawOrientation = Orientation.getCharacterOrientation(facing,
+				worldView);
+
 		images = imu.setupImages(filenames);
-		currentImage = imu.getImageForOrientation(ord, images);
+		currentImage = imu.getImageForOrientation(drawOrientation, images);
 		g.drawImage(getCurrentImage().getImage(), realx, realy + offsetY, null);
 	}
 
 	@Override
-	public int compareTo(GameObject o) {  
+	public int compareTo(GameObject o) {
 		//always wants to be highest priority
 		return 0;
 	}
-	
+
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
@@ -157,15 +158,15 @@ public abstract class Actor implements GameObject {
 	/**
 	 * Sets the orientation for the character
 	 */
-	public void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
+	public void setFacing(Orientation orientation) {
+		this.facing = orientation;
 	}
 
 	/**
 	 * Get the direction for the character
 	 */
-	public Orientation getOrientation() {
-		return orientation;
+	public Orientation getFacing() {
+		return facing;
 	}
 
 	/**

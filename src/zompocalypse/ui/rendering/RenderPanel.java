@@ -50,7 +50,8 @@ public class RenderPanel extends JPanel {
 	 */
 	public RenderPanel(int id, World game) {
 		this.game = game;
-		this.ori = game.getOrientation();
+		this.ori = game.getPlayer(id).getWorldView();
+		//this.ori = game.getOrientation();
 		this.id = id;
 
 		centerX = game.getPlayer(id).getX();
