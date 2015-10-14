@@ -9,6 +9,7 @@ import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
 import zompocalypse.gameworld.items.Container;
 import zompocalypse.gameworld.items.Item;
+import zompocalypse.gameworld.items.Torch;
 import zompocalypse.gameworld.items.Weapon;
 import zompocalypse.gameworld.world.World;
 
@@ -285,5 +286,13 @@ public final class Player extends MovingCharacter {
 	 */
 	public void setUID(int uid) {
 		this.uid = uid;
+	}
+
+	public boolean hasTorch() {
+		for (Item i : inventory) {
+			if (i instanceof Torch)
+				return true;
+		}
+		return false;
 	}
 }

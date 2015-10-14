@@ -60,7 +60,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	private SelectCharacterPanel selectCharacterCard;
 	private JPanel cards;
 	private World game;
-	private boolean multi;
 
 	/**
 	 * This will be the listener for all action events which are triggered, such
@@ -165,15 +164,12 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.LOADGAME.getValue())) {
 			loadGame();
 		} else if (command.equals(UICommand.SINGLEPLAYER.getValue())) {
-			multi = false;
-			// singlePlayer("gina");
 			selectCharacter();
 		} else if (command.equals(UICommand.NEWCHARACTER.getValue())) {
 			newCharacter();
 		} else if (command.equals(UICommand.LOADCHARACTER.getValue())) {
 			loadCharacter();
 		} else if (command.equals(UICommand.MULTIPLAYER.getValue())) {
-			multi = true;
 			showMultiplayer();
 		} else if (command.equals(UICommand.HOME.getValue())) {
 			layout.show(cards, "2");
@@ -182,8 +178,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		} else if (command.equals(UICommand.STARTSERVER.getValue())) {
 			startServer();
 		} else if (command.equals(UICommand.CLIENT.getValue())) {
-			// showClient();
-			selectCharacter();
+			showClient();
 		} else if (command.equals(UICommand.ENTERIP.getValue())) {
 			multiPlayer();
 		} else if (command.equals(UICommand.BACKPACK.getValue())) {
@@ -235,36 +230,31 @@ public class MainFrame extends JFrame implements WindowListener {
 			}
 		}
 
-		if (multi)
-			showClient(); // TODO SAM can you plz help me here? :(
-		else {
+		Player player = PlayerFileManager.loadPlayer(playerFile, game);
 
-			Player player = PlayerFileManager.loadPlayer(playerFile, game);
-
-			if (player == null) {
-				JOptionPane.showMessageDialog(null, "Failed to load Player");
-				return;
-			}
-
-			int id = game.registerLoadedPlayer(player);
-
-			SinglePlayer singlePlayer = new SinglePlayer(game, id);
-
-			singlePlayer.setID(id);
-			singlePlayer.setFrame(this);
-			singlePlayer.setGame(game);
-			updateListeners(singlePlayer);
-
-			gameCard = new GamePanel(id, game, singlePlayer);
-
-			cards.add(gameCard, "1");
-
-			layout.show(cards, "1");
-
-			Clock clock = new Clock(this, game, gameClock);
-
-			clock.start();
+		if (player == null) {
+			JOptionPane.showMessageDialog(null, "Failed to load Player");
+			return;
 		}
+
+		int id = game.registerLoadedPlayer(player);
+
+		SinglePlayer singlePlayer = new SinglePlayer(game, id);
+
+		singlePlayer.setID(id);
+		singlePlayer.setFrame(this);
+		singlePlayer.setGame(game);
+		updateListeners(singlePlayer);
+
+		gameCard = new GamePanel(id, game, singlePlayer);
+
+		cards.add(gameCard, "1");
+
+		layout.show(cards, "1");
+
+		Clock clock = new Clock(this, game, gameClock);
+
+		clock.start();
 	}
 
 	/**
@@ -281,10 +271,7 @@ public class MainFrame extends JFrame implements WindowListener {
 				JOptionPane.PLAIN_MESSAGE, icon, possibilities,
 				"wall_brown_1_door_closed_ew.png");
 		if (fileName != null)
-			if (multi)
-				showClient(); // TODO Sam can you help me with this plz?
-			else
-				singlePlayer(fileName);
+			singlePlayer(fileName);
 		else
 			selectCharacter();
 	}
