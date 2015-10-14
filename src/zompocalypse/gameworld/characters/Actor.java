@@ -145,11 +145,11 @@ public abstract class Actor implements GameObject {
 	}
 
 	@Override
-	public int compareTo(GameObject o) {  
+	public int compareTo(GameObject o) {
 		//always wants to be highest priority
 		return 0;
 	}
-	
+
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
@@ -174,6 +174,4 @@ public abstract class Actor implements GameObject {
 	 * in.
 	 */
 	public abstract void tick(World game);
-
-
 }

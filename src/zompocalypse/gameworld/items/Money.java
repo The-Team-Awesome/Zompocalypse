@@ -2,20 +2,19 @@ package zompocalypse.gameworld.items;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
 
-import zompocalypse.datastorage.Loader;
 import zompocalypse.gameworld.GameObject;
 import zompocalypse.gameworld.Orientation;
+import zompocalypse.gameworld.Stackable;
 import zompocalypse.gameworld.characters.Player;
 import zompocalypse.gameworld.world.World;
 import zompocalypse.ui.rendering.ImageUtils;
 
-public class Money implements Item {
+public class Money implements Item, Stackable {
 
 	private static final long serialVersionUID = 1L;
 	private transient ImageIcon[] images;
@@ -37,12 +36,6 @@ public class Money implements Item {
 
 		type = string.replace("coins_", "");
 		type = type.replace(".png", "");
-
-		if(type.equals("silver")) {
-			this.amount = (amount) * 10;
-		} else if(type.equals("gold")) {
-			this.amount = (amount) * 100;
-		}
 	}
 
 	public int getAmount() {
@@ -68,7 +61,7 @@ public class Money implements Item {
 		String[] filenames = {filename};
 		images = imu.setupImages(filenames);
 		currentImage = images[0];
-		
+
 		g.drawImage(currentImage.getImage(), x+16, y, null);
 
 	}
@@ -93,8 +86,10 @@ public class Money implements Item {
 			for(Item i : inventory) {
 				if(i instanceof Money) {
 					Money money = (Money) i;
-					money.add(amount);
-					added = true;
+					if(type.equals(money.getType())) {
+						money.add(amount);
+						added = true;
+					}
 				}
 			}
 
@@ -130,15 +125,12 @@ public class Money implements Item {
 
 	@Override
 	public String examine() {
-		int amount = this.amount;
-
-		if(type.equals("silver")) {
-			amount = amount / 10;
-		} else if(type.equals("gold")) {
-			amount = amount / 100;
-		}
-
 		return "A stack of " + amount + " " + type + " coins.";
+	}
+
+	@Override
+	public int getCount() {
+		return amount;
 	}
 
 }

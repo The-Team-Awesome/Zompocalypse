@@ -26,11 +26,11 @@ public class RenderPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int MAX_MOVES_RESET = 6; // player will move this many tiles from centre before centre is reset
-	private static final int DRAW_DISTANCE = 12;  //the number of tiles that appear outwards from the player
 	private static final int TILE_WIDTH = 64;
 	private static final int FLOOR_TILE_HEIGHT = 42;
 
+	private static int maxMovesReset; // player will move this many tiles from centre before centre is reset
+	private static int drawDistance;  //the number of tiles that appear outwards from the player
 	private int centerX = 0;
 	private int centerY = 0;
 	private int focusX;
@@ -55,6 +55,8 @@ public class RenderPanel extends JPanel {
 
 		centerX = game.getPlayer(id).getX();
 		centerY = game.getPlayer(id).getY();
+		maxMovesReset = 4;
+		drawDistance = 7;
 
 		String[] blank = { "blank_tile.png" };
 		blankTile = new Floor(0, 0, blank);
@@ -130,21 +132,21 @@ public class RenderPanel extends JPanel {
 
 		// convert these to the players coordinates
 		int offsetX = getWidth() / 2;
-		int offsetY = getHeight() / 2 - DRAW_DISTANCE * FLOOR_TILE_HEIGHT;
+		int offsetY = getHeight() / 2 - drawDistance * FLOOR_TILE_HEIGHT;
 
 		Floor[][] tempFloor = tiles;
 		PriorityQueue<GameObject>[][] tempObjects = objects;
 
-		int doubleDrawDist = DRAW_DISTANCE*2;
-		tempFloor = clipFloor(tiles, DRAW_DISTANCE, focusX, focusY, doubleDrawDist);
-		tempObjects = clipObjects(objects, DRAW_DISTANCE, focusX,
+		int doubleDrawDist = drawDistance*2;
+		tempFloor = clipFloor(tiles, drawDistance, focusX, focusY, doubleDrawDist);
+		tempObjects = clipObjects(objects, drawDistance, focusX,
 				focusY, doubleDrawDist);
 
 		tempObjects = rotateObjects(tempObjects);
 		tempFloor = rotateFloor(tempFloor);
 		paintGameScreen(g, showWalls, offsetX, offsetY, tempFloor, tempObjects);
 
-		editOptions(offsetX, offsetY + DRAW_DISTANCE * FLOOR_TILE_HEIGHT,
+		editOptions(offsetX, offsetY + drawDistance * FLOOR_TILE_HEIGHT,
 				editMode, g);
 	}
 
@@ -296,13 +298,20 @@ public class RenderPanel extends JPanel {
 	private void setFocus(boolean editMode) {
 		// get the board coordinates of the player
 		if (!editMode) {
-			Actor c = game.getCharacterByID(id);
+			Player c = (Player) game.getCharacterByID(id);
 			centerX = c.getX();
 			centerY = c.getY();
-			if (centerX - focusX > MAX_MOVES_RESET
-					|| focusX - centerX > MAX_MOVES_RESET
-					|| centerY - focusY > MAX_MOVES_RESET
-					|| focusY - centerY > MAX_MOVES_RESET) {
+			if (c.hasTorch()) {
+				maxMovesReset = 5;
+				drawDistance = 12;
+			} else {
+				maxMovesReset = 3;
+				drawDistance = 6;
+			}
+			if (centerX - focusX > maxMovesReset
+					|| focusX - centerX > maxMovesReset
+					|| centerY - focusY > maxMovesReset
+					|| focusY - centerY > maxMovesReset) {
 				focusX = centerX;
 				focusY = centerY;
 			}

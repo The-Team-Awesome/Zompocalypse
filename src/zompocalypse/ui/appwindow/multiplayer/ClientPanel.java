@@ -36,6 +36,7 @@ public class ClientPanel extends JPanel {
 	private static final long serialVersionUID = -5774750842625075768L;
 	private JTextField txtServerIp;
 	private ZButton btnEnter;
+	private ZButton homeButton;
 	private JLabel lblInformation;
 
 	private static final Image BACKGROUND = Loader.LoadImage("logo.png");
@@ -72,6 +73,11 @@ public class ClientPanel extends JPanel {
 		btnEnter.setActionCommand(UICommand.ENTERIP.getValue());
 		btnEnter.addActionListener(action);
 		btnEnter.setEnabled(true);
+
+		homeButton = new ZButton("Home");
+		homeButton.setActionCommand(UICommand.HOME.getValue());
+		homeButton.addActionListener(action);
+		homeButton.setEnabled(true);
 
 		txtServerIp = new JFormattedTextField();
 		txtServerIp.setColumns(20);
@@ -142,7 +148,10 @@ public class ClientPanel extends JPanel {
 
 		constraints.gridy = positionY++;
 		this.add(btnEnter, constraints);
-	}
+
+		constraints.gridy = positionY++;
+		this.add(homeButton, constraints);
+}
 
 	@Override
 	protected void paintComponent(Graphics g) {
