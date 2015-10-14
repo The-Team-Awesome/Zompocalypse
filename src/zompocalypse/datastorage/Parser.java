@@ -455,7 +455,7 @@ public class Parser {
 	 * @return map in XML
 	 * @throws IOException
 	 */
-	private static String getXMLMap(World world) throws IOException {
+	public static String getXMLMap(World world) {
 
 		Floor[][] map = world.getMap();
 		PriorityBlockingQueue<GameObject>[][] objects = world.getObjects();
@@ -484,7 +484,11 @@ public class Parser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			mapReader.close();
+			try {
+				mapReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		// Create XML Doc of World
